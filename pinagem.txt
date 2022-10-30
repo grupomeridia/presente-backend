@@ -1,0 +1,8 @@
+RGB - RED (GPIO 22) - Porta 15
+RGB - GREEN (GPIO 23) - Porta 16
+RGB - BLUE (GPIO 24) - Porta 18
+RGB - Neutro
+
+---------------------------------
+
+

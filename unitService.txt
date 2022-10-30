@@ -1,0 +1,11 @@
+[Unit]
+Description=RFID Chamada
+After=multi-user.target
+
+[Service]
+Type=simple
+ExecStart= /usr/bin/python3 /home/meridia/Documentos/chamada/main.py
+Restart=on-abort
+
+[Install]
+WantedBy=multi-user.target
