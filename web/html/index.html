@@ -5,14 +5,14 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
-
-  <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles.css') }}">
-  <link rel="stylesheet" type="text/css" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+  <script src="../js/home.js"></script>
+  <link rel="stylesheet" href="../static/styles.css">
+  <link rel="stylesheet" href="../static/home.css">
 </head>
-<body>
+<body onload="tabela(alunos)">
   <nav class="main-menu">
     <div class="logo">
-      <img height="60px" width="60px" src="{{ url_for('static',filename='/assets/logo-removebg-preview.png') }}" alt="Meridia Logo">
+      <img height="60px" width="60px" src="../static/assets/logo-removebg-preview.png" alt="Meridia Logo">
     </div>
     <div>
       <a class="logo" href="">
@@ -52,5 +52,38 @@
       </ul>
     </div>
   </nav>
+  <main class="maincontent">
+    <div class="searchbar">
+      <input onkeyup="filter()" id="filterName" type="text" placeholder="Buscar Aluno...">
+      <button id="filterSala">Curso</button>
+      <button onclick="IniciarModal()" type="button" id="novoaluno">Novo Aluno</button>
+    </div>
+    <table id="tabelaPrincipal">
+      <thead>
+        <th class="aluno">Aluno</th>
+        <th class="ra">R.A</th>
+        <th class="acoes">Ações</th>
+      </thead>
+      <tbody id="tbody">
+        
+      </tbody>
+    </table>
+  </main>
+  <footer>Copyright ⓒ 2022 Meridia <img src="../static/assets/logo.png" alt=""></footer>
+
+  <div id="modal-aparecer" class="modal-AddAluno">
+    <div class="modal">
+      <div class="modal-h3">
+        <h3>Insira as informações do aluno:</h3>
+        <button class="button-close">x</button>
+      </div>
+      <form class="form-home">
+        <input id="input-ra" type="text" placeholder="Informe R.A do Aluno">
+        <input id="input-nome" type="text" placeholder="Informe o Nome do Aluno">
+        <input onclick="MandarBE()" id="input-button" type="button">
+      </form>
+    </div>
+  </div>
+
 </body>
 </html>

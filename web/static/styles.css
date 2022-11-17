@@ -36,7 +36,7 @@ body
 }
 
 .main-menu:hover, nav.main-menu.expanded {
-    width: 250px;
+    width: 150px;
     overflow: hidden;
     opacity: 1;
 }
@@ -127,4 +127,11 @@ nav ul,nav li {
     color:#c6d7a0;
     background-color:#fcfcfc;
     text-shadow: 0px 0px 0px; 
+}
+
+.logout{
+    height: 34%;
+    bottom: 0px;
+    display: flex;
+    align-items: flex-end;
 }
