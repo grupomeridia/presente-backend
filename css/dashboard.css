@@ -1,0 +1,27 @@
+.grid {
+    height: 80vh;
+    display: flex;
+    justify-content: center;
+}
+.wrapper-dashboard {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+.wrapper-dashboard {
+    font-size: 2rem;
+    color: #242e42;
+}
+
+
+.dashboard-title {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    font-size: 2rem;
+    color: #242e42;
+}
