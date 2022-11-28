@@ -57,9 +57,9 @@ function tabela(data){
         let imgExcluir = document.createElement('img');
         let modificarInfo = document.createElement('img');
 
-        marcarpresenca.src = '../assets/img/marcarpresenca.svg';
-        imgExcluir.src = '../assets/img/ExcluirAluno.svg';
-        modificarInfo.src = '../assets/img/modificarInformacao.svg';
+        marcarpresenca.src = 'static/assets/marcarpresenca.svg';
+        imgExcluir.src = 'static/assets/ExcluirAluno.svg';
+        modificarInfo.src = 'static/assets/modificarInformacao.svg';
 
         td_acoes.appendChild(marcarpresenca);
         td_acoes.appendChild(imgExcluir);
