@@ -1,0 +1,13 @@
+/* FOOTER*/
+.page-footer {
+    font-size: 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-top: 10px;
+  }
+  
+  .page-footer a {
+    margin-left: 4px;
+  }
+  

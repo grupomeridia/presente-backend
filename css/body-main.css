@@ -1,0 +1,36 @@
+
+/* BODY CLASSES*/
+.mob-menu-opened .toggle-mob-menu svg {
+    transform: rotate(180deg);
+  }
+  
+  .mob-menu-opened .page-header .admin-menu {
+    transform: scale(1);
+    visibility: visible;
+    opacity: 1;
+  }
+  
+  @media screen and (min-width: 768px) {
+    .collapsed .page-header {
+      width: 40px;
+    }
+  
+    .collapsed .page-header .admin-menu li > * {
+      padding: 10px;
+    }
+  
+    .collapsed .page-header .logo,
+    .collapsed .page-header .admin-menu span,
+    .collapsed .page-header .admin-menu .menu-heading {
+      display: none;
+    }
+  
+    .collapsed .page-header .collapse-btn svg {
+      transform: rotate(180deg);
+    }
+  
+    .collapsed .page-content {
+      left: 40px;
+      width: calc(100% - 40px);
+    }
+  }
