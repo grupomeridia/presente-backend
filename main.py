@@ -88,8 +88,13 @@ try:
 		red.off()
 		green.off()
 		blue.on()
-
+		
 		idCracha,_ = reader.read()
+		
+		conexao = database.connect(**dadosConexao)
+		cursor = conexao.cursor()
+
+		
 		for x in range(numeroAlunos):
 			if idCracha in alunos[x]:			#Validando ID
 				cursor.execute(f"SELECT nome FROM alunos WHERE TagID = {idCracha};") #Nome do aluno dono do crachá

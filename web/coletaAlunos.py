@@ -4,20 +4,23 @@
 import mariadb as database
 from datetime import datetime
 
-dadosConexao={
-	"user":"root",
-	"password":"dovah",
-	"host":"localhost",
-	"port":3306,
-	"database":"chamada"
-}
-
-conexao = database.connect(**dadosConexao)
-cursor = conexao.cursor()
-
-
 
 def coletaAlunos():
+		
+	dadosConexao={
+		"user":"root",
+		"password":"dovah",
+		"host":"localhost",
+		"port":3306,
+		"database":"chamada"
+	}
+
+	conexao = database.connect(**dadosConexao)
+	cursor = conexao.cursor()
+	
+
+
+
 	dataAtual = datetime.now()
 	dataAtual = str(dataAtual.strftime("%Y-%m-%d"))
 	cursor.execute(f"SELECT Data FROM registroSetembro WHERE Data LIKE '%{dataAtual}%';")
@@ -31,4 +34,4 @@ def coletaAlunos():
 		listaAlunos.append(myDict)
 	return listaAlunos
 
-coletaAlunos()
+
