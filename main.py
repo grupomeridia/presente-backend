@@ -30,6 +30,21 @@ alunos = cursor.fetchall()		 #Receber retorno do comando
 naoEncontrado = True
 
 #Função que irá verificar se o aluno já não registrou presença quando ele aproximar o crachá
+def coletaAlunos():
+	dataAtual = datetime.now()
+	dataAtual = str(dataAtual.strftime("%Y-%m-%d"))
+	cursor.execute(f"SELECT Data FROM registroSetembro WHERE Data LIKE '%{dataAtual}%';")
+	alunosPresentes = len(cursor.fetchall())
+	cursor.execute(f"SELECT Nome,RA,Data FROM registroSetembro WHERE Data LIKE '%{dataAtual}%';")
+	dados = cursor.fetchall()
+	listaAlunos = []
+
+	for x in range(alunosPresentes):
+			myDict = {"ID":x+1, "nome":dados[x][0], "RA":dados[x][1], "horario":dados[x][2].strftime('%Y-%m-%d %H:%M:%S')}
+			listaAlunos.append(myDict)
+
+	return listaAlunos
+
 
 def verificaPresenca(nomeAtual,RA) -> None:
 	verificaAluno = True

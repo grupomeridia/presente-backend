@@ -1,4 +1,5 @@
-from flask import Flask, render_template, flash
+from flask import Flask, render_template, flash, Response, jsonify
+from coletaAlunos import coletaAlunos
 
 
 #Criar objeto flask --> Váriavel que possui métodos do framework Flask.
@@ -24,6 +25,10 @@ def dashboard():
 @app.route("/cadastro")
 def cadastro():
     return render_template("cadastro.html")
+
+@app.route("/historico/get_alunos")
+def getAlunos():
+    return jsonify(coletaAlunos())
 
 app.run(host="0.0.0.0", debug=True)
 
