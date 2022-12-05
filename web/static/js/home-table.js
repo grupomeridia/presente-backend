@@ -80,25 +80,3 @@ function tabela(data){
     
 
 }
-
-function filtrar(){
-    let td, txtvalue;
-    let input = document.getElementById("filterName");
-    let filter = input.value.toUpperCase();
-    let tbody = document.getElementById("tbody");
-    let tr = tbody.getElementsByTagName("tr");
-
-    for (let i=0; i<tr.length;i++){
-        td = tr[i].getElementsByTagName('td')[0];
-        if(td){
-            txtvalue = td.textContent || td.innerText;
-            if(txtvalue.toUpperCase().indexOf(filter) > -1){
-                tr[i].style.display = '';
-            } else {
-                tr[i].style.display = 'none';
-            }
-        }
-    }
-}
-
-
