@@ -2,17 +2,8 @@
 
 from datetime import datetime
 from time import sleep
-from mfrc522 import SimpleMFRC522
-from gpiozero import LED
 import mariadb as database
 import time
-
-## Objetos LED & RFID522
-red = LED(22)
-green = LED(23)
-blue = LED(24)
-
-reader = SimpleMFRC522()
 
 ## Banco de dados
 dadosConexao={
@@ -60,9 +51,7 @@ def verificaPresenca(nomeAtual,RA) -> None:
 		dataLista = dataAtualDB[x] 
 		dataSimples = str(dataLista[0])
 		if(dataAtual in dataSimples):
-			red.on()
-			blue.on()
-			green.on()
+			print("Aluno já registrou presença!!")
 			return False
 	if(verificaAluno):
 		return True
@@ -77,11 +66,7 @@ def registraPresenca(aut,nomeAtual,RA) -> None:
 			print(f"Inserindo presença neste horário {horarioAtual}")
 			cursor.execute(f"INSERT INTO registroSetembro (Data, Nome, RA, Presenca) VALUES('{horarioAtual}','{nomeAtual}', {RA}, True);")
 			conexao.commit()
-			print("Presença OK")
-
-			red.off()
-			blue.off()
-			green.on()
+			print("Presença REGISTRADA com sucesso.")
 
 
 #Iniciando loop principal
@@ -89,11 +74,9 @@ def registraPresenca(aut,nomeAtual,RA) -> None:
 try:
 	while(True):
 		naoEncontrado = True
-		red.off()
-		green.off()
-		blue.on()
+		print("Aguardando RA...")
 		
-		idCracha,_ = reader.read()
+		idCracha = input()
 		
 		conexao = database.connect(**dadosConexao)
 		cursor = conexao.cursor()
@@ -121,9 +104,7 @@ try:
 				continue;
 
 		if(naoEncontrado):								    #Ligando LED vermelha caso crachá seja inválido
-			green.off()
-			blue.off()
-			red.on()
+			print("RA Inválido!")
 			sleep(2)		
 	green.off()										    #Apagando todos LEDs para evitar BUGs
 	red.off()
