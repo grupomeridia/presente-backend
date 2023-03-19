@@ -1,7 +1,11 @@
 #! /bin/python3
 
-from dependencias import *
-
+from datetime import datetime
+from time import sleep
+from mfrc522 import SimpleMFRC522
+from gpiozero import LED
+import mariadb as database
+import time
 
 ## Objetos LED & RFID522
 red = LED(22)
