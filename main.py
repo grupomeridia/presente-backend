@@ -103,12 +103,9 @@ try:
 			else:
 				continue;
 
-		if(naoEncontrado):								    #Ligando LED vermelha caso crachá seja inválido
+		if(naoEncontrado):								    
 			print("RA Inválido!")
 			sleep(2)		
-	green.off()										    #Apagando todos LEDs para evitar BUGs
-	red.off()
-	blue.off()
 
 	
 except KeyboardInterrupt:										
