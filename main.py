@@ -19,9 +19,9 @@ cursor = conexao.cursor()
 
 cursor.execute("SELECT * FROM alunos;")
 numeroAlunos = len(cursor.fetchall())
-
 cursor.execute("SELECT TagID FROM alunos;") #Enviar comando para database
 alunos = cursor.fetchall()		 #Receber retorno do comando
+
 naoEncontrado = True
 
 #Função que irá verificar se o aluno já não registrou presença quando ele aproximar o crachá
@@ -74,9 +74,9 @@ def registraPresenca(aut,nomeAtual,RA) -> None:
 try:
 	while(True):
 		naoEncontrado = True
-		print("Aguardando RA...")
+		print("Aguardando crachá...")
 		
-		idCracha = input()
+		idCracha = int(input())
 		
 		conexao = database.connect(**dadosConexao)
 		cursor = conexao.cursor()
@@ -92,19 +92,18 @@ try:
 				RA = cursor.fetchone()
 				RA = RA[0]
 
-				cursor.execute(f"SELECT Data FROM registroSetembro WHERE RA={RA};") #Solicitando o numero de datas com presenças já registradas deste aluno
-				entradasAnteriores = len(cursor.fetchall())
+				print(f"Presença de: {nomeAtual} registrada!")
 
 				naoEncontrado = False
 
-				registraPresenca(verificaPresenca(nomeAtual,RA),nomeAtual,RA)	    #Verificando duplicidade de presença e registrando presença diaria
-				sleep(2)							    #Delay para poder exibir LED antes de apagar 
+				#registraPresenca(verificaPresenca(nomeAtual,RA),nomeAtual,RA)	    #Verificando duplicidade de presença e registrando presença diaria
+				#sleep(2)							    #Delay para poder exibir LED antes de apagar 
 				break;
 			else:
 				continue;
 
 		if(naoEncontrado):								    
-			print("RA Inválido!")
+			print("CRACHÁ Inválido!")
 			sleep(2)		
 
 	
