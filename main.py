@@ -5,6 +5,9 @@ from time import sleep
 import mariadb as database
 import time
 
+# TODO: 1 - Necessário substituir mariadb por postgresql
+
+
 ## Banco de dados
 dadosConexao={
 	"user":"root",
