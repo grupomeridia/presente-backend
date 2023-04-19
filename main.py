@@ -20,7 +20,7 @@ cursor = conexao.cursor()
 cursor.execute("SELECT * FROM alunos;")
 numeroAlunos = len(cursor.fetchall())
 cursor.execute("SELECT TagID FROM alunos;") #Enviar comando para database
-alunos = cursor.fetchall()		 #Receber retorno do comando
+alunos = cursor.fetchall()		    #Receber retorno do comando
 
 naoEncontrado = True
 
