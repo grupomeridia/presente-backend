@@ -22,6 +22,10 @@ def rebootPage():
 def dashboard():
     return render_template("dashboard.html")
 
+@app.route("/historico")
+def historico():
+    return render_template("historico.html")
+
 @app.route("/cadastro")
 def cadastro():
     return render_template("cadastro.html")

@@ -4,9 +4,109 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Selecao</title>
+    <title>Seleção</title>
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/main-table.css') }}"/>
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/data-table.css') }}"/>
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/main-header.css') }}"/>
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/mq-rules.css') }}"/>
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/reset-rules.css') }}"/>
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/page-main.css') }}" />
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/body-main.css') }}"/>
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/footer-main.css') }}"/>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main-cadastro.css') }}"/>
 </head>
 <body>
-    
+    <header class="page-header">
+		<nav>
+		  <a href="/home" class="logo">
+			<img src="{{ url_for('static', filename='assets/logo-removebg-preview.png')}}" alt="App Logo">
+		  </a>
+		  <button class="toggle-mob-menu" aria-expanded="false" aria-label="open menu">
+		  </button>
+		  <ul class="admin-menu">
+			<li class="menu-heading">
+			  <h3>Admin</h3>
+			</li>
+			<li>
+			  <a href="/home">
+				<i class="fa-solid fa-house"></i>
+				<span>Home</span>
+			  </a>
+			</li>
+			<li>
+			  <a href="/cadastro">
+				<i class="fa-solid fa-clipboard-user"></i>
+				<span>Cadastro de Aluno</span>
+			  </a>
+			</li>
+			<li>
+			  <a href="/dashboard">
+				<i class="fa-solid fa-chart-line"></i>
+				<span>Dashboard </span>
+			  </a>
+			</li>
+			<li>
+				<a href="/historico">
+					<i class="fa-regular fa-folder-open"></i>
+				  	<span>Histórico</span>
+				</a>
+			</li>
+			<li>
+				<a href="/selecao">
+					<i class=""></i>
+				  	<span>Seleção</span>
+				</a>
+			</li>
+			<li class="menu-heading">
+			  <h3>Settings</h3>
+			</li>
+			<li>
+			  <a href="/settings">
+				<i class="fa-solid fa-sliders"></i>
+				<span>Settings</span>
+			  </a>
+			</li>
+		<!--<li>
+			  <a href="#0">
+				<i class="fa-solid fa-gear"></i>
+				<span>Options</span>
+			  </a>
+			</li>-->
+		  </ul>
+		</nav>
+	</header>
+	<section class="page-content">
+		<section class="search-and-user">
+		  <div class="admin-profile">
+			<span class="greeting">Marque sua Presença</span>
+			<!-- <i class="fa-solid fa-circle-user"></i> -->
+		  </div>
+		</section>
+		<section class="grid">
+			<div class="login-container">
+				<form>
+				  <div class="input-container">
+					<label for="login-username">RA:</label>
+					<input 
+					type="text" 
+					name="login" 
+					id="login" 
+					placeholder="RA do Aluno" />
+				  </div>			  
+				  <button class="btn-login">
+					Marcar presença
+				  </button>
+				</form>
+			  </div>
+		</section>
+		<footer class="page-footer">
+			<span>copyright by </span>
+			<a href="#" target="_blank">
+			<img width="45px" height="45px" src="{{ url_for('static', filename='assets/logo.png') }}" alt="Meridia Logo">
+		  	</a>
+		</footer>
+	  </section>
+	<script src="https://kit.fontawesome.com/a146d88807.js" crossorigin="anonymous"></script>
+	<script src="{{ url_for('static', filename='js/settings-table.js') }}"></script>
 </body>
 </html>
