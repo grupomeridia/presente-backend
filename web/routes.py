@@ -30,5 +30,9 @@ def cadastro():
 def getAlunos():
     return jsonify(coletaAlunos())
 
+@app.route("/selecao")
+def selecao():
+    return render_template("selecao_usuario.html")
+
 app.run(host="0.0.0.0", debug=True)
 
