@@ -1,12 +1,11 @@
 import './App.css';
+import Navbar from './componets/layout/Navbar';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <p>Initial Config for start job.</p>
-      </header>
-    </div>
+      <Navbar />
+      </div>
   );
 }
 

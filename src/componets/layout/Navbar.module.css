@@ -1,0 +1,114 @@
+
+/* HEADER STYLES*/
+@import url("https://fonts.googleapis.com/css?family=Lato:400,700&display=swap");
+
+.page_header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: auto;
+    padding-top: 20px;
+    width:220px;
+    color: #dde9f8;
+    background: #242e42;
+  }
+  
+  
+  .page_header nav {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+  }
+
+  .page_header .logo {
+    display: block;
+    margin: 0 15px;
+  }
+  
+  .page_header .logo img {
+    max-width: 80px;
+  }
+  
+  .page_header .toggle_mob_menu {
+    display: none;
+    width: 30px;
+    height: 30px;
+    margin-left: 5px;
+    padding: 4px;
+    color: black;
+    background: #FFF;
+    border-radius: 100%;
+  }
+  
+  .page_header .toggle_mob_menu svg {
+    fill: #000;
+    transition: transform 0.2s;
+  }
+  
+  .page_header .admin_menu {
+    display: flex;
+    flex-direction: column;
+    padding-left: 0%;
+    margin-top: 35px;
+    list-style: none;
+    align-items: flex-start;
+  }
+
+  .page_header .admin_menu a {
+    text-decoration: none;
+    color: #FFF;
+}
+  
+  .page_header .admin_menu li > * {
+    width: 100%;
+    padding: 12px 15px;
+    
+}
+    
+  .page_header .admin_menu .switcher {
+    display: inline-block;
+    width: auto;
+  }
+  
+  .page_header .admin_menu .menu_heading h3 {
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    font-size: 12px;
+    margin-top: 12px;
+    color: #7889a4;
+  }
+  
+  .page_header .admin_menu i{
+    width: 20px;
+    height: 20px;
+    fill: #dde9f8;
+    margin-right: 10px;
+  }
+  
+  .page_header .admin_menu a,
+  .page_header .admin_menu button {
+    display: flex;
+    align-items: center;
+    font-size: 0.9rem;
+  }
+  
+  .page_header .admin_menu a:hover,
+  .page_header .admin_menu a:focus,
+  .page_header .admin_menu button:hover,
+  .page_header .admin_menu button:focus {
+    background:  #1d2636;
+    color: #00b9eb;
+    outline: none;
+  }
+  
+  .page_header .admin_menu a:hover i,
+  .page_header .admin_menu a:focus i,
+  .page_header .admin_menu button:hover i,
+  .page_header .admin_menu button:focus i {
+    fill:#00b9eb;
+  }
+  
+  
+  
