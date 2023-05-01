@@ -1,5 +1,6 @@
 import logo from '../img/logo-removebg.png';
 import styles from '../layout/Navbar.module.css';
+import './Mqrules.module.css';
 
 function Navbar () {
     return (

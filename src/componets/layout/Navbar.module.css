@@ -49,22 +49,19 @@
   
   .page_header .admin_menu {
     display: flex;
-    flex-direction: column;
+    flex-direction: column; 
     padding-left: 0%;
     margin-top: 35px;
-    list-style: none;
     align-items: flex-start;
   }
 
   .page_header .admin_menu a {
-    text-decoration: none;
     color: #FFF;
 }
   
   .page_header .admin_menu li > * {
-    width: 100%;
-    padding: 12px 15px;
-    
+    width: 220px;
+    padding: 12px 15px;    
 }
     
   .page_header .admin_menu .switcher {
@@ -101,6 +98,7 @@
     background:  #1d2636;
     color: #00b9eb;
     outline: none;
+    width: 220px;
   }
   
   .page_header .admin_menu a:hover i,
@@ -110,5 +108,75 @@
     fill:#00b9eb;
   }
   
+  @media screen and (max-width: 767px) {
+    .page_header,
+    .page_content {
+      position: static;
+      width: 100%;
+    }
+  
+    .page_header {
+      padding: 10px;
+    }
+  
+    .page_header nav {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+    }
+  
+    .page_header .logo {
+      margin: 0;
+    }
+  
+    .page_header .logo img {
+      width: 40px;
+      height: 40px;
+    }
+  
+    .page_header .toggle_mob_menu {
+      display: block;
+    }
+  
+    .page_header .admin_menu {
+      position: absolute;
+      left: 98px;
+      top: 57px;
+      margin-top: 0;
+      z-index: 2;
+      border-radius: 4px;
+      background: #242e42;
+      visibility: hidden;
+      opacity: 0;
+      transform: scale(0.95);
+      transition: all 0.2s;
+    }
+  
+    .page-header .admin-menu li:nth-last-child(2) {
+      margin-bottom: 12px;
+    }
+  
+    .page-header .admin-menu li:last-child button,
+    .search-and-user .admin-profile .greeting {
+      display: none;
+    }
+  
+    .page-content {
+      min-height: 0;
+      padding: 10px;
+    }
+   
+    .search-and-user {
+      position: relative;
+      left: 131px;
+      top: 10px;
+      padding: 0;
+      grid-column-gap: 5px;
+      width: calc(100% - 141px);
+      border-radius: 4px;
+      background: transparent;
+    }
+  
+  }
   
   
