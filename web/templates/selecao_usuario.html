@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seleção</title>
 	<link rel="stylesheet" href="{{ url_for('static', filename='css/main-table.css') }}"/>
 	<link rel="stylesheet" href="{{ url_for('static', filename='css/data-table.css') }}"/>
 	<link rel="stylesheet" href="{{ url_for('static', filename='css/main-header.css') }}"/>
@@ -12,26 +13,21 @@
 	<link rel="stylesheet" href="{{ url_for('static', filename='css/page-main.css') }}" />
 	<link rel="stylesheet" href="{{ url_for('static', filename='css/body-main.css') }}"/>
 	<link rel="stylesheet" href="{{ url_for('static', filename='css/footer-main.css') }}"/>
-	
-	<title>Cheguei App </title>	
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main-cadastro.css') }}"/>
 </head>
-<body onload="tabela(lista)">
-
-	  <header class="page-header">
+<body>
+    <header class="page-header">
 		<nav>
 		  <a href="/home" class="logo">
-			<img src="{{ url_for('static', filename='assets/logo-removebg-preview.png') }}"/>
-		</a>
-			<button class="toggle-mob-menu" aria-expanded="false" aria-label="open menu">
-				<svg width="20" height="20" aria-hidden="true">
-					<use xlink:href="#down"></use>
-				</svg>
-			</button>
+			<img src="{{ url_for('static', filename='assets/logo-removebg-preview.png')}}" alt="App Logo">
+		  </a>
+		  <button class="toggle-mob-menu" aria-expanded="false" aria-label="open menu">
+		  </button>
 		  <ul class="admin-menu">
 			<li class="menu-heading">
 			  <h3>Admin</h3>
 			</li>
-			<li>	
+			<li>
 			  <a href="/home">
 				<i class="fa-solid fa-house"></i>
 				<span>Home</span>
@@ -78,27 +74,30 @@
 			</li>-->
 		  </ul>
 		</nav>
-	  </header>
-	  <section class="page-content">
+	</header>
+	<section class="page-content">
 		<section class="search-and-user">
 		  <div class="admin-profile">
-			<span class="greeting">Hello admin</span>
-			<i class="fa-solid fa-circle-user"></i>
+			<span class="greeting">Marque sua Presença</span>
+			<!-- <i class="fa-solid fa-circle-user"></i> -->
 		  </div>
 		</section>
 		<section class="grid">
-			<table id="example">
-				<thead>
-					<tr>
-						<th>Aluno</th>
-						<th>Ra</th>
-						<th>Cursos</th>
-						<th>Ações</th>
-					</tr>
-				</thead>
-				<tbody id="tbody">  
-				</tbody>
-			</table>
+			<div class="login-container">
+				<form>
+				  <div class="input-container">
+					<label for="login-username">RA:</label>
+					<input 
+					type="text" 
+					name="login" 
+					id="login" 
+					placeholder="RA do Aluno" />
+				  </div>			  
+				  <button class="btn-login">
+					Marcar presença
+				  </button>
+				</form>
+			  </div>
 		</section>
 		<footer class="page-footer">
 			<span>copyright by </span>
@@ -107,10 +106,7 @@
 		  	</a>
 		</footer>
 	  </section>
-	  <script src="https://kit.fontawesome.com/a146d88807.js" crossorigin="anonymous"></script>
-	  <script src="//code.jquery.com/jquery-3.3.1.js"></script>
-	  <script src="//cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
-	  <script src="{{ url_for('static', filename='js/home-table.js') }}"></script> 
-	  <script src="{{ url_for('static', filename='js/toggle-menu.js') }}"></script>
+	<script src="https://kit.fontawesome.com/a146d88807.js" crossorigin="anonymous"></script>
+	<script src="{{ url_for('static', filename='js/settings-table.js') }}"></script>
 </body>
 </html>

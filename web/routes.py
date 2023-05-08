@@ -22,6 +22,10 @@ def rebootPage():
 def dashboard():
     return render_template("dashboard.html")
 
+@app.route("/historico")
+def historico():
+    return render_template("historico.html")
+
 @app.route("/cadastro")
 def cadastro():
     return render_template("cadastro.html")
@@ -29,6 +33,10 @@ def cadastro():
 @app.route("/historico/get_alunos")
 def getAlunos():
     return jsonify(coletaAlunos())
+
+@app.route("/selecao")
+def selecao():
+    return render_template("selecao_usuario.html")
 
 app.run(host="0.0.0.0", debug=True)
 
