@@ -63,16 +63,13 @@ class Aluno():
         pass
 
     def registrarPresenca(self, ra):
-        if self.verificaRA():
-            if self.verificaPresenca():
+        if self.verificaRA() and self.verificaPresenca():
                 #IMPEDITIVO: Falta criar a classe controller 
                 #Registrar presenca aqui
                 pass
-            else:
-                raise Exception("Aluno já realizou presença!")
         else:
-            raise Exception("RA inválido!")
         
+            raise Exception("Aluno já realizou presença!")
         
             
             
