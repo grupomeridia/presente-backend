@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import logo from '../img/logo-removebg.png';
 import styles from '../layout/Navbar.module.css';
 import './Mqrules.module.css';
@@ -16,16 +17,16 @@ function Navbar () {
                 <h3>Admin</h3>
                 </li>
                 <li>
-                <a href="">
-                    <i class="fa-solid fa-house"></i>
-                    <span>Home</span>
-                </a>
+                    <Link to ='/' >
+                        <i class="fa-solid fa-house"></i>
+                        <span>Home</span>
+                    </Link>
                 </li>
                 <li>
-                <a href="">
-                    <i class="fa-solid fa-clipboard-user"></i>
-                    <span>Cadastro de Aluno</span>
-                </a>
+                    <Link to='/cadastrar'>
+                        <i class="fa-solid fa-clipboard-user"></i>
+                        <span>Cadastro de Aluno</span>
+                    </Link>
                 </li>
                 <li>
                 <a href="">
@@ -57,6 +58,7 @@ function Navbar () {
             </ul>
             </nav>
 	</header>
+    
     );
 }
 

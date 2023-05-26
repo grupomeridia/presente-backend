@@ -1,14 +1,16 @@
-import Navbar from './componets/layout/Navbar';
-import Body from './componets/layout/Home';
-import Footer from './componets/layout/Footer';
-import Cadastro from './componets/layout/cadastro-aluno';
+import { BrowserRouter as Router, Routes, Route} from 'react-router-dom'
+
+import Home from './pages/Home/Home';
+import CadastroAluno from './pages/CadastroAluno/cadastro-aluno';
 
 function App() {
   return (
-    <div className="App">
-      <Navbar />
-      <Cadastro />
-    </div>
+    <Router>
+      <Routes>
+        <Route path='/' element = {<Home/>} />
+        <Route path='/cadastrar' element = {<CadastroAluno/>} />
+      </Routes>
+    </Router>
   );
 }
 
