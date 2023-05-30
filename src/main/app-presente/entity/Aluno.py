@@ -1,13 +1,19 @@
 #! /bin/python3
 
-from presencaEnum import Presenca
+from PresencaEnum import Presenca
 from Turma import Turma
-from cursoEnum import Curso
+from CursoEnum import Curso
+from repository.AlunoRepository import AlunoRepository
 
 #Primeiro ID - Vamos melhorar isso em breve.
 
 
 class Aluno():
+    __tablename__ = 'alunos'
+    id = AlunoRepository.db.Column(AlunoRepository.db.Integer, primary_key=True)
+    ativo = AlunoRepository.db.Column(AlunoRepository.db.Boolean, nullable=False)
+    
+
     #Construtor
 
     def __init__(self, id:int, nome:str, RA:int, turma:Turma, curso:Curso):
