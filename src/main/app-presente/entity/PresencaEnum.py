@@ -1,6 +1,6 @@
 from enum import Enum
 
-class Presenca(Enum):
+class TipoPresenca(Enum):
     Normal = 'NORMAL'
     Manual = 'MANUAL'
 
