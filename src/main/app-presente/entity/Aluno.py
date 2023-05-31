@@ -13,15 +13,16 @@ class Aluno(AlunoRepository.db.Model):
     id = AlunoRepository.db.Column(AlunoRepository.db.Integer, primary_key=True)
     ativo = AlunoRepository.db.Column(AlunoRepository.db.Boolean, nullable=False)
     nome = AlunoRepository.db.Column(AlunoRepository.db.String, nullable=False)
-    ra = AlunoRepository.db.Column(AlunoRepository.db.Integer, nullable=False)
-    turma_id = AlunoRepository.db.Column(AlunoRepository.db.Integer, AlunoRepository.db.ForeignKey('turma.id'))
+    ra = AlunoRepository.db.Column(AlunoRepository.db.Integer, nullable=False, unique=True)
+    turma_id = AlunoRepository.db.Column(AlunoRepository.db.Integer, AlunoRepository.db.ForeignKey('turmas.id'))
     curso = AlunoRepository.db.Column(AlunoRepository.db.Enum(Curso))
-    presenca = AlunoRepository.db.relationship('Presenca', backref='aluno')
+    presenca = AlunoRepository.db.relationship('presencas', backref='alunos')
 
     #Construtor
 
-    def __init__(self, id:int, nome:str, RA:int, turma:Turma, curso:Curso):
+    def __init__(self, id:int, ativo:bool,nome:str, RA:int, turma:Turma, curso:Curso):
         self._id = id
+        self._ativo = ativo
         self._nome = nome
         self._RA = RA
         self._turma = turma
