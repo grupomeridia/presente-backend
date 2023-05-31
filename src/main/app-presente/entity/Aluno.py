@@ -1,18 +1,22 @@
 #! /bin/python3
 
-from PresencaEnum import Presenca
-from Turma import Turma
-from CursoEnum import Curso
+#from entity.PresencaEnum import Presenca
+from entity.Turma import Turma
+from entity.CursoEnum import Curso
 from repository.AlunoRepository import AlunoRepository
 
 #Primeiro ID - Vamos melhorar isso em breve.
 
-
-class Aluno():
+    
+class Aluno(AlunoRepository.db.Model):
     __tablename__ = 'alunos'
     id = AlunoRepository.db.Column(AlunoRepository.db.Integer, primary_key=True)
     ativo = AlunoRepository.db.Column(AlunoRepository.db.Boolean, nullable=False)
-    
+    nome = AlunoRepository.db.Column(AlunoRepository.db.String, nullable=False)
+    ra = AlunoRepository.db.Column(AlunoRepository.db.Integer, nullable=False)
+    turma_id = AlunoRepository.db.Column(AlunoRepository.db.Integer, AlunoRepository.db.ForeignKey('turma.id'))
+    curso = AlunoRepository.db.Column(AlunoRepository.db.Enum(Curso))
+    presenca = AlunoRepository.db.relationship('Presenca', backref='aluno')
 
     #Construtor
 
@@ -22,6 +26,7 @@ class Aluno():
         self._RA = RA
         self._turma = turma
         self._curso = curso
+        
 
 
     #Validações
