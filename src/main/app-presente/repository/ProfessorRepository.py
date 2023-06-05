@@ -1,10 +1,10 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from entity.Chamada import Chamada
+from entity.Professor import Professor
 from repository.MainRepository import MainRepository
 
 
-class professorRepository(MainRepository.db.Model):
+class ProfessorRepository(MainRepository.db.Model):
 
     def __init__():
         pass
