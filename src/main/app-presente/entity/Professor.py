@@ -1,12 +1,12 @@
-#hisham
-
 from repository.ProfessorRepository import ProfessorRepository
 
 class Professor(ProfessorRepository.db.Model):
     __tablename__ = 'professores'
     id = ProfessorRepository.db.Column(ProfessorRepository.db.Integer, primary_key=True)
     ativo = ProfessorRepository.db.Column(ProfessorRepository.db.Boolean, nullable=False)
-    nome = ProfessorRepository.db.Clolumn(ProfessorRepository.db.String, nullable=False)
+    nome = ProfessorRepository.db.Column(ProfessorRepository.db.String, nullable=False)
+    presenca = ProfessorRepository.db.relationship('presencas', backref='professores')
+    chamada = ProfessorRepository.db.relationship('chamadas', backref='professores')
 
     # Validações
     @property
