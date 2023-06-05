@@ -1,9 +1,9 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from entity.Chamada import Chamada
+from entity.Turma import Turma
 from repository.MainRepository import MainRepository
 
-class turmarRepository(MainRepository.db.Model):
+class TurmaRepository(MainRepository.db.Model):
 
     def __init__():
         pass
