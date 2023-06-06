@@ -1,4 +1,3 @@
-#donizeti
 from repository.TurmaRepository import TurmaRepository
 
 
@@ -13,7 +12,6 @@ class Turma(TurmaRepository.db.Model):
     presenca = TurmaRepository.db.relationship('presencas', backref='turmas')
 
 
-# Validações // Copiei as validaçoes
     @property
     def id(self):
         return self._id
