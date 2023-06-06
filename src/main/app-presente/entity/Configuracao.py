@@ -1,12 +1,12 @@
-from repository.ConfiguracaoRepository import ConfiguracaoRepository
+from repository.MainRepository import MainRepository
 
-class Configuracao(ConfiguracaoRepository.db.Model):
-    __tablename__ = 'configuracoes'
-    id = ConfiguracaoRepository.db.Column(ConfiguracaoRepository.db.Integer, primary_key=True)
-    ativo = ConfiguracaoRepository.db.Column(ConfiguracaoRepository.db.Boolean, nullable=False)
-    turma_id = ConfiguracaoRepository.db.Column(ConfiguracaoRepository.db.Integer, ConfiguracaoRepository.db.ForeignKey('turma.id'))
-    projeto_integrador_id = ConfiguracaoRepository.db.Column(ConfiguracaoRepository.db.Integer, nullable=False)
-    projeto_id = ConfiguracaoRepository.db.Column(ConfiguracaoRepository.db.Integer, ConfiguracaoRepository.db.ForeignKey('projeto.id'))
+class Configuracao(MainRepository.db.Model):
+    #__tablename__ = 'configuracoes'
+    id = MainRepository.db.Column(MainRepository.db.Integer, primary_key=True)
+    ativo = MainRepository.db.Column(MainRepository.db.Boolean, nullable=False)
+    turma_id = MainRepository.db.Column(MainRepository.db.Integer, MainRepository.db.ForeignKey('turma.id'))
+    projeto_integrador_id = MainRepository.db.Column(MainRepository.db.Integer, nullable=False)
+    projeto_id = MainRepository.db.Column(MainRepository.db.Integer, MainRepository.db.ForeignKey('projeto.id'))
 
     def __init__(self, id:int, ativo:bool, turma_id=int, projeto_integrador_id=int, projeto_id=int):
         self._id = id
