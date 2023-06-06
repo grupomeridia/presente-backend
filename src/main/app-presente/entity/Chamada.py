@@ -1,14 +1,16 @@
-from repository.ChamadaRepository import ChamadaRepository
+from repository.MainRepository import MainRepository
+from entity.Projeto import Projeto
+from entity.Professor import Professor
 
 
-class Chamada(ChamadaRepository.db.Model):
-    __tablename__ = 'chamadas'
-    id = ChamadaRepository.db.Column(ChamadaRepository.db.Integer, primary_key=True)
-    ativo = ChamadaRepository.db.Column(ChamadaRepository.db.Boolean, nullable=False)
-    projeto_id = ChamadaRepository.db.Column(ChamadaRepository.db.Integer, ChamadaRepository.db.ForeignKey('projetos.id'))
-    turma_id = ChamadaRepository.db.Column(ChamadaRepository.db.Integer, ChamadaRepository.db.ForeignKey('turmas.id'))
-    professor_id = ChamadaRepository.db.Column(ChamadaRepository.db.Integer, ChamadaRepository.db.ForeignKey('professores.id'))
-    presenca = ChamadaRepository.db.relationship('presencas', backref='chamadas')
+class Chamada(MainRepository.db.Model):
+    #__tablename__ = 'chamadas'
+    id = MainRepository.db.Column(MainRepository.db.Integer, primary_key=True)
+    ativo = MainRepository.db.Column(MainRepository.db.Boolean, nullable=False)
+    projeto_id = MainRepository.db.Column(MainRepository.db.Integer, MainRepository.db.ForeignKey('projeto.id'))
+    turma_id = MainRepository.db.Column(MainRepository.db.Integer, MainRepository.db.ForeignKey('turma.id'))
+    professor_id = MainRepository.db.Column(MainRepository.db.Integer, MainRepository.db.ForeignKey('professor.id'))
+    presenca = MainRepository.db.relationship('presenca', backref='chamada')
 
     def __init__(self, id:int, ativo:bool, projeto_id:int, turma_id:int, professor_id:int):
         self._id = id
