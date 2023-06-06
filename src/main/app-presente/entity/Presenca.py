@@ -1,19 +1,19 @@
 #Roberto
 from entity.PresencaEnum import TipoPresenca
-from repository.PresencaRepository import PresencaRepository
+from repository.MainRepository import MainRepository
 import datetime
 
-class Presenca(PresencaRepository.db.Model):
-    __tablename__ = 'presencas'
-    id = PresencaRepository.db.Column(PresencaRepository.db.Integer, primary_key=True)
-    ativo = PresencaRepository.db.Column(PresencaRepository.db.Boolean, nullable=False)
-    aluno_ra = PresencaRepository.db.Column(PresencaRepository.db.Integer, PresencaRepository.db.ForeignKey('alunos.ra'))
-    turma_id = PresencaRepository.db.Column(PresencaRepository.db.Integer, PresencaRepository.db.ForeignKey('turmas.id'))
-    projeto_id = PresencaRepository.db.Column(PresencaRepository.db.Integer, PresencaRepository.db.ForeignKey('projetos.id'))
-    chamada_id = PresencaRepository.db.Column(PresencaRepository.db.Integer, PresencaRepository.db.ForeignKey('chamadas.id'))
-    professor_id = PresencaRepository.db.Column(PresencaRepository.db.Integer, PresencaRepository.db.ForeignKey('professores.id'))
-    tipo_presenca = PresencaRepository.db.Column(PresencaRepository.db.Enum(TipoPresenca))
-    horario = PresencaRepository.db.Column(PresencaRepository.db.DateTime(timezone=True))
+class Presenca(MainRepository.db.Model):
+    #__tablename__ = 'presencas'
+    id = MainRepository.db.Column(MainRepository.db.Integer, primary_key=True)
+    ativo = MainRepository.db.Column(MainRepository.db.Boolean, nullable=False)
+    aluno_ra = MainRepository.db.Column(MainRepository.db.Integer, MainRepository.db.ForeignKey('aluno.ra'))
+    turma_id = MainRepository.db.Column(MainRepository.db.Integer, MainRepository.db.ForeignKey('turma.id'))
+    projeto_id = MainRepository.db.Column(MainRepository.db.Integer, MainRepository.db.ForeignKey('projeto.id'))
+    chamada_id = MainRepository.db.Column(MainRepository.db.Integer, MainRepository.db.ForeignKey('chamada.id'))
+    professor_id = MainRepository.db.Column(MainRepository.db.Integer, MainRepository.db.ForeignKey('professor.id'))
+    tipo_presenca = MainRepository.db.Column(MainRepository.db.Enum(TipoPresenca))
+    horario = MainRepository.db.Column(MainRepository.db.DateTime(timezone=True))
 
     def __init__(self, id:int, ativo:bool, aluno_ra:int, turma_id:int, projeto_id:int, chamada_id:int, professor_id:int, tipo_presenca:TipoPresenca, horario:datetime):
         self._id = id

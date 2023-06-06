@@ -1,24 +1,20 @@
-#! /bin/python3
-
-#from entity.PresencaEnum import Presenca
 from entity.Turma import Turma
 from entity.CursoEnum import Curso
-from repository.AlunoRepository import AlunoRepository
+from repository.MainRepository import MainRepository
 
-#Primeiro ID - Vamos melhorar isso em breve.
 
     
-class Aluno(AlunoRepository.db.Model):
-    __tablename__ = 'alunos'
-    id = AlunoRepository.db.Column(AlunoRepository.db.Integer, primary_key=True)
-    ativo = AlunoRepository.db.Column(AlunoRepository.db.Boolean, nullable=False)
-    nome = AlunoRepository.db.Column(AlunoRepository.db.String, nullable=False)
-    ra = AlunoRepository.db.Column(AlunoRepository.db.Integer, nullable=False, unique=True)
-    turma_id = AlunoRepository.db.Column(AlunoRepository.db.Integer, AlunoRepository.db.ForeignKey('turmas.id'))
-    curso = AlunoRepository.db.Column(AlunoRepository.db.Enum(Curso))
-    presenca = AlunoRepository.db.relationship('presencas', backref='alunos')
+class Aluno(MainRepository.db.Model):
+    #__tablename__ = 'alunos'
+    id = MainRepository.db.Column(MainRepository.db.Integer, primary_key=True)
+    ativo = MainRepository.db.Column(MainRepository.db.Boolean, nullable=False)
+    nome = MainRepository.db.Column(MainRepository.db.String, nullable=False)
+    ra = MainRepository.db.Column(MainRepository.db.Integer, nullable=False, unique=True)
+    turma_id = MainRepository.db.Column(MainRepository.db.Integer, MainRepository.db.ForeignKey('turma.id'))
+    curso = MainRepository.db.Column(MainRepository.db.Enum(Curso))
+    presenca = MainRepository.db.relationship('presenca', backref='aluno')
 
-    #Construtor
+    
 
     def __init__(self, id:int, ativo:bool,nome:str, RA:int, turma:Turma, curso:Curso):
         self._id = id
@@ -30,42 +26,6 @@ class Aluno(AlunoRepository.db.Model):
         
 
 
-    #Validações
-
-    @property
-    def id(self):
-        return self._id
-    
-    @id.setter
-    def id(self, value):
-        if(isinstance(value, int) and value > 0):
-            self._id = value
-        else:
-            raise ValueError("ID incorreto, deve ser um número maior que zero")
-
-    @id.deleter
-    def id(self):
-        self._id = None
-
-    @property
-    def RA(self):
-        return self._RA
-
-    @RA.setter
-    def RA(self, value):
-        if isinstance(value, int) and value > 50000:
-            # Criar validação aqui para verificar se o RA inserido já existe no banco de dados, IMPEDITIVO: Falta criar a classe controller. 
-            self._RA = value
-        else:
-            raise Exception("RA inválido!")
-        
-    @RA.deleter
-    def RA(self):
-        self._RA = None
-
-
-    ### Métodos
-    
     def verificaRA(self, ra) -> bool:
         #IMPEDITIVO: Falta criar a classe controller
         pass

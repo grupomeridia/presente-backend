@@ -1,13 +1,13 @@
-from repository.ProjetoRepository import ProjetoRepository
+from repository.MainRepository import MainRepository
 
-class Projeto(ProjetoRepository.db.Model):
-    __tablename__ = 'projetos'
-    id = ProjetoRepository.db.Column(ProjetoRepository.db.Integer, primary_key=True)
-    ativo = ProjetoRepository.db.Column(ProjetoRepository.db.Boolean, nullable=False)
-    nome = ProjetoRepository.db.Column(ProjetoRepository.db.String, nullable=False)
-    chamada = ProjetoRepository.db.relationship('chamadas', backref='projetos')
-    presenca = ProjetoRepository.db.relationship('presencas', backref='projetos')
-    configuracao = ProjetoRepository.db.relationship('configuracoes', backref='projetos')
+class Projeto(MainRepository.db.Model):
+    #__tablename__ = 'projetos'
+    id = MainRepository.db.Column(MainRepository.db.Integer, primary_key=True)
+    ativo = MainRepository.db.Column(MainRepository.db.Boolean, nullable=False)
+    nome = MainRepository.db.Column(MainRepository.db.String, nullable=False)
+    chamada = MainRepository.db.relationship('chamada', backref='projeto')
+    presenca = MainRepository.db.relationship('presenca', backref='projeto')
+    configuracao = MainRepository.db.relationship('configuracao', backref='projeto')
 
     def __init__(self, id:int, ativo:bool, nome:str):
         self._id = id
