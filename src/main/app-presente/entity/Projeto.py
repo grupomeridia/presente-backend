@@ -1,4 +1,5 @@
 from repository.MainRepository import MainRepository
+from entity.Chamada import Chamada
 
 class Projeto(MainRepository.db.Model):
     #__tablename__ = 'projetos'
