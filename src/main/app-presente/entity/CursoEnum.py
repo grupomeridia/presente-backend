@@ -1,7 +1,7 @@
 from enum import Enum
 
 class Curso(Enum):
-    engenharia = 'ENGENHARIA DE SOFTWARE'
+    engenharia_software = 'ENGENHARIA DE SOFTWARE'
     ads = 'ANALISE E DESENVOLVIMENTO DE SISTEMAS'
 
 #Para acessar o valor do enum Curso.tipoEscolhido.value
