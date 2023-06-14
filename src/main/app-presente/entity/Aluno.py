@@ -1,5 +1,7 @@
 from entity.Turma import Turma
 from entity.CursoEnum import Curso
+from entity.Presenca import Presenca
+
 from repository.MainRepository import MainRepository
 
 
@@ -12,16 +14,15 @@ class Aluno(MainRepository.db.Model):
     ra = MainRepository.db.Column(MainRepository.db.Integer, nullable=False, unique=True)
     turma_id = MainRepository.db.Column(MainRepository.db.Integer, MainRepository.db.ForeignKey('turma.id'))
     curso = MainRepository.db.Column(MainRepository.db.Enum(Curso))
-    presenca = MainRepository.db.relationship('presenca', backref='aluno')
+    presenca = MainRepository.db.relationship('Presenca', backref='aluno')
 
     
 
-    def __init__(self, id:int, ativo:bool,nome:str, RA:int, turma:Turma, curso:Curso):
-        self._id = id
+    def __init__(self, ativo:bool,nome:str, RA:int, turmaId:int, curso:Curso):
         self._ativo = ativo
         self._nome = nome
         self._RA = RA
-        self._turma = turma
+        self._turmaId = turmaId
         self._curso = curso
         
 
