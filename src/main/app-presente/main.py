@@ -43,4 +43,12 @@ def cadastrarTurma():
 
     return "Turma Cadastrada!"
 
+@MainRepository.app.route("/api/listarTurma", methods=['GET'])
+def listarTurmas():
+    id = request.args.get('id')
+    print(TurmaRepository.getTurmaById(id))
+    return jsonify(TurmaRepository.getTurmaById(id))
+    
+    
+
 MainRepository.app.run(debug=True)
