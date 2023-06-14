@@ -4,7 +4,7 @@ from repository.MainRepository import MainRepository
 import datetime
 
 class Presenca(MainRepository.db.Model):
-    #__tablename__ = 'presencas'
+    
     id = MainRepository.db.Column(MainRepository.db.Integer, primary_key=True)
     ativo = MainRepository.db.Column(MainRepository.db.Boolean, nullable=False)
     aluno_ra = MainRepository.db.Column(MainRepository.db.Integer, MainRepository.db.ForeignKey('aluno.ra'))
