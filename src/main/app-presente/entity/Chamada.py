@@ -1,7 +1,6 @@
 from repository.MainRepository import MainRepository
-from entity.Projeto import Projeto
-from entity.Professor import Professor
 
+from entity.Presenca import Presenca
 
 class Chamada(MainRepository.db.Model):
     #__tablename__ = 'chamadas'
@@ -10,7 +9,8 @@ class Chamada(MainRepository.db.Model):
     projeto_id = MainRepository.db.Column(MainRepository.db.Integer, MainRepository.db.ForeignKey('projeto.id'))
     turma_id = MainRepository.db.Column(MainRepository.db.Integer, MainRepository.db.ForeignKey('turma.id'))
     professor_id = MainRepository.db.Column(MainRepository.db.Integer, MainRepository.db.ForeignKey('professor.id'))
-    presenca = MainRepository.db.relationship('presenca', backref='chamada')
+    presenca = MainRepository.db.relationship('Presenca', backref='chamada')
+    
 
     def __init__(self, id:int, ativo:bool, projeto_id:int, turma_id:int, professor_id:int):
         self._id = id
