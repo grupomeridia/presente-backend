@@ -1,6 +1,9 @@
 #Roberto
 from entity.PresencaEnum import TipoPresenca
+#from entity.Projeto import Projeto
+
 from repository.MainRepository import MainRepository
+
 import datetime
 
 class Presenca(MainRepository.db.Model):
