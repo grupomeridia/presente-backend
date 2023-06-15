@@ -6,6 +6,7 @@ from entity.Presenca import Presenca
 from entity.PresencaEnum import TipoPresenca
 from entity.Professor import Professor
 from entity.Turma import Turma
+from entity.Projeto import Projeto
 
 from repository.MainRepository import MainRepository
 from repository.TurmaRepository import TurmaRepository
