@@ -6,10 +6,11 @@ from entity.Presenca import Presenca
 from entity.PresencaEnum import TipoPresenca
 from entity.Professor import Professor
 from entity.Turma import Turma
+from entity.Projeto import Projeto
 
 from repository.MainRepository import MainRepository
 from repository.TurmaRepository import TurmaRepository
-
+from repository.AlunoRepository import AlunoRepository
 from flask import Flask, request, jsonify
 
 with MainRepository.app.app_context():
@@ -26,8 +27,17 @@ def cadastrarAluno():
     RA = data['ra']
     turma = data['turma']
     
-    return data
+    MainRepository.db.session.add(Aluno(ativo, nome, RA, turma, curso))
+    MainRepository.db.session.commit()
 
+    return "Aluno Cadastrado!"
+
+
+@MainRepository.app.route("/api/listarAluno", methods=['GET'])
+def listarAlunos():
+    id = request.args.get('id')
+    
+    return jsonify(AlunoRepository.getAlunoById(id))
 
 @MainRepository.app.route("/api/cadastrarTurma", methods=['POST'])
 def cadastrarTurma():

@@ -7,7 +7,6 @@ from repository.MainRepository import MainRepository
 
     
 class Aluno(MainRepository.db.Model):
-    #__tablename__ = 'alunos'
     id = MainRepository.db.Column(MainRepository.db.Integer, primary_key=True)
     ativo = MainRepository.db.Column(MainRepository.db.Boolean, nullable=False)
     nome = MainRepository.db.Column(MainRepository.db.String, nullable=False)
@@ -19,11 +18,11 @@ class Aluno(MainRepository.db.Model):
     
 
     def __init__(self, ativo:bool,nome:str, RA:int, turmaId:int, curso:Curso):
-        self._ativo = ativo
-        self._nome = nome
-        self._RA = RA
-        self._turmaId = turmaId
-        self._curso = curso
+        self.ativo = ativo
+        self.nome = nome
+        self.ra = RA
+        self.turma_id = turmaId
+        self.curso = curso
         
 
 
