@@ -11,6 +11,11 @@ class Professor(MainRepository.db.Model):
     presenca = MainRepository.db.relationship('Presenca', backref='professor')
     chamada = MainRepository.db.relationship('Chamada', backref='professor')
 
+    def __init__(self, ativo:bool, nome:str):
+        self.ativo = ativo
+        self.nome = nome
+
+
     def verificaAlunos() -> bool:
         #IMPEDITIVO: Falta criar a classe controller
         #Esta função irá retornar os alunos presentes em sala.
