@@ -5,8 +5,9 @@ from entity.Turma import Turma
 
 class TurmaRepository():
     def getTurmaById(id):
-        return {"Nome":Turma.query.get(id).nome,
-               "ID:":Turma.query.get(id).id,
+        return {
+               "Id:":Turma.query.get(id).id,
+               "Nome":Turma.query.get(id).nome,
                "Ativo": Turma.query.get(id).ativo,
                "Ano": Turma.query.get(id).ano,
                "Semestre": Turma.query.get(id).semestre}
