@@ -5,11 +5,10 @@ class Projeto(MainRepository.db.Model):
     id = MainRepository.db.Column(MainRepository.db.Integer, primary_key=True)
     ativo = MainRepository.db.Column(MainRepository.db.Boolean, nullable=False)
     nome = MainRepository.db.Column(MainRepository.db.String, nullable=False)
-    chamada = MainRepository.db.relationship('chamada', backref='projeto')
-    presenca = MainRepository.db.relationship('presenca', backref='projeto')
-    configuracao = MainRepository.db.relationship('configuracao', backref='projeto')
+    chamada = MainRepository.db.relationship('Chamada', backref='projeto')
+    presenca = MainRepository.db.relationship('Presenca', backref='projeto')
+    configuracao = MainRepository.db.relationship('Configuracao', backref='projeto')
 
-    def __init__(self, id:int, ativo:bool, nome:str):
-        self._id = id
-        self._ativo = ativo
-        self._nome = nome
+    def __init__(self, ativo:bool, nome:str):
+        self.ativo = ativo
+        self.nome = nome

@@ -12,11 +12,10 @@ class Chamada(MainRepository.db.Model):
     presenca = MainRepository.db.relationship('Presenca', backref='chamada')
     
 
-    def __init__(self, id:int, ativo:bool, projeto_id:int, turma_id:int, professor_id:int):
-        self._id = id
-        self._ativo = ativo
-        self._projeto_id = projeto_id
-        self._turma_id = turma_id
-        self._professor_id = professor_id
+    def __init__(self, ativo:bool, projeto:int, turma:int, professor:int):
+        self.ativo = ativo
+        self.projeto_id = projeto
+        self.turma_id = turma
+        self.professor_id = professor
 
 
