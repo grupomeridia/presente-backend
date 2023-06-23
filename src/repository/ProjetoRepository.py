@@ -20,3 +20,21 @@ class ProjetoRepository():
         } for p in projetos]
 
         return jsonify(resultado)
+    
+    def update(id, data):
+        projeto = Projeto.query.get(id)
+        projeto.ativo = data['ativo']
+        projeto.nome = data['nome']
+
+        MainRepository.db.session.merge(projeto)
+        MainRepository.db.session.commit()
+        return {"mensagem":"sucesso"}
+    
+    def delete(id):
+        projeto = Projeto.query.get(id)
+        projeto.ativo = False
+
+        MainRepository.db.session.merge(projeto)
+        MainRepository.db.session.commit()
+
+        return {"mensagem":"sucesso"}
