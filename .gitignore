@@ -1,0 +1,5 @@
+__pycache__
+/src/entity/__pycache__
+/src/repository/__pycache__
+/src/blueprints/__pycache__
+/venv
