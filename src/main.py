@@ -19,4 +19,4 @@ MainRepository.app.register_blueprint(professores)
 MainRepository.app.register_blueprint(projetos)
 MainRepository.app.register_blueprint(turmas)
 
-MainRepository.app.run(debug=True)
+MainRepository.app.run(debug=True, host="0.0.0.0")
