@@ -26,3 +26,16 @@ class AlunoRepository():
         } for a in alunos]
 
         return jsonify(resultado)
+    
+    def update(id, data):
+        aluno = Aluno.query.get(id)
+
+        aluno.ativo = data['ativo']
+        aluno.nome = data['nome']
+        aluno.ra = data['ra']
+        aluno.turma = data['turma']
+        aluno.curso = data['curso'] 
+        
+        MainRepository.db.session.merge(aluno)
+        MainRepository.db.session.commit()
+        return {"mensagem":"sucesso"}
