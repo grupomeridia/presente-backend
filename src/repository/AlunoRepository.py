@@ -39,3 +39,11 @@ class AlunoRepository():
         MainRepository.db.session.merge(aluno)
         MainRepository.db.session.commit()
         return {"mensagem":"sucesso"}
+        
+    def delete(id):
+        aluno = Aluno.query.get(id)
+        aluno.ativo = False
+        MainRepository.db.session.merge(aluno)
+        MainRepository.db.session.commit()
+        return {"mensagem":"sucesso"}
+        
