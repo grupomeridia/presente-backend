@@ -3,3 +3,4 @@ __pycache__
 /src/repository/__pycache__
 /src/blueprints/__pycache__
 /venv
+/vm
