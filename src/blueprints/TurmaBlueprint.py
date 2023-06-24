@@ -7,22 +7,34 @@ from entity.Turma import Turma
 
 turmas = Blueprint("turmas", __name__)
 
-@turmas.route("/api/turma/cadastrar", methods=['POST'])
-def cadastrarTurma():
-    data = request.json
+@turmas.route("/api/turma", methods=['GET', 'POST', 'PUT', 'DELETE'])
+def turma():
+    if request.method == 'GET':
+        id = request.args.get('id')
+        return jsonify(TurmaRepository.getTurmaById(id))
 
-    ativo = data['ativo']
-    nome = data['nome']
-    ano = data['ano']
-    semestre = data['semestre']
+    if request.method == 'POST':
+        data = request.json
 
-    MainRepository.db.session.add(Turma(ativo, nome, ano, semestre))
-    MainRepository.db.session.commit()
+        ativo = data['ativo']
+        nome = data['nome']
+        ano = data['ano']
+        semestre = data['semestre']
 
-    return "Turma Cadastrada!"
+        MainRepository.db.session.add(Turma(ativo, nome, ano, semestre))
+        MainRepository.db.session.commit()
 
-@turmas.route("/api/turma/findById", methods=['GET'])
-def listarTurmas():
-    id = request.args.get('id')
-    print(TurmaRepository.getTurmaById(id))
-    return jsonify(TurmaRepository.getTurmaById(id))
+        return "Turma Cadastrada!"
+
+    if request.method == 'PUT':
+        id = request.args.get('id')
+        data = request.json
+        return jsonify(TurmaRepository.update(id, data))
+    
+    if request.method == 'DELETE':
+        id = request.args.get('id')
+        return jsonify(TurmaRepository.delete(id))
+
+@turmas.route("/api/turma/listAll", methods=['GET'])
+def listarAllTurmas():
+    return TurmaRepository.listAll()
