@@ -20,3 +20,23 @@ class ProfessorRepository():
         } for p in professores]
 
         return jsonify(resultado)
+    
+    def update(id, data):
+        professor = Professor.query.get(id)
+        professor.nome = data['nome']
+        professor.ativo = data['ativo']
+
+
+        MainRepository.db.session.merge(professor)
+        MainRepository.db.session.commit()
+        return {"mensagem":"sucesso"}
+  
+    def delete(id):
+        professor = Professor.query.get(id)
+        professor.ativo = False
+        
+        MainRepository.db.session.merge(professor)
+        MainRepository.db.session.commit()
+
+
+        return {"mensagem":"sucesso"}
