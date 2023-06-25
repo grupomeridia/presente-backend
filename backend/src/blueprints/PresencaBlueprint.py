@@ -8,7 +8,7 @@ from entity.Presenca import Presenca
 presencas = Blueprint("presencas", __name__)
 
 @presencas.route("/api/presenca", methods=['GET', 'POST', 'PUT', 'DELETE'])
-def presencas():
+def presencasMain():
     if request.method == 'GET':
         id = request.args.get('id')
         return jsonify(PresencaRepository.getPresencaById(id))
@@ -41,7 +41,7 @@ def presencas():
         return PresencaRepository.delete(id)
 
 @presencas.route("/api/presenca/listAll", methods=['GET'])
-def listAllPresencas():
+def listAll():
     return PresencaRepository.listAll()
 
 @presencas.route("/api/presenca/findByPresentes", methods=['GET'])
