@@ -53,17 +53,12 @@ function CadastroAluno() {
                 onChange={(e) => setRA(e.target.value)}
               />
             </div>
-            <div className={styles.input_container}>
+             <div className={styles.input_container}>
               <label htmlFor="curso">Curso:</label>
-              <input
-                type="text"
-                name="curso"
-                id="curso"
-				autocomplete="off"
-                placeholder="Curso do Aluno"
-                value={curso}
-                onChange={(e) => setCurso(e.target.value)}
-              />
+              <select id="DropCurso" value={curso} onChange={(e) => setCurso(e.target.value)}>
+                <option value="Engenharia de Software">Engenharia de Software</option>
+                <option value="Análise e Desenvolvimento de Sistemas">Análise e Desenvolvimento de Sistemas</option>
+              </select>
             </div>
             <button className={styles.btn_login} type="submit">
               Cadastrar

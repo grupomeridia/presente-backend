@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom';
 import logo from '../img/logo-removebg.png';
+import React from 'react';
 import styles from '../layout/Navbar.module.css';
 import './Mqrules.module.css';
-
 function Navbar () {
     return (
         <header class={styles.page_header}>

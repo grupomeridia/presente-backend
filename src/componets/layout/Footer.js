@@ -1,5 +1,6 @@
 import logo from '../img/logo-removebg.png';
 import styles from './Footer.module.css';
+import React from 'react';
 
 function Footer (){
     return (
