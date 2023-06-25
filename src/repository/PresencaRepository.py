@@ -4,7 +4,7 @@ from repository.MainRepository import MainRepository
 from entity.Presenca import Presenca
 
 class PresencaRepository():
-    def getAlunoById(id):
+    def getPresencaById(id):
         return {
             "Id" : Presenca.query.get(id).id,
             "Aluno_ra": Presenca.query.get(id).aluno_ra,
@@ -46,3 +46,26 @@ class PresencaRepository():
         } for p in presencas]
 
         return jsonify(resultado)
+    
+    def update(id, data):
+        presenca = Presenca.query.get(id)
+
+        presenca.ativo = data['ativo']
+        presenca.aluno_ra = data['AlunoRa']
+        presenca.turma = data['turma']
+        presenca.projeto = data['projeto']
+        presenca.chamada = data['chamada']
+        presenca.professor = data['professor']
+        presenca.tipo_presenca = data['tipoPresenca']
+        presenca.horario = data['horario']
+
+        MainRepository.db.session.merge(presenca)
+        MainRepository.db.session.commit()
+
+    def delete(id):
+        presenca = Presenca.query.get(id)
+        presenca.ativo = False
+        MainRepository.db.session.merge(presenca)
+        MainRepository.db.session.commit()
+
+        return {"mensagem":"sucesso"}
