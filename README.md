@@ -21,19 +21,17 @@ O APP Presente é um sistema desenvolvido pelo Grupo Meridia para as universidad
 ## Contribuidores <img src="https://cdn-icons-png.flaticon.com/512/2636/2636184.png " height=28>
 O sistema foi desenvolvido pelo Grupo Meridia, composto pelos seguintes estudantes:
 
-- Donizeti Dos Santos Junior  
-  Linkedin (https://www.linkedin.com/in/donizetijunioreng)
-  
-- Gabriel Kuhnen
-Linkedin (https://www.linkedin.com/in/gabrielkuhnen/)
-- Hisham Esbier  
-Linkedin (https://www.linkedin.com/in/hesham-esper-388673144/)
-- Matheus Almeida  
-Linkedin (https://www.linkedin.com/in/tokram)
-- Matheus Guilherme de Almeida  
-    Linkedin (https://www.linkedin.com/in/matheus-galmeida/)
-- Roberto Passos  
-    Linkedin (https://www.linkedin.com/in/roberto-passos-897469241)
+- [Donizeti Dos Santos Junior](https://www.linkedin.com/in/donizetijunioreng)
+
+- [Gabriel Kuhnen](https://www.linkedin.com/in/gabrielkuhnen)  
+
+- [Hisham Esbier](https://www.linkedin.com/in/hesham-esper-388673144)   
+
+- [Matheus Almeida](https://www.linkedin.com/in/tokram) 
+
+- [Matheus Guilherme de Almeida](https://www.linkedin.com/in/matheus-galmeida)
+
+- [Roberto Passos](https://www.linkedin.com/in/roberto-passos-897469241)
 
 <a name ="tecnologiasutilizadas"></a>
 ## Tecnologias Utilizadas  <img src="https://cdn-icons-png.flaticon.com/128/1087/1087927.png" height=28>
