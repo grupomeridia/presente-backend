@@ -8,28 +8,27 @@ from entity.Aluno import Aluno
 
 alunos = Blueprint("alunos", __name__)
 
-@alunos.route("/api/aluno/cadastrar", methods=["POST"])
-def cadastrarAluno():
-    data = request.json
+@alunos.route("/api/aluno", methods=['GET', 'POST', 'PUT', 'DELETE'])
+def aluno():
+    if request.method == 'GET':
+        id = request.args.get('id')    
+        return jsonify(AlunoRepository.getAlunoById(id))
 
-    ativo = data['ativo']
-    curso = data['curso']
-    nome = data['nome']
-    RA = data['ra']
-    turma = data['turma']
-    
-    MainRepository.db.session.add(Aluno(ativo, nome, RA, turma, curso))
-    MainRepository.db.session.commit()
-    
+    if request.method == 'POST':    
+        data = request.json
 
-    return "Aluno Cadastrado!"
+        ativo = data['ativo']
+        curso = data['curso']
+        nome = data['nome']
+        RA = data['ra']
+        turma = data['turma']
+        
+        MainRepository.db.session.add(Aluno(ativo, nome, RA, turma, curso))
+        MainRepository.db.session.commit()
+        
 
-@alunos.route("/api/aluno/listAll", methods=['GET'])
-def listAll():
-    return AlunoRepository.listAll()
+        return "Aluno Cadastrado!"
 
-@alunos.route("/api/aluno", methods=['PUT', 'DELETE'])
-def update():
     if request.method == 'PUT':
         id = request.args.get('id')
         data = request.json    
@@ -39,6 +38,6 @@ def update():
         id = request.args.get('id')
         return jsonify(AlunoRepository.delete(id))
 
-    if request.method == 'GET':
-        id = request.args.get('id')    
-        return jsonify(AlunoRepository.getAlunoById(id))
+@alunos.route("/api/aluno/listAll", methods=['GET'])
+def listAll():
+    return AlunoRepository.listAll()
