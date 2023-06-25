@@ -7,9 +7,9 @@ class ConfiguracaoRepository():
     def getConfiguracaoById(id):
         return{
             "id": Configuracao.query.get(id).id,
-            "Ativo": Configuracao.get(id).ativo,
-            "Turma_Id": Configuracao.get(id).turma_id,
-            "Projeto_Id": Configuracao.get(id).prjeto_id
+            "Ativo": Configuracao.query.get(id).ativo,
+            "Turma_Id": Configuracao.query.get(id).turma_id,
+            "Projeto_Id": Configuracao.query.get(id).projeto_id
         }
     def listAll():
         configuracao = Configuracao.query.all()
@@ -17,7 +17,7 @@ class ConfiguracaoRepository():
             "Id": a.id,
             "Ativo": a.ativo,
             "Turma_Id": a.turma_id,
-            "Projeto_Id": a.prjeto_id  
+            "Projeto_Id": a.projeto_id  
           }for a in configuracao]
         return jsonify(resultado)
     
@@ -25,8 +25,8 @@ class ConfiguracaoRepository():
         configuracao = Configuracao.query.get(id)
 
         configuracao.ativo = data ['ativo']
-        configuracao.turma_id = data ['turma_id']
-        configuracao.projeto_id = data['projeto_id']
+        configuracao.turma_id = data ['turmaId']
+        configuracao.projeto_id = data['projetoId']
 
         MainRepository.db.session.merge(configuracao)
         MainRepository.db.session.commit()
