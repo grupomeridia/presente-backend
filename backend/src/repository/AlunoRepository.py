@@ -1,5 +1,6 @@
 from flask import jsonify
 from repository.MainRepository import MainRepository
+import json
 
 from entity.Aluno import Aluno
 
@@ -10,9 +11,10 @@ class AlunoRepository():
             "Nome": Aluno.query.get(id).nome,
             "RA": Aluno.query.get(id).ra,
             "Ativo": Aluno.query.get(id).ativo,
-            "Turma": Aluno.query.get(id).turma_id,
+            "Turma": Aluno.query.get(id).turma.nome,
             "Curso": Aluno.query.get(id).curso.value
         }
+
     
     def listAll():
         alunos = Aluno.query.all()
@@ -21,7 +23,7 @@ class AlunoRepository():
             "Nome": a.nome,
             "RA": a.ra,
             "Ativo": a.ativo,
-            "Turma": a.turma_id,
+            "Turma": a.turma.nome,
             "Curso": a.curso.value
         } for a in alunos]
 
