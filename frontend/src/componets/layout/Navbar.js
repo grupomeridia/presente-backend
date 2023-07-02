@@ -56,10 +56,10 @@ function Navbar () {
                 </a>
                 </li>
                 <li>
-                <a href="">
-                    <i class="fa-solid fa-gear"></i>
-                    <span>Options</span>
-                </a>
+                    <Link to='/options'>
+                        <i class="fa-solid fa-gear"></i>
+                        <span>Options</span>
+                    </Link>
                 </li>
             </ul>
             </nav>
