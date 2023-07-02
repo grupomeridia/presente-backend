@@ -9,7 +9,7 @@ class Professor(MainRepository.db.Model):
     ativo = MainRepository.db.Column(MainRepository.db.Boolean, nullable=False)
     nome = MainRepository.db.Column(MainRepository.db.String, nullable=False)
     presenca = MainRepository.db.relationship('Presenca', backref='professor')
-    chamada = MainRepository.db.relationship('Chamada', backref='professor')
+   # chamada = MainRepository.db.relationship('Chamada', backref='professor')
 
     def __init__(self, ativo:bool, nome:str):
         self.ativo = ativo
