@@ -29,6 +29,12 @@ function Navbar () {
                     </Link>
                 </li>
                 <li>
+                    <Link to='/cadastrar-turma'>
+                        <i class="fa-solid fa-clipboard-user"></i>
+                        <span>Cadastro de Turma</span>
+                    </Link>
+                </li>
+                <li>
                 <a href="">
                     <i class="fa-solid fa-chart-line"></i>
                     <span>Dashboard </span>
