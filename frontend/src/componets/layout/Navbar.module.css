@@ -1,0 +1,182 @@
+
+/* HEADER STYLES*/
+@import url("https://fonts.googleapis.com/css?family=Lato:400,700&display=swap");
+
+.page_header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: auto;
+    padding-top: 20px;
+    width:220px;
+    color: #dde9f8;
+    background: #242e42;
+  }
+  
+  
+  .page_header nav {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+  }
+
+  .page_header .logo {
+    display: block;
+    margin: 0 15px;
+  }
+  
+  .page_header .logo img {
+    max-width: 80px;
+  }
+  
+  .page_header .toggle_mob_menu {
+    display: none;
+    width: 30px;
+    height: 30px;
+    margin-left: 5px;
+    padding: 4px;
+    color: black;
+    background: #FFF;
+    border-radius: 100%;
+  }
+  
+  .page_header .toggle_mob_menu svg {
+    fill: #000;
+    transition: transform 0.2s;
+  }
+  
+  .page_header .admin_menu {
+    display: flex;
+    flex-direction: column; 
+    padding-left: 0%;
+    margin-top: 35px;
+    align-items: flex-start;
+  }
+
+  .page_header .admin_menu a {
+    color: #FFF;
+}
+  
+  .page_header .admin_menu li > * {
+    width: 220px;
+    padding: 12px 15px;    
+}
+    
+  .page_header .admin_menu .switcher {
+    display: inline-block;
+    width: auto;
+  }
+  
+  .page_header .admin_menu .menu_heading h3 {
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    font-size: 12px;
+    margin-top: 12px;
+    color: #7889a4;
+  }
+  
+  .page_header .admin_menu i{
+    width: 20px;
+    height: 20px;
+    fill: #dde9f8;
+    margin-right: 10px;
+  }
+  
+  .page_header .admin_menu a,
+  .page_header .admin_menu button {
+    display: flex;
+    align-items: center;
+    font-size: 0.9rem;
+  }
+  
+  .page_header .admin_menu a:hover,
+  .page_header .admin_menu a:focus,
+  .page_header .admin_menu button:hover,
+  .page_header .admin_menu button:focus {
+    background:  #1d2636;
+    color: #00b9eb;
+    outline: none;
+    width: 220px;
+  }
+  
+  .page_header .admin_menu a:hover i,
+  .page_header .admin_menu a:focus i,
+  .page_header .admin_menu button:hover i,
+  .page_header .admin_menu button:focus i {
+    fill:#00b9eb;
+  }
+  
+  @media screen and (max-width: 767px) {
+    .page_header,
+    .page_content {
+      position: static;
+      width: 100%;
+    }
+  
+    .page_header {
+      padding: 10px;
+    }
+  
+    .page_header nav {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+    }
+  
+    .page_header .logo {
+      margin: 0;
+    }
+  
+    .page_header .logo img {
+      width: 40px;
+      height: 40px;
+    }
+  
+    .page_header .toggle_mob_menu {
+      display: block;
+    }
+  
+    .page_header .admin_menu {
+      position: absolute;
+      left: 98px;
+      top: 57px;
+      margin-top: 0;
+      z-index: 2;
+      border-radius: 4px;
+      background: #242e42;
+      visibility: hidden;
+      opacity: 0;
+      transform: scale(0.95);
+      transition: all 0.2s;
+    }
+  
+    .page-header .admin-menu li:nth-last-child(2) {
+      margin-bottom: 12px;
+    }
+  
+    .page-header .admin-menu li:last-child button,
+    .search-and-user .admin-profile .greeting {
+      display: none;
+    }
+  
+    .page-content {
+      min-height: 0;
+      padding: 10px;
+    }
+   
+    .search-and-user {
+      position: relative;
+      left: 131px;
+      top: 10px;
+      padding: 0;
+      grid-column-gap: 5px;
+      width: calc(100% - 141px);
+      border-radius: 4px;
+      background: transparent;
+    }
+  
+  }
+  
+  

@@ -1,0 +1,75 @@
+
+.login_container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+        position: relative;
+        left: 220px;
+        width: calc(100% - 220px);
+        min-height: 94.5vh;
+        padding: 30px;
+        color: #171616;
+        background: #f0f1f6;
+}
+
+.login_container label {
+    margin-left: 12px;
+}
+
+.login_container form {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.login_container form .input_container {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+}
+
+.login_container form .input_container label {
+    margin-bottom: 0.85vh;
+    font: 1rem;
+    line-height: 1.1rem;
+}
+
+.login_container form .input_container input {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 1.5vh ;
+    width: 25vw;
+    height: 4.5vh;
+    border: 1px solid #242e42;
+    border-radius: 15px;
+    margin-bottom: 2vh;
+}
+
+
+
+.login_container form .btn_login {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    width: 20vw;
+    height: 5.5vh;
+    margin-top: 25px;
+
+    background-color: #242e42;
+    border-radius: 15px;
+    border: none;
+
+    font-size: 1.25rem;
+    font-weight: 500;
+    font-weight: 1.5rem;
+    color: #FFF;
+}
+
+.login_container form .btn_login:hover {
+    cursor: pointer;
+    opacity: 98%;
+}
