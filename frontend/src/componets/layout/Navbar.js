@@ -30,19 +30,19 @@ function Navbar () {
                 </li>
                 <li>
                     <Link to='/cadastrar-turma'>
-                        <i class="fa-solid fa-clipboard-user"></i>
+                        <i class="fa-solid fa-person-shelter"></i>
                         <span>Cadastro de Turma</span>
                     </Link>
                 </li>
                 <li>
                     <Link to='/cadastrar-projeto'>
-                        <i class="fa-solid fa-clipboard-user"></i>
+                        <i class="fa-solid fa-laptop"></i>
                         <span>Cadastro de Projeto</span>
                     </Link>
                 </li>
                 <li>
                     <Link to='/cadastrar-professor'>
-                        <i class="fa-solid fa-clipboard-user"></i>
+                        <i class="fa-solid fa-user-tie"></i>
                         <span>Cadastro de Professor</span>
                     </Link>
                 </li>
