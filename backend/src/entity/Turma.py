@@ -10,8 +10,6 @@ class Turma(MainRepository.db.Model):
     nome = MainRepository.db.Column(MainRepository.db.String(50), nullable=False)
     ano = MainRepository.db.Column(MainRepository.db.Integer, nullable=False)
     semestre = MainRepository.db.Column(MainRepository.db.String(1), nullable=False)
-    chamada = MainRepository.db.relationship('Chamada', backref='Turma')
-    presenca = MainRepository.db.relationship('Presenca', backref='Turma')
 
     def __init__(self, ativo, nome, ano, semestre):
         self.ativo = ativo

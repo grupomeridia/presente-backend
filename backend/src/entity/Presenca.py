@@ -17,6 +17,11 @@ class Presenca(MainRepository.db.Model):
     professor_id = MainRepository.db.Column(MainRepository.db.Integer, MainRepository.db.ForeignKey('professor.id'))
     tipo_presenca = MainRepository.db.Column(MainRepository.db.Enum(TipoPresenca))
     horario = MainRepository.db.Column(MainRepository.db.DateTime(timezone=True))
+    aluno = MainRepository.db.relationship('Aluno')
+    turma = MainRepository.db.relationship('Turma')
+    projeto = MainRepository.db.relationship('Projeto')
+    chamada = MainRepository.db.relationship('Chamada')
+    professor = MainRepository.db.relationship('Professor')
 
     def __init__(self, ativo:bool, aluno_ra:int, turma:int, projeto:int, chamada:int, professor:int, tipo_presenca:TipoPresenca, horario:datetime):
         self.ativo = ativo
