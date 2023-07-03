@@ -5,6 +5,7 @@ import CadastroAluno from './pages/CadastroAluno/cadastro-aluno';
 import CadastroTurma from './pages/CadastroTurma/cadastro-turma';
 import CadastroProjeto from './pages/CadastroProjeto/cadastro-projeto';
 import CadastroProfessor from './pages/CadastroProfessor/cadastro-professor';
+import EditarAluno from './pages/editarAluno/editar-aluno';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path='/cadastrar-turma' element = {<CadastroTurma/>} />
         <Route path='/cadastrar-projeto' element = {<CadastroProjeto/>} />
         <Route path='/cadastrar-professor' element = {<CadastroProfessor/>} />
+        <Route path='/editar-aluno' element = {<EditarAluno/>} />
       </Routes>
     </Router>
   );
