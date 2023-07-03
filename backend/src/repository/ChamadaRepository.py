@@ -15,16 +15,18 @@ class ChamadaRepository():
             "Turma": Chamada.query.get(id).turma_id
         }
     
+    
+    
     def listAll():
         chamadas = Chamada.query.filter(Chamada.ativo.isnot(False)).all()
         resultado = [{
             'Id': c.id,
             'Ativo': c.ativo,
-            'Projeto': c.projeto.nome,
-            'Professor': c.professor.nome,
-            'turma': c.turma.nome
+            'Projeto': c.projeto_id,
+            'Professor': c.professor_id,
+            'turma': c.turma_id
         } for c in chamadas]
-        
+
         return jsonify(resultado)
     
     def update(id, data):
@@ -46,3 +48,10 @@ class ChamadaRepository():
         MainRepository.db.session.commit()
 
         return {"mensagem":"sucesso"}
+    
+    def registerChamada(Chamada):
+
+        MainRepository.db.session.add(Chamada)
+        MainRepository.db.session.commit()
+
+        return "Chamada registrada"
