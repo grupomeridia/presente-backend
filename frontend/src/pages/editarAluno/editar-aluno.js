@@ -31,6 +31,7 @@ function EditarAluno() {
 
     api.aluno
       .update(alunoData)
+      
       .then((response) => {
         console.log(response.data);
         setMessage("Aluno editado com sucesso");
