@@ -14,7 +14,7 @@ class ChamadaRepository():
         }
     
     def listAll():
-        chamadas = Chamada.query.all()
+        chamadas = Chamada.query.filter(Chamada.ativo.isnot(False)).all()
         resultado = [{
             'Id': c.id,
             'Ativo': c.ativo,
