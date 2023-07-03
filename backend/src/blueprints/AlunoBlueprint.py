@@ -41,3 +41,8 @@ def aluno():
 @alunos.route("/api/aluno/listAll", methods=['GET'])
 def listAll():
     return AlunoRepository.listAll()
+
+@alunos.route("/api/aluno/findByRa", methods=['GET'])
+def findByRa():
+    ra = request.args.get('ra')
+    return AlunoRepository.findByRA(ra)
