@@ -15,8 +15,6 @@ class ChamadaRepository():
             "Turma": Chamada.query.get(id).turma_id
         }
     
-    
-    
     def listAll():
         chamadas = Chamada.query.filter(Chamada.ativo.isnot(False)).all()
         resultado = [{

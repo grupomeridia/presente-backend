@@ -17,9 +17,9 @@ class ChamadaService():
     def register(ativo, projeto_id, professor_id, turma_id):
 
         assert ativo != None and ativo == True, "Propriedade ativo deve ser True ou False"
-        assert projeto_id > 0 and projeto_id != None, "ID de projeto inválido."
-        assert professor_id > 0 and professor_id != None, "ID de professor inválido."
-        assert turma_id > 0 and turma_id != None, "ID de turma inválida."
+        assert int(projeto_id) > 0 and int(projeto_id) != None, "ID de projeto inválido."
+        assert int(professor_id) > 0 and int(professor_id) != None, "ID de professor inválido."
+        assert int(turma_id) > 0 and int(turma_id) != None, "ID de turma inválida."
         assert Chamada.query.filter(Chamada.ativo == True).first() is None, "Já existe uma chamada aberta nesse momento."
 
         return ChamadaRepository.registerChamada(Chamada(ativo, projeto_id, professor_id, turma_id))

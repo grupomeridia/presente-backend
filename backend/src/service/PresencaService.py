@@ -19,9 +19,9 @@ class PresencaService():
         
         assert ativo != None and ativo == True, "Propriedade ativo deve ser True ou False"
         assert Presenca.query.filter(Presenca.aluno_ra == aluno_ra, Presenca.chamada_id == chamada).first() is None, "Presença já realizada"
-        assert turma != None and turma > 0, "Turma inválida"
-        assert projeto != None and projeto > 0, "Projeto inválido"
-        assert chamada != None and chamada > 0, "Chamada inválida"
+        assert int(turma) != None and int(turma) > 0, "Turma inválida"
+        assert int(projeto) != None and int(projeto) > 0, "Projeto inválido"
+        assert int(chamada) != None and int(chamada) > 0, "Chamada inválida"
         assert professor != None and professor > 0, "Professor inválido"
         assert tipo_presenca != None, "Tipo da presença inválida"
         assert not Chamada.query.filter(Chamada.ativo == True).first() is None, "Não existe nenhuma chamada aberta"

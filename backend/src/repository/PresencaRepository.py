@@ -2,6 +2,7 @@ from flask import jsonify
 from repository.MainRepository import MainRepository
 
 from entity.Presenca import Presenca
+from entity.Aluno import Aluno
 
 class PresencaRepository():
     def getPresencaById(id):
@@ -34,9 +35,11 @@ class PresencaRepository():
     
     def findByPresentes():
         presencas = Presenca.query.filter(Presenca.horario.isnot(None)).all()
+
         resultado = [{
             "Id": p.id,
             "Aluno_ra": p.aluno_ra,
+            "Aluno_nome": p.aluno.nome,
             "Turma": p.turma.nome,
             "Projeto": p.projeto.nome,
             "Chamada": p.chamada_id,
