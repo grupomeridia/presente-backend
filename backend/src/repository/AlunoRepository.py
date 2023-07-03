@@ -15,7 +15,6 @@ class AlunoRepository():
             "Curso": Aluno.query.get(id).curso.value
         }
 
-    
     def listAll():
         alunos = Aluno.query.all()
         resultado = [{
@@ -35,11 +34,12 @@ class AlunoRepository():
         aluno.ativo = data['ativo']
         aluno.nome = data['nome']
         aluno.ra = data['ra']
-        aluno.turma = data['turma']
+        aluno.turma_id = data['turma']
         aluno.curso = data['curso'] 
         
         MainRepository.db.session.merge(aluno)
         MainRepository.db.session.commit()
+
         return {"mensagem":"sucesso"}
         
     def delete(id):
@@ -60,3 +60,9 @@ class AlunoRepository():
             "Curso": aluno.curso.value
         }
         
+    def registerAluno(Aluno):
+
+        MainRepository.db.session.add(Aluno)
+        MainRepository.db.session.commit()
+
+        return "Aluno registrado"
