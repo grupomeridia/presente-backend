@@ -14,17 +14,6 @@ function Options() {
   const [chamadas, setChamadas] = useState([]);
   const [isActive, setIsActive] = useState(true);
 
-  const getAllIds = () => {
-    const projetoIds = projetos.map((projeto) => projeto.Id);
-    const professorIds = professores.map((professor) => professor.Id);
-    const turmaIds = turmas.map((turma) => turma.Id);
-
-    const allIds = [...projetoIds, ...professorIds, ...turmaIds];
-    return allIds;
-  };
-
-  const allIds = getAllIds();
-
   const getNomeProjeto = (projetoId) => {
     const projeto = projetos.find((p) => p.id === projetoId);
     return projeto ? projeto.Nome : "";
@@ -100,6 +89,18 @@ function Options() {
     fetchProfessores();
   }, []);
 
+  const handleDeleteChamada = async (id) => {
+    try {
+      await api.chamada.delete(id);
+      setChamadas((prevState) =>
+        prevState.filter((chamada) => chamada.Id !== id)
+      );
+      console.log(`Chamada com ID ${id} excluída com sucesso`);
+    } catch (error) {
+      console.error("Erro ao excluir chamada", error);
+    }
+  };
+
   useEffect(() => {
     const fetchProjetos = async () => {
       try {
@@ -131,7 +132,9 @@ function Options() {
   const toggleActiveState = (chamadaId) => {
     setChamadas((prevState) =>
       prevState.map((chamada) =>
-        chamada.Id === chamadaId ? { ...chamada, Ativo: !chamada.Ativo } : chamada
+        chamada.Id === chamadaId
+          ? { ...chamada, Ativo: !chamada.Ativo }
+          : chamada
       )
     );
   };
@@ -219,13 +222,16 @@ function Options() {
                   <td>{getNomeTurma(chamada.turma_id)}</td>
                   <td>{chamada.Ativo ? "Ativada" : "Desativada"}</td>
                   <td>
-                    <i
+                    {/* <i
                       className={`fa-solid fa-user-pen ${
                         chamada.Ativo ? styles.active : ""
                       }`}
                       onClick={() => toggleActiveState(chamada.Id)}
+                    ></i> */}
+                    <i
+                      className="fa-solid fa-user-xmark"
+                      onClick={() => handleDeleteChamada(chamada.Id)}
                     ></i>
-                    <i className="fa-solid fa-user-xmark"></i>
                   </td>
                 </tr>
               ))}

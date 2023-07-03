@@ -47,10 +47,10 @@ function Navbar () {
                     </Link>
                 </li>
                 <li>
-                <a href="">
-                    <i class="fa-solid fa-chart-line"></i>
-                    <span>Dashboard </span>
-                </a>
+                    <Link to='/presenca'>
+                        <i class="fa-solid fa-chart-line"></i>
+                        <span>Dashboard </span>
+                    </Link>
                 </li>
                 <li>
                     <a href="">

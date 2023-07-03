@@ -32,8 +32,12 @@ def professor():
         return jsonify(ChamadaRepository.update(id, data))
     
     if request.method == 'DELETE':
-        id = request.args.get('id')
+        id = request.args.get("id")
         return jsonify(ChamadaRepository.delete(id))
+    
+@chamadas.route('/api/chamada/<int:id>', methods=['DELETE'])
+def delete(id):
+    return ChamadaRepository.delete(id)
 
 @chamadas.route("/api/chamada/listAll", methods=['GET'])
 def listarAllChamadas():

@@ -11,8 +11,6 @@ professores = Blueprint("professores", __name__)
 def professor():
    if request.method == 'GET':
        id = request.args.get('id')
-
-
        return jsonify(ProfessorRepository.getProfessorById(id))
 
 

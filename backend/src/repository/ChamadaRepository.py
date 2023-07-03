@@ -3,8 +3,6 @@ from repository.MainRepository import MainRepository
 
 from entity.Chamada import Chamada
 
-
-
 class ChamadaRepository():
     def getChamadaById(id):
         return {
@@ -20,29 +18,41 @@ class ChamadaRepository():
         resultado = [{
             'Id': c.id,
             'Ativo': c.ativo,
-            'Projeto': c.projeto.nome,
-            'Professor': c.professor.nome,
-            'turma': c.turma.nome
+            'Projeto': c.projeto_id,
+            'Professor': c.professor_id,
+            'turma': c.turma_id
         } for c in chamadas]
         
         return jsonify(resultado)
     
-    def update(i, data):
+    def update(id, data):
         chamada = Chamada.query.get(id)
         chamada.ativo = data['ativo']
         chamada.projeto_id = data['projeto']
         chamada.professor_id = data['professor']
         chamada.turma_id = data['turma']
+        ativo = data['ativo']
+        updateAtivo(id, ativo)
 
         MainRepository.db.session.merge(chamada)
         MainRepository.db.session.commit()
-        return {"mensagem":"suecesso"}
+        return {"mensagem":"sucesso"}
     
     def delete(id):
         chamada = Chamada.query.get(id)
         chamada.ativo = False
+        print(id)
 
         MainRepository.db.session.merge(chamada)
         MainRepository.db.session.commit()
 
-        return {"mensagem":"sucesso"}
+        return {"mensagem": "Chamada excluída com sucesso"}
+        
+    def updateAtivo(id, ativo):
+        chamada = Chamada.query.get(id)
+        chamada.ativo = ativo
+
+        MainRepository.db.session.merge(chamada)
+        MainRepository.db.session.commit()
+
+        return {"mensagem": "Sucesso"}
