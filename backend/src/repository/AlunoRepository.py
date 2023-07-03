@@ -48,4 +48,15 @@ class AlunoRepository():
         MainRepository.db.session.merge(aluno)
         MainRepository.db.session.commit()
         return {"mensagem":"sucesso"}
+    
+    def findByRA(ra):
+        aluno = Aluno.query.filter(Aluno.ra == ra).first()
+        return {
+            "Id": aluno.id,
+            "Nome": aluno.nome,
+            "RA": aluno.ra,
+            "Ativo": aluno.ativo,
+            "Turma": aluno.turma.nome,
+            "Curso": aluno.curso.value
+        }
         
