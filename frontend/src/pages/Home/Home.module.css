@@ -131,6 +131,43 @@ tr{
     margin: 5px;
 }
 
+.container {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.title {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.label {
+  margin-bottom: 10px;
+}
+
+.input {
+  padding: 8px;
+  margin-bottom: 10px;
+}
+
+.checkbox {
+  margin-right: 5px;
+}
+
+.button {
+  padding: 10px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
 /* Media Cellphone */
 
 @media (min-width:280px) and (max-width:760px) {
