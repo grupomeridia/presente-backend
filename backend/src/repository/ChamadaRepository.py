@@ -3,14 +3,16 @@ from repository.MainRepository import MainRepository
 
 from entity.Chamada import Chamada
 
+
+
 class ChamadaRepository():
     def getChamadaById(id):
         return {
             "Id": Chamada.query.get(id).id,
             "Ativo" : Chamada.query.get(id).ativo,
-            "Projeto" : Chamada.query.get(id).projeto.nome,
-            "Professor" : Chamada.query.get(id).professor.nome,
-            "Turma": Chamada.query.get(id).turma.nome
+            "Projeto" : Chamada.query.get(id).projeto_id,
+            "Professor" : Chamada.query.get(id).professor_id,
+            "Turma": Chamada.query.get(id).turma_id
         }
     
     def listAll():
