@@ -3,6 +3,7 @@ import NavBar from "../../componets/layout/Navbar";
 import Footer from "../../componets/layout/Footer";
 import React, { useState, useEffect } from "react";
 import api from "../../client/api";
+import { Link } from "react-router-dom";
 
 function Home() {
   const [alunos, setAlunos] = useState([]);
@@ -52,7 +53,7 @@ function Home() {
                     <td>{aluno.Curso}</td>
                     <td>{aluno.Turma}</td>
                     <td>
-                      <i class="fa-solid fa-user-pen"></i>
+                      <Link to = '/editar-aluno/' ><i class="fa-solid fa-user-pen"></i></Link>
                       <i class="fa-solid fa-user-xmark"></i>
                     </td>
                   </tr>
