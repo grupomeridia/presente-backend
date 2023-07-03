@@ -5,33 +5,39 @@ from repository.AlunoRepository import AlunoRepository
 
 from entity.Aluno import Aluno
 
+from service.AlunoService import AlunoService
 
 alunos = Blueprint("alunos", __name__)
 
 @alunos.route("/api/aluno", methods=['GET', 'POST', 'PUT', 'DELETE'])
 def aluno():
     if request.method == 'GET':
-        id = request.args.get('id')    
-        return jsonify(AlunoRepository.getAlunoById(id))
-
+        id = request.args.get('id')
+        try:
+            return jsonify(AlunoService.getbyid(id))
+        except AssertionError as error:
+            return str(error)
+        
     if request.method == 'POST':    
         data = request.json
-
+        
         ativo = data['ativo']
         curso = data['curso']
         nome = data['nome']
-        RA = data['ra']
+        ra = data['ra']
         turma = data['turma']
-        
-        MainRepository.db.session.add(Aluno(ativo, nome, RA, turma, curso))
-        MainRepository.db.session.commit()
-        
+
+        try:
+            return AlunoService.register(ativo, nome, ra, turma, curso)
+        except AssertionError as error:
+            return str(error)
 
         return "Aluno Cadastrado!"
 
     if request.method == 'PUT':
         id = request.args.get('id')
         data = request.json    
+      
         return jsonify(AlunoRepository.update(id, data))
     
     if request.method == 'DELETE':
@@ -41,3 +47,8 @@ def aluno():
 @alunos.route("/api/aluno/listAll", methods=['GET'])
 def listAll():
     return AlunoRepository.listAll()
+
+@alunos.route("/api/aluno/findByRa", methods=['GET'])
+def findByRa():
+    ra = request.args.get('ra')
+    return AlunoRepository.findByRA(ra)

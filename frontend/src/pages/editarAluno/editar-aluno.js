@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import styles from "./cadastro-aluno.module.css";
+import styles from "./editar-aluno.module.css";
 import Footer from "../../componets/layout/Footer";
 import Navbar from "../../componets/layout/Navbar";
 import api from "../../client/api";
 
-function CadastroAluno() {
+function EditarAluno() {
   const [ativo, setAtivo] = useState(true);
   const [nome, setNome] = useState("");
   const [ra, setRA] = useState("");
@@ -30,15 +30,16 @@ function CadastroAluno() {
     console.log(alunoData);
 
     api.aluno
-      .create(alunoData)
+      .update(alunoData)
+      
       .then((response) => {
         console.log(response.data);
-        setMessage("Aluno cadastrado com sucesso");
+        setMessage("Aluno editado com sucesso");
         setIsSuccess(true);
       })
       .catch((error) => {
         console.log(error);
-        setMessage("Erro ao cadastrar aluno");
+        setMessage("Erro ao editar aluno");
         setIsSuccess(false);
       });
      
@@ -63,7 +64,7 @@ useEffect(() => {
       <Navbar />
       <section className="grid">
         <div className={styles.login_container}>
-          <h1>Cadastro de Aluno</h1>
+          <h1>Editar Aluno</h1>
           {message && (
             <div className={isSuccess ? "success-message" : "error-message"}>
               {message}
@@ -130,7 +131,7 @@ useEffect(() => {
               </select>
             </div>
             <button className={styles.btn_login} type="submit">
-              Cadastrar
+              Editar
             </button>
           </form>
         </div>
@@ -140,4 +141,4 @@ useEffect(() => {
   );
 }
 
-export default CadastroAluno;
+export default EditarAluno;

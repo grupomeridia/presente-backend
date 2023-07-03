@@ -19,7 +19,7 @@ APP Presente
 O APP Presente é um sistema desenvolvido pelo Grupo Meridia para as universidades com o objetivo de controlar e fazer chamadas para agilizar o trabalho do professor e aluno, evitando perda de tempo e erros humanos. 
 <a name ="contribuidores"></a>
 ## Contribuidores <img src="https://cdn-icons-png.flaticon.com/512/2636/2636184.png " height=28>
-O sistema foi desenvolvido pelo Grupo Meridia, composto pelos seguintes estudantes:
+O sistema foi desenvolvido pelo Grupo Meridia, composto pelos estudantes:
 
 - [Donizeti Dos Santos Junior](https://www.linkedin.com/in/donizetijunioreng)
 

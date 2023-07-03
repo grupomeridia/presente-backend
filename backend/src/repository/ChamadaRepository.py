@@ -3,6 +3,8 @@ from repository.MainRepository import MainRepository
 
 from entity.Chamada import Chamada
 
+
+
 class ChamadaRepository():
     def getChamadaById(id):
         return {
@@ -14,18 +16,18 @@ class ChamadaRepository():
         }
     
     def listAll():
-        chamadas = Chamada.query.all()
+        chamadas = Chamada.query.filter(Chamada.ativo.isnot(False)).all()
         resultado = [{
             'Id': c.id,
             'Ativo': c.ativo,
-            'Projeto': c.projeto_id,
-            'Professor': c.professor_id,
-            'turma': c.turma_id
+            'Projeto': c.projeto.nome,
+            'Professor': c.professor.nome,
+            'turma': c.turma.nome
         } for c in chamadas]
-
+        
         return jsonify(resultado)
     
-    def update(i, data):
+    def update(id, data):
         chamada = Chamada.query.get(id)
         chamada.ativo = data['ativo']
         chamada.projeto_id = data['projeto']

@@ -2,6 +2,7 @@ from repository.MainRepository import MainRepository
 
 from entity.Presenca import Presenca
 
+
 class Chamada(MainRepository.db.Model):
     #__tablename__ = 'chamadas'
     id = MainRepository.db.Column(MainRepository.db.Integer, primary_key=True)
@@ -9,7 +10,9 @@ class Chamada(MainRepository.db.Model):
     projeto_id = MainRepository.db.Column(MainRepository.db.Integer, MainRepository.db.ForeignKey('projeto.id'))
     turma_id = MainRepository.db.Column(MainRepository.db.Integer, MainRepository.db.ForeignKey('turma.id'))
     professor_id = MainRepository.db.Column(MainRepository.db.Integer, MainRepository.db.ForeignKey('professor.id'))
-    presenca = MainRepository.db.relationship('Presenca', backref='chamada')
+    projeto = MainRepository.db.relationship('Projeto')
+    turma = MainRepository.db.relationship('Turma')
+    professor = MainRepository.db.relationship('Professor')
     
 
     def __init__(self, ativo:bool, projeto:int, turma:int, professor:int):
