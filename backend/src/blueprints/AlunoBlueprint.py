@@ -22,8 +22,8 @@ def aluno():
         data = request.json
         
         ativo = data['ativo']
-        curso = data['curso']
         nome = data['nome']
+        curso = data['curso']
         ra = data['ra']
         turma = data['turma']
 
@@ -31,8 +31,6 @@ def aluno():
             return AlunoService.register(ativo, nome, ra, turma, curso)
         except AssertionError as error:
             return str(error)
-
-        return "Aluno Cadastrado!"
 
     if request.method == 'PUT':
         id = request.args.get('id')
