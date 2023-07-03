@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./cadastro-aluno.module.css";
 import Footer from "../../componets/layout/Footer";
 import Navbar from "../../componets/layout/Navbar";
@@ -14,6 +14,7 @@ function CadastroAluno() {
   const [message, setMessage] = useState("");
   const [isSuccess, setIsSuccess] = useState(true);
   const [aluno, setAluno] = useState("");
+  const [turmas, setTurmas] = useState([]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -40,7 +41,23 @@ function CadastroAluno() {
         setMessage("Erro ao cadastrar aluno");
         setIsSuccess(false);
       });
+     
+};
+
+useEffect(() => {
+  const fetchTurmas = async () => {
+    try {
+      const response = await api.turma.listAll();
+      console.log(response.data);
+      setTurmas(response.data);
+    } catch (error) {
+      console.error("Erro ao buscar as turmas", error);
+    }
   };
+
+  fetchTurmas();
+}, []);
+
   return (
     <div>
       <Navbar />
@@ -79,25 +96,38 @@ function CadastroAluno() {
             </div>
             <div className={styles.input_container}>
               <label htmlFor="curso">Curso:</label>
-              <select id="DropCurso" value={curso} onChange={(e) => setCurso(e.target.value)}>
+              <select
+                id="DropCurso"
+                value={curso}
+                onChange={(e) => setCurso(e.target.value)}
+              >
                 <option value="" disabled selected>
                   Selecione um curso
                 </option>
-                <option value="ENGENHARIA_DE_SOFTWARE">Engenharia de Software</option>
-                <option value="ANALISE_E_DESENVOLVIMENTO_DE_SISTEMAS">Análise e Desenvolvimento de Sistemas</option>
+                <option value="ENGENHARIA_DE_SOFTWARE">
+                  Engenharia de Software
+                </option>
+                <option value="ANALISE_E_DESENVOLVIMENTO_DE_SISTEMAS">
+                  Análise e Desenvolvimento de Sistemas
+                </option>
               </select>
             </div>
             <div className={styles.input_container}>
-              <label htmlFor="turma">Turma:</label>
-              <input
-                type="text"
-                name="turma"
-                id="turma"
-                autocomplete="off"
-                placeholder="Turma do Aluno"
+              <label htmlFor="Dropturma">Turma:</label>
+              <select
+                id="Dropturma"
                 value={turma}
                 onChange={(e) => setTurma(e.target.value)}
-              />
+              >
+                <option value="" disabled>
+                  Selecione uma turma
+                </option>
+                {turmas.map((turmas) => (
+                  <option key={turmas.Id} value={turmas.Id}>
+                    {turmas.Nome}
+                  </option>
+                ))}
+              </select>
             </div>
             <button className={styles.btn_login} type="submit">
               Cadastrar

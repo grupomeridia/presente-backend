@@ -9,6 +9,46 @@
     color: #171616;
     background: #f0f1f6;
   }
+
+  .botao{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    width: 20vw;
+    height: 5.5vh;
+    margin-top: 25px;
+
+    background-color: #242e42;
+    border-radius: 15px;
+    border: none;
+
+    font-size: 1.25rem;
+    font-weight: 500;
+    font-weight: 1.5rem;
+    background-color: green;
+  }
+
+  .botao:hover{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    width: 20vw;
+    height: 5.5vh;
+    margin-top: 25px;
+
+    background-color: #242e42;
+    border-radius: 15px;
+    border: none;
+
+    font-size: 1.25rem;
+    font-weight: 500;
+    font-weight: 1.5rem;
+    background-color: rgb(1, 155, 1);
+  }
     
     .search_and_user {
       display: flex;
@@ -45,7 +85,6 @@
       color: #FFF;
       background: #ec1848;
     }
-
     .center{
         display: flex;
         gap: 10px;
@@ -55,6 +94,7 @@
         align-items: center;
       display: flex;
       flex-direction: column;
+      margin-bottom: 8vh;
     }
     
     /* Tira a imagem de Logado no mobile*/
@@ -76,7 +116,7 @@
   
   
   }
-  
+ 
   table{
       width: 100%;
       border-spacing: 0;

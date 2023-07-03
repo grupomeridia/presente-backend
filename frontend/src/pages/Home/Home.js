@@ -17,9 +17,10 @@ function Home() {
         console.error("Erro ao buscar os alunos", error);
       }
     };
-
     fetchAlunos();
   }, []);
+
+
 
   return (
     <div>
@@ -39,6 +40,7 @@ function Home() {
                   <th>Aluno</th>
                   <th>Ra</th>
                   <th>Cursos</th>
+                  <th>Turma</th>
                   <th>Ações</th>
                 </tr>
               </thead>
@@ -48,6 +50,11 @@ function Home() {
                     <td>{aluno.Nome}</td>
                     <td>{aluno.RA}</td>
                     <td>{aluno.Curso}</td>
+                    <td>{aluno.Turma}</td>
+                    <td>
+                      <i class="fa-solid fa-user-pen"></i>
+                      <i class="fa-solid fa-user-xmark"></i>
+                    </td>
                   </tr>
                 ))}
               </tbody>
