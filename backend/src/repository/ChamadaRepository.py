@@ -8,9 +8,9 @@ class ChamadaRepository():
         return {
             "Id": Chamada.query.get(id).id,
             "Ativo" : Chamada.query.get(id).ativo,
-            "Projeto" : Chamada.query.get(id).projeto_id,
-            "Professor" : Chamada.query.get(id).professor_id,
-            "Turma": Chamada.query.get(id).turma_id
+            "Projeto" : Chamada.query.get(id).projeto.nome,
+            "Professor" : Chamada.query.get(id).professor.nome,
+            "Turma": Chamada.query.get(id).turma.nome
         }
     
     def listAll():
@@ -18,9 +18,9 @@ class ChamadaRepository():
         resultado = [{
             'Id': c.id,
             'Ativo': c.ativo,
-            'Projeto': c.projeto_id,
-            'Professor': c.professor_id,
-            'turma': c.turma_id
+            'Projeto': c.projeto.nome,
+            'Professor': c.professor.nome,
+            'turma': c.turma.nome
         } for c in chamadas]
 
         return jsonify(resultado)
