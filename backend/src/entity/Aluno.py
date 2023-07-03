@@ -14,7 +14,6 @@ class Aluno(MainRepository.db.Model):
     turma_id = MainRepository.db.Column(MainRepository.db.Integer, MainRepository.db.ForeignKey('turma.id'))
     turma = MainRepository.db.relationship('Turma')
     curso = MainRepository.db.Column(MainRepository.db.Enum(Curso))
-    presenca = MainRepository.db.relationship('Presenca', backref='aluno')
 
     
 
