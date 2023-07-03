@@ -17,11 +17,11 @@ def professor():
         data = request.json
 
         ativo = data['ativo']
-        projeto = data['projeto']
-        professor = data['professor']
-        turma = data['turma']
+        projeto_id = data['projeto_id']
+        professor_id = data['professor_id']
+        turma_id = data['turma_id']
 
-        MainRepository.db.session.add(Chamada(ativo, projeto, professor, turma))
+        MainRepository.db.session.add(Chamada(ativo, projeto_id, professor_id, turma_id))
         MainRepository.db.session.commit()
 
         return "Chamada Cadastrada!"
