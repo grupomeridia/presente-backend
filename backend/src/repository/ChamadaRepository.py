@@ -24,7 +24,7 @@ class ChamadaRepository():
             'Professor': c.professor.nome,
             'turma': c.turma.nome
         } for c in chamadas]
-
+        
         return jsonify(resultado)
     
     def update(i, data):
