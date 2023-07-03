@@ -26,27 +26,4 @@ class Aluno(MainRepository.db.Model):
         
 
 
-    def verificaRA(self, ra) -> bool:
-        #IMPEDITIVO: Falta criar a classe controller
-        pass
-
-    def verificaPresenca(self, ra) -> bool:
-        #IMPEDITIVO: Falta criar a classe controller
-        pass
-
-    def registrarPresenca(self, ra):
-        if self.verificaRA() and self.verificaPresenca():
-                #IMPEDITIVO: Falta criar a classe controller 
-                #Registrar presenca aqui
-                pass
-        else:
-        
-            raise Exception("Aluno já realizou presença!")
-        
-            
-            
-
-    
-
-
 

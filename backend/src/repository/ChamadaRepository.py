@@ -27,7 +27,7 @@ class ChamadaRepository():
         
         return jsonify(resultado)
     
-    def update(i, data):
+    def update(id, data):
         chamada = Chamada.query.get(id)
         chamada.ativo = data['ativo']
         chamada.projeto_id = data['projeto']
