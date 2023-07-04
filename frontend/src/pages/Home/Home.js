@@ -28,24 +28,23 @@ function Home() {
       projeto,
       chamada,
       professor,
-      tipoPresenca : "NORMAL",
+      tipoPresenca: "NORMAL",
       horario: new Date().toLocaleString(),
     };
-    console.log(presencaData)
+    console.log(presencaData);
 
-      api.presenca
-        .create(presencaData)
-        .then((response) => {
-          console.log(response.data);
-          setMessage(response.data);
-          setIsSuccess(true);
-        })
-        .catch((error) => {
-          console.log(error);
-          setMessage(error);
-          setIsSuccess(false);
-        });
-        
+    api.presenca
+      .create(presencaData)
+      .then((response) => {
+        console.log(response.data);
+        setMessage(response.data);
+        setIsSuccess(true);
+      })
+      .catch((error) => {
+        console.log(error);
+        setMessage(error);
+        setIsSuccess(false);
+      });
   };
 
   useEffect(() => {
@@ -80,7 +79,7 @@ function Home() {
           </div>
         </section> */}
         <section className={styles.grid}>
-          <div className = {styles.form_wrapper}>
+          <div className={styles.form_wrapper}>
             <h1>Marcar Presença</h1>
             <form onSubmit={handleSubmit} className={styles.form}>
               <label htmlFor="alunoRa" className={styles.label}>
@@ -99,10 +98,14 @@ function Home() {
                 Marcar Presença
               </button>
               {message && (
-            <div className={isSuccess ? "success-message" : "error-message"}>
-              {message}
-            </div>
-          )}
+                <div
+                  className={`${
+                    isSuccess ? styles.successContainer : styles.errorContainer
+                  }`}
+                >
+                  {message}
+                </div>
+              )}
             </form>
           </div>
         </section>

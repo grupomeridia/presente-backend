@@ -41,22 +41,21 @@ function CadastroAluno() {
         setMessage(error);
         setIsSuccess(false);
       });
-     
-};
-
-useEffect(() => {
-  const fetchTurmas = async () => {
-    try {
-      const response = await api.turma.listAll();
-      console.log(response.data);
-      setTurmas(response.data);
-    } catch (error) {
-      console.error("Erro ao buscar as turmas", error);
-    }
   };
 
-  fetchTurmas();
-}, []);
+  useEffect(() => {
+    const fetchTurmas = async () => {
+      try {
+        const response = await api.turma.listAll();
+        console.log(response.data);
+        setTurmas(response.data);
+      } catch (error) {
+        console.error("Erro ao buscar as turmas", error);
+      }
+    };
+
+    fetchTurmas();
+  }, []);
 
   return (
     <div>
@@ -65,7 +64,11 @@ useEffect(() => {
         <div className={styles.login_container}>
           <h1>Cadastro de Aluno</h1>
           {message && (
-            <div className={isSuccess ? "success-message" : "error-message"}>
+            <div
+              className={`${
+                isSuccess ? styles.successContainer : styles.errorContainer
+              }`}
+            >
               {message}
             </div>
           )}
