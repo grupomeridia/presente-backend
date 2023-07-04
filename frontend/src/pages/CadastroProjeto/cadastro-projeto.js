@@ -15,7 +15,7 @@ function CadastroProjeto() {
 
     const projetoData = {
       nome,
-      ativo
+      ativo,
     };
     console.log(projetoData);
 
@@ -39,7 +39,11 @@ function CadastroProjeto() {
         <div className={styles.login_container}>
           <h1>Cadastro de Projeto</h1>
           {message && (
-            <div className={isSuccess ? "success-message" : "error-message"}>
+            <div
+              className={`${
+                isSuccess ? styles.successContainer : styles.errorContainer
+              }`}
+            >
               {message}
             </div>
           )}
@@ -56,7 +60,7 @@ function CadastroProjeto() {
                 onChange={(e) => setNome(e.target.value)}
               />
             </div>
-            
+
             <button className={styles.btn_login} type="submit">
               Cadastrar
             </button>

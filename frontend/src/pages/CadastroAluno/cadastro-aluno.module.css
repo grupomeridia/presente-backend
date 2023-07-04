@@ -73,6 +73,25 @@
 
 
 
+.successContainer {
+    margin-top: 10px;
+    background-color: #293957;
+    color: white;
+    padding: 10px;
+    border-radius: 10px;
+  }
+  
+  
+  .errorContainer {
+    margin-top: 10px;
+    background-color: #293957;
+    color: white;
+    padding: 10px;
+    border-radius: 10px;
+  }
+
+
+
 .login_container form .btn_login {
     display: flex;
     flex-direction: row;
