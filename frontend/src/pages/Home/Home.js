@@ -26,75 +26,79 @@ function Home() {
       projeto,
       chamada,
       professor,
-      tipoPresenca,
-      horario,
+      tipoPresenca : "NORMAL",
+      horario: new Date().toLocaleString(),
     };
+    console.log(presencaData)
 
     try {
-      const response = await api.post("/presenca", presencaData);
-      console.log(response.data);
-      // Tratar a resposta ou redirecionar para outra página
+      api.presenca
+        .create(presencaData)
+        .then((response) => {
+          console.log(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     } catch (error) {
       console.error("Erro ao marcar presença", error);
     }
   };
 
   useEffect(() => {
-    const fetchAlunos = async () => {
+    const fetchChamada = async () => {
       try {
-        const response = await api.aluno.listAll();
+        const response = await api.chamada.listAll();
         console.log(response.data);
-        setAlunos(response.data);
+        if (response.data.length > 0) {
+          const [primeiraChamada] = response.data;
+          setTurma(primeiraChamada.turma);
+          setProjeto(primeiraChamada.Projeto);
+          setChamada(primeiraChamada.Id);
+          setProfessor(primeiraChamada.Professor);
+          setTipoPresenca(primeiraChamada.tipoPresenca);
+          setHorario(primeiraChamada.horario);
+        }
       } catch (error) {
-        console.error("Erro ao buscar os alunos", error);
+        console.log(error);
       }
     };
-    fetchAlunos();
+    fetchChamada();
   }, []);
 
   return (
     <div>
       <NavBar />
-      <body onLoad="tabela(lista)">
-        <section className={styles.page_content}>
-          <section className={styles.search_and_user}>
-            <div className={styles.admin_profile}>
-              <span className={styles.greeting}>Hello admin</span>
-              <i className="fa-solid fa-circle-user"></i>
-            </div>
-          </section>
-          <section className={styles.grid}>
-            <div>
-              <h1>Marcar Presença</h1>
-              <form onSubmit={handleSubmit} className={styles.form}>
-                <label htmlFor="alunoRa" className={styles.label}>
-                  RA do Aluno:
-                </label>
-                <input
-                  type="text"
-                  name="alunoRa"
-                  id="alunoRa"
-                  value={alunoRa}
-                  onChange={(e) => setAlunoRa(e.target.value)}
-                  className={styles.input}
-                />
-                <br />
-                <button type="submit" className={styles.button}>
-                  Marcar Presença
-                </button>
-              </form>
-            </div>
-          </section>
+      <section className={styles.page_content}>
+        <section className={styles.search_and_user}>
+          <div className={styles.admin_profile}>
+            <span className={styles.greeting}>Hello admin</span>
+            <i className="fa-solid fa-circle-user"></i>
+          </div>
         </section>
-        <script
-          src="https://kit.fontawesome.com/a146d88807.js"
-          crossOrigin="anonymous"
-        ></script>
-        <script src="//code.jquery.com/jquery-3.3.1.js"></script>
-        <script src="//cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
-        <script src="{{ url_for('static', filename='js/home-table.js') }}"></script>
-        <script src="{{ url_for('static', filename='js/toggle-menu.js') }}"></script>
-      </body>
+        <section className={styles.grid}>
+          <div>
+            <h1>Marcar Presença</h1>
+            <form onSubmit={handleSubmit} className={styles.form}>
+              <label htmlFor="alunoRa" className={styles.label}>
+                RA do Aluno:
+              </label>
+              <input
+                type="text"
+                name="alunoRa"
+                id="alunoRa"
+                value={alunoRa}
+                onChange={(e) => setAlunoRa(e.target.value)}
+                className={styles.input}
+              />
+              <br />
+              <button type="submit" className={styles.button}>
+                Marcar Presença
+              </button>
+            </form>
+          </div>
+        </section>
+      </section>
       <Footer />
     </div>
   );

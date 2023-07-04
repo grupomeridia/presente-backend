@@ -7,6 +7,7 @@ import Options from './pages/Options/Options';
 import CadastroProjeto from './pages/CadastroProjeto/cadastro-projeto';
 import CadastroProfessor from './pages/CadastroProfessor/cadastro-professor';
 import EditarAluno from './pages/editarAluno/editar-aluno';
+import Presenca from './pages/Presenca/Presenca';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path='/cadastrar-projeto' element = {<CadastroProjeto/>} />
         <Route path='/cadastrar-professor' element = {<CadastroProfessor/>} />
         <Route path='/editar-aluno' element = {<EditarAluno/>} />
+        <Route path='/presenca' element = {<Presenca/>} />
       </Routes>
     </Router>
   );
