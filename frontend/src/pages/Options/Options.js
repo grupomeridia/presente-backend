@@ -172,7 +172,7 @@ function Options() {
         <form onSubmit={handleSubmit}>
           <section className={styles.grid}>
             <div className={styles.center}>
-              <div className={styles.dropdownContainer}>
+              <div className={`${styles.dropdownContainer} ${styles.center}`}>
                 <label htmlFor="projeto">Projetos:</label>
                 <select
                   id="projeto"
@@ -187,9 +187,9 @@ function Options() {
                   ))}
                 </select>
               </div>
-              <div className={styles.dropdownContainer}>
+              <div>
                 <label htmlFor="professor">Professores:</label>
-                <select
+                <select 
                   id="professor"
                   value={professor}
                   onChange={handleProfessorChange}
