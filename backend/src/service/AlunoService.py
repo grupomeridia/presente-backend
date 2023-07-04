@@ -18,9 +18,9 @@ class AlunoService():
         
         assert ativo != None and ativo == True, "Propriedade ativo deve ser True ou False"
         assert len(nome) > 3 and type(nome) == str, "Nome inválido"
-        assert ra > 500000 and ra < 999999, "RA fornecido é inválido"
+        assert int(ra) > 500000 and int(ra) < 999999, "RA fornecido é inválido"
         assert curso != None and len(curso) > 10, "Curso inválido"
-        assert turma_id != None and turma_id > 0, "Turma inválida"
+        assert int(turma_id) != None and int(turma_id) > 0, "Turma inválida"
         assert Aluno.query.filter(Aluno.ra == ra).first() is None, "RA já registrado"
 
         return AlunoRepository.registerAluno(Aluno(ativo, nome, ra, turma_id, curso))

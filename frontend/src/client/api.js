@@ -17,14 +17,15 @@ const api = {
         listAll: () => httpClient.get('/api/chamada/listAll'),
         create: (chamadaData) => httpClient.post('/api/chamada',chamadaData),
         update: (id, chamaData) =>httpClient.put('/api/chamada',id,chamaData),
-        delete: (id) => httpClient.delete('/api/chamada',id),
+        delete: (id) => httpClient.delete(`/api/chamada?id=${id}`,id),
+
      },
      configuracao:{
         findById: (id) => httpClient.get('api/configuracao',id),
         listAll: () => httpClient.get('api/configuracao/listAll'),
         create: (configuracaoData) => httpClient.post('/api/configuracao', configuracaoData),
         update: (id, configuracaoData) => httpClient.put('/api/configuracao/',id,configuracaoData),
-        delete: (id) => httpClient.delete('/api/configuracao/', id ),
+        delete: (id) => httpClient.delete('/api/configuracao/',id ),
      },
      presenca:{
         findById: (id) => httpClient.get('api/presenca',id),
@@ -32,6 +33,7 @@ const api = {
         create: (presencaData) => httpClient.post('/api/presenca',presencaData),
         update: (id, presencaData) => httpClient.put('/api/presenca',id,presencaData),
         delete: (id) => httpClient.delete('/api/presenca',id),
+        findByPresentes: () => httpClient.get('api/presenca/findByPresentes'),
      },
      professor:{
         findById: (id) => httpClient.get('api/professor',id),

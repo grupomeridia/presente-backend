@@ -5,13 +5,18 @@ from repository.PresencaRepository import PresencaRepository
 
 from entity.Presenca import Presenca
 
+from service.PresencaService import PresencaService
+
 presencas = Blueprint("presencas", __name__)
 
 @presencas.route("/api/presenca", methods=['GET', 'POST', 'PUT', 'DELETE'])
 def presencasMain():
     if request.method == 'GET':
         id = request.args.get('id')
-        return jsonify(PresencaRepository.getPresencaById(id))
+        try:
+            return jsonify(PresencaService.getById(id))
+        except AssertionError as error:
+            return str(error)
     
     if request.method == 'POST':
         data = request.json
@@ -25,10 +30,10 @@ def presencasMain():
         tipo_presenca = data['tipoPresenca']
         horario = data['horario']
 
-        MainRepository.db.session.add(Presenca(ativo, aluno_ra, turma, projeto, chamada, professor, tipo_presenca, horario))
-        MainRepository.db.session.commit()
-
-        return "Presenca Cadastrada!"    
+        try:
+            return PresencaService.register(ativo, aluno_ra, turma, projeto, chamada, professor, tipo_presenca, horario)
+        except AssertionError as error:
+            return str(error)
     
     if request.method == 'PUT':
         id = request.args.get('id')

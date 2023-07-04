@@ -20,11 +20,11 @@ class ChamadaRepository():
         resultado = [{
             'Id': c.id,
             'Ativo': c.ativo,
-            'Projeto': c.projeto.nome,
-            'Professor': c.professor.nome,
-            'turma': c.turma.nome
+            'Projeto': c.projeto_id,
+            'Professor': c.professor_id,
+            'turma': c.turma_id
         } for c in chamadas]
-        
+
         return jsonify(resultado)
     
     def update(id, data):
@@ -36,13 +36,21 @@ class ChamadaRepository():
 
         MainRepository.db.session.merge(chamada)
         MainRepository.db.session.commit()
-        return {"mensagem":"suecesso"}
+        return {"mensagem":"sucesso"}
     
     def delete(id):
         chamada = Chamada.query.get(id)
-        chamada.ativo = False
+        if chamada:
+            chamada.ativo = False
+            MainRepository.db.session.merge(chamada)
+            MainRepository.db.session.commit()
+            return {"mensagem": "sucesso"}
+        else:
+            return {"mensagem": "Chamada não encontrada"}
+    
+    def registerChamada(Chamada):
 
-        MainRepository.db.session.merge(chamada)
+        MainRepository.db.session.add(Chamada)
         MainRepository.db.session.commit()
 
-        return {"mensagem":"sucesso"}
+        return "Chamada registrada"

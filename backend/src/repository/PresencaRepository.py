@@ -2,6 +2,7 @@ from flask import jsonify
 from repository.MainRepository import MainRepository
 
 from entity.Presenca import Presenca
+from entity.Aluno import Aluno
 
 class PresencaRepository():
     def getPresencaById(id):
@@ -34,13 +35,15 @@ class PresencaRepository():
     
     def findByPresentes():
         presencas = Presenca.query.filter(Presenca.horario.isnot(None)).all()
+
         resultado = [{
             "Id": p.id,
             "Aluno_ra": p.aluno_ra,
-            "Turma": p.turma_id,
-            "Projeto": p.projeto_id,
+            "Aluno_nome": p.aluno.nome,
+            "Turma": p.turma.nome,
+            "Projeto": p.projeto.nome,
             "Chamada": p.chamada_id,
-            "Professor": p.professor_id,
+            "Professor": p.professor.nome,
             "Tipo_presenca": p.tipo_presenca.value,
             "Horario": p.horario
         } for p in presencas]
@@ -69,3 +72,10 @@ class PresencaRepository():
         MainRepository.db.session.commit()
 
         return {"mensagem":"sucesso"}
+    
+    def registerPresenca(Presenca):
+
+        MainRepository.db.session.add(Presenca)
+        MainRepository.db.session.commit()
+
+        return "Presença realizada!"

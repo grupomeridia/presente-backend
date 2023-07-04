@@ -5,13 +5,18 @@ from repository.ChamadaRepository import ChamadaRepository
 
 from entity.Chamada import Chamada
 
+from service.ChamadaService import ChamadaService
+
 chamadas = Blueprint("chamadas", __name__)
 
 @chamadas.route("/api/chamada", methods=['GET', 'POST', 'PUT', 'DELETE'])
 def professor():
     if request.method == 'GET':
         id = request.args.get('id')
-        return jsonify(ChamadaRepository.getChamadaById(id))
+        try:
+            return jsonify(ChamadaService.getById(id))
+        except AssertionError as error:
+            return str(error)
     
     if request.method == 'POST':
         data = request.json
@@ -21,10 +26,10 @@ def professor():
         professor_id = data['professor_id']
         turma_id = data['turma_id']
 
-        MainRepository.db.session.add(Chamada(ativo, projeto_id, professor_id, turma_id))
-        MainRepository.db.session.commit()
-
-        return "Chamada Cadastrada!"
+        try:
+            return ChamadaService.register(ativo, projeto_id, professor_id, turma_id)
+        except AssertionError as error:
+            return str(error)
 
     if request.method == 'PUT':
         id = request.args.get('id')
