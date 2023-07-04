@@ -111,6 +111,7 @@ function Options() {
       }
     };
 
+
     fetchProjetos();
   }, []);
 
@@ -123,11 +124,33 @@ function Options() {
       } catch (error) {
         console.error("Erro ao buscar as turmas", error);
       }
+
     };
 
     fetchTurmas();
   }, []);
 
+
+
+  const fecharChamada = async (chamadaId) => {
+    try {
+      const response = await api.chamada.delete(chamadaId);
+      console.log(response.data);
+      console.log(response.data.Id);
+      console.log(chamadaId)
+      console.log("Chamada deletada com sucesso");
+      setChamadas((prevState) =>
+        prevState.filter((chamada) => chamada.Id !== chamadaId)
+
+      )
+    }
+
+    //.then((response) => {        
+    catch (error) {
+      console.log(chamadaId)
+      console.log("Erro ao deletar a chamada", error);
+    };
+  };
   const toggleActiveState = (chamadaId) => {
     setChamadas((prevState) =>
       prevState.map((chamada) =>
@@ -213,24 +236,24 @@ function Options() {
             </thead>
             <tbody>
               {chamadas.map((chamada) => (
-                <tr key={chamada.Id}>
+                <tr >
                   <td>{getNomeProjeto(chamada.projeto_id)}</td>
                   <td>{getNomeProfessor(chamada.professor_id)}</td>
                   <td>{getNomeTurma(chamada.turma_id)}</td>
                   <td>{chamada.Ativo ? "Ativada" : "Desativada"}</td>
                   <td>
                     <i
-                      className={`fa-solid fa-user-pen ${
-                        chamada.Ativo ? styles.active : ""
-                      }`}
-                      onClick={() => toggleActiveState(chamada.Id)}
+                      className={`fa-solid fa-user-xmark ${chamada.Ativo ? styles.active : ""
+                        }`}
+                        onClick={() => fecharChamada(chamada.Id)}
                     ></i>
-                    <i className="fa-solid fa-user-xmark"></i>
+                    <i className="fa-solid fa-user-pen"></i>
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
+
         </section>
       </section>
       <script
