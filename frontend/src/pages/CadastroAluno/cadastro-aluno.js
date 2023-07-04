@@ -33,12 +33,12 @@ function CadastroAluno() {
       .create(alunoData)
       .then((response) => {
         console.log(response.data);
-        setMessage("Aluno cadastrado com sucesso");
+        setMessage(response.data);
         setIsSuccess(true);
       })
       .catch((error) => {
         console.log(error);
-        setMessage("Erro ao cadastrar aluno");
+        setMessage(error);
         setIsSuccess(false);
       });
      

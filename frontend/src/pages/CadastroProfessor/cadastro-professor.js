@@ -23,12 +23,12 @@ function CadastroProfessor() {
       .create(professorData)
       .then((response) => {
         console.log(response.data);
-        setMessage("Professor cadastrada com sucesso");
+        setMessage(response.data);
         setIsSuccess(true);
       })
       .catch((error) => {
         console.log(error);
-        setMessage("Erro ao cadastrar a Professor");
+        setMessage(error);
         setIsSuccess(false);
       });
   };
