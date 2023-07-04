@@ -16,7 +16,7 @@ const api = {
         findById: (id) => httpClient.get('api/chamada',id),
         listAll: () => httpClient.get('/api/chamada/listAll'),
         create: (chamadaData) => httpClient.post('/api/chamada',chamadaData),
-        update: (id, chamaData) =>httpClient.put('/api/chamada',id,chamaData),
+        update: (id, chamadaData) => httpClient.put(`/api/chamada/${id}`, chamadaData),
         delete: (id) => httpClient.delete('/api/chamada',id),
      },
      configuracao:{
@@ -32,6 +32,7 @@ const api = {
         create: (presencaData) => httpClient.post('/api/presenca',presencaData),
         update: (id, presencaData) => httpClient.put('/api/presenca',id,presencaData),
         delete: (id) => httpClient.delete('/api/presenca',id),
+        findByPresentes: () => httpClient.get('api/presenca/findByPresentes'),
      },
      professor:{
         findById: (id) => httpClient.get('api/professor',id),
