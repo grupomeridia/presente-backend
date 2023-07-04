@@ -10,7 +10,7 @@ class AlunoService():
             raise AssertionError("Deve ser um número inteiro")
 
         assert int(id) > 0, "ID inválido."
-        assert AlunoRepository.getAlunoById(id) != None, "Nenhum aluno com este ID foi encontrado."
+        assert Aluno.query.get(id) != None, "Nenhum aluno com este ID foi encontrado."
         
         return AlunoRepository.getAlunoById(id)
     
