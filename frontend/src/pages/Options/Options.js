@@ -181,7 +181,7 @@ function Options() {
                 >
                   <option value="">Selecione um projeto</option>
                   {projetos.map((projeto) => (
-                    <option key={projeto.id} value={projeto.id}>
+                    <option key={projeto.id} value={projeto.Id}>
                       {projeto.Nome}
                     </option>
                   ))}
@@ -196,7 +196,7 @@ function Options() {
                 >
                   <option value="">Selecione um professor</option>
                   {professores.map((professor) => (
-                    <option key={professor.id} value={professor.id}>
+                    <option key={professor.id} value={professor.Id}>
                       {professor.Nome}
                     </option>
                   ))}
@@ -211,7 +211,7 @@ function Options() {
                 >
                   <option value="">Selecione uma turma</option>
                   {turmas.map((turma) => (
-                    <option key={turma.id} value={turma.id}>
+                    <option key={turma.id} value={turma.Id}>
                       {turma.Nome}
                     </option>
                   ))}
