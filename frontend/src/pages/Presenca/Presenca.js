@@ -58,7 +58,7 @@ function Presenca() {
                 <tr key={presenca.Id}>
                   <td>{presenca.Aluno_nome}</td>
                   <td>{presenca.Aluno_ra}</td>
-                  <td>{presenca.Horario}</td>
+                  <td>{new Date(presenca.Horario).toLocaleTimeString()}</td>
                   <td>{presenca.Chamada}</td>
                 </tr>
               ))}

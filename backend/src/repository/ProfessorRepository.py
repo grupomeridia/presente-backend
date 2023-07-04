@@ -29,7 +29,7 @@ class ProfessorRepository():
 
         MainRepository.db.session.merge(professor)
         MainRepository.db.session.commit()
-        return {"mensagem":"sucesso"}
+        return f"Professor ID {id} atualizado"
   
     def delete(id):
         professor = Professor.query.get(id)
@@ -39,4 +39,11 @@ class ProfessorRepository():
         MainRepository.db.session.commit()
 
 
-        return {"mensagem":"sucesso"}
+        return f"Professor ID {id} deletado com sucesso"
+    
+    def register(professor):
+
+        MainRepository.db.session.add(professor)
+        MainRepository.db.session.commit()
+        
+        return f"Professor cadastrado com o id {professor.id}"

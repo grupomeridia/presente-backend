@@ -45,6 +45,10 @@
     line-height: 1.1rem;
 }
 
+.login_container placeholder{
+    width: 10vw;
+}
+
 .login_container form .input_container input {
     display: flex;
     flex-direction: row;
@@ -52,6 +56,16 @@
     padding: 1.5vh ;
     width: 25vw;
     height: 4.5vh;
+    border: 1px solid #242e42;
+    border-radius: 15px;
+    margin-bottom: 2vh;
+}
+
+.login_container form select {
+    
+    padding: 0.8vh ;
+    width: 25vw;
+    height: 5.5vh;
     border: 1px solid #242e42;
     border-radius: 15px;
     margin-bottom: 2vh;

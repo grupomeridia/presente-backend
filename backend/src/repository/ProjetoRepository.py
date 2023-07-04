@@ -38,3 +38,10 @@ class ProjetoRepository():
         MainRepository.db.session.commit()
 
         return {"mensagem":"sucesso"}
+    
+    def register(projeto):
+
+        MainRepository.db.session.add(projeto)
+        MainRepository.db.session.commit()
+
+        return f"Projeto cadastrado com o ID {projeto.id}"
