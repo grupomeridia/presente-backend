@@ -10,6 +10,12 @@
     background: #f0f1f6;
   }
 
+
+  i{
+    cursor: pointer;
+    margin-right: 15px;
+  }
+
   .botao{
     display: flex;
     flex-direction: row;

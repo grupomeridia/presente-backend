@@ -112,6 +112,7 @@ function Options() {
       }
     };
 
+
     fetchProjetos();
   }, []);
 
@@ -124,23 +125,38 @@ function Options() {
       } catch (error) {
         console.error("Erro ao buscar as turmas", error);
       }
+
     };
 
     fetchTurmas();
   }, []);
 
-  const toggleActiveState = async (chamadaId) => {
+  const fecharChamada = async (chamadaId) => {
     try {
-      await api.chamada.update(chamadaId, { ativo: false });
+      const response = await api.chamada.delete(chamadaId);
+      console.log(response.data);
+      console.log(response.data.Id);
+      console.log(chamadaId)
+      console.log("Chamada deletada com sucesso");
       setChamadas((prevState) =>
-        prevState.map((chamada) =>
-          chamada.id === chamadaId ? { ...chamada, Ativo: false } : chamada
-        )
-      );
-      console.log(`Chamada com ID ${chamadaId} desativada com sucesso`);
-    } catch (error) {
-      console.error("Erro ao desativar chamada", error);
+        prevState.filter((chamada) => chamada.Id !== chamadaId)
+
+      )
     }
+
+    //.then((response) => {        
+    catch (error) {
+      console.log(chamadaId)
+      console.log("Erro ao deletar a chamada", error);
+    };
+  };
+  const toggleActiveState = (chamadaId) => {
+    setChamadas((prevState) =>
+      prevState.map((chamada) =>
+        chamada.Id === chamadaId ? { ...chamada, Ativo: !chamada.Ativo } : chamada
+      )
+    );
+
   };
 
   return (
@@ -220,29 +236,26 @@ function Options() {
             </thead>
             <tbody>
               {chamadas.map((chamada) => (
-                <tr key={chamada.id}>
+
+                <tr >
+
                   <td>{getNomeProjeto(chamada.projeto_id)}</td>
                   <td>{getNomeProfessor(chamada.professor_id)}</td>
                   <td>{getNomeTurma(chamada.turma_id)}</td>
                   <td>{chamada.Ativo ? "Sim" : "Não"}</td>
                   <td>
-                    <button
-                      className={styles.botao_excluir}
-                      onClick={() => handleDeleteChamada(chamada.id)}
-                    >
-                      Excluir
-                    </button>
-                    <button
-                      className={styles.botao_toggle}
-                      onClick={() => toggleActiveState(chamada.id)}
-                    >
-                      {chamada.Ativo ? "Desativar" : "Ativar"}
-                    </button>
+                    <i
+                      className={`fa-solid fa-user-xmark ${chamada.Ativo ? styles.active : ""
+                        }`}
+                        onClick={() => fecharChamada(chamada.Id)}
+                    ></i>
+                    <i className="fa-solid fa-user-pen"></i>
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
+
         </section>
       </section>
       <Footer />

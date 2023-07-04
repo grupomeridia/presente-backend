@@ -16,8 +16,9 @@ const api = {
         findById: (id) => httpClient.get('api/chamada',id),
         listAll: () => httpClient.get('/api/chamada/listAll'),
         create: (chamadaData) => httpClient.post('/api/chamada',chamadaData),
-        update: (id, chamadaData) => httpClient.put(`/api/chamada/${id}`, chamadaData),
-        delete: (id) => httpClient.delete('/api/chamada',id),
+        update: (id, chamaData) =>httpClient.put('/api/chamada',id,chamaData),
+        delete: (id) => httpClient.delete(`/api/chamada?id=${id}`,id),
+
      },
      configuracao:{
         findById: (id) => httpClient.get('api/configuracao',id),
