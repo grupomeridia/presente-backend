@@ -24,7 +24,7 @@ const api = {
         listAll: () => httpClient.get('api/configuracao/listAll'),
         create: (configuracaoData) => httpClient.post('/api/configuracao', configuracaoData),
         update: (id, configuracaoData) => httpClient.put('/api/configuracao/',id,configuracaoData),
-        delete: (id) => httpClient.delete('/api/configuracao/', id ),
+        delete: (id) => httpClient.delete('/api/configuracao/',id ),
      },
      presenca:{
         findById: (id) => httpClient.get('api/presenca',id),
