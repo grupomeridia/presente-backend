@@ -15,6 +15,8 @@ function Home() {
   const [professor, setProfessor] = useState("");
   const [tipoPresenca, setTipoPresenca] = useState("");
   const [horario, setHorario] = useState("");
+  const [message, setMessage] = useState("");
+  const [isSuccess, setIsSuccess] = useState(true);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -31,18 +33,19 @@ function Home() {
     };
     console.log(presencaData)
 
-    try {
       api.presenca
         .create(presencaData)
         .then((response) => {
           console.log(response.data);
+          setMessage(response.data);
+          setIsSuccess(true);
         })
         .catch((error) => {
           console.log(error);
+          setMessage(error);
+          setIsSuccess(false);
         });
-    } catch (error) {
-      console.error("Erro ao marcar presença", error);
-    }
+        
   };
 
   useEffect(() => {
@@ -95,6 +98,11 @@ function Home() {
               <button type="submit" className={styles.button}>
                 Marcar Presença
               </button>
+              {message && (
+            <div className={isSuccess ? "success-message" : "error-message"}>
+              {message}
+            </div>
+          )}
             </form>
           </div>
         </section>

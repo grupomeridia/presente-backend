@@ -34,12 +34,12 @@ function EditarAluno() {
       
       .then((response) => {
         console.log(response.data);
-        setMessage("Aluno editado com sucesso");
+        setMessage(response.data);
         setIsSuccess(true);
       })
       .catch((error) => {
         console.log(error);
-        setMessage("Erro ao editar aluno");
+        setMessage(error);
         setIsSuccess(false);
       });
      

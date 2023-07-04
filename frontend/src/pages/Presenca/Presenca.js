@@ -14,6 +14,8 @@ function Presenca() {
   const [chamadas, setChamadas] = useState([]);
   const [isActive, setIsActive] = useState(true);
   const [presencas, setPresencas] = useState([]);
+  const [message, setMessage] = useState("");
+  const [isSuccess, setIsSuccess] = useState(true);
 
   useEffect(() => {
     const fetchPresencas = async () => {
@@ -48,6 +50,7 @@ function Presenca() {
                 <th>Nome</th>
                 <th>Ra</th>
                 <th>Horario</th>
+                <th>N° da Chamada</th>
               </tr>
             </thead>
             <tbody>
@@ -56,6 +59,7 @@ function Presenca() {
                   <td>{presenca.Aluno_nome}</td>
                   <td>{presenca.Aluno_ra}</td>
                   <td>{presenca.Horario}</td>
+                  <td>{presenca.Chamada}</td>
                 </tr>
               ))}
             </tbody>
