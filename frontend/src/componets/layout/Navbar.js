@@ -54,13 +54,13 @@ function Navbar() {
               <i class="fa-solid fa-chart-line"></i>
               <span>Marca Presença </span>
             </a>
-          </li>
-          {/* <li>
+          {/* </li>
+             <li>
             <a href="">
               <i class="fa-regular fa-folder-open"></i>
               <span>Histórico</span>
             </a>
-          </li> */}
+          </li> */} 
           <li class={styles.menu_heading}>
             <h3>Settings</h3>
           </li>
@@ -69,8 +69,8 @@ function Navbar() {
               <i class="fa-solid fa-sliders"></i>
               <span>Settings</span>
             </a>
-          </li> */}
-          <li>
+          </li>
+          <li> */}
             <Link to="/options">
               <i class="fa-solid fa-gear"></i>
               <span>Options</span>
