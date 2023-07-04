@@ -35,11 +35,12 @@ function CadastroTurma() {
         setMessage(error);
         setIsSuccess(false);
       });
+      
   };
   return (
     <div>
       <Navbar />
-      <section className="grid">
+      <section className={styles.grid}>
         <div className={styles.login_container}>
           <h1>Cadastro de Turma</h1>
           {message && (
