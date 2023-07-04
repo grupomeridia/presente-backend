@@ -14,17 +14,6 @@ function Options() {
   const [chamadas, setChamadas] = useState([]);
   const [isActive, setIsActive] = useState(true);
 
-  const getAllIds = () => {
-    const projetoIds = projetos.map((projeto) => projeto.Id);
-    const professorIds = professores.map((professor) => professor.Id);
-    const turmaIds = turmas.map((turma) => turma.Id);
-
-    const allIds = [...projetoIds, ...professorIds, ...turmaIds];
-    return allIds;
-  };
-
-  const allIds = getAllIds();
-
   const getNomeProjeto = (projetoId) => {
     const projeto = projetos.find((p) => p.id === projetoId);
     return projeto ? projeto.Nome : "";
@@ -72,17 +61,29 @@ function Options() {
     setTurmaSelecionada(event.target.value);
   };
 
-  useEffect(() => {
-    const fetchChamadas = async () => {
-      try {
-        const response = await api.chamada.listAll();
-        console.log(response.data);
-        setChamadas(response.data);
-      } catch (error) {
-        console.error("Erro ao buscar as chamadas", error);
-      }
-    };
+  const fetchChamadas = async () => {
+    try {
+      const response = await api.chamada.listAll();
+      console.log(response.data);
+      setChamadas(response.data);
+    } catch (error) {
+      console.error("Erro ao buscar as chamadas", error);
+    }
+  };
 
+  const handleDeleteChamada = async (id) => {
+    try {
+      await api.chamada.delete(id);
+      setChamadas((prevState) =>
+        prevState.filter((chamada) => chamada.id !== id)
+      );
+      console.log(`Chamada com ID ${id} excluída com sucesso`);
+    } catch (error) {
+      console.error("Erro ao excluir chamada", error);
+    }
+  };
+
+  useEffect(() => {
     fetchChamadas();
   }, []);
 
@@ -111,6 +112,7 @@ function Options() {
       }
     };
 
+
     fetchProjetos();
   }, []);
 
@@ -123,17 +125,38 @@ function Options() {
       } catch (error) {
         console.error("Erro ao buscar as turmas", error);
       }
+
     };
 
     fetchTurmas();
   }, []);
 
+  const fecharChamada = async (chamadaId) => {
+    try {
+      const response = await api.chamada.delete(chamadaId);
+      console.log(response.data);
+      console.log(response.data.Id);
+      console.log(chamadaId)
+      console.log("Chamada deletada com sucesso");
+      setChamadas((prevState) =>
+        prevState.filter((chamada) => chamada.Id !== chamadaId)
+
+      )
+    }
+
+    //.then((response) => {        
+    catch (error) {
+      console.log(chamadaId)
+      console.log("Erro ao deletar a chamada", error);
+    };
+  };
   const toggleActiveState = (chamadaId) => {
     setChamadas((prevState) =>
       prevState.map((chamada) =>
         chamada.Id === chamadaId ? { ...chamada, Ativo: !chamada.Ativo } : chamada
       )
     );
+
   };
 
   return (
@@ -158,7 +181,7 @@ function Options() {
                 >
                   <option value="">Selecione um projeto</option>
                   {projetos.map((projeto) => (
-                    <option key={projeto.id} value={projeto.Id}>
+                    <option key={projeto.id} value={projeto.id}>
                       {projeto.Nome}
                     </option>
                   ))}
@@ -173,7 +196,7 @@ function Options() {
                 >
                   <option value="">Selecione um professor</option>
                   {professores.map((professor) => (
-                    <option key={professor.id} value={professor.Id}>
+                    <option key={professor.id} value={professor.id}>
                       {professor.Nome}
                     </option>
                   ))}
@@ -188,7 +211,7 @@ function Options() {
                 >
                   <option value="">Selecione uma turma</option>
                   {turmas.map((turma) => (
-                    <option key={turma.id} value={turma.Id}>
+                    <option key={turma.id} value={turma.id}>
                       {turma.Nome}
                     </option>
                   ))}
@@ -213,34 +236,28 @@ function Options() {
             </thead>
             <tbody>
               {chamadas.map((chamada) => (
-                <tr key={chamada.Id}>
+
+                <tr >
+
                   <td>{getNomeProjeto(chamada.projeto_id)}</td>
                   <td>{getNomeProfessor(chamada.professor_id)}</td>
                   <td>{getNomeTurma(chamada.turma_id)}</td>
-                  <td>{chamada.Ativo ? "Ativada" : "Desativada"}</td>
+                  <td>{chamada.Ativo ? "Sim" : "Não"}</td>
                   <td>
                     <i
-                      className={`fa-solid fa-user-pen ${
-                        chamada.Ativo ? styles.active : ""
-                      }`}
-                      onClick={() => toggleActiveState(chamada.Id)}
+                      className={`fa-solid fa-user-xmark ${chamada.Ativo ? styles.active : ""
+                        }`}
+                        onClick={() => fecharChamada(chamada.Id)}
                     ></i>
-                    <i className="fa-solid fa-user-xmark"></i>
+                    <i className="fa-solid fa-user-pen"></i>
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
+
         </section>
       </section>
-      <script
-        src="https://kit.fontawesome.com/a146d88807.js"
-        crossOrigin="anonymous"
-      ></script>
-      <script src="//code.jquery.com/jquery-3.3.1.js"></script>
-      <script src="//cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
-      <script src="{{ url_for('static', filename='js/home-table.js') }}"></script>
-      <script src="{{ url_for('static', filename='js/toggle-menu.js') }}"></script>
       <Footer />
     </div>
   );

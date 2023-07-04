@@ -36,16 +36,17 @@ class ChamadaRepository():
 
         MainRepository.db.session.merge(chamada)
         MainRepository.db.session.commit()
-        return {"mensagem":"suecesso"}
+        return {"mensagem":"sucesso"}
     
     def delete(id):
         chamada = Chamada.query.get(id)
-        chamada.ativo = False
-
-        MainRepository.db.session.merge(chamada)
-        MainRepository.db.session.commit()
-
-        return {"mensagem":"sucesso"}
+        if chamada:
+            chamada.ativo = False
+            MainRepository.db.session.merge(chamada)
+            MainRepository.db.session.commit()
+            return {"mensagem": "sucesso"}
+        else:
+            return {"mensagem": "Chamada não encontrada"}
     
     def registerChamada(Chamada):
 
