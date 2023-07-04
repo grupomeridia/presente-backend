@@ -57,6 +57,16 @@
     margin-bottom: 2vh;
 }
 
+.login_container form select {
+    
+    padding: 1.5vh ;
+    width: 25vw;
+    height: 4.5vh;
+    border: 1px solid #242e42;
+    border-radius: 15px;
+    margin-bottom: 2vh;
+}
+
 
 
 .login_container form .btn_login {

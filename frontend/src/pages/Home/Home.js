@@ -77,7 +77,7 @@ function Home() {
           </div>
         </section>
         <section className={styles.grid}>
-          <div>
+          <div className = {styles.form_wrapper}>
             <h1>Marcar Presença</h1>
             <form onSubmit={handleSubmit} className={styles.form}>
               <label htmlFor="alunoRa" className={styles.label}>
