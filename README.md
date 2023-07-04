@@ -1,3 +1,6 @@
+
+<img src="./Gif/Green%20Pixel%20Game%20Youtube%20Intro.gif" alt="Descrição do gif" style="width: 100rem; height: 20rem;">
+
 ## Índice
 * 1 - [Introdução](#introducao)  
 * 2 - [Contribuidores](#contribuidores)
