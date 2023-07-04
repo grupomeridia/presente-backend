@@ -2,6 +2,7 @@ from repository.PresencaRepository import PresencaRepository
 
 from entity.Presenca import Presenca
 from entity.Chamada import Chamada
+from entity.Aluno import Aluno
 
 class PresencaService():
     def getById(id):
@@ -17,13 +18,30 @@ class PresencaService():
 
     def register(ativo, aluno_ra, turma, projeto, chamada, professor, tipo_presenca, horario):
         
-        assert ativo != None and ativo == True, "Propriedade ativo deve ser True ou False"
+        assert not Chamada.query.filter(Chamada.ativo == True).first() is None, "Não existe nenhuma chamada aberta"
+        
+        try:
+            int(turma) 
+            int(projeto)
+            int(chamada)
+        except ValueError:
+            raise AssertionError("Os valores de turma, projeto e chamada devem ser números inteiros.")
+    
+        try:
+            int(aluno_ra)
+        except ValueError:
+            raise AssertionError("RA deve ser um número inteiro")
+
+        assert aluno_ra > 50000 and aluno_ra < 99999, "RA inválido"
+        assert Aluno.query.filter(Aluno.ra == aluno_ra).first() is not None, f"O RA {aluno_ra} não pertence a nenhum aluno"
+        
+        assert ativo != None and ativo == True, "Propriedade ativo deve ser True ou False" 
         assert Presenca.query.filter(Presenca.aluno_ra == aluno_ra, Presenca.chamada_id == chamada).first() is None, "Presença já realizada"
-        assert int(turma) != None and int(turma) > 0, "Turma inválida"
-        assert int(projeto) != None and int(projeto) > 0, "Projeto inválido"
-        assert int(chamada) != None and int(chamada) > 0, "Chamada inválida"
+        assert int(turma) > 0, "Turma inválida"
+        assert int(projeto) > 0, "Projeto inválido"
+        assert int(chamada) > 0, "Chamada inválida"
         assert professor != None and professor > 0, "Professor inválido"
         assert tipo_presenca != None, "Tipo da presença inválida"
-        assert not Chamada.query.filter(Chamada.ativo == True).first() is None, "Não existe nenhuma chamada aberta"
-    
+        
+        
         return PresencaRepository.registerPresenca(Presenca(ativo, aluno_ra, turma, projeto, chamada, professor, tipo_presenca, horario))
