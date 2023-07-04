@@ -12,8 +12,7 @@ class PresencaService():
             raise AssertionError("Deve ser um número inteiro")
         
         assert int(id) > 0, "ID inválido."
-        assert PresencaRepository.getPresencaById(id) != None, "Nenhuma Presenca foi encontrada"
-        
+        assert Presenca.query.get(id) != None, f"Nenhuma presença foi encontrada com o ID {id}"
         assert PresencaRepository.getPresencaById(id)
 
     def register(ativo, aluno_ra, turma, projeto, chamada, professor, tipo_presenca, horario):
