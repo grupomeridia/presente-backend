@@ -73,12 +73,12 @@ function Home() {
     <div>
       <NavBar />
       <section className={styles.page_content}>
-        <section className={styles.search_and_user}>
+        {/* <section className={styles.search_and_user}>
           <div className={styles.admin_profile}>
             <span className={styles.greeting}>Hello admin</span>
             <i className="fa-solid fa-circle-user"></i>
           </div>
-        </section>
+        </section> */}
         <section className={styles.grid}>
           <div className = {styles.form_wrapper}>
             <h1>Marcar Presença</h1>

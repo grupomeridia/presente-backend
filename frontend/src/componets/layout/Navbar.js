@@ -50,10 +50,10 @@ function Navbar() {
             </Link>
           </li>
           <li>
-            <a href="/">
+            <Link to="/">
               <i class="fa-solid fa-chart-line"></i>
-              <span>Marca Presença </span>
-            </a>
+              <span>Marcar Presença </span>
+            </Link>
           {/* </li>
              <li>
             <a href="">
