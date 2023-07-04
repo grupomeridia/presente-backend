@@ -28,26 +28,26 @@ class AlunoRepository():
 
         return jsonify(resultado)
     
-    def update(id, data):
-        aluno = Aluno.query.get(id)
+    def update(id, aluno):
+        old_aluno = Aluno.query.get(id)
 
-        aluno.ativo = data['ativo']
-        aluno.nome = data['nome']
-        aluno.ra = data['ra']
-        aluno.turma_id = data['turma']
-        aluno.curso = data['curso'] 
-        
-        MainRepository.db.session.merge(aluno)
+        old_aluno.ativo = aluno.ativo
+        old_aluno.nome = aluno.nome
+        old_aluno.ra = aluno.ra
+        old_aluno.turma_id = aluno.turma_id
+        old_aluno.curso = aluno.curso
+
+        MainRepository.db.session.merge(old_aluno)
         MainRepository.db.session.commit()
 
-        return {"mensagem":"sucesso"}
+        return f"Aluno ID {id} atualizado"
         
     def delete(id):
         aluno = Aluno.query.get(id)
         aluno.ativo = False
         MainRepository.db.session.merge(aluno)
         MainRepository.db.session.commit()
-        return {"mensagem":"sucesso"}
+        return f"Aluno ID {id} deletado"
     
     def findByRA(ra):
         aluno = Aluno.query.filter(Aluno.ra == ra).first()
@@ -65,4 +65,6 @@ class AlunoRepository():
         MainRepository.db.session.add(Aluno)
         MainRepository.db.session.commit()
 
-        return "Aluno registrado"
+        return f"Aluno registrado com o ID {Aluno.id}"
+    
+   

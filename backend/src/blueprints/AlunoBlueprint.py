@@ -35,12 +35,24 @@ def aluno():
     if request.method == 'PUT':
         id = request.args.get('id')
         data = request.json    
-      
-        return jsonify(AlunoRepository.update(id, data))
-    
+
+        ativo = data['ativo']
+        nome = data['nome']
+        ra = data['ra']
+        turma_id = data['turma']
+        curso = data['curso'] 
+
+        try:
+            return jsonify(AlunoService.update(id, ativo, nome, ra, turma_id, curso))
+        except AssertionError as error:
+                return str(error)
+        
     if request.method == 'DELETE':
         id = request.args.get('id')
-        return jsonify(AlunoRepository.delete(id))
+        try:
+            return jsonify(AlunoService.delete(id))
+        except AssertionError as error:
+                return str(error)
 
 @alunos.route("/api/aluno/listAll", methods=['GET'])
 def listAll():
@@ -49,4 +61,7 @@ def listAll():
 @alunos.route("/api/aluno/findByRa", methods=['GET'])
 def findByRa():
     ra = request.args.get('ra')
-    return AlunoRepository.findByRA(ra)
+    try:
+        return AlunoService.getByRa(ra)
+    except AssertionError as error:
+                return str(error)
