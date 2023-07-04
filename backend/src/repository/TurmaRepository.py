@@ -45,3 +45,9 @@ class TurmaRepository():
 
         return {"mensagem":"sucesso"}
            
+    def register(turma):
+        
+        MainRepository.db.session.add(turma)
+        MainRepository.db.session.commit()
+
+        return f"Turma Cadastrada com o ID {turma.id}!"
