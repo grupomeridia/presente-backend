@@ -20,21 +20,21 @@ function Navbar() {
             <h3>Admin</h3>
           </li>
           <li>
-            <Link to="/">
+            <Link to="/presenca">
               <i class="fa-solid fa-house"></i>
               <span>Home</span>
-            </Link>
-          </li>
-          <li>
-            <Link to="/cadastrar">
-              <i class="fa-solid fa-clipboard-user"></i>
-              <span>Cadastro de Aluno</span>
             </Link>
           </li>
           <li>
             <Link to="/cadastrar-turma">
               <i class="fa-solid fa-person-shelter"></i>
               <span>Cadastro de Turma</span>
+            </Link>
+          </li>
+          <li>
+            <Link to="/cadastrar">
+              <i class="fa-solid fa-clipboard-user"></i>
+              <span>Cadastro de Aluno</span>
             </Link>
           </li>
           <li>
@@ -50,26 +50,26 @@ function Navbar() {
             </Link>
           </li>
           <li>
-            <a href="/presenca">
+            <a href="/">
               <i class="fa-solid fa-chart-line"></i>
-              <span>Dashboard </span>
+              <span>Marca Presença </span>
             </a>
           </li>
-          <li>
+          {/* <li>
             <a href="">
               <i class="fa-regular fa-folder-open"></i>
               <span>Histórico</span>
             </a>
-          </li>
+          </li> */}
           <li class={styles.menu_heading}>
             <h3>Settings</h3>
           </li>
-          <li>
+          {/* <li>
             <a href="">
               <i class="fa-solid fa-sliders"></i>
               <span>Settings</span>
             </a>
-          </li>
+          </li> */}
           <li>
             <Link to="/options">
               <i class="fa-solid fa-gear"></i>

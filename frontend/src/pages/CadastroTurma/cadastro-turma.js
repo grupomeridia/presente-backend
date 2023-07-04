@@ -27,12 +27,12 @@ function CadastroTurma() {
       .create(turmaData)
       .then((response) => {
         console.log(response.data);
-        setMessage("Turma cadastrada com sucesso");
+        setMessage(response.data);
         setIsSuccess(true);
       })
       .catch((error) => {
         console.log(error);
-        setMessage("Erro ao cadastrar a Turma");
+        setMessage(error);
         setIsSuccess(false);
       });
   };

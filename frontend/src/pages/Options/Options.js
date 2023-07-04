@@ -13,6 +13,8 @@ function Options() {
   const [turmas, setTurmas] = useState([]);
   const [chamadas, setChamadas] = useState([]);
   const [isActive, setIsActive] = useState(true);
+  const [message, setMessage] = useState("");
+  const [isSuccess, setIsSuccess] = useState(true);
 
   const getNomeProjeto = (projetoId) => {
     const projeto = projetos.find((p) => p.id === projetoId);
@@ -43,9 +45,13 @@ function Options() {
       .create(chamadaData)
       .then((response) => {
         console.log(response.data);
+        setMessage(response.data);
+        setIsSuccess(true);
       })
       .catch((error) => {
         console.log(error);
+        setMessage(error);
+        setIsSuccess(false);
       });
   };
 
@@ -137,7 +143,7 @@ function Options() {
       console.log(response.data);
       console.log(response.data.Id);
       console.log(chamadaId)
-      console.log("Chamada deletada com sucesso");
+      setMessage("Chamada deletada com sucesso");
       setChamadas((prevState) =>
         prevState.filter((chamada) => chamada.Id !== chamadaId)
 
@@ -172,7 +178,7 @@ function Options() {
         <form onSubmit={handleSubmit}>
           <section className={styles.grid}>
             <div className={styles.center}>
-              <div className={styles.dropdownContainer}>
+              <div className={`${styles.dropdownContainer} ${styles.center}`}>
                 <label htmlFor="projeto">Projetos:</label>
                 <select
                   id="projeto"
@@ -187,9 +193,9 @@ function Options() {
                   ))}
                 </select>
               </div>
-              <div className={styles.dropdownContainer}>
+              <div>
                 <label htmlFor="professor">Professores:</label>
-                <select
+                <select 
                   id="professor"
                   value={professor}
                   onChange={handleProfessorChange}
@@ -221,6 +227,11 @@ function Options() {
             <button className={styles.botao} type="submit">
               Cadastrar Chamada
             </button>
+            {message && (
+            <div className={isSuccess ? "success-message" : "error-message"}>
+              {message}
+            </div>
+          )}
           </section>
         </form>
         <section className={styles.grid}>

@@ -23,12 +23,12 @@ function CadastroProjeto() {
       .create(projetoData)
       .then((response) => {
         console.log(response.data);
-        setMessage("Projeto cadastrada com sucesso");
+        setMessage(response.data);
         setIsSuccess(true);
       })
       .catch((error) => {
         console.log(error);
-        setMessage("Erro ao cadastrar a Projeto");
+        setMessage(error);
         setIsSuccess(false);
       });
   };
