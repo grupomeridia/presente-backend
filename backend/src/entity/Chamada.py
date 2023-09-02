@@ -1,24 +1,23 @@
 from repository.MainRepository import MainRepository
-
-from entity.Presenca import Presenca
-
+import datetime
 
 class Chamada(MainRepository.db.Model):
-    #__tablename__ = 'chamadas'
-    id = MainRepository.db.Column(MainRepository.db.Integer, primary_key=True)
-    ativo = MainRepository.db.Column(MainRepository.db.Boolean, nullable=False)
-    projeto_id = MainRepository.db.Column(MainRepository.db.Integer, MainRepository.db.ForeignKey('projeto.id'))
-    turma_id = MainRepository.db.Column(MainRepository.db.Integer, MainRepository.db.ForeignKey('turma.id'))
-    professor_id = MainRepository.db.Column(MainRepository.db.Integer, MainRepository.db.ForeignKey('professor.id'))
-    projeto = MainRepository.db.relationship('Projeto')
-    turma = MainRepository.db.relationship('Turma')
-    professor = MainRepository.db.relationship('Professor')
+    __tablename__ = 'chamadas'
+    idChamada = MainRepository.db.Column(MainRepository.db.Integer, primaryKey=True)
+    idMateria = MainRepository.db.Column(MainRepository.db.Integer, MainRepository.db.ForeignKey('materias.idMateria'))
+    idTurma = MainRepository.db.Column(MainRepository.db.Integer, MainRepository.db.ForeignKey('turmas.idTurma'))
+    idProfessor = MainRepository.db.Column(MainRepository.db.Integer, MainRepository.db.ForeignKey('professores.idProfessor'))
+    status = MainRepository.db.Column(MainRepository.db.Boolean, nullable=False)
+    abertura = MainRepository.db.Column(MainRepository.db.datetime, nullable=False)
+    encerramento = MainRepository.db.Column(MainRepository.db.datetime)
+    materia = MainRepository.db.relationship('Materia', back_populates='chamadas')
+    turma = MainRepository.db.relationship('Turma', back_populates='chamadas')
+    professor = MainRepository.db.relationship('Professor', back_populates='chamadas')
+    presencas = MainRepository.db.relationship('Presenca', back_populates='chamada')
     
-
-    def __init__(self, ativo:bool, projeto:int, turma:int, professor:int):
-        self.ativo = ativo
-        self.projeto_id = projeto
-        self.turma_id = turma
-        self.professor_id = professor
+    def __init__(self, status:bool, abertura:datetime, encerramento:datetime):
+        self.status = status
+        self.abertura = abertura
+        self.encerramento = encerramento
 
 
