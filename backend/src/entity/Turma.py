@@ -1,6 +1,6 @@
-from TurnoEnum import Turno
-from ModalidadeEnum import Modalidade
-from CursoEnum import Curso
+from entity.TurnoEnum import Turno
+from entity.ModalidadeEnum import Modalidade
+from entity.CursoEnum import Curso
 from repository.MainRepository import MainRepository
 
 
@@ -18,7 +18,7 @@ class Turma(MainRepository.db.Model):
     alunos = MainRepository.db.relationship('Aluno', secondary='turma_aluno')
     professores = MainRepository.db.relationship('Professor', secondary='turma_professor')
 
-    def __init__(self, ativo, nome, ano, semestre):
+    def __init__(self, ativo:bool, nome:str, ano:int, semestre:int):
         self.ativo = ativo
         self.nome = nome
         self.ano = ano

@@ -10,6 +10,6 @@ class Secretaria(MainRepository.db.Model):
     lembrete = MainRepository.db.relationship('Lembrete', back_populates='secretaria')
     painel = MainRepository.db.relationship('Painel', back_populates='secretaria')
 
-    def __init__(self, status, nome):
+    def __init__(self, status:bool, nome:str):
         self.status = status
         self.nome = nome

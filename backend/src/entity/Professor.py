@@ -13,9 +13,3 @@ class Professor(MainRepository.db.Model):
     def __init__(self, status:bool, nome:str):
         self.status = status
         self.nome = nome
-
-
-    def verificaAlunos() -> bool:
-        #IMPEDITIVO: Falta criar a classe controller
-        #Esta função irá retornar os alunos presentes em sala.
-        pass

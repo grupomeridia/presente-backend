@@ -1,5 +1,6 @@
 from CargoEnum import Cargo
 from repository.MainRepository import MainRepository
+import datetime
 
 class Lembrete(MainRepository.db.Model):
     __tablename__ = 'lembretes'
@@ -9,11 +10,11 @@ class Lembrete(MainRepository.db.Model):
     destinatarioId = MainRepository.db.Column(MainRepository.db.Integer, nullable=False)
     titulo = MainRepository.db.Column(MainRepository.db.String(50), nullable=False)
     mensagem = MainRepository.db.Column(MainRepository.db.String(100), nullable=False)
-    criacao = MainRepository.db.Column(MainRepository.db.datetime, nullable=False)
-    visualizacao = MainRepository.db.Column(MainRepository.db.datetime)
+    criacao = MainRepository.db.Column(MainRepository.db.DateTime, nullable=False)
+    visualizacao = MainRepository.db.Column(MainRepository.db.DateTime)
     secretaria = MainRepository.db.relationship('Secretaria', back_populates='lembrete')
 
-    def __init__(self, destinatarioCargo, titulo, mensagem, criacao, visualizacao):
+    def __init__(self, destinatarioCargo:Cargo, titulo:str, mensagem:str, criacao:datetime, visualizacao:datetime):
         self.destinatarioCargo = destinatarioCargo
         self.titulo = titulo
         self.mensagem = mensagem
