@@ -1,4 +1,4 @@
-from backend.src.repository.MateriaRepository import MateriaRepository
+from repository.MateriaRepository import MateriaRepository
 
 from entity.Materia import Materia
 
