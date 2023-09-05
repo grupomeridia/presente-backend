@@ -1,6 +1,5 @@
 from repository.MainRepository import MainRepository
 
-
 class Aluno(MainRepository.db.Model):
     __tablename__ = 'alunos'
     idAluno = MainRepository.db.Column(MainRepository.db.Integer, primary_key=True)
