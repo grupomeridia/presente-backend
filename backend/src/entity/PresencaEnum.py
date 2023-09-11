@@ -1,8 +1,8 @@
 from enum import Enum
 
 class TipoPresenca(Enum):
-    NORMAL = 'NORMAL'
-    MANUAL = 'MANUAL'
+    Manual = 'Manual'
+    Regular = 'Regular'
 
 #Para acessar o valor do enum Presenca.tipoEscolhido.value
 #Ex: Presenca.Normal.value 

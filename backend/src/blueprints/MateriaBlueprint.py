@@ -1,20 +1,20 @@
 from flask import Blueprint, request, jsonify
 
 from repository.MainRepository import MainRepository
-from repository.ProjetoRepository import ProjetoRepository
+from repository.MateriaRepository import MateriaRepository
 
-from entity.Projeto import Projeto
+from entity.Materia import Materia
 
-from service.ProjetoService import ProjetoService
+from service.MateriaService import MateriaService
 
-projetos = Blueprint("projetos", __name__)   
+materias = Blueprint("Materia", __name__)   
 
-@projetos.route("/api/projeto", methods=['GET', 'POST','PUT','DELETE'])
-def projeto():
+@materias.route("/api/materia", methods=['GET', 'POST','PUT','DELETE'])
+def materia():
     if request.method == 'GET':
         id = request.args.get('id')
         try:    
-            return jsonify(ProjetoService.getProjeto(id))
+            return jsonify(MateriaService.getMateria(id))
         except AssertionError as error:
             return str(error)
     
@@ -25,20 +25,20 @@ def projeto():
         nome = data['nome']
 
         try:
-            return ProjetoService.postProjeto(ativo, nome)
+            return MateriaService.postMateria(ativo, nome)
         except AssertionError as error:
             return str(error)
     
     if request.method == 'PUT':
         id = request.args.get('id')
         data = request.json    
-        return jsonify(ProjetoRepository.update(id, data))
+        return jsonify(MateriaRepository.update(id, data))
     
     if request.method == 'DELETE':
         id = request.args.get('id')
-        return jsonify(ProjetoRepository.delete(id))
+        return jsonify(MateriaRepository.delete(id))
 
     
-@projetos.route("/api/projeto/listAll", methods=['GET'])
-def listarAllProjetos():
-    return ProjetoRepository.listAll()
+@materias.route("/api/materia/listAll", methods=['GET'])
+def listarAllMaterias():
+    return MateriaRepository.listAll()

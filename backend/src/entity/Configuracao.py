@@ -1,12 +1,18 @@
 from repository.MainRepository import MainRepository
+import datetime
 
 class Configuracao(MainRepository.db.Model):
-    id = MainRepository.db.Column(MainRepository.db.Integer, primary_key=True)
-    ativo = MainRepository.db.Column(MainRepository.db.Boolean, nullable=False)
-    turma_id = MainRepository.db.Column(MainRepository.db.Integer, MainRepository.db.ForeignKey('turma.id'))
-    projeto_id = MainRepository.db.Column(MainRepository.db.Integer, MainRepository.db.ForeignKey('projeto.id'))
+    __tablename__ = 'configuracoes'
+    idConfiguracao = MainRepository.db.Column(MainRepository.db.Integer, primary_key=True)
+    status = MainRepository.db.Column(MainRepository.db.Boolean, nullable=False)
+    alunoAusente = MainRepository.db.Column(MainRepository.db.Integer, nullable=False)
+    inicioAula = MainRepository.db.Column(MainRepository.db.DateTime, nullable=False)
+    finalAula = MainRepository.db.Column(MainRepository.db.DateTime, nullable=False)
+    painel = MainRepository.db.relationship('Painel', back_populates='configuracao')
 
-    def __init__(self, ativo:bool, turma:int, projeto:int):
-        self.ativo = ativo
-        self.turma_id = turma
-        self.projeto_id = projeto
+    def __init__(self, status:bool, alunoAusente:int, inicioAula:datetime, finalAula:datetime):
+        self.status = status
+        self.alunoAusente = alunoAusente
+        self.inicioAula = inicioAula
+        self.finalAula = finalAula
+
