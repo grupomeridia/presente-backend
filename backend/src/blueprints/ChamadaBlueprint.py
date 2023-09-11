@@ -25,7 +25,7 @@ def professor():
         projeto_id = data['projeto_id']
         professor_id = data['professor_id']
         turma_id = data['turma_id']
-
+        
         try:
             return ChamadaService.register(ativo, projeto_id, professor_id, turma_id)
         except AssertionError as error:

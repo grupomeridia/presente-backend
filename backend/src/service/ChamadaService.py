@@ -15,7 +15,12 @@ class ChamadaService():
         return ChamadaRepository.getChamadaById(id)
 
     def register(ativo, projeto_id, professor_id, turma_id):
-
+        try:
+            int(projeto_id)
+            int(professor_id)
+            int(turma_id)
+        except ValueError as error:
+            raise AssertionError("Campos obrigatório: Projeto, Professor e Turma")
         assert ativo != None and ativo == True, "Propriedade ativo deve ser True ou False"
         assert int(projeto_id) > 0 and int(projeto_id) != None, "ID de projeto inválido."
         assert int(professor_id) > 0 and int(professor_id) != None, "ID de professor inválido."

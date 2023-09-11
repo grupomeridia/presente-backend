@@ -8,4 +8,5 @@ class MainRepository():
 
     app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgres@localhost/app_presente'
 
+
     db = SQLAlchemy(app)
