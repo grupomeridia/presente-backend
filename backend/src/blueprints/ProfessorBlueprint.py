@@ -49,3 +49,38 @@ def professor():
 @professores.route("/api/professor/listAll", methods=['GET'])
 def listarAllProfessores():
    return ProfessorRepository.listAll()
+
+@professores.route("/api/professor/cadastrado", methods=['GET'])
+def listarTurmas():
+    id = request.args.get("id")
+    try:
+        return ProfessorService.listarTurmas(id)
+    except AssertionError as error:
+        return str(error)
+    
+@professores.route("/api/professor/numAlunos", methods=['GET'])
+def numAlunos():
+    data = request.json
+
+    idProfessor = data['idProfessor']
+    idChamada = data['idChamada']
+    try:
+        return ProfessorService.numAlunos(idProfessor, idChamada)
+    except AssertionError as error:
+        return str(error)
+    
+@professores.route("/api/professor/historico", methods=['GET'])
+def historicoSemanal():
+    idTurma = request.args.get("id")
+    try:
+        return ProfessorService.historicoSemanal(idTurma)
+    except AssertionError as error:
+        return str(error)
+    
+@professores.route("/api/professor/mediaSemanal", methods=['GET'])
+def mediaSemanal():
+    idTurma = request.args.get("id")
+    try:
+        return ProfessorService.mediaSemanal(idTurma)
+    except AssertionError as error:
+        return str(error)
