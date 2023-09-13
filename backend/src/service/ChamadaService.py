@@ -23,3 +23,14 @@ class ChamadaService():
         assert Chamada.query.filter(Chamada.ativo == True).first() is None, "Já existe uma chamada aberta nesse momento."
 
         return ChamadaRepository.registerChamada(Chamada(ativo, projeto_id, professor_id, turma_id))
+
+    def chamadasAbertasAluno(id):
+        try:
+            int(id)
+        except ValueError:
+            raise AssertionError("Deve ser um número inteiro")
+        
+        assert int(id) > 0, "ID inválido."
+        assert ChamadaRepository.getChamadaById(id) != None, "Nenhum aluno com este ID foi encontrado."
+        
+        return ChamadaRepository.getChamadasAbertasAluno(id)
