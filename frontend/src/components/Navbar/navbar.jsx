@@ -15,7 +15,7 @@ import Cabecalho from "../Cabecalho/cabecalho";
 
 const Navbar = () => {
   const [activeItem, setActiveItem] = useState("");
-  const [userType, setUserType] = useState("aluno"); // Substitua por 'aluno' ou 'professor' conforme necessário
+  const [userType, setUserType] = useState("professor"); // Substitua por 'aluno' ou 'professor' conforme necessário
   const [userImage, setUserImage] = useState("");// lembrar de colocar aqui a imagen dafault
 
   useEffect(() => {

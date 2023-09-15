@@ -1,0 +1,18 @@
+.container{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.Doughnut{
+    height: 400px;  /* ou qualquer valor */
+    width: 400px;  /* ou qualquer valor */
+}
+
+/* CSS */
+.Fundo canvas {
+    height: 400px !important;
+    width: 400px !important;
+  }
+  
+  
