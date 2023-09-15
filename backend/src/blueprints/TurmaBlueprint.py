@@ -21,26 +21,27 @@ def turma():
     if request.method == 'POST':
         data = request.json
 
-        ativo = data['ativo']
+        status = data['status']
         nome = data['nome']
         ano = data['ano']
         semestre = data['semestre']
+        turno = data['turno']
+        modalidade = data['modalidade']
+        curso = data['curso']
 
         try:
-            return TurmaService.postTurma(ativo, nome, ano, semestre)
+            return TurmaService.postTurma(status, nome, ano, semestre, turno, modalidade, curso)
         except AssertionError as error:
             return str(error)
-
-        
 
     if request.method == 'PUT':
         id = request.args.get('id')
         data = request.json
-        return jsonify(TurmaRepository.update(id, data))
+        return jsonify(TurmaService.update(id, data))
     
     if request.method == 'DELETE':
         id = request.args.get('id')
-        return jsonify(TurmaRepository.delete(id))
+        return jsonify(TurmaService.delete(id))
 
 @turmas.route("/api/turma/listAll", methods=['GET'])
 def listarAllTurmas():
