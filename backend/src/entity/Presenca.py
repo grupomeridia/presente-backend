@@ -13,7 +13,9 @@ class Presenca(MainRepository.db.Model):
     aluno = MainRepository.db.relationship('Aluno', back_populates='presencas')
     chamada = MainRepository.db.relationship('Chamada', back_populates='presencas')
 
-    def __init__(self, status:bool, tipoPresenca:TipoPresenca, horario:datetime):
+    def __init__(self, idAluno:int, idChamada:int, status:bool, tipoPresenca:TipoPresenca, horario:datetime):
+        self.idAluno = idAluno
+        self.idChamada = idChamada
         self.status = status
         self.tipoPresenca = tipoPresenca
         self.horario = horario

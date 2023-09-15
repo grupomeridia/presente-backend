@@ -21,17 +21,14 @@ def presencasMain():
     if request.method == 'POST':
         data = request.json
 
-        ativo = data['ativo']
-        aluno_ra = data['AlunoRa']
-        turma = data['turma']
-        projeto = data['projeto']
-        chamada = data['chamada']
-        professor = data['professor']
+        idAluno = data['idAluno']
+        idChamada = data['idChamada']
+        status = True
         tipo_presenca = data['tipoPresenca']
         horario = data['horario']
 
         try:
-            return PresencaService.register(ativo, aluno_ra, turma, projeto, chamada, professor, tipo_presenca, horario)
+            return PresencaService.register(idAluno, idChamada, status, tipo_presenca, horario)
         except AssertionError as error:
             return str(error)
     
@@ -39,11 +36,11 @@ def presencasMain():
         id = request.args.get('id')
         data = request.json
 
-        return PresencaRepository.update(id,data)
+        return PresencaService.update(id,data)
     
     if request.method == 'DELETE':
         id = request.args.get('id')
-        return PresencaRepository.delete(id)
+        return PresencaService.delete(id)
 
 @presencas.route("/api/presenca/listAll", methods=['GET'])
 def listAll():

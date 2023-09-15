@@ -8,26 +8,21 @@ class PresencaRepository():
     def getPresencaById(id):
         return {
             "Id" : Presenca.query.get(id).id,
-            "Aluno_ra": Presenca.query.get(id).aluno.ra,
-            "Turma": Presenca.query.get(id).turma.nome,
-            "Projeto": Presenca.query.get(id).projeto.nome,
-            "Chamada": Presenca.query.get(id).chamada_id,
-            "Professor": Presenca.query.get(id).professor.nome,
-            "Tipo_presenca": Presenca.query.get(id).tipo_presenca.value,
+            "Aluno": Presenca.query.get(id).idAluno.nome,
+            "Chamada": Presenca.query.get(id).idChamada.id,
+            "status": Presenca.query.get(id).status,
+            "Tipo_presenca": Presenca.query.get(id).tipoPresenca.value,
             "Horario": Presenca.query.get(id).horario
-
         }
     
     def listAll():
         presencas = Presenca.query.all()
         resultado = [{
             "Id": p.id,
-            "Aluno_ra": p.aluno.ra,
-            "Turma": p.turma.nome,
-            "Projeto": p.projeto.nome,
-            "Chamada": p.chamada_id,
-            "Professor": p.professor.nome,
-            "Tipo_presenca": p.tipo_presenca.value,
+            "Aluno": p.idAluno.nome,
+            "Chamada": p.idChamada,
+            "status": p.status,
+            "Tipo_presenca": p.tipoPresenca.value,
             "Horario": p.horario
         } for p in presencas]
 
@@ -38,13 +33,10 @@ class PresencaRepository():
 
         resultado = [{
             "Id": p.id,
-            "Aluno_ra": p.aluno_ra,
-            "Aluno_nome": p.aluno.nome,
-            "Turma": p.turma.nome,
-            "Projeto": p.projeto.nome,
-            "Chamada": p.chamada_id,
-            "Professor": p.professor.nome,
-            "Tipo_presenca": p.tipo_presenca.value,
+            "Aluno": p.idAluno.nome,
+            "Chamada": p.idChamada,
+            "status": p.status,
+            "Tipo_presenca": p.tipoPresecna.value,
             "Horario": p.horario
         } for p in presencas]
 
@@ -53,13 +45,10 @@ class PresencaRepository():
     def update(id, data):
         presenca = Presenca.query.get(id)
 
-        presenca.ativo = data['ativo']
-        presenca.aluno_ra = data['AlunoRa']
-        presenca.turma = data['turma']
-        presenca.projeto = data['projeto']
-        presenca.chamada = data['chamada']
-        presenca.professor = data['professor']
-        presenca.tipo_presenca = data['tipoPresenca']
+        presenca.idAluno = data['idAluno']
+        presenca.idChamada = data['idChamada']
+        presenca.status = data['status']
+        presenca.tipoPresenca = data['tipoPresenca']
         presenca.horario = data['horario']
 
         MainRepository.db.session.merge(presenca)
