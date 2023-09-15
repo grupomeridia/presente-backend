@@ -21,24 +21,41 @@ def professor():
     if request.method == 'POST':
         data = request.json
 
-        ativo = data['ativo']
-        projeto_id = data['projeto_id']
-        professor_id = data['professor_id']
-        turma_id = data['turma_id']
+        idMateria = data['idMateria']
+        idTurma = data['idTurma']
+        idProfessor = data['idProfessor']
+        status = True
+        abertura = data['abertura']
+        encerramento = data['encerramento']
         
         try:
-            return ChamadaService.register(ativo, projeto_id, professor_id, turma_id)
+            return ChamadaService.register(idMateria, idTurma, idProfessor, status, abertura, encerramento)
         except AssertionError as error:
             return str(error)
 
     if request.method == 'PUT':
         id = request.args.get('id')
         data = request.json
-        return jsonify(ChamadaRepository.update(id, data))
-    
+
+        idMateria = data['idMateria']
+        idTurma = data['idTurma']
+        idProfessor = data['idProfessor']
+        abertura = data['abertura']
+        encerramento = data['encerramento']
+
+        try:
+            return jsonify(ChamadaService.update(id, idMateria, idTurma, idProfessor, status, abertura, encerramento))
+        except AssertionError as error:
+            return str(error)
+
     if request.method == 'DELETE':
         id = request.args.get('id')
-        return jsonify(ChamadaRepository.delete(id))
+
+        try:
+            return jsonify(ChamadaService.delete(id))
+        except AssertionError as error:
+            return str(error)
+
 
 @chamadas.route("/api/chamada/listAll", methods=['GET'])
 def listarAllChamadas():
