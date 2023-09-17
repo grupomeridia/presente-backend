@@ -8,46 +8,56 @@ import {
   faChalkboardTeacher,
   faBell,
   faTachometerAlt,
-  faUserPlus
+  faUserPlus,
 } from "@fortawesome/free-solid-svg-icons";
 import { useState, useEffect } from "react";
 import Cabecalho from "../Cabecalho/cabecalho";
+import { useRouter } from "next/router";
 
 const Navbar = () => {
   const [activeItem, setActiveItem] = useState("");
   const [userType, setUserType] = useState("professor"); // Substitua por 'aluno' ou 'professor' conforme necessário
-  const [userImage, setUserImage] = useState("");// lembrar de colocar aqui a imagen dafault
+  const [userImage, setUserImage] = useState(""); // lembrar de colocar aqui a imagen dafault
+  const router = useRouter();
 
   useEffect(() => {
-    const fetchedImage = "";//adiciona aqui o caminho pra pegar a imagen no backend
+    const fetchedImage = ""; //adiciona aqui o caminho pra pegar a imagen no backend
     setUserImage(fetchedImage);
   }, []);
 
   const getMenuItems = () => {
     if (userType === "aluno") {
       return [
-        { name: 'Histórico', icon: faHistory, link: '/historico' },
-        { name: 'Presença', icon: faUserCheck, link: '/presenca' }
+        { name: "Histórico", icon: faHistory, link: "/historico" },
+        { name: "Presença", icon: faUserCheck, link: "/presenca" },
       ];
     }
 
     if (userType === "professor") {
       return [
-        { name: 'Frequência', icon: faHistory, link: '/frequencia' },
-        { name: 'Chamada', icon: faUserCheck, link: '/chamada' },
-        { name: 'Presença', icon: faChalkboardTeacher, link: '/presenca-professor' },
-        { name: 'Lembretes', icon: faBell, link: '/lembretes-professor' }
+        { name: "Frequência", icon: faHistory, link: "/frequencia" },
+        { name: "Chamada", icon: faUserCheck, link: "/chamada" },
+        {
+          name: "Presença",
+          icon: faChalkboardTeacher,
+          link: "/presenca-professor",
+        },
+        { name: "Lembretes", icon: faBell, link: "/lembretes-professor" },
       ];
     }
 
     if (userType === "admin") {
       return [
-        { name: 'Dashboard', icon: faTachometerAlt, link: '/dashboard' },
-        { name: 'Chamada', icon: faUserCheck, link: '/chamada-admin' },
-        { name: 'Cadastrar', icon: faUserPlus, link: '/cadastrar' },
-        { name: 'Presença', icon: faChalkboardTeacher, link: '/presenca-admin' },
-        { name: 'Alunos', icon: faUserPlus, link: '/alunos' },
-        { name: 'Lembretes', icon: faBell, link: '/lembretes-admin' }
+        { name: "Dashboard", icon: faTachometerAlt, link: "/dashboard" },
+        { name: "Chamada", icon: faUserCheck, link: "/chamada-admin" },
+        { name: "Cadastrar", icon: faUserPlus, link: "/cadastrar" },
+        {
+          name: "Presença",
+          icon: faChalkboardTeacher,
+          link: "/presenca-admin",
+        },
+        { name: "Alunos", icon: faUserPlus, link: "/alunos" },
+        { name: "Lembretes", icon: faBell, link: "/lembretes-admin" },
       ];
     }
     return [];
@@ -55,7 +65,6 @@ const Navbar = () => {
 
   return (
     <>
-
       <header className={styles.pageHeader}>
         <div className={styles.userInfo}>
           <Image
@@ -78,7 +87,7 @@ const Navbar = () => {
                 <Link href={item.link}>
                   <span
                     className={`${styles.iconTextContainer} ${
-                      activeItem === item.name ? styles.active : ""
+                      router.pathname === item.link ? styles.active : ""
                     }`}
                   >
                     <FontAwesomeIcon icon={item.icon} size="1x" />

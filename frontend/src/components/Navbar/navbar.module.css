@@ -71,9 +71,15 @@
 .iconTextContainer {
   display: flex;
   align-items: center;
+  padding: 20px 60px 20px 52px;
   gap: 1rem;
-  margin: 1rem;
-  width: 100%;
+  display: flex; 
+  align-items: center;
+  color: white;
+  text-decoration: none;
+  width: 100%; 
+  /* margin: 1rem; */
+  /* width: 100%; */
 }
 
 
