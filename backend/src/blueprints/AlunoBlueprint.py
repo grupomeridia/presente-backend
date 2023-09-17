@@ -21,6 +21,7 @@ def aluno():
     if request.method == 'POST':    
         data = request.json
         
+        idUsuario = data['idUsuario']
         ativo = data['ativo']
         nome = data['nome']
         curso = data['curso']
@@ -28,7 +29,7 @@ def aluno():
         turma = data['turma']
 
         try:
-            return AlunoService.register(ativo, nome, ra, turma, curso)
+            return AlunoService.register(idUsuario, ativo, nome, ra, turma, curso)
         except AssertionError as error:
             return str(error)
 
@@ -45,7 +46,7 @@ def aluno():
         try:
             return jsonify(AlunoService.update(id, ativo, nome, ra, turma_id, curso))
         except AssertionError as error:
-                return str(error)
+            return str(error)
         
     if request.method == 'DELETE':
         id = request.args.get('id')
