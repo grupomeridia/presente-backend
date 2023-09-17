@@ -1,0 +1,81 @@
+.form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: "Inter";
+    color: aliceblue;
+  }
+
+  .botao{
+    padding: 10px 60px 10px 60px;
+    margin-bottom: 30px;
+  }
+
+  .form_center{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .titulo{
+    margin-left: 100px;
+  }
+  
+  .label {
+    font-weight: bold;
+    margin-bottom: 8px;
+  }
+  
+  .input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    margin-bottom: 20px;
+  }
+  
+  
+  .dropdown {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    cursor: pointer;
+  }
+  
+  .container_chamadas{
+    font-family:  "Inter";
+    color: aliceblue;
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+
+  .table {  
+    width: 80%;
+    border-collapse: collapse;
+    margin-bottom: 30px;
+  }
+  
+  .table th,
+  .table td {
+    border: 1px solid #1100ff;
+    text-align: left;
+    padding: 8px;
+  }
+  
+  .table th {
+    background-color: #d7d7d7;
+    color: #002088;
+  }
+
+  
+  .table tr:nth-child(even) {
+    background-color: #002088;
+  }
+  
