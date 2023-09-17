@@ -1,9 +1,6 @@
 from flask import Blueprint, request, jsonify
 
-from repository.MainRepository import MainRepository
 from repository.MateriaRepository import MateriaRepository
-
-from entity.Materia import Materia
 
 from service.MateriaService import MateriaService
 

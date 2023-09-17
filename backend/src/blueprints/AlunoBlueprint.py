@@ -53,7 +53,7 @@ def aluno():
         try:
             return jsonify(AlunoService.delete(id))
         except AssertionError as error:
-                return str(error)
+            return str(error)
 
 @alunos.route("/api/aluno/listAll", methods=['GET'])
 def listAll():
