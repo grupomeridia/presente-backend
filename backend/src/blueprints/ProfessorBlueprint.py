@@ -21,28 +21,37 @@ def professor():
     if request.method == 'POST':
         data = request.json
 
-
+        idProfessor = data['idProfessor']
+        idUsuario = data['idUsuario']
         ativo = data['ativo']
         nome = data['nome']
 
         try:
-            return ProfessorService.postProfessor(ativo, nome)
+            return ProfessorService.register(idProfessor, idUsuario, ativo, nome)
         except AssertionError as error:
             return str(error)        
-
-
-        
 
 
     if request.method == 'PUT':
         id = request.args.get('id')
         data = request.json
-        return jsonify(ProfessorRepository.update(id, data))
 
+        idProfessor = data['idProfessor']
+        idUsuario = data['idUsuario']
+        ativo = data['ativo']
+        nome = data['nome']
+
+        try:
+            return jsonify(ProfessorService.update(id, idProfessor, idUsuario, ativo, nome))
+        except AssertionError as error:
+            return str(error)
+        
     if request.method == 'DELETE':
         id = request.args.get("id")
-        return jsonify(ProfessorRepository.delete(id))
-
+        try:
+            return jsonify(ProfessorRepository.delete(id))
+        except AssertionError as error:
+            return str(error)
 
 
 
