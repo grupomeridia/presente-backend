@@ -10,6 +10,11 @@ from repository.MainRepository import MainRepository
 
 from flask import Flask, request, jsonify
 
+from dtos.PainelDTO import PainelDTO
+
+#Deixa aqui por enquanto, vai ser util na nossa reunião :)
+#teste = PainelDTO(1,1,1,1,1,1,1)
+
 
 MainRepository.app.register_blueprint(alunos)
 MainRepository.app.register_blueprint(chamadas)
