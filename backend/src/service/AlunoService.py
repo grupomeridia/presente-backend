@@ -14,8 +14,12 @@ class AlunoService():
         
         return AlunoRepository.getAlunoById(id)
     
-    def register(ativo, nome, ra, turma_id, curso):
-        
+    def register(idUsuario, ativo, nome, ra, turma_id, curso):
+        try:
+            int(idUsuario)
+            str(nome)
+        except ValueError as error:
+            raise AssertionError("Campos obrigatório: Usuário e nome.")
         assert ativo != None and ativo == True, "Propriedade ativo deve ser True ou False"
         assert len(nome) > 3 and type(nome) == str, "Nome inválido"
         assert int(ra) > 500000 and int(ra) < 999999, "RA fornecido é inválido"
@@ -23,9 +27,9 @@ class AlunoService():
         assert int(turma_id) != None and int(turma_id) > 0, "Turma inválida"
         assert Aluno.query.filter(Aluno.ra == ra).first() is None, "RA já registrado"
 
-        return AlunoRepository.registerAluno(Aluno(ativo, nome, ra, turma_id, curso))
+        return AlunoRepository.registerAluno(Aluno(idUsuario, ativo, nome, ra, turma_id, curso))
     
-    def update(id, ativo, nome, ra, turma_id, curso):
+    def update(id, idUsuario, ativo, nome, ra, turma_id, curso):
         try: 
             int(id)
         except ValueError:
@@ -37,7 +41,7 @@ class AlunoService():
         assert curso != None and len(curso) > 10, "Curso inválido"
         assert turma_id != None and turma_id > 0, "Turma inválida"
 
-        return AlunoRepository.update(id, Aluno(ativo, nome, ra, turma_id, curso))
+        return AlunoRepository.update(id, Aluno(idUsuario, ativo, nome, ra, turma_id, curso))
     
     def delete(id):
         try: 

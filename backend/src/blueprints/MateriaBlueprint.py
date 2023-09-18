@@ -1,9 +1,6 @@
 from flask import Blueprint, request, jsonify
 
-from repository.MainRepository import MainRepository
 from repository.MateriaRepository import MateriaRepository
-
-from entity.Materia import Materia
 
 from service.MateriaService import MateriaService
 
@@ -25,19 +22,24 @@ def materia():
         nome = data['nome']
 
         try:
-            return MateriaService.postMateria(ativo, nome)
+            return MateriaService.register(ativo, nome)
         except AssertionError as error:
             return str(error)
     
     if request.method == 'PUT':
         id = request.args.get('id')
-        data = request.json    
-        return jsonify(MateriaRepository.update(id, data))
+        data = request.json   
+        try: 
+            return jsonify(MateriaRepository.update(id, ativo, nome))
+        except AssertionError as error:
+            return str(error)
     
     if request.method == 'DELETE':
         id = request.args.get('id')
-        return jsonify(MateriaRepository.delete(id))
-
+        try:
+            return jsonify(MateriaRepository.delete(id))
+        except AssertionError as error:
+            return str(error)
     
 @materias.route("/api/materia/listAll", methods=['GET'])
 def listarAllMaterias():
