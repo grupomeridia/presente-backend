@@ -7,26 +7,31 @@ class ConfiguracaoRepository():
     def getConfiguracaoById(id):
         return{
             "id": Configuracao.query.get(id).id,
-            "Ativo": Configuracao.query.get(id).ativo,
-            "Turma_Id": Configuracao.query.get(id).turma_id,
-            "Projeto_Id": Configuracao.query.get(id).projeto_id
+            "Status": Configuracao.query.get(id).status,
+            "Alunos Ausentes": Configuracao.query.get(id).alunoAusente,
+            "Inicio Aula": Configuracao.query.get(id).inicioAula,
+            "Final Aula": Configuracao.query.get(id).finalAula
         }
+    
     def listAll():
         configuracao = Configuracao.query.all()
         resultado = [{
-            "Id": a.id,
-            "Ativo": a.ativo,
-            "Turma_Id": a.turma_id,
-            "Projeto_Id": a.projeto_id  
-          }for a in configuracao]
+            "Id": c.id,
+            "Status": c.status,
+            "Alunos Ausentes": c.alunoAusente,
+            "Inicio Aula": c.inicioAula,
+            "Final Aula": c.finalAula  
+          }for c in configuracao]
+        
         return jsonify(resultado)
     
-    def update (id, data):
+    def update (id, status, alunoAusente, inicioAula, finalAula):
         configuracao = Configuracao.query.get(id)
 
-        configuracao.ativo = data ['ativo']
-        configuracao.turma_id = data ['turmaId']
-        configuracao.projeto_id = data['projetoId']
+        configuracao.status = status
+        configuracao.alunoAusente = alunoAusente
+        configuracao.inicioAula = inicioAula
+        configuracao.finalAula = finalAula
 
         MainRepository.db.session.merge(configuracao)
         MainRepository.db.session.commit()
@@ -34,7 +39,16 @@ class ConfiguracaoRepository():
     
     def delete (id):
         configuracao = Configuracao.query.get(id)
+        
         configuracao.ativo= False
+        
         MainRepository.db.session.merge(configuracao)
         MainRepository.db.session.commit()
+        
         return {"mensagem":"sucesso"}
+
+    def register(status, alunoAusente, inicioAula, finalAula):
+        MainRepository.db.session.add(Configuracao(status, alunoAusente, inicioAula, finalAula))
+        MainRepository.db.session.commit()
+
+        return "Configuracao criada com sucesso"
