@@ -13,31 +13,38 @@ from entity.Materia import Materia
 class ChamadaRepository():
     def getChamadaById(id):
         return {
-            "Id": Chamada.query.get(id).id,
-            "Ativo" : Chamada.query.get(id).ativo,
-            "Projeto" : Chamada.query.get(id).projeto_id,
-            "Professor" : Chamada.query.get(id).professor_id,
-            "Turma": Chamada.query.get(id).turma_id
+            "Id": Chamada.query.get(id).idChamada,
+            "Materia" : Chamada.query.get(id).idMateria,
+            "Turma" : Chamada.query.get(id).idTurma,
+            "Professor" : Chamada.query.get(id).idProfessor,
+            "status": Chamada.query.get(id).status,
+            "abertura":Chamada.query.get(id).abertura,
+            "encerramento": Chamada.query.get(id).encerramento
         }
     
     def listAll():
         chamadas = Chamada.query.filter(Chamada.ativo.isnot(False)).all()
         resultado = [{
-            'Id': c.id,
-            'Ativo': c.ativo,
-            'Projeto': c.projeto_id,
-            'Professor': c.professor_id,
-            'turma': c.turma_id
+            'Id': c.idChamada,
+            'Materia': c.idMateria,
+            'Turma': c.idTurma,
+            'Professor': c.idProfessor,
+            'status': c.status,
+            'abertura': c.abertura,
+            'encerramento': c.encerramento
         } for c in chamadas]
 
         return jsonify(resultado)
     
     def update(id, data):
         chamada = Chamada.query.get(id)
-        chamada.ativo = data['ativo']
-        chamada.projeto_id = data['projeto']
-        chamada.professor_id = data['professor']
-        chamada.turma_id = data['turma']
+
+        chamada.idMateria = data['idMateria']
+        chamada.idTurma = data['idTurma']
+        chamada.idProfessor = data['idProfessor']
+        chamada.status = data['status']
+        chamada.abertura = data['abertura']
+        chamada.encerramento = data['encerramento']
 
         MainRepository.db.session.merge(chamada)
         MainRepository.db.session.commit()
@@ -45,8 +52,9 @@ class ChamadaRepository():
     
     def delete(id):
         chamada = Chamada.query.get(id)
+
         if chamada:
-            chamada.ativo = False
+            chamada.status = False
             MainRepository.db.session.merge(chamada)
             MainRepository.db.session.commit()
             return {"mensagem": "sucesso"}

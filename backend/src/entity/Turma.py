@@ -18,12 +18,14 @@ class Turma(MainRepository.db.Model):
     alunos = MainRepository.db.relationship('Aluno', secondary='turma_aluno')
     professores = MainRepository.db.relationship('Professor', secondary='turma_professor')
 
-    def __init__(self, ativo:bool, nome:str, ano:int, semestre:int):
-        self.ativo = ativo
+    def __init__(self, status:bool, nome:str, ano:int, semestre:int, turno:Turno, modalidade:Modalidade, curso:Curso):
+        self.status = status
         self.nome = nome
         self.ano = ano
         self.semestre = semestre
-
+        self.turno = turno
+        self.modalidade = modalidade
+        self.curso = curso
   
 
 

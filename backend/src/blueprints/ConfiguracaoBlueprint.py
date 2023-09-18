@@ -5,34 +5,46 @@ from repository.MainRepository import MainRepository
 
 from entity.Configuracao import Configuracao
 
+from service.ConfiguracaoService import ConfiguracaoService
+
 configuracoes = Blueprint("configuracoes", __name__)
 
 @configuracoes.route("/api/configuracao", methods=['GET', 'POST', 'PUT', 'DELETE'])
 def configuracao():
     if request.method == 'GET':
         id = request.args.get('id')
-        return jsonify(ConfiguracaoRepository.getConfiguracaoById(id))
+        try:
+            return jsonify(ConfiguracaoService.getConfiguracaoById(id))
+        except AssertionError as error:
+            return str(error)
     
     if request.method == 'POST':
         data = request.json
 
-        ativo = True
-        turma_id = data['turmaId']
-        projeto_id = data['projetoId']
+        status = True
+        alunoAusente = data['alunoAusente']
+        inicioAula = data['inicioAula']
+        finalAula = data['finalAula']
 
-        MainRepository.db.session.add(Configuracao(ativo, turma_id, projeto_id))
-        MainRepository.db.session.commit()
-
-        return {"mensagem":"sucesso"}
-    
+        try:
+            return ConfiguracaoService.register(status, alunoAusente, inicioAula, finalAula)
+        except AssertionError as error:
+            return str(error)
+            
     if request.method == 'PUT':
         id = request.args.get('id')
         data = request.json
+
+        status = True
+        alunoAusente = data['alunoAusente']
+        inicioAula = data['inicioAula']
+        finalAula = data['finalAula']
+
         
-        return ConfiguracaoRepository.update(id, data)
+        return jsonify(ConfiguracaoService.update(id, status, alunoAusente, inicioAula, finalAula))
     
     if request.method == 'DELETE':
         id = request.args.get('id')
-        return ConfiguracaoRepository.delete(id)
+        return jsonify(ConfiguracaoService.delete(id))
 
 

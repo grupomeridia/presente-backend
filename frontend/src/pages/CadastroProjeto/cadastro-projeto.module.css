@@ -13,6 +13,24 @@
         background: #f0f1f6;
 }
 
+
+.successContainer {
+    margin-top: 10px;
+    background-color: #293957;
+    color: white;
+    padding: 10px;
+    border-radius: 10px;
+  }
+  
+  
+  .errorContainer {
+    margin-top: 10px;
+    background-color: #293957;
+    color: white;
+    padding: 10px;
+    border-radius: 10px;
+  }
+
 .success-message {
     color: green;
     margin: 10px 0;

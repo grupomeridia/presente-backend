@@ -19,7 +19,7 @@ function CadastroTurma() {
       nome,
       ativo,
       semestre,
-      ano
+      ano,
     };
     console.log(turmaData);
 
@@ -35,7 +35,6 @@ function CadastroTurma() {
         setMessage(error);
         setIsSuccess(false);
       });
-      
   };
   return (
     <div>
@@ -44,7 +43,11 @@ function CadastroTurma() {
         <div className={styles.login_container}>
           <h1>Cadastro de Turma</h1>
           {message && (
-            <div className={isSuccess ? "success-message" : "error-message"}>
+            <div
+              className={`${
+                isSuccess ? styles.successContainer : styles.errorContainer
+              }`}
+            >
               {message}
             </div>
           )}
@@ -75,7 +78,11 @@ function CadastroTurma() {
             </div>
             <div className={styles.input_container}>
               <label htmlFor="semestre">Semestre:</label>
-              <select id="DropSemestre" value={semestre} onChange={(e) => setSemestre(e.target.value)}>
+              <select
+                id="DropSemestre"
+                value={semestre}
+                onChange={(e) => setSemestre(e.target.value)}
+              >
                 <option value="" disabled selected>
                   Selecione o Semestre
                 </option>
