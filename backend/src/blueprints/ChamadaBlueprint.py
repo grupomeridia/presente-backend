@@ -60,3 +60,12 @@ def professor():
 @chamadas.route("/api/chamada/listAll", methods=['GET'])
 def listarAllChamadas():
     return ChamadaRepository.listAll()
+
+
+@chamadas.route("/api/chamada/aluno", methods=['GET'])
+def chamadasAbertas():
+    id = request.args.get('id')
+    try: 
+        return jsonify(ChamadaService.chamadasAbertasAluno(id))
+    except AssertionError as error:
+        return str(error)

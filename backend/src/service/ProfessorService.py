@@ -1,6 +1,8 @@
 from repository.ProfessorRepository import ProfessorRepository
 
 from entity.Professor import Professor
+from entity.Chamada import Chamada
+from entity.Turma import Turma
 
 class ProfessorService():
     def getById(id):
@@ -21,22 +23,51 @@ class ProfessorService():
         except ValueError as error:
             raise AssertionError("Campos obritório: Professor e usuário.")
         
-        return ProfessorRepository.registerProfessor(Professor(idProfessor, idUsuario, ativo, nome))
+        return ProfessorRepository.register(Professor(ativo, nome))
     
-    def update(id, idProfessor, idUsuario, ativo, nome):
-        try:
-            int(id)
-        except ValueError:
-            raise AssertionError("ID deve ser um número inteiro.")
-        assert int(id) > 0, "ID inválido."
-
-        return ProfessorRepository.update(id, Professor(idProfessor, idUsuario, ativo, nome))
-    
-    def delete(id):
+    def listarTurmas(id):
         try:
             int(id)
         except ValueError:
             raise AssertionError("ID deve ser um número inteiro")
-        assert int(id) > 0, "ID inválido."
-        assert Professor.query.filter(Professor.id == id).first() is not None, "Professor não encontrado"
-        return ProfessorRepository.delete(id)
+        
+        assert int(id) > 0, "ID inválido!"
+        assert Professor.query.get(id) != None, f"Nenhum professor foi encontrado com esse id"
+        return ProfessorRepository.listarTurmas(id)
+    
+    def numAlunos(idProfessor, idChamada):
+        try:
+            int(idProfessor)
+            int(idChamada)
+        except ValueError:
+            raise AssertionError("ID deve ser um número inteiro")
+        
+        assert int(idProfessor) > 0, "ID inválido!"
+        assert int(idChamada) > 0, "ID inválido!"
+        assert Professor.query.get(id) != None, f"Nenhum professor foi encontrado com esse id"
+        assert Chamada.query.get(id) != None, f"Nenhuma chamada foi encontrada com esse id"
+
+        return ProfessorRepository.numAlunos(idProfessor, idChamada)
+    
+    def historicoSemanal(idTurma):
+        try:
+            int(idTurma)
+        except ValueError:
+            raise AssertionError("ID deve ser um número inteiro")
+        
+        assert int(idTurma) > 0, "ID inválido!"
+        assert Turma.query.get(id) != None, f"Nenhuma turma foi encontrada com esse id"
+
+        return ProfessorRepository.historicoSemanal(idTurma)
+    
+    def mediaSemanal(idTurma):
+        try:
+            int(idTurma)
+        except ValueError:
+            raise AssertionError("ID deve ser um número inteiro")
+        
+        assert int(idTurma) > 0, "ID inválido!"
+        assert Turma.query.get(id) != None, f"Nenhum turma foi encontrada com esse id"
+
+        return ProfessorRepository.mediaSemanal(idTurma)
+
