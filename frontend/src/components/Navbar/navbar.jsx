@@ -16,7 +16,7 @@ import { useRouter } from "next/router";
 
 const Navbar = () => {
   const [activeItem, setActiveItem] = useState("");
-  const [userType, setUserType] = useState("professor"); // Substitua por 'aluno' ou 'professor' conforme necessário
+  const [userType, setUserType] = useState("aluno"); // Substitua por 'aluno' ou 'professor' conforme necessário
   const [userImage, setUserImage] = useState(""); // lembrar de colocar aqui a imagen dafault
   const router = useRouter();
 
@@ -28,8 +28,8 @@ const Navbar = () => {
   const getMenuItems = () => {
     if (userType === "aluno") {
       return [
-        { name: "Histórico", icon: faHistory, link: "/historico" },
-        { name: "Presença", icon: faUserCheck, link: "/presenca" },
+        { name: "Histórico", icon: faHistory, link: "/historicoAluno" },
+        { name: "Presença", icon: faUserCheck, link: "/presencaAluno" },
       ];
     }
 
