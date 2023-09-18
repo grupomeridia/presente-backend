@@ -15,7 +15,10 @@ class Chamada(MainRepository.db.Model):
     professor = MainRepository.db.relationship('Professor', back_populates='chamadas')
     presencas = MainRepository.db.relationship('Presenca', back_populates='chamada')
     
-    def __init__(self, status:bool, abertura:datetime, encerramento:datetime):
+    def __init__(self, idMateria:int, idTurma:int, idProfessor:int ,status:bool, abertura:datetime, encerramento:datetime):
+        self.idMateria = idMateria
+        self.idTurma = idTurma
+        self.idProfessor = idProfessor
         self.status = status
         self.abertura = abertura
         self.encerramento = encerramento
