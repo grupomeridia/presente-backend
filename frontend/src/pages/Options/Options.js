@@ -143,7 +143,7 @@ function Options() {
       console.log(response.data);
       console.log(response.data.Id);
       console.log(chamadaId)
-      setMessage("Chamada deletada com sucesso");
+      console.log("Chamada deletada com sucesso");
       setChamadas((prevState) =>
         prevState.filter((chamada) => chamada.Id !== chamadaId)
 
@@ -178,7 +178,7 @@ function Options() {
         <form onSubmit={handleSubmit}>
           <section className={styles.grid}>
             <div className={styles.center}>
-              <div className={`${styles.dropdownContainer} ${styles.center}`}>
+              <div className={styles.dropdownContainer}>
                 <label htmlFor="projeto">Projetos:</label>
                 <select
                   id="projeto"
@@ -193,9 +193,9 @@ function Options() {
                   ))}
                 </select>
               </div>
-              <div>
+              <div className={styles.dropdownContainer}>
                 <label htmlFor="professor">Professores:</label>
-                <select 
+                <select
                   id="professor"
                   value={professor}
                   onChange={handleProfessorChange}
@@ -228,10 +228,14 @@ function Options() {
               Cadastrar Chamada
             </button>
             {message && (
-            <div className={isSuccess ? "success-message" : "error-message"}>
-              {message}
-            </div>
-          )}
+                <div
+                  className={`${
+                    isSuccess ? styles.successContainer : styles.errorContainer
+                  }`}
+                >
+                  {message}
+                </div>
+              )}
           </section>
         </form>
         <section className={styles.grid}>
@@ -260,7 +264,7 @@ function Options() {
                         }`}
                         onClick={() => fecharChamada(chamada.Id)}
                     ></i>
-                    <i className="fa-solid fa-user-pen"></i>
+                   
                   </td>
                 </tr>
               ))}
@@ -274,4 +278,4 @@ function Options() {
   );
 }
 
-export default Options;
+export default Options;

@@ -6,6 +6,7 @@ class MainRepository():
     app = Flask(__name__)
     CORS(app)
 
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgree@localhost/presente'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgres@localhost/app_presente'
+
 
     db = SQLAlchemy(app)

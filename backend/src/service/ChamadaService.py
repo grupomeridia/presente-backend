@@ -14,12 +14,32 @@ class ChamadaService():
 
         return ChamadaRepository.getChamadaById(id)
 
-    def register(ativo, projeto_id, professor_id, turma_id):
+    def register(idMateria, idTurma, idProfessor, status, abertura, encerramento):
+        try:
+            int(idMateria)
+            int(idTurma)
+            int(idProfessor)
+        except ValueError as error:
+            raise AssertionError("Campos obrigatório: Projeto, Professor e Turma")
+        
 
-        assert ativo != None and ativo == True, "Propriedade ativo deve ser True ou False"
-        assert int(projeto_id) > 0 and int(projeto_id) != None, "ID de projeto inválido."
-        assert int(professor_id) > 0 and int(professor_id) != None, "ID de professor inválido."
-        assert int(turma_id) > 0 and int(turma_id) != None, "ID de turma inválida."
-        assert Chamada.query.filter(Chamada.ativo == True).first() is None, "Já existe uma chamada aberta nesse momento."
+        return ChamadaRepository.registerChamada(Chamada(idMateria, idTurma, idProfessor, status, abertura, encerramento))
 
-        return ChamadaRepository.registerChamada(Chamada(ativo, projeto_id, professor_id, turma_id))
+    def update(id, idMateria, idTurma, idProfessor, status, abertura, encerramento):
+        try:
+            int(id)
+        except ValueError:
+            raise AssertionError("ID deve ser um número inteiro.")
+        
+        return ChamadaRepository.update(id, Chamada(idMateria, idTurma, idProfessor, status, abertura, encerramento))
+    
+    def delete(id):
+        try:
+            int(id)
+        except ValueError:
+            raise AssertionError("ID deve ser um número inteiro.")
+        
+        assert int(id) > 0, "ID inválido"
+        assert Chamada.query.filter(Chamada.id == id).first() is not None, "Chamada não encontrada." 
+        return ChamadaRepository.delete(id) 
+    
