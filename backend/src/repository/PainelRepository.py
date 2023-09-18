@@ -1,0 +1,2 @@
+class PainelRepository():
+    pass
