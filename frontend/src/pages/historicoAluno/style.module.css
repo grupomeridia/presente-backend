@@ -1,0 +1,85 @@
+.page_content{
+    position: relative;
+    left: 220px;
+    width: calc(100% - 220px);
+    min-height: 100vh;
+    padding: 30px;
+    color: #171616;
+    background: #f0f1f6;
+}
+
+.inner_content{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.div_content{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 100%;
+}
+
+.dados{
+    width: 30%;
+    display: flex;
+    justify-content: space-evenly;
+    color: #203867;
+}
+
+.dados div{
+    text-align: center;
+}
+
+.search_input{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40%;
+}
+
+.search_input div input{
+    padding: 7px; /* Aumenta o espaço interno */
+    border-radius: 10px 0px 0px 10px; /* Deixa as bordas redondas */
+    font-size: 16px; /* Aumenta o tamanho da fonte */
+    width: 250px; /* Define a largura do input */
+    border: 1px solid black;
+}
+.search_input div{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.search_input div div{
+    border: 1px solid black;
+    text-align: center;
+    width: 20%;
+    height: 2rem;
+    border-radius: 0px 10px 10px 0px;
+}
+
+.div_table{
+    width: 100%;
+}
+
+.tabela {
+    width: 90%;
+    border-radius: 0px;
+    border-collapse: collapse;
+    background-color: aliceblue;
+    text-align: center;
+}
+
+.tabela tr{
+    height: 2.5rem;
+}
+
+.tabela thead{
+    background-color: #203867;
+    height: 4rem;
+    color: #ffff;
+
+}
+

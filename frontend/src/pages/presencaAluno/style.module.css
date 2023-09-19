@@ -1,0 +1,70 @@
+.page_content{
+    position: relative;
+    left: 220px;
+    width: calc(100% - 220px);
+    min-height: 100vh;
+    padding: 30px;
+    color: #171616;
+    background: #f0f1f6;
+}
+
+.inner_content{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.chamada{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 75%;
+    height: 40vh;
+    background-color: #203867;
+    margin-bottom: 2.5rem;
+    border-radius: 20px;
+}
+
+.chamada div{
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+}
+
+.historico{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 75%;
+    height: 40vh;
+    background-color: #203867;
+    border-radius: 20px;
+}
+
+.historico div{
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+}
+
+.tabela {
+    width: 90%;
+    border-collapse: collapse;
+    background-color: aliceblue;
+    text-align: center;
+}
+
+.tabela tr{
+    height: 2.5rem;
+}
+
+.botao{
+    font-size: medium;
+    color: #ffff;
+    background-color: #203867;
+    height: 30px;
+    width: 60%;
+    border-radius: 50px;
+}
