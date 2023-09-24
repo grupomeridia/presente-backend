@@ -14,22 +14,19 @@ class LembreteService():
         
         return LembreteRepository.getLembreteById(id)
     
-    def register(destinatarioCargo, titulo, mensagem, criacao, visualizacao):
+    def register(lembreteDTO):
+
+        lembrete = LembreteService.toEntity(lembreteDTO)
         
-        assert destinatarioCargo in [cargo.value for cargo in Cargo], "Cargo do destinatário inválido."
         
-        return LembreteRepository.registerLembrete(Lembrete(destinatarioCargo, titulo, mensagem, criacao, visualizacao))
+        return LembreteRepository.registerLembrete(Lembrete(lembrete.destinatarioCargo, lembrete.titulo, lembrete.mensagem, lembrete.criacao, lembrete.visualizacao))
     
-    def update(id, destinatarioCargo, titulo, mensagem, criacao, visualizacao):
+    def update(id, lembrete):
+
+        lembrete = LembreteService.toEntity(id, lembrete)
+
         
-        try:
-            int(id)
-        except ValueError:
-            raise AssertionError("ID deve ser um número inteiro.")
-        
-        assert destinatarioCargo in [cargo.value for cargo in Cargo], "Cargo do destinatário inválido."
-        
-        return LembreteRepository.update(id, Lembrete(destinatarioCargo, titulo, mensagem, criacao, visualizacao))
+        return LembreteRepository.update(id, lembrete)
     
     def delete(id):
         try:
@@ -40,3 +37,13 @@ class LembreteService():
         assert int(id) > 0, "ID inválido"
         assert Lembrete.query.filter(Lembrete.id == id).first() is not None, "Aluno não encontrado."
         return LembreteRepository.delete(id)
+    
+    def toEntity(data):
+        lembrete = Lembrete()
+        lembrete.destinatarioCargo = data.destinatarioCargo
+        lembrete.titulo = data.titulo
+        lembrete.mensagem = data.mensagem
+        lembrete.criacao = data.criacao
+        lembrete.visualizacao = data.visualizacao
+
+        return lembrete

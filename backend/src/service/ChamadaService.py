@@ -14,24 +14,18 @@ class ChamadaService():
 
         return ChamadaRepository.getChamadaById(id)
 
-    def register(idMateria, idTurma, idProfessor, status, abertura, encerramento):
-        try:
-            int(idMateria)
-            int(idTurma)
-            int(idProfessor)
-        except ValueError as error:
-            raise AssertionError("Campos obrigatório: Projeto, Professor e Turma")
+    def register(chamadaDTO):
+
+        chamada = ChamadaService.toEntity(chamadaDTO)
         
 
-        return ChamadaRepository.registerChamada(Chamada(idMateria, idTurma, idProfessor, status, abertura, encerramento))
+        return ChamadaRepository.registerChamada(Chamada(chamada.idMateria, chamada.idTurma, chamada.idProfessor, chamada.status, chamada.abertura, chamada.encerramento))
 
-    def update(id, idMateria, idTurma, idProfessor, status, abertura, encerramento):
-        try:
-            int(id)
-        except ValueError:
-            raise AssertionError("ID deve ser um número inteiro.")
+    def update(id, chamada):
+
+        chamada = ChamadaService.toEntity(id, chamada)
         
-        return ChamadaRepository.update(id, Chamada(idMateria, idTurma, idProfessor, status, abertura, encerramento))
+        return ChamadaRepository.update(id, chamada)
     
     def delete(id):
         try:
@@ -43,3 +37,13 @@ class ChamadaService():
         assert Chamada.query.filter(Chamada.id == id).first() is not None, "Chamada não encontrada." 
         return ChamadaRepository.delete(id) 
     
+    def toEntity(data):
+        chamada = Chamada()
+        chamada.idMateria = data.idMateria
+        chamada.idTurma = data.idTurma
+        chamada.idProfessor = data.idProfessor
+        chamada.status = data.status
+        chamada.abertura = data.abertura
+        chamada.encerramento = data.encerramento
+
+        return chamada

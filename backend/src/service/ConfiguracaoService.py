@@ -13,24 +13,17 @@ class ConfiguracaoService():
 
         return ConfiguracaoRepository.getConfiguracaoById(id)
     
-    def register(status, alunoAusente, inicioAula, finalAula):
-        try:
-            bool(status)
-            int(alunoAusente)
-            datetime(inicioAula)
-            datetime(finalAula)
-        except ValueError as error:
-            raise AssertionError("Campos obrigatório: alunoAusente, inicioAula, finalAula")
+    def register(configuracaoDTO):
+
+        configuracao = ConfiguracaoService.toEntity(configuracaoDTO)
         
-        return ConfiguracaoRepository.registerConfiguracao(Configuracao(status, alunoAusente, inicioAula, finalAula))
+        return ConfiguracaoRepository.registerConfiguracao(Configuracao(configuracao.status, configuracao.alunoAusente, configuracao.inicioAula, configuracao.finalAula))
     
-    def update(id, status, alunoAusente, inicioAula, finalAula):
-        try:
-            int(id)
-        except ValueError:
-            raise AssertionError("ID deve ser um número inteiro")
+    def update(id, configuracao):
+
+        configuracao = ConfiguracaoService.toEntity(id, configuracao)
         
-        return ConfiguracaoRepository.update(id, Configuracao(status, alunoAusente, inicioAula, finalAula))
+        return ConfiguracaoRepository.update(id, configuracao)
 
     def delete(id):
         try:
@@ -41,3 +34,12 @@ class ConfiguracaoService():
         assert int(id) > 0, "ID inválido"
         assert Configuracao.query.filter(Configuracao.id == id).first() is not None, "Configuracao não encontrada"
         return ConfiguracaoRepository.delete(id)
+    
+    def toEntity(data):
+        configuracao = Configuracao()
+        configuracao.status = data.status
+        configuracao.alunoAusente = data.alunoAusente
+        configuracao.inicioAula = data.inicioAula
+        configuracao.finalAula = data.finalAula
+
+        return configuracao

@@ -15,33 +15,17 @@ class PainelService():
 
         return PainelRepository.getPainelById(id)
     
-    def register(data, totalAtivos, totalPresentes, totalAusentes, totalPresentesCurso, totalAtivoCurso, totalAusenteCurso):
-        try:
-            assert isinstance(data, datetime.datetime), "Data inválida"
-            assert isinstance(totalAtivos, int), "TotalAtivos deve ser um número inteiro"
-            assert isinstance(totalPresentes, int), "TotalPresentes deve ser um número inteiro"
-            assert isinstance(totalAusentes, int), "TotalAusentes deve ser um número inteiro"
-            assert isinstance(totalPresentesCurso, list), "TotalPresentesCurso deve ser uma lista"
-            assert isinstance(totalAtivoCurso, list), "TotalAtivoCurso deve ser uma lista"
-            assert isinstance(totalAusenteCurso, list), "TotalAusenteCurso deve ser uma lista"
-        except AssertionError as error:
-            raise AssertionError(f"Campos obrigatórios inválidos: {str(error)}")
+    def register(painelDTO):
 
-        return PainelRepository.registerPainel(Painel(data, totalAtivos, totalPresentes, totalAusentes, totalPresentesCurso, totalAtivoCurso, totalAusenteCurso))
+        painel = PainelService.toEntity(painelDTO)
+
+        return PainelRepository.registerPainel(Painel(painel.data, painel.totalAtivos, painel.totalPresentes, painel.totalAusentes, painel.totalPresentesCurso, painel.totalAtivoCurso, painel.totalAusenteCurso))
     
-    def update(id, data, totalAtivos, totalPresentes, totalAusentes, totalPresentesCurso, totalAtivoCurso, totalAusenteCurso):
-        try:
-            assert isinstance(data, datetime.datetime), "Data inválida"
-            assert isinstance(totalAtivos, int), "TotalAtivos deve ser um número inteiro"
-            assert isinstance(totalPresentes, int), "TotalPresentes deve ser um número inteiro"
-            assert isinstance(totalAusentes, int), "TotalAusentes deve ser um número inteiro"
-            assert isinstance(totalPresentesCurso, list), "TotalPresentesCurso deve ser uma lista"
-            assert isinstance(totalAtivoCurso, list), "TotalAtivoCurso deve ser uma lista"
-            assert isinstance(totalAusenteCurso, list), "TotalAusenteCurso deve ser uma lista"
-        except AssertionError as error:
-            raise AssertionError(f"Campos obrigatórios inválidos: {str(error)}")
+    def update(id, painel):
+        
+        painel = PainelService.toEntity(id, painel)
 
-        return PainelRepository.update(id, Painel(data, totalAtivos, totalPresentes, totalAusentes, totalPresentesCurso, totalAtivoCurso, totalAusenteCurso))
+        return PainelRepository.update(id, painel)
     
     def delete(id):
         try:
@@ -52,3 +36,15 @@ class PainelService():
         assert int(id) > 0, "ID inválido."
         assert Painel.query.filter(Painel.id == id).first() is not None, "Painel não encontrado."
         return PainelRepository.delete(id)
+    
+    def toEntity(data):
+        painel = Painel()
+        painel.data = data.data
+        painel.totalAtivos = data.totalAtivos
+        painel.totalPresentes = data.totalPresentes
+        painel.totalAusentes = data.totalAusentes
+        painel.totalPresentesCurso = data.totalPresentesCurso
+        painel.totalAtivoCurso = data.totalAtivoCurso
+        painel.totalAusenteCurso = data.totalAusenteCurso
+
+        return painel
