@@ -10,8 +10,7 @@ class Professor(MainRepository.db.Model):
     chamadas = MainRepository.db.relationship('Chamada', back_populates='professor')
     turmas = MainRepository.db.relationship('Turma', secondary='turma_professor')
 
-    def __init__(self, idProfessor:int, idUsuario:int, status:bool, nome:str):
-        self.idProfessor = idProfessor
+    def __init__(self, idUsuario:int, status:bool, nome:str):
         self.idUsuario = idUsuario
         self.status = status
         self.nome = nome
