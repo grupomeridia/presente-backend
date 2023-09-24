@@ -35,12 +35,13 @@ class TurmaRepository():
     def update(id, data):
         turma = Turma.query.get(id)
 
-        turma.nome = data['nome']
-        turma.ano = data['ano']
-        turma.semestre = data['semestre']
-        turma.turno = data['turno']
-        turma.modalidade = data['modalidade']
-        turma.curso = data['curso']
+        turma.status = data.status
+        turma.nome = data.nome
+        turma.ano = data.ano
+        turma.semestre = data.semestre
+        turma.turno = data.turno
+        turma.modalidade = data.modalidade
+        turma.curso = data.curso
 
         MainRepository.db.session.merge(turma)
         MainRepository.db.session.commit()
