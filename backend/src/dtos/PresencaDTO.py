@@ -1,7 +1,12 @@
-from PresencaEnum import TipoPresenca
-import datetime
+from entity.PresencaEnum import TipoPresenca
+from datetime import datetime
+from pydantic import validate_arguments
+
 class PresencaDTO:
-    def __init__(self, status:bool, tipoPresenca:TipoPresenca, horario:datetime):
+    @validate_arguments
+    def __init__(self, idAluno:int, idChamada:int, status:bool, tipoPresenca:TipoPresenca, horario:datetime):
+        self.idAluno = idAluno
+        self.idChamada = idChamada
         self.status = status
         self.tipoPresenca = tipoPresenca
         self.horario = horario
