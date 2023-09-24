@@ -1,4 +1,4 @@
-from CargoEnum import Cargo
+from entity.CargoEnum import Cargo
 
 class UsuarioDTO:
     def __init__(self, status:bool, login:str, senha:str, cargo:Cargo):

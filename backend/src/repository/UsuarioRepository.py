@@ -13,19 +13,19 @@ class UsuarioRepository():
             "Cargo": Usuario.query.get(id).cargo.value
         }
     
-    def register(status, login, senha, cargo):
-        MainRepository.db.session.add(Usuario(status, login, senha, cargo))
+    def register(usuario):
+        MainRepository.db.session.add(usuario)
         MainRepository.db.session.commit()
 
         return "Usuario criado com sucesso"
     
-    def update(id, status, login, senha, cargo):
+    def update(id, data):
         usuario = Usuario.query.get(id)
 
-        usuario.status = status
-        usuario.login = login
-        usuario.senha = senha
-        usuario.cargo = cargo
+        usuario.status = data.status
+        usuario.login = data.login
+        usuario.senha = data.senha
+        usuario.cargo = data.cargo
 
         MainRepository.db.session.merge(usuario)
         MainRepository.db.session.commit()

@@ -13,23 +13,17 @@ class UsuarioService():
 
         return UsuarioRepository.getUsuarioById(id)
     
-    def register(status, login, senha, cargo):
-        try:
-            bool(status)
-            str(login)
-            str(senha)
-        except ValueError as error:
-            raise AssertionError("Campos obrigatório: login, senha")
+    def register(usuarioDto):
         
-        return UsuarioRepository.registerUsuario(Usuario(status, login, senha, cargo))
+        usuario = UsuarioService.toEntity(usuarioDto)
+        
+        return UsuarioRepository.register(Usuario(usuario.status, usuario.login, usuario.senha, usuario.cargo))
     
-    def update(id, status, login, senha, cargo):
-        try:
-            int(id)
-        except ValueError:
-            raise AssertionError("ID deve ser um número inteiro")
+    def update(id, usuarioDto):
+        
+        usuario = UsuarioService.toEntity(usuarioDto)
 
-        return UsuarioRepository.update(id, Usuario(status, login, senha, cargo)) 
+        return UsuarioRepository.update(id, Usuario(usuario.status, usuario.login, usuario.senha, usuario.cargo)) 
 
     def delete(id):
         try:
@@ -40,3 +34,12 @@ class UsuarioService():
         assert int(id) > 0, "ID inválido"
         assert Usuario.query.filter(Usuario.id == id).first() is not None, "Usuario não encontrado" 
         return UsuarioRepository.delete(id)      
+
+    def toEntity(usuarioDto):
+        usuario = Usuario()
+        usuario.status = usuarioDto.status
+        usuario.login = usuarioDto.login
+        usuario.senha = usuarioDto.senha
+        usuario.cargo = usuarioDto.cargo
+
+        return usuario
