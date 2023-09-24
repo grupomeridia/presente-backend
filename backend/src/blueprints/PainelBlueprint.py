@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify
 
 from repository.PainelRepository import PainelRepository
-
+from dtos.PainelDTO import PainelDTO
 from service.PainelService import PainelService
 
 painel = Blueprint("painel", __name__)
@@ -27,7 +27,7 @@ def painel():
         totalAusenteCurso = data['totalAusenteCurso']
 
         try:
-            return PainelService.register(date, totalAtivos, totalPresentes, totalAusentes, totalPresentesCurso, totalAtivoCurso, totalAusenteCurso)
+            return PainelService.register(PainelDTO(date, totalAtivos, totalPresentes, totalAusentes, totalPresentesCurso, totalAtivoCurso, totalAusenteCurso))
         except AssertionError as error:
             return str(error)
     
@@ -44,7 +44,7 @@ def painel():
         totalAusenteCurso = data['totalAusenteCurso']
 
         try:
-            return jsonify(PainelService.update(id, date, totalAtivos, totalPresentes, totalAusentes, totalPresentesCurso, totalAtivoCurso, totalAusenteCurso))
+            return jsonify(PainelService.update(id, PainelDTO))
         except AssertionError as error:
             return str(error)
         
