@@ -4,6 +4,7 @@ from repository.ProfessorRepository import ProfessorRepository
 from repository.MainRepository import MainRepository
 
 from entity.Professor import Professor
+from dtos.ProfessorDTO import ProfessorDTO
 
 from service.ProfessorService import ProfessorService
 
@@ -27,7 +28,7 @@ def professor():
         nome = data['nome']
 
         try:
-            return ProfessorService.register(idProfessor, idUsuario, ativo, nome)
+            return ProfessorService.register(ProfessorDTO(idProfessor, idUsuario, ativo, nome))
         except AssertionError as error:
             return str(error)        
 
@@ -42,7 +43,7 @@ def professor():
         nome = data['nome']
 
         try:
-            return jsonify(ProfessorService.update(id, idProfessor, idUsuario, ativo, nome))
+            return ProfessorService.update(id,ProfessorDTO(idProfessor, idUsuario, ativo, nome))
         except AssertionError as error:
             return str(error)
         
