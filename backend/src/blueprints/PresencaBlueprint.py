@@ -4,6 +4,7 @@ from repository.MainRepository import MainRepository
 from repository.PresencaRepository import PresencaRepository
 
 from entity.Presenca import Presenca
+from dtos.PresencaDTO import PresencaDTO
 
 from service.PresencaService import PresencaService
 
@@ -28,7 +29,7 @@ def presencasMain():
         horario = data['horario']
 
         try:
-            return PresencaService.register(idAluno, idChamada, status, tipo_presenca, horario)
+            return PresencaService.register(PresencaDTO(idAluno, idChamada, status, tipo_presenca, horario))
         except AssertionError as error:
             return str(error)
     
@@ -36,7 +37,13 @@ def presencasMain():
         id = request.args.get('id')
         data = request.json
 
-        return PresencaService.update(id,data)
+        idAluno = data['idAluno']
+        idChamada = data['idChamada']
+        status = True
+        tipo_presenca = data['tipoPresenca']
+        horario = data['horario']
+
+        return PresencaService.update(id, PresencaDTO(idAluno, idChamada, status, tipo_presenca, horario))
     
     if request.method == 'DELETE':
         id = request.args.get('id')
