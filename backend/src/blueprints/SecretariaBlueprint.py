@@ -2,6 +2,8 @@ from flask import Blueprint, request, jsonify
 
 from repository.SecretariaRepository import SecretariaRepository
 
+from dtos.SecretariaDTO import SecretariaDTO
+
 from service.SecretariaService import SecretariaService
 
 secretaria = Blueprint("secretaria", __name__)
@@ -18,10 +20,12 @@ def secret():
     if request.method == 'POST':
         data = request.json
         
+        idUsuario = data['idUsuario']
+        status = True
         nome = data['nome']
         
         try:
-            return SecretariaService.register(nome)
+            return SecretariaService.register(SecretariaDTO(idUsuario, status, nome))
         except AssertionError as error:
             return str(error)
     
@@ -29,10 +33,12 @@ def secret():
         id = request.args.get('id')
         data = request.json
         
+        idUsuario = data['idUsuario']
+        status = True
         nome = data['nome']
         
         try:
-            return jsonify(SecretariaService.update(nome))
+            return jsonify(SecretariaService.update(id, SecretariaDTO(idUsuario, status, nome)))
         except AssertionError as error:
             return str(error)
     

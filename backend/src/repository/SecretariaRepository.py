@@ -30,10 +30,9 @@ class SecretariaRepository():
     def update(id, secretaria):
         old_secretaria = Secretaria.query.get(id)
         
-        old_secretaria.ativo = secretaria.ativo
+        old_secretaria.idUsuario = secretaria.idUsuario
+        old_secretaria.status = secretaria.status
         old_secretaria.nome = secretaria.nome
-        old_secretaria.usuario = secretaria.usuario
-        old_secretaria.lembrete = secretaria.lembrete
         
         MainRepository.db.session.merge(old_secretaria)
         MainRepository.db.session.commit()
