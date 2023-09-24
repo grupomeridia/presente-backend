@@ -39,12 +39,12 @@ class ChamadaRepository():
     def update(id, data):
         chamada = Chamada.query.get(id)
 
-        chamada.idMateria = data['idMateria']
-        chamada.idTurma = data['idTurma']
-        chamada.idProfessor = data['idProfessor']
-        chamada.status = data['status']
-        chamada.abertura = data['abertura']
-        chamada.encerramento = data['encerramento']
+        chamada.idMateria = data.idMateria
+        chamada.idTurma = data.idTurma
+        chamada.idProfessor = data.idProfessor
+        chamada.status = data.status
+        chamada.abertura = data.abertura
+        chamada.encerramento = data.encerramento
 
         MainRepository.db.session.merge(chamada)
         MainRepository.db.session.commit()
