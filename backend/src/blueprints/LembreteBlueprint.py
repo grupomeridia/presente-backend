@@ -2,6 +2,8 @@ from flask import Blueprint, request, jsonify
 
 from repository.LembreteRepository import LembreteRepository
 
+from dtos.LembreteDTO import LembreteDTO
+
 from service.LembreteService import LembreteService
 
 lembretes = Blueprint("lembretes", __name__)
@@ -25,7 +27,7 @@ def lembrete():
         visualizacao = data['visualizacao']
         
         try:
-            return LembreteService.register(destinatarioCargo, titulo, mensagem, criacao, visualizacao)
+            return LembreteService.register(LembreteDTO(destinatarioCargo, titulo, mensagem, criacao, visualizacao))
         except AssertionError as error:
             return str(error)
     
@@ -40,7 +42,7 @@ def lembrete():
         visualizacao = data['visualizacao']
         
         try:
-            return jsonify(LembreteService.update(destinatarioCargo, titulo, mensagem, criacao, visualizacao))
+            return jsonify(LembreteService.update(LembreteDTO))
         except AssertionError as error:
             return str(error)
     
