@@ -1,4 +1,8 @@
+from pydantic import validade_arguments
+
 class ProfessorDTO:
-    def __init__(self, status:bool, nome:str):
+    @validade_arguments
+    def __init__(self, idUsuario:int, status:bool, nome:str):
+        self.idUsuario = idUsuario
         self.status = status
         self.nome = nome
