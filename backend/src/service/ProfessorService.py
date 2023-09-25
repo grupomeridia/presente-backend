@@ -16,14 +16,17 @@ class ProfessorService():
 
         return ProfessorRepository.getProfessorById(id)
     
-    def register(idProfessor, idUsuario, ativo, nome):
-        try:
-            int(idProfessor)
-            int(idUsuario)
-        except ValueError as error:
-            raise AssertionError("Campos obritório: Professor e usuário.")
+    def register(professorDto):
         
-        return ProfessorRepository.register(Professor(ativo, nome))
+        professor = ProfessorService.toEntity(professorDto)
+        
+        return ProfessorRepository.register(Professor(professor.idUsuario, professor.status, professor.nome))
+    
+    def update(id, professorDto):
+
+        professor = ProfessorService.toEntity(professorDto)
+
+        return ProfessorRepository.update(id, professor)
     
     def listarTurmas(id):
         try:
@@ -71,3 +74,10 @@ class ProfessorService():
 
         return ProfessorRepository.mediaSemanal(idTurma)
 
+    def toEntity(professorDto):
+        professor = Professor()
+        professor = professorDto.idUsuario
+        professor = professorDto.status
+        professor = professorDto.nome
+
+        return professor

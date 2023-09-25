@@ -4,6 +4,7 @@ from repository.MainRepository import MainRepository
 from repository.TurmaRepository import TurmaRepository
 
 from entity.Turma import Turma
+from dtos.TurmaDTO import TurmaDTO
 
 from service.TurmaService import TurmaService
 
@@ -30,14 +31,24 @@ def turma():
         curso = data['curso']
 
         try:
-            return TurmaService.postTurma(status, nome, ano, semestre, turno, modalidade, curso)
+            return TurmaService.postTurma(TurmaDTO(status, nome, ano, semestre, turno, modalidade, curso))
         except AssertionError as error:
             return str(error)
 
     if request.method == 'PUT':
         id = request.args.get('id')
         data = request.json
-        return jsonify(TurmaService.update(id, data))
+
+        status = data['status']
+        nome = data['nome']
+        ano = data['ano']
+        semestre = data['semestre']
+        turno = data['turno']
+        modalidade = data['modalidade']
+        curso = data['curso']
+
+
+        return TurmaService.update(id, TurmaDTO(status, nome, ano, semestre, turno, modalidade, curso))
     
     if request.method == 'DELETE':
         id = request.args.get('id')

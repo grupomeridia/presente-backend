@@ -45,11 +45,11 @@ class PresencaRepository():
     def update(id, data):
         presenca = Presenca.query.get(id)
 
-        presenca.idAluno = data['idAluno']
-        presenca.idChamada = data['idChamada']
-        presenca.status = data['status']
-        presenca.tipoPresenca = data['tipoPresenca']
-        presenca.horario = data['horario']
+        presenca.idAluno = data.idAluno
+        presenca.idChamada = data.idChamada
+        presenca.status = data.status
+        presenca.tipoPresenca = data.tipoPresenca
+        presenca.horario = data.horario
 
         MainRepository.db.session.merge(presenca)
         MainRepository.db.session.commit()

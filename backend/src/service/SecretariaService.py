@@ -11,11 +11,17 @@ class SecretariaService():
         assert int(id) > 0, "ID inválido."
         assert Secretaria.query.get(id) != None, "Nenhum ID encontrado."
         
-    def register(nome):
-        return SecretariaRepository.registerSecretaria(Secretaria(nome))
+    def register(secretariaDto):
+
+        secretaria = SecretariaService.toEntity(secretariaDto)
+
+        return SecretariaRepository.registerSecretaria(Secretaria(secretaria.idUsuario, secretaria.status, secretaria.nome))
     
-    def update(nome):
-        return SecretariaRepository.update(Secretaria(nome))
+    def update(id, secretariaDto):
+
+        secretaria = SecretariaService.toEntity(secretariaDto)
+
+        return SecretariaRepository.update(id, secretaria)
     
     def delete(id):
         try:
@@ -26,3 +32,11 @@ class SecretariaService():
         assert int(id) > 0, "ID inválido"
         
         return SecretariaRepository.delete(id)
+    
+    def toEntity(secretariaDto):
+        secretaria = Secretaria()
+        secretaria.idUsuario = secretariaDto.idUsuario
+        secretaria.status = secretariaDto.status
+        secretaria.nome = secretariaDto.nome
+
+        return secretaria

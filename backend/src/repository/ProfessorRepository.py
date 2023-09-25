@@ -29,9 +29,10 @@ class ProfessorRepository():
     
     def update(id, data):
         professor = Professor.query.get(id)
-        professor.nome = data['nome']
-        professor.ativo = data['ativo']
 
+        professor.idUsuario = data.idUsuario
+        professor.nome = data.status
+        professor.ativo = data.nome
 
         MainRepository.db.session.merge(professor)
         MainRepository.db.session.commit()

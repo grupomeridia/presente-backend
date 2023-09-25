@@ -4,6 +4,7 @@ from repository.UsuarioRepository import UsuarioRepository
 from repository.MainRepository import MainRepository
 
 from entity.Usuario import Usuario
+from dtos.UsuarioDTO import UsuarioDTO
 
 from service.UsuarioService import UsuarioService
 
@@ -27,7 +28,7 @@ def usuario():
         cargo = data['cargo']
 
         try:
-            return UsuarioService.register(status, login, senha, cargo)
+            return UsuarioService.register(UsuarioDTO(status, login, senha, cargo))
         except AssertionError as error:
             return str(error)
         
@@ -40,7 +41,7 @@ def usuario():
         senha = data['senha']
         cargo = data['cargo']
 
-        return jsonify(UsuarioService.update(id, status, login, senha, cargo))
+        return UsuarioService.update(id, UsuarioDTO(status, login, senha, cargo))
     
     if request.method == 'DELETE':
         id = request.args.get('id')

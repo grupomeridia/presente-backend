@@ -15,33 +15,20 @@ class PresencaService():
         assert Presenca.query.get(id) != None, f"Nenhuma presença foi encontrada com o ID {id}"
         assert PresencaRepository.getPresencaById(id)
 
-    def register(idAluno, idChamada, status, tipo_presenca, horario):
+    def register(presencaDto):
+
+        presenca = PresencaService.toEntity(presencaDto)
         
         assert not Chamada.query.filter(Chamada.ativo == True).first() is None, "Não existe nenhuma chamada aberta"
         
-        try:
-            int(idAluno) 
-            int(idChamada)
-        except ValueError:
-            raise AssertionError("Os valores de aluno, e chamada devem ser números inteiros.")
+         
+        return PresencaRepository.registerPresenca(Presenca(presenca.idAluno, presenca.idChamada, presenca.status, presenca.tipoPresenca, presenca.horario))
     
-        assert status != None and status == True, "Propriedade ativo deve ser True ou False" 
-        assert int(idAluno) > 0, "Aluno inválido"
-        assert int(idChamada) > 0, "Chamada inválida"
+    def update(id, presencaDto):
+        
+        presenca = PresencaService.toEntity(presencaDto)
 
-        assert tipo_presenca != None, "Tipo da presença inválida"
-        
-        
-        return PresencaRepository.registerPresenca(Presenca(idAluno, idChamada, status, tipo_presenca, horario))
-    
-    def update(id, data):
-        
-        try:
-            int(id)
-        except ValueError:
-            raise AssertionError("Deve ser um número inteiro")
-
-        return PresencaRepository.update(id, data)
+        return PresencaRepository.update(id, presenca)
     
     def delete(id):
         try:
@@ -50,3 +37,13 @@ class PresencaService():
             raise AssertionError("Deve ser um número inteiro")
         
         return PresencaRepository.delete(id)
+    
+    def toEntity(data):
+        presenca = Presenca()
+        presenca.idAluno = data.idAluno
+        presenca.idChamada = data.idChamada
+        presenca.status = data.status
+        presenca.tipoPresenca = data.tipoPresenca
+        presenca.horario = data.horario
+
+        return presenca
