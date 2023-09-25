@@ -2,7 +2,7 @@ from flask import Blueprint, request, jsonify
 
 from repository.MainRepository import MainRepository
 from repository.AlunoRepository import AlunoRepository
-
+from dtos.AlunoDTO import AlunoDTO
 from entity.Aluno import Aluno
 
 from service.AlunoService import AlunoService
@@ -29,7 +29,7 @@ def aluno():
         turma = data['turma']
 
         try:
-            return AlunoService.register(idUsuario, ativo, nome, ra, turma, curso)
+            return AlunoService.register(AlunoDTO(idUsuario, ativo, nome, ra, turma, curso))
         except AssertionError as error:
             return str(error)
 
@@ -44,7 +44,7 @@ def aluno():
         curso = data['curso'] 
 
         try:
-            return jsonify(AlunoService.update(id, ativo, nome, ra, turma_id, curso))
+            return jsonify(AlunoService.update(id, AlunoDTO))
         except AssertionError as error:
             return str(error)
         

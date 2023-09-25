@@ -25,13 +25,13 @@ class ConfiguracaoRepository():
         
         return jsonify(resultado)
     
-    def update (id, status, alunoAusente, inicioAula, finalAula):
+    def update (id, data):
         configuracao = Configuracao.query.get(id)
 
-        configuracao.status = status
-        configuracao.alunoAusente = alunoAusente
-        configuracao.inicioAula = inicioAula
-        configuracao.finalAula = finalAula
+        configuracao.status = data.status
+        configuracao.alunoAusente = data.alunoAusente
+        configuracao.inicioAula = data.inicioAula
+        configuracao.finalAula = data.finalAula
 
         MainRepository.db.session.merge(configuracao)
         MainRepository.db.session.commit()

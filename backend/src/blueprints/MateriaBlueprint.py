@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify
 
 from repository.MateriaRepository import MateriaRepository
+from dtos.MateriaDTO import MateriaDTO
 
 from service.MateriaService import MateriaService
 
@@ -22,7 +23,7 @@ def materia():
         nome = data['nome']
 
         try:
-            return MateriaService.register(ativo, nome)
+            return MateriaService.register(MateriaDTO(ativo, nome))
         except AssertionError as error:
             return str(error)
     
@@ -30,7 +31,7 @@ def materia():
         id = request.args.get('id')
         data = request.json   
         try: 
-            return jsonify(MateriaRepository.update(id, ativo, nome))
+            return jsonify(MateriaRepository.update(MateriaDTO))
         except AssertionError as error:
             return str(error)
     

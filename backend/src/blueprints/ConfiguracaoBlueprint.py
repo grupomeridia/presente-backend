@@ -2,7 +2,7 @@ from flask import Blueprint, request, jsonify
 
 from repository.ConfiguracaoRepository import ConfiguracaoRepository
 from repository.MainRepository import MainRepository
-
+from dtos.ConfiguracaoDTO import ConfiguracaoDTO
 from entity.Configuracao import Configuracao
 
 from service.ConfiguracaoService import ConfiguracaoService
@@ -27,7 +27,7 @@ def configuracao():
         finalAula = data['finalAula']
 
         try:
-            return ConfiguracaoService.register(status, alunoAusente, inicioAula, finalAula)
+            return ConfiguracaoService.register(ConfiguracaoDTO(status, alunoAusente, inicioAula, finalAula))
         except AssertionError as error:
             return str(error)
             
@@ -41,7 +41,7 @@ def configuracao():
         finalAula = data['finalAula']
 
         
-        return jsonify(ConfiguracaoService.update(id, status, alunoAusente, inicioAula, finalAula))
+        return jsonify(ConfiguracaoService.update(id, ConfiguracaoDTO))
     
     if request.method == 'DELETE':
         id = request.args.get('id')

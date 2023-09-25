@@ -2,7 +2,7 @@ from flask import Blueprint, request, jsonify
 
 from repository.MainRepository import MainRepository
 from repository.ChamadaRepository import ChamadaRepository
-
+from dtos.ChamadaDTO import ChamadaDTO
 from entity.Chamada import Chamada
 
 from service.ChamadaService import ChamadaService
@@ -29,7 +29,7 @@ def professor():
         encerramento = data['encerramento']
         
         try:
-            return ChamadaService.register(idMateria, idTurma, idProfessor, status, abertura, encerramento)
+            return ChamadaService.register(ChamadaDTO(idMateria, idTurma, idProfessor, status, abertura, encerramento))
         except AssertionError as error:
             return str(error)
 
@@ -44,7 +44,7 @@ def professor():
         encerramento = data['encerramento']
 
         try:
-            return jsonify(ChamadaService.update(id, idMateria, idTurma, idProfessor, status, abertura, encerramento))
+            return jsonify(ChamadaService.update(id, ChamadaDTO))
         except AssertionError as error:
             return str(error)
 

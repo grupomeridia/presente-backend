@@ -23,8 +23,8 @@ class MateriaRepository():
     
     def update(id, data):
         materia = Materia.query.get(id)
-        materia.ativo = data['ativo']
-        materia.nome = data['nome']
+        materia.ativo = data.ativo
+        materia.nome = data.nome
 
         MainRepository.db.session.merge(materia)
         MainRepository.db.session.commit()
