@@ -17,7 +17,7 @@ class UsuarioService():
         
         usuario = UsuarioService.toEntity(usuarioDto)
         
-        return UsuarioRepository.register(Usuario(usuario.status, usuario.login, usuario.senha, usuario.cargo))
+        return UsuarioRepository.register(Usuario(status=usuario.status, login=usuario.login, senha=usuario.senha, cargo=usuario.cargo))
     
     def update(id, usuarioDto):
         
