@@ -28,7 +28,7 @@ def usuario():
         cargo = data['cargo']
 
         try:
-            return UsuarioService.register(UsuarioDTO(status, login, senha, cargo))
+            return UsuarioService.register(UsuarioDTO(status=status, login=login, senha=senha, cargo=cargo))
         except AssertionError as error:
             return str(error)
         

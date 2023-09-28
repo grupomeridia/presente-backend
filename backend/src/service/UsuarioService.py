@@ -36,10 +36,6 @@ class UsuarioService():
         return UsuarioRepository.delete(id)      
 
     def toEntity(usuarioDto):
-        usuario = Usuario()
-        usuario.status = usuarioDto.status
-        usuario.login = usuarioDto.login
-        usuario.senha = usuarioDto.senha
-        usuario.cargo = usuarioDto.cargo
+        usuario = Usuario(status=usuarioDto.status, login=usuarioDto.login, senha=usuarioDto.senha, cargo=usuarioDto.cargo)
 
         return usuario
