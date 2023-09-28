@@ -3,7 +3,7 @@ import datetime
 
 class Configuracao(MainRepository.db.Model):
     __tablename__ = 'configuracoes'
-    idConfiguracao = MainRepository.db.Column(MainRepository.db.Integer, primary_key=True)
+    id_configuracao = MainRepository.db.Column(MainRepository.db.Integer, primary_key=True)
     status = MainRepository.db.Column(MainRepository.db.Boolean, nullable=False)
     alunoAusente = MainRepository.db.Column(MainRepository.db.Integer, nullable=False)
     inicioAula = MainRepository.db.Column(MainRepository.db.DateTime, nullable=False)

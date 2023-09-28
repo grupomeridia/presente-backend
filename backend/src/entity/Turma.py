@@ -6,7 +6,7 @@ from repository.MainRepository import MainRepository
 
 class Turma(MainRepository.db.Model):
     __tablename__ = 'turmas'
-    idTurma = MainRepository.db.Column(MainRepository.db.Integer, primary_key=True)
+    id_turma = MainRepository.db.Column(MainRepository.db.Integer, primary_key=True)
     status = MainRepository.db.Column(MainRepository.db.Boolean, nullable=False)
     nome = MainRepository.db.Column(MainRepository.db.String(50), nullable=False)
     ano = MainRepository.db.Column(MainRepository.db.Integer, nullable=False)

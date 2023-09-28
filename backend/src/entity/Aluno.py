@@ -2,8 +2,8 @@ from repository.MainRepository import MainRepository
 
 class Aluno(MainRepository.db.Model):
     __tablename__ = 'alunos'
-    idAluno = MainRepository.db.Column(MainRepository.db.Integer, primary_key=True)
-    idUsuario = MainRepository.db.Column(MainRepository.db.Integer, MainRepository.db.ForeignKey('usuarios.id_usuario'))
+    id_aluno = MainRepository.db.Column(MainRepository.db.Integer, primary_key=True)
+    id_usuario = MainRepository.db.Column(MainRepository.db.Integer, MainRepository.db.ForeignKey('usuarios.id_usuario'))
     status = MainRepository.db.Column(MainRepository.db.Boolean, nullable=False)
     ausente = MainRepository.db.Column(MainRepository.db.Boolean, nullable=False)
     nome = MainRepository.db.Column(MainRepository.db.String(100), nullable=False)
