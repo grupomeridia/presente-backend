@@ -22,12 +22,12 @@ def professor():
     if request.method == 'POST':
         data = request.json
 
-        idUsuario = data['idUsuario']
-        ativo = True
+        id_usuario = data['idUsuario']
+        status = True
         nome = data['nome']
 
         try:
-            return ProfessorService.register(ProfessorDTO(idUsuario, ativo, nome))
+            return ProfessorService.register(ProfessorDTO(id_usuario=id_usuario, status=status, nome=nome))
         except AssertionError as error:
             return str(error)        
 
@@ -36,12 +36,12 @@ def professor():
         id = request.args.get('id')
         data = request.json
 
-        idUsuario = data['idUsuario']
-        ativo = True
+        id_usuario = data['idUsuario']
+        status = True
         nome = data['nome']
 
         try:
-            return ProfessorService.update(id,ProfessorDTO(idUsuario, ativo, nome))
+            return ProfessorService.update(id,ProfessorDTO(id_usuario=id_usuario, status=status, nome=nome))
         except AssertionError as error:
             return str(error)
         

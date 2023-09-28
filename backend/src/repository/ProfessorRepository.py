@@ -53,7 +53,7 @@ class ProfessorRepository():
         MainRepository.db.session.add(professor)
         MainRepository.db.session.commit()
         
-        return f"Professor cadastrado com o id {professor.id}"
+        return f"Professor cadastrado com o id {professor.id_professor}"
     
     def listarTurmas(id):
         turmas = MainRepository.db.session.query(Turma).join(turma_professor).filter(Professor.id == id).all()
