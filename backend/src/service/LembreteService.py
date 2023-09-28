@@ -19,11 +19,11 @@ class LembreteService():
         lembrete = LembreteService.toEntity(lembreteDTO)
         
         
-        return LembreteRepository.registerLembrete(Lembrete(lembrete.destinatarioCargo, lembrete.titulo, lembrete.mensagem, lembrete.criacao, lembrete.visualizacao))
+        return LembreteRepository.registerLembrete(Lembrete(id_secretaria=lembrete.id_secretaria, destinatarioCargo=lembrete.destinatarioCargo, titulo=lembrete.titulo, mensagem=lembrete.mensagem, criacao=lembrete.criacao, visualizacao=lembrete.visualizacao))
     
-    def update(id, lembrete):
+    def update(id, lembreteDTO):
 
-        lembrete = LembreteService.toEntity(id, lembrete)
+        lembrete = LembreteService.toEntity(id, lembreteDTO)
 
         
         return LembreteRepository.update(id, lembrete)
@@ -38,12 +38,7 @@ class LembreteService():
         assert Lembrete.query.filter(Lembrete.id == id).first() is not None, "Aluno não encontrado."
         return LembreteRepository.delete(id)
     
-    def toEntity(data):
-        lembrete = Lembrete()
-        lembrete.destinatarioCargo = data.destinatarioCargo
-        lembrete.titulo = data.titulo
-        lembrete.mensagem = data.mensagem
-        lembrete.criacao = data.criacao
-        lembrete.visualizacao = data.visualizacao
+    def toEntity(lembreteDto):
+        lembrete = Lembrete(id_secretaria=lembreteDto.id_secretaria, destinatarioCargo=lembreteDto.destinatarioCargo, titulo=lembreteDto.titulo, mensagem=lembreteDto.mensagem, criacao=lembreteDto.criacao, visualizacao=lembreteDto.visualizacao)
 
         return lembrete

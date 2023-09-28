@@ -18,6 +18,8 @@ def painel():
     if request.method == 'POST':
         data = request.json
 
+        id_configuracao = data['idConfiguracao']
+        id_secretaria = data['idSecretaria']
         date = data['data']
         totalAtivos = data['totalAtivos']
         totalPresentes = data['totalPresentes']
@@ -27,7 +29,7 @@ def painel():
         totalAusenteCurso = data['totalAusenteCurso']
 
         try:
-            return PainelService.register(PainelDTO(date, totalAtivos, totalPresentes, totalAusentes, totalPresentesCurso, totalAtivoCurso, totalAusenteCurso))
+            return PainelService.register(PainelDTO(id_configuracao=id_configuracao, id_secretaria=id_secretaria, data=date, totalAtivos=totalAtivos, totalAusentes=totalPresentes, totalAusentes=totalAusentes, totalPresentesCurso=totalPresentesCurso, totalAtivoCurso=totalAtivoCurso, totalAusenteCurso=totalAusenteCurso))
         except AssertionError as error:
             return str(error)
     
@@ -35,6 +37,8 @@ def painel():
         id = request.args.get('id')
         data = request.json
 
+        id_configuracao = data['idConfiguracao']
+        id_secretaria = data['idSecretaria']
         date = data['data']
         totalAtivos = data['totalAtivos']
         totalPresentes = data['totalPresentes']
@@ -44,7 +48,7 @@ def painel():
         totalAusenteCurso = data['totalAusenteCurso']
 
         try:
-            return jsonify(PainelService.update(id, PainelDTO))
+            return PainelService.update(id, PainelDTO(id_configuracao=id_configuracao, id_secretaria=id_secretaria, data=date, totalAtivos=totalAtivos, totalAusentes=totalPresentes, totalAusentes=totalAusentes, totalPresentesCurso=totalPresentesCurso, totalAtivoCurso=totalAtivoCurso, totalAusenteCurso=totalAusenteCurso))
         except AssertionError as error:
             return str(error)
         

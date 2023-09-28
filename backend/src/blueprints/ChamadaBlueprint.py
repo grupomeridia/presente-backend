@@ -21,15 +21,15 @@ def professor():
     if request.method == 'POST':
         data = request.json
 
-        idMateria = data['idMateria']
-        idTurma = data['idTurma']
-        idProfessor = data['idProfessor']
+        id_materia = data['idMateria']
+        id_turma = data['idTurma']
+        id_professor = data['idProfessor']
         status = True
         abertura = data['abertura']
         encerramento = data['encerramento']
         
         try:
-            return ChamadaService.register(ChamadaDTO(idMateria, idTurma, idProfessor, status, abertura, encerramento))
+            return ChamadaService.register(ChamadaDTO(id_materia=id_materia, id_turma=id_turma, id_professor=id_professor, status=status, abertura=abertura, encerramento=encerramento))
         except AssertionError as error:
             return str(error)
 
@@ -37,14 +37,14 @@ def professor():
         id = request.args.get('id')
         data = request.json
 
-        idMateria = data['idMateria']
-        idTurma = data['idTurma']
-        idProfessor = data['idProfessor']
+        id_materia = data['idMateria']
+        id_turma = data['idTurma']
+        id_professor = data['idProfessor']
+        status = True
         abertura = data['abertura']
         encerramento = data['encerramento']
-
         try:
-            return jsonify(ChamadaService.update(id, ChamadaDTO))
+            return ChamadaService.update(id, ChamadaDTO(id_materia=id_materia, id_turma=id_turma, id_professor=id_professor, status=status, abertura=abertura, encerramento=encerramento))
         except AssertionError as error:
             return str(error)
 

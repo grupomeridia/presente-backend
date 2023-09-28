@@ -14,7 +14,8 @@ class Lembrete(MainRepository.db.Model):
     visualizacao = MainRepository.db.Column(MainRepository.db.DateTime)
     secretaria = MainRepository.db.relationship('Secretaria', back_populates='lembrete')
 
-    def __init__(self, destinatarioCargo:Cargo, titulo:str, mensagem:str, criacao:datetime, visualizacao:datetime):
+    def __init__(self, id_secretaria:int, destinatarioCargo:Cargo, titulo:str, mensagem:str, criacao:datetime, visualizacao:datetime):
+        self.id_secretaria = id_secretaria
         self.destinatarioCargo = destinatarioCargo
         self.titulo = titulo
         self.mensagem = mensagem

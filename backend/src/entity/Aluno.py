@@ -12,7 +12,8 @@ class Aluno(MainRepository.db.Model):
     presencas = MainRepository.db.relationship('Presenca', back_populates='aluno')
     turmas = MainRepository.db.relationship('Turma', secondary='turma_aluno')    
 
-    def __init__(self, status:bool, ausente:bool, nome:str, ra:int):
+    def __init__(self, id_usuario:int, status:bool, ausente:bool, nome:str, ra:int):
+        self.id_usuario = id_usuario
         self.status = status
         self.ausente = ausente
         self.nome = nome

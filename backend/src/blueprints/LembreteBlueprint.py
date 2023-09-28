@@ -20,6 +20,7 @@ def lembrete():
     if request.method == 'POST':
         data = request.json
         
+        id_secretaria = data['idSecretaria']
         destinatarioCargo = data['destinatario']
         titulo = data['titulo']
         mensagem = data['mensagem']
@@ -27,7 +28,7 @@ def lembrete():
         visualizacao = data['visualizacao']
         
         try:
-            return LembreteService.register(LembreteDTO(destinatarioCargo, titulo, mensagem, criacao, visualizacao))
+            return LembreteService.register(LembreteDTO(id_secretaria=id_secretaria, destinatarioCargo=destinatarioCargo, titulo=titulo, mensagem=mensagem, criacao=criacao, visualizacao=visualizacao))
         except AssertionError as error:
             return str(error)
     
@@ -35,6 +36,7 @@ def lembrete():
         id = request.args.get('id')
         data = request.json
         
+        id_secretaria = data['idSecretaria']
         destinatarioCargo = data['destinatario']
         titulo = data['titulo']
         mensagem = data['mensagem']
@@ -42,7 +44,7 @@ def lembrete():
         visualizacao = data['visualizacao']
         
         try:
-            return jsonify(LembreteService.update(LembreteDTO))
+            return LembreteService.update(LembreteDTO(id_secretaria=id_secretaria, destinatarioCargo=destinatarioCargo, titulo=titulo, mensagem=mensagem, criacao=criacao, visualizacao=visualizacao))
         except AssertionError as error:
             return str(error)
     

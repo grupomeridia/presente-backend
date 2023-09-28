@@ -7,6 +7,6 @@ class Materia(MainRepository.db.Model):
     nome = MainRepository.db.Column(MainRepository.db.String(100), nullable=False)
     chamadas = MainRepository.db.relationship('Chamada', back_populates='materia')
 
-    def __init__(self, ativo:bool, nome:str):
-        self.ativo = ativo
+    def __init__(self, status:bool, nome:str):
+        self.status = status
         self.nome = nome

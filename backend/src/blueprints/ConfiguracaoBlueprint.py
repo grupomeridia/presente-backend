@@ -27,7 +27,7 @@ def configuracao():
         finalAula = data['finalAula']
 
         try:
-            return ConfiguracaoService.register(ConfiguracaoDTO(status, alunoAusente, inicioAula, finalAula))
+            return ConfiguracaoService.register(ConfiguracaoDTO(status=status, alunoAusente=alunoAusente, inicioAula=inicioAula, finalAula=finalAula))
         except AssertionError as error:
             return str(error)
             
@@ -41,7 +41,7 @@ def configuracao():
         finalAula = data['finalAula']
 
         
-        return jsonify(ConfiguracaoService.update(id, ConfiguracaoDTO))
+        return ConfiguracaoService.update(id, ConfiguracaoDTO(status=status, alunoAusente=alunoAusente, inicioAula=inicioAula, finalAula=finalAula))
     
     if request.method == 'DELETE':
         id = request.args.get('id')

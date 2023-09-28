@@ -17,18 +17,14 @@ class AlunoService():
     def register(alunoDTO):
 
         aluno = AlunoService.toEntity(alunoDTO)
-        
-        assert ativo != None and ativo == True, "Propriedade ativo deve ser True ou False"
-    
+            
 
-        return AlunoRepository.registerAluno(Aluno(aluno.idUsuario, aluno.ativo, aluno.nome, aluno.ra, aluno.turma_id, aluno.curso))
+        return AlunoRepository.registerAluno(Aluno(id_usuario=aluno.id_usuario, status=aluno.status, ausente=aluno.ausente, nome=aluno.nome, ra=aluno.ra))
     
-    def update(id, aluno):
+    def update(id, alunoDTO):
 
-        aluno = AlunoService.toEntity(id, aluno)
-       
-        assert ativo != None and ativo == False or True, "Propriedade ativo deve ser True ou False"
-        
+        aluno = AlunoService.toEntity(id, alunoDTO)
+               
         return AlunoRepository.update(id, aluno)
     
     def delete(id):
@@ -52,12 +48,7 @@ class AlunoService():
 
         return AlunoRepository.findByRA(ra)
     
-    def toEntity(data):
-        aluno = Aluno()
-        aluno.idUsuario = data.idUsuario
-        aluno.status = data.status
-        aluno.ausente = data.ausente
-        aluno.nome = data.nome
-        aluno.ra = data.ra
-
+    def toEntity(alunoDto):
+        aluno = Aluno(id_usuario=alunoDto.id_usuario, status=alunoDto.status, ausente=alunoDto.ausente, nome=alunoDto.nome, ra=alunoDto.ra)
+   
         return aluno

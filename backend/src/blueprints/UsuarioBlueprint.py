@@ -41,7 +41,7 @@ def usuario():
         senha = data['senha']
         cargo = data['cargo']
 
-        return UsuarioService.update(id, UsuarioDTO(status, login, senha, cargo))
+        return UsuarioService.update(id, UsuarioDTO(status=status, login=login, senha=senha, cargo=cargo))
     
     if request.method == 'DELETE':
         id = request.args.get('id')

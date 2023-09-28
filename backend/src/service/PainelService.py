@@ -11,7 +11,7 @@ class PainelService():
             raise AssertionError("Deve ser um número inteiro.")
         
         assert int(id) > 0, "ID inválido."
-        assert Aluno.query.get(id) != None, "Nenhum painel com este ID foi encontrado."
+        assert Painel.query.get(id) != None, "Nenhum painel com este ID foi encontrado."
 
         return PainelRepository.getPainelById(id)
     
@@ -19,11 +19,11 @@ class PainelService():
 
         painel = PainelService.toEntity(painelDTO)
 
-        return PainelRepository.registerPainel(Painel(painel.data, painel.totalAtivos, painel.totalPresentes, painel.totalAusentes, painel.totalPresentesCurso, painel.totalAtivoCurso, painel.totalAusenteCurso))
+        return PainelRepository.registerPainel(Painel(id_configuracao=painel.id_configuracao, id_secretaria=painel.id_secretaria, data=painel.data, totalAtivos=painel.totalAtivos, totalPresentes=painel.totalPresentes, totalAusentes=painel.totalAusentes, totalPresentesCurso=painel.totalPresentesCurso, totalAtivoCurso=painel.totalAtivoCurso, totalAusenteCurso=painel.totalAusenteCurso))
     
-    def update(id, painel):
+    def update(id, painelDTO):
         
-        painel = PainelService.toEntity(id, painel)
+        painel = PainelService.toEntity(id, painelDTO)
 
         return PainelRepository.update(id, painel)
     
@@ -37,14 +37,7 @@ class PainelService():
         assert Painel.query.filter(Painel.id == id).first() is not None, "Painel não encontrado."
         return PainelRepository.delete(id)
     
-    def toEntity(data):
-        painel = Painel()
-        painel.data = data.data
-        painel.totalAtivos = data.totalAtivos
-        painel.totalPresentes = data.totalPresentes
-        painel.totalAusentes = data.totalAusentes
-        painel.totalPresentesCurso = data.totalPresentesCurso
-        painel.totalAtivoCurso = data.totalAtivoCurso
-        painel.totalAusenteCurso = data.totalAusenteCurso
+    def toEntity(painelDto):
+        painel = Painel(id_configuracao=painelDto.id_configuracao, id_secretaria=painelDto.id_secretaria, data=painelDto.data, totalAtivos=painelDto.totalAtivos, totalPresentes=painelDto.totalPresentes, totalAusentes=painelDto.totalAusentes, totalPresentesCurso=painelDto.totalPresentesCurso, totalAtivoCurso=painelDto.totalAtivoCurso, totalAusenteCurso=painelDto.totalAusenteCurso)
 
         return painel

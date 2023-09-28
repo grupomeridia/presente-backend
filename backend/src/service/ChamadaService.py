@@ -19,7 +19,7 @@ class ChamadaService():
         chamada = ChamadaService.toEntity(chamadaDTO)
         
 
-        return ChamadaRepository.registerChamada(Chamada(chamada.idMateria, chamada.idTurma, chamada.idProfessor, chamada.status, chamada.abertura, chamada.encerramento))
+        return ChamadaRepository.registerChamada(Chamada(id_materia=chamada.idMateria, id_turma=chamada.idTurma, id_professor=chamada.idProfessor, status=chamada.status, abertura=chamada.abertura, encerramento=chamada.encerramento))
 
     def update(id, chamada):
 
@@ -37,13 +37,7 @@ class ChamadaService():
         assert Chamada.query.filter(Chamada.id == id).first() is not None, "Chamada não encontrada." 
         return ChamadaRepository.delete(id) 
     
-    def toEntity(data):
-        chamada = Chamada()
-        chamada.idMateria = data.idMateria
-        chamada.idTurma = data.idTurma
-        chamada.idProfessor = data.idProfessor
-        chamada.status = data.status
-        chamada.abertura = data.abertura
-        chamada.encerramento = data.encerramento
+    def toEntity(chamadaDto):
+        chamada = Chamada(id_materia=chamadaDto.id_materia, id_turma=chamadaDto.id_professor, status=chamadaDto.status, abertura=chamadaDto.abertura, encerramento=chamadaDto.encerramento)
 
         return chamada
