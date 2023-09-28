@@ -3,6 +3,10 @@ from repository.MainRepository import MainRepository
 
 
 from entity.Turma import Turma
+from entity.Aluno import Aluno
+from entity.Professor import Professor
+from entity.TurmaAluno import turma_aluno
+from entity.TurmaProfessor import turma_professor
 
 class TurmaRepository():
     def getTurmaById(id):
@@ -62,3 +66,35 @@ class TurmaRepository():
         MainRepository.db.session.commit()
 
         return f"Turma Cadastrada com o ID {turma.id}!"
+    
+    def cadastrarAluno(idTurma, idAluno):
+
+        aluno = MainRepository.db.session.query(Aluno).filter_by(id_aluno=idAluno).first()
+
+        turma = MainRepository.db.session.query(Turma).filter_by(id_turma=idTurma).first()
+
+        if aluno is not None and turma is not None:
+
+            MainRepository.db.session.execute(turma_aluno.insert().values(id_turma=idTurma, id_aluno=idAluno))
+
+            MainRepository.db.session.commit()
+        else:
+            print("Aluno ou Turma não encontrado")
+
+        return "Aluno cadastrado na turma"
+    
+    def cadastrarProfessor(idTurma, idProfessor):
+
+        professor = MainRepository.db.session.query(Professor).filter_by(id_professor=idProfessor).first()
+
+        turma = MainRepository.db.session.query(Turma).filter_by(id_turma=idTurma).first()
+
+        if professor is not None and turma is not None:
+
+            MainRepository.db.session.execute(turma_professor.insert().values(id_turma=idTurma, id_professor=idProfessor))
+
+            MainRepository.db.session.commit()
+        else:
+            print("Professor ou Turma não encontrado")
+
+        return "Professor cadastrado na turma"
