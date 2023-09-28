@@ -3,7 +3,7 @@ from repository.MainRepository import MainRepository
 class Professor(MainRepository.db.Model):
     __tablename__ = 'professores'
     idProfessor = MainRepository.db.Column(MainRepository.db.Integer, primary_key=True)
-    idUsuario = MainRepository.db.Column(MainRepository.db.Integer, MainRepository.db.ForeignKey('usuarios.idUsuario'))
+    idUsuario = MainRepository.db.Column(MainRepository.db.Integer, MainRepository.db.ForeignKey('usuarios.id_usuario'))
     status = MainRepository.db.Column(MainRepository.db.Boolean, nullable=False)
     nome = MainRepository.db.Column(MainRepository.db.String(100), nullable=False)
     usuario = MainRepository.db.relationship('Usuario', back_populates='professor')

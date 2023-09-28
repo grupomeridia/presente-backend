@@ -5,8 +5,8 @@ import datetime
 class Presenca(MainRepository.db.Model):
     __tablename__ = 'presencas'
     idPresenca = MainRepository.db.Column(MainRepository.db.Integer, primary_key=True)
-    idAluno = MainRepository.db.Column(MainRepository.db.Integer, MainRepository.db.ForeignKey('alunos.idAluno'))
-    idChamada = MainRepository.db.Column(MainRepository.db.Integer, MainRepository.db.ForeignKey('chamadas.idChamada'))
+    idAluno = MainRepository.db.Column(MainRepository.db.Integer, MainRepository.db.ForeignKey('alunos.id_aluno'))
+    idChamada = MainRepository.db.Column(MainRepository.db.Integer, MainRepository.db.ForeignKey('chamadas.id_chamada'))
     status = MainRepository.db.Column(MainRepository.db.Boolean, nullable=False)
     horario = MainRepository.db.Column(MainRepository.db.DateTime)
     tipoPresenca = MainRepository.db.Column(MainRepository.db.Enum(TipoPresenca))

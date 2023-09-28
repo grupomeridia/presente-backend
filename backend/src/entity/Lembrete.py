@@ -5,7 +5,7 @@ import datetime
 class Lembrete(MainRepository.db.Model):
     __tablename__ = 'lembretes'
     idLembrete = MainRepository.db.Column(MainRepository.db.Integer, primary_key=True)
-    idSecretaria = MainRepository.db.Column(MainRepository.db.Integer, MainRepository.db.ForeignKey('secretaria.idSecretaria'))
+    idSecretaria = MainRepository.db.Column(MainRepository.db.Integer, MainRepository.db.ForeignKey('secretaria.id_secretaria'))
     destinatarioCargo = MainRepository.db.Column(MainRepository.db.Enum(Cargo))
     destinatarioId = MainRepository.db.Column(MainRepository.db.Integer, nullable=False)
     titulo = MainRepository.db.Column(MainRepository.db.String(50), nullable=False)

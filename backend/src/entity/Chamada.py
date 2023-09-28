@@ -4,9 +4,9 @@ import datetime
 class Chamada(MainRepository.db.Model):
     __tablename__ = 'chamadas'
     idChamada = MainRepository.db.Column(MainRepository.db.Integer, primary_key=True)
-    idMateria = MainRepository.db.Column(MainRepository.db.Integer, MainRepository.db.ForeignKey('materias.idMateria'))
-    idTurma = MainRepository.db.Column(MainRepository.db.Integer, MainRepository.db.ForeignKey('turmas.idTurma'))
-    idProfessor = MainRepository.db.Column(MainRepository.db.Integer, MainRepository.db.ForeignKey('professores.idProfessor'))
+    idMateria = MainRepository.db.Column(MainRepository.db.Integer, MainRepository.db.ForeignKey('materias.id_materia'))
+    idTurma = MainRepository.db.Column(MainRepository.db.Integer, MainRepository.db.ForeignKey('turmas.id_turma'))
+    idProfessor = MainRepository.db.Column(MainRepository.db.Integer, MainRepository.db.ForeignKey('professores.id_professor'))
     status = MainRepository.db.Column(MainRepository.db.Boolean, nullable=False)
     abertura = MainRepository.db.Column(MainRepository.db.DateTime, nullable=False)
     encerramento = MainRepository.db.Column(MainRepository.db.DateTime)
