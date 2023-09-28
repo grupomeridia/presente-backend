@@ -1,7 +1,7 @@
-from pydantic import validade_arguments
+from pydantic import validate_arguments
 
 class AlunoDTO:
-    @validade_arguments
+    @validate_arguments
     def __init__(self, status:bool, ausente:bool, nome:str, ra:int):
         self.status = status
         self.ausente = ausente

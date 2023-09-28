@@ -1,9 +1,9 @@
-import datetime
-from pydantic import validade_arguments
+from datetime import datetime
+from pydantic import validate_arguments
 
 
 class ChamadaDTO:
-    @validade_arguments
+    @validate_arguments
     def __init__(self, status:bool, abertura:datetime, encerramento:datetime):
         self.status = status
         self.abertura = abertura
