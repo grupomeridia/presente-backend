@@ -2,7 +2,7 @@ CREATE TYPE cargo AS ENUM ('Professor', 'Aluno', 'Secretaria');
 
 
 CREATE TABLE usuarios(
-	id_usuario SERIAL PRIMARY KEY,
+	idUsuario SERIAL PRIMARY KEY,
 	status BOOLEAN NOT NULL,
 	login VARCHAR(100) NOT NULL,
 	senha VARCHAR(100) NOT NULL,
