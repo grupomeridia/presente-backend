@@ -8,3 +8,4 @@ backend/src/blueprints/__pycache__
 /venv
 /vm
 .vscode/
+venv/
