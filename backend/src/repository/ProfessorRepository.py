@@ -95,7 +95,8 @@ class ProfessorRepository():
 
             return {
                 "Total de Alunos": quantidade_alunos,
-                "Faltam a chegar": alunos_nao_presenca
+                "Faltam a chegar": alunos_nao_presenca,
+                "Aluno presentes": alunos_presentes
             }
 
         else:
