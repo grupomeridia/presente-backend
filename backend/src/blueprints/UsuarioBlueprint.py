@@ -22,13 +22,14 @@ def usuario():
     if request.method == 'POST':
         data = request.json
         
+        idUsuario = data['idUsuario']
         status = True
         login = data['login']
         senha = data['senha']
         cargo = data['cargo']
 
         try:
-            return UsuarioService.register(UsuarioDTO(status=status, login=login, senha=senha, cargo=cargo))
+            return UsuarioService.register(UsuarioDTO(idUsuario=idUsuario, status=status, login=login, senha=senha, cargo=cargo))
         except AssertionError as error:
             return str(error)
         

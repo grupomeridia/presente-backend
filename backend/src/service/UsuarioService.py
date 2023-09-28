@@ -17,7 +17,7 @@ class UsuarioService():
         
         usuario = UsuarioService.toEntity(usuarioDto)
         
-        return UsuarioRepository.register(Usuario(status=usuario.status, login=usuario.login, senha=usuario.senha, cargo=usuario.cargo))
+        return UsuarioRepository.register(Usuario(idUsuario=usuario.idUsuario, status=usuario.status, login=usuario.login, senha=usuario.senha, cargo=usuario.cargo))
     
     def update(id, usuarioDto):
         
@@ -36,6 +36,6 @@ class UsuarioService():
         return UsuarioRepository.delete(id)      
 
     def toEntity(usuarioDto):
-        usuario = Usuario(status=usuarioDto.status, login=usuarioDto.login, senha=usuarioDto.senha, cargo=usuarioDto.cargo)
+        usuario = Usuario(idUsuario=usuarioDto.idUsuario, status=usuarioDto.status, login=usuarioDto.login, senha=usuarioDto.senha, cargo=usuarioDto.cargo)
 
         return usuario

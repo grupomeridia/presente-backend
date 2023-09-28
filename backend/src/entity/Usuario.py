@@ -14,7 +14,8 @@ class Usuario(MainRepository.db.Model):
     professor = MainRepository.db.relationship('Professor', uselist=False, back_populates='usuario')
     secretaria = MainRepository.db.relationship('Secretaria', uselist=False, back_populates='usuario')
 
-    def __init__(self, status:bool, login:str, senha:str, cargo:Cargo):
+    def __init__(self, idUsuario:int, status:bool, login:str, senha:str, cargo:Cargo):
+        self.idUsuario = idUsuario
         self.status = status
         self.login = login
         self.senha = senha
