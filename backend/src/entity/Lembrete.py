@@ -1,4 +1,4 @@
-from CargoEnum import Cargo
+from entity.CargoEnum import Cargo
 from repository.MainRepository import MainRepository
 import datetime
 

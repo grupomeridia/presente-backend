@@ -5,7 +5,7 @@ class Painel(MainRepository.db.Model):
     __tablename__ = 'painel'
     idPainel = MainRepository.db.Column(MainRepository.db.Integer, primary_key=True)
     idConfiguracao = MainRepository.db.Column(MainRepository.db.ForeignKey('configuracoes.idConfiguracao'))
-    idSecretaria = MainRepository.db.Column(MainRepository.db.ForegnKey('secretaria.idSecretaria'))
+    idSecretaria = MainRepository.db.Column(MainRepository.db.ForeignKey('secretaria.idSecretaria'))
     data = MainRepository.db.Column(MainRepository.db.DateTime, nullable=False)
     totalAtivos = MainRepository.db.Column(MainRepository.db.Integer, nullable=False)
     totalPresentes = MainRepository.db.Column(MainRepository.db.Integer, nullable=False)

@@ -1,5 +1,5 @@
-from CargoEnum import Cargo
-import datetime
+from entity.CargoEnum import Cargo
+from datetime import datetime
 from pydantic import validate_arguments
 
 class LembreteDTO:

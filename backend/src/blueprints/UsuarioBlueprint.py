@@ -8,9 +8,9 @@ from dtos.UsuarioDTO import UsuarioDTO
 
 from service.UsuarioService import UsuarioService
 
-usuario = Blueprint("usuario", __name__)
+usuarios = Blueprint("usuario", __name__)
 
-@usuario.route("/api/usuario", methods=['GET', 'POST', 'PUT', 'DELETE'])
+@usuarios.route("/api/usuario", methods=['GET', 'POST', 'PUT', 'DELETE'])
 def usuario():
     if request.method == 'GET':
         id = request.args.get('id')

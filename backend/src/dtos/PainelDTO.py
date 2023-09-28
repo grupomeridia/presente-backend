@@ -1,4 +1,4 @@
-import datetime
+from datetime import datetime
 from pydantic import validate_arguments
 
 class PainelDTO:

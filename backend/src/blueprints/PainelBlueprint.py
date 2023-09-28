@@ -4,9 +4,9 @@ from repository.PainelRepository import PainelRepository
 from dtos.PainelDTO import PainelDTO
 from service.PainelService import PainelService
 
-painel = Blueprint("painel", __name__)
+paineis = Blueprint("painel", __name__)
 
-@painel.route("/api/painel", methods=['GET', 'POST', 'PUT', 'DELETE'])
+@paineis.route("/api/painel", methods=['GET', 'POST', 'PUT', 'DELETE'])
 def painel():
     if request.method == 'GET':
         id = request.args.get('id')
@@ -55,6 +55,6 @@ def painel():
         except AssertionError as error:
             return str(error)
     
-@painel.route("/api/painel/listAll", methods=['GET'])
+@paineis.route("/api/painel/listAll", methods=['GET'])
 def listAll():
     return PainelRepository.listAll()
