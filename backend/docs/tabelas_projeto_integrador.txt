@@ -114,6 +114,8 @@ CREATE TABLE configuracoes(
 
 CREATE TABLE painel(
 	id_painel SERIAL PRIMARY KEY,
+	id_configuracao INTEGER REFERENCES configuracoes(id_configuracao),
+	id_secretaria INTEGER REFERENCES secretaria(id_secretaria),
 	data_criado timestamp NOT NULL,
 	total_ativo INTEGER NOT NULL,
 	total_presentes INTEGER NOT NULL,
