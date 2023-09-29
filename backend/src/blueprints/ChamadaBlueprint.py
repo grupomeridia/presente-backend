@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-
+from datetime import datetime
 from repository.MainRepository import MainRepository
 from repository.ChamadaRepository import ChamadaRepository
 from dtos.ChamadaDTO import ChamadaDTO
@@ -25,11 +25,10 @@ def professor():
         id_turma = data['idTurma']
         id_professor = data['idProfessor']
         status = True
-        abertura = data['abertura']
-        encerramento = data['encerramento']
+        abertura = datetime.now()
         
         try:
-            return ChamadaService.register(ChamadaDTO(id_materia=id_materia, id_turma=id_turma, id_professor=id_professor, status=status, abertura=abertura, encerramento=encerramento))
+            return ChamadaService.register(ChamadaDTO(id_materia=id_materia, id_turma=id_turma, id_professor=id_professor, status=status, abertura=abertura))
         except AssertionError as error:
             return str(error)
 

@@ -19,7 +19,7 @@ class ChamadaService():
         chamada = ChamadaService.toEntity(chamadaDTO)
         
 
-        return ChamadaRepository.registerChamada(Chamada(id_materia=chamada.idMateria, id_turma=chamada.idTurma, id_professor=chamada.idProfessor, status=chamada.status, abertura=chamada.abertura, encerramento=chamada.encerramento))
+        return ChamadaRepository.registerChamada(Chamada(id_materia=chamada.id_materia, id_turma=chamada.id_turma, id_professor=chamada.idProfessor, status=chamada.status, abertura=chamada.abertura))
 
     def update(id, chamada):
 
