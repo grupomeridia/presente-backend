@@ -47,8 +47,8 @@ class ProfessorService():
         
         assert int(idProfessor) > 0, "ID inválido!"
         assert int(idChamada) > 0, "ID inválido!"
-        assert Professor.query.get(id) != None, f"Nenhum professor foi encontrado com esse id"
-        assert Chamada.query.get(id) != None, f"Nenhuma chamada foi encontrada com esse id"
+        assert Professor.query.get(idProfessor) != None, f"Nenhum professor foi encontrado com esse id"
+        assert Chamada.query.get(idChamada) != None, f"Nenhuma chamada foi encontrada com esse id"
 
         return ProfessorRepository.numAlunos(idProfessor, idChamada)
     

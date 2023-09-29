@@ -70,25 +70,27 @@ class ProfessorRepository():
         else:
             return "Professor não está cadastrado em nenhuma turma"
         
-    def numAlunos(idProfessor, idChamada):
-        professor = MainRepository.db.session.query(Professor).filter_by(Professor.id_professor == idProfessor).first()
+    def numAlunos(professor_id, chamada_id):
+        
+        professor = Professor.query.get(professor_id)
 
         if professor:
-            quantidade_alunos = MainRepository.db.session.query(func.count(Aluno.id_aluno)).\
+            quantidade_alunos = MainRepository.db.session.query(MainRepository.db.func.count(Aluno.id_aluno)).\
                 join(turma_aluno).\
                 join(Turma).\
                 join(turma_professor).\
-                filter(turma_professor.id_professor == idProfessor).scalar()
+                filter(turma_professor.c.id_professor == professor_id).scalar()
             
-            alunos_presentes = MainRepository.db.session.query(func.count(Aluno.id_aluno)).\
+            alunos_presentes = MainRepository.db.session.query(MainRepository.db.func.count(Aluno.id_aluno)).\
                 join(turma_aluno).\
                 join(Turma).\
                 join(turma_professor).\
                 join(Chamada).\
-                join(Presenca, and_(
-                    Aluno.id_aluno == Presenca.c.id_aluno,
-                    Presenca.c.id_chamada == idChamada)).\
-                filter(turma_professor.id_professor == Chamada.id_professor).scalar()
+                join(Presenca, MainRepository.db.and_(
+                    Aluno.id_aluno == turma_aluno.c.id_aluno,
+                    Presenca.id_aluno == turma_aluno.c.id_aluno,
+                    Presenca.id_chamada == chamada_id)).\
+                filter(turma_professor.c.id_professor == Chamada.id_professor).scalar()
                 
 
             alunos_nao_presenca = quantidade_alunos - alunos_presentes
