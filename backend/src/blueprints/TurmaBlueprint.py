@@ -22,7 +22,7 @@ def turma():
     if request.method == 'POST':
         data = request.json
 
-        status = data['status']
+        status = True
         nome = data['nome']
         ano = data['ano']
         semestre = data['semestre']
@@ -31,7 +31,7 @@ def turma():
         curso = data['curso']
 
         try:
-            return TurmaService.postTurma(TurmaDTO(status, nome, ano, semestre, turno, modalidade, curso))
+            return TurmaService.postTurma(TurmaDTO(status=status, nome=nome, ano=ano, semestre=semestre, turno=turno, modalidade=modalidade, curso=curso))
         except AssertionError as error:
             return str(error)
 
@@ -39,7 +39,7 @@ def turma():
         id = request.args.get('id')
         data = request.json
 
-        status = data['status']
+        status = True
         nome = data['nome']
         ano = data['ano']
         semestre = data['semestre']
@@ -48,7 +48,7 @@ def turma():
         curso = data['curso']
 
 
-        return TurmaService.update(id, TurmaDTO(status, nome, ano, semestre, turno, modalidade, curso))
+        return TurmaService.update(id, TurmaDTO(status=status, nome=nome, ano=ano, semestre=semestre, turno=turno, modalidade=modalidade, curso=curso))
     
     if request.method == 'DELETE':
         id = request.args.get('id')
@@ -57,3 +57,21 @@ def turma():
 @turmas.route("/api/turma/listAll", methods=['GET'])
 def listarAllTurmas():
     return TurmaRepository.listAll()
+
+@turmas.route("/api/turma/cadastrarAluno", methods=['POST'])
+def cadastrarAluno():
+    data = request.json
+
+    id_turma = data['idTurma']
+    id_aluno = data['idAluno']
+
+    return TurmaRepository.cadastrarAluno(id_turma, id_aluno)
+
+@turmas.route("/api/turma/cadastrarProfessor", methods=['POST'])
+def cadastrarProfessor():
+    data = request.json
+
+    id_turma = data['idTurma']
+    id_professor = data['idProfessor']
+
+    return TurmaRepository.cadastrarProfessor(id_turma, id_professor)

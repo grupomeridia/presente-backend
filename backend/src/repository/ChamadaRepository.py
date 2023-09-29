@@ -95,7 +95,7 @@ class ChamadaRepository():
         join(turma_aluno).\
         join(Turma).\
         filter(turma_aluno.c.idAluno == idAluno).\
-        order_by(desc(Chamada.abertura)).\
+        order_by(MainRepository.db.desc(Chamada.abertura)).\
         limit(5).all()
 
         resultado = [{

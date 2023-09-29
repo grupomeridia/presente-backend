@@ -4,9 +4,9 @@ from repository.PainelRepository import PainelRepository
 from dtos.PainelDTO import PainelDTO
 from service.PainelService import PainelService
 
-painel = Blueprint("painel", __name__)
+paineis = Blueprint("painel", __name__)
 
-@painel.route("/api/painel", methods=['GET', 'POST', 'PUT', 'DELETE'])
+@paineis.route("/api/painel", methods=['GET', 'POST', 'PUT', 'DELETE'])
 def painel():
     if request.method == 'GET':
         id = request.args.get('id')
@@ -18,6 +18,8 @@ def painel():
     if request.method == 'POST':
         data = request.json
 
+        id_configuracao = data['idConfiguracao']
+        id_secretaria = data['idSecretaria']
         date = data['data']
         totalAtivos = data['totalAtivos']
         totalPresentes = data['totalPresentes']
@@ -27,7 +29,7 @@ def painel():
         totalAusenteCurso = data['totalAusenteCurso']
 
         try:
-            return PainelService.register(PainelDTO(date, totalAtivos, totalPresentes, totalAusentes, totalPresentesCurso, totalAtivoCurso, totalAusenteCurso))
+            return PainelService.register(PainelDTO(id_configuracao=id_configuracao, id_secretaria=id_secretaria, data=date, totalAtivos=totalAtivos, totalAusentes=totalAusentes, totalPresentes=totalPresentes, totalPresentesCurso=totalPresentesCurso, totalAtivoCurso=totalAtivoCurso, totalAusenteCurso=totalAusenteCurso))
         except AssertionError as error:
             return str(error)
     
@@ -35,6 +37,8 @@ def painel():
         id = request.args.get('id')
         data = request.json
 
+        id_configuracao = data['idConfiguracao']
+        id_secretaria = data['idSecretaria']
         date = data['data']
         totalAtivos = data['totalAtivos']
         totalPresentes = data['totalPresentes']
@@ -44,7 +48,7 @@ def painel():
         totalAusenteCurso = data['totalAusenteCurso']
 
         try:
-            return jsonify(PainelService.update(id, PainelDTO))
+            return PainelService.update(id, PainelDTO(id_configuracao=id_configuracao, id_secretaria=id_secretaria, data=date, totalAtivos=totalAtivos, totalAusentes=totalAusentes, totalPresentes=totalPresentes, totalPresentesCurso=totalPresentesCurso, totalAtivoCurso=totalAtivoCurso, totalAusenteCurso=totalAusenteCurso))
         except AssertionError as error:
             return str(error)
         
@@ -55,6 +59,6 @@ def painel():
         except AssertionError as error:
             return str(error)
     
-@painel.route("/api/painel/listAll", methods=['GET'])
+@paineis.route("/api/painel/listAll", methods=['GET'])
 def listAll():
     return PainelRepository.listAll()

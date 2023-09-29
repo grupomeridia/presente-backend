@@ -55,4 +55,4 @@ class LembreteRepository():
         MainRepository.db.session.add(Lembrete)
         MainRepository.db.session.commit()
         
-        return f"Lembrete ID {Lembrete.idLembrete} criado."
+        return f"Lembrete ID {Lembrete.id_lembrete} criado."

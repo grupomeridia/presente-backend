@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-
+from datetime import datetime
 from repository.MainRepository import MainRepository
 from repository.PresencaRepository import PresencaRepository
 
@@ -22,14 +22,14 @@ def presencasMain():
     if request.method == 'POST':
         data = request.json
 
-        idAluno = data['idAluno']
-        idChamada = data['idChamada']
+        id_aluno = data['idAluno']
+        id_chamada = data['idChamada']
         status = True
         tipo_presenca = data['tipoPresenca']
-        horario = data['horario']
+        horario = datetime.now()
 
         try:
-            return PresencaService.register(PresencaDTO(idAluno, idChamada, status, tipo_presenca, horario))
+            return PresencaService.register(PresencaDTO(id_aluno=id_aluno, id_chamada=id_chamada, status=status, tipoPresenca=tipo_presenca, horario=horario))
         except AssertionError as error:
             return str(error)
     
@@ -37,13 +37,13 @@ def presencasMain():
         id = request.args.get('id')
         data = request.json
 
-        idAluno = data['idAluno']
-        idChamada = data['idChamada']
+        id_aluno = data['idAluno']
+        id_chamada = data['idChamada']
         status = True
         tipo_presenca = data['tipoPresenca']
         horario = data['horario']
 
-        return PresencaService.update(id, PresencaDTO(idAluno, idChamada, status, tipo_presenca, horario))
+        return PresencaService.update(id, PresencaDTO(id_aluno=id_aluno, id_chamada=id_chamada, status=status, tipoPresenca=tipo_presenca, horario=horario))
     
     if request.method == 'DELETE':
         id = request.args.get('id')

@@ -17,7 +17,7 @@ class ConfiguracaoService():
 
         configuracao = ConfiguracaoService.toEntity(configuracaoDTO)
         
-        return ConfiguracaoRepository.registerConfiguracao(Configuracao(configuracao.status, configuracao.alunoAusente, configuracao.inicioAula, configuracao.finalAula))
+        return ConfiguracaoRepository.registerConfiguracao(Configuracao(status=configuracao.status, alunoAusente=configuracao.alunoAusente, inicioAula=configuracao.inicioAula, finalAula=configuracao.finalAula))
     
     def update(id, configuracao):
 
@@ -35,11 +35,7 @@ class ConfiguracaoService():
         assert Configuracao.query.filter(Configuracao.id == id).first() is not None, "Configuracao não encontrada"
         return ConfiguracaoRepository.delete(id)
     
-    def toEntity(data):
-        configuracao = Configuracao()
-        configuracao.status = data.status
-        configuracao.alunoAusente = data.alunoAusente
-        configuracao.inicioAula = data.inicioAula
-        configuracao.finalAula = data.finalAula
+    def toEntity(configuracaoDto):
+        configuracao = Configuracao(status=configuracaoDto.status, alunoAusente=configuracaoDto.alunoAusente, inicioAula=configuracaoDto.inicioAula, finalAula=configuracaoDto.finalAula)
 
         return configuracao

@@ -44,4 +44,4 @@ class MateriaRepository():
         MainRepository.db.session.add(materia)
         MainRepository.db.session.commit()
 
-        return f"Projeto cadastrado com o ID {materia.id}"
+        return f"Projeto cadastrado com o ID {materia.id_materia}"

@@ -53,7 +53,7 @@ class ProfessorRepository():
         MainRepository.db.session.add(professor)
         MainRepository.db.session.commit()
         
-        return f"Professor cadastrado com o id {professor.id}"
+        return f"Professor cadastrado com o id {professor.id_professor}"
     
     def listarTurmas(id):
         turmas = MainRepository.db.session.query(Turma).join(turma_professor).filter(Professor.id == id).all()
@@ -70,32 +70,35 @@ class ProfessorRepository():
         else:
             return "Professor não está cadastrado em nenhuma turma"
         
-    def numAlunos(idProfessor, idChamada):
-        professor = MainRepository.db.session.query(Professor).filter_by(Professor.id == id).first()
+    def numAlunos(professor_id, chamada_id):
+        
+        professor = Professor.query.get(professor_id)
 
         if professor:
-            quantidade_alunos = MainRepository.db.session.query(func.count(Aluno.id)).\
+            quantidade_alunos = MainRepository.db.session.query(MainRepository.db.func.count(Aluno.id_aluno)).\
                 join(turma_aluno).\
                 join(Turma).\
                 join(turma_professor).\
-                filter(turma_professor.idProfessor == id).scalar()
+                filter(turma_professor.c.id_professor == professor_id).scalar()
             
-            alunos_presentes = MainRepository.db.session.query(func.count(Aluno.id)).\
+            alunos_presentes = MainRepository.db.session.query(MainRepository.db.func.count(Aluno.id_aluno)).\
                 join(turma_aluno).\
                 join(Turma).\
                 join(turma_professor).\
                 join(Chamada).\
-                join(Presenca, and_(
-                    Aluno.id == Presenca.c.idAluno,
-                    Presenca.c.idChamada == idChamada)).\
-                filter(turma_professor.idProfessor == Chamada.idProfessor).scalar()
+                join(Presenca, MainRepository.db.and_(
+                    Aluno.id_aluno == turma_aluno.c.id_aluno,
+                    Presenca.id_aluno == turma_aluno.c.id_aluno,
+                    Presenca.id_chamada == chamada_id)).\
+                filter(turma_professor.c.id_professor == Chamada.id_professor).scalar()
                 
 
             alunos_nao_presenca = quantidade_alunos - alunos_presentes
 
             return {
                 "Total de Alunos": quantidade_alunos,
-                "Faltam a chegar": alunos_nao_presenca
+                "Faltam a chegar": alunos_nao_presenca,
+                "Aluno presentes": alunos_presentes
             }
 
         else:
@@ -109,9 +112,9 @@ class ProfessorRepository():
             dataAtual = datetime.now()
             dataInicial = dataAtual - datetime.timedelta(days=4)
 
-            historico = MainRepository.db.session.query(func.date(Presenca.c.horario).label("data"),
-                                                        (func.count(Aluno.id)/
-                                                          func.count().label("total_alunos")).label("porcetagem")).\
+            historico = MainRepository.db.session.query(MainRepository.db.func.date(Presenca.c.horario).label("data"),
+                                                        (MainRepository.db.func.count(Aluno.id)/
+                                                          MainRepository.db.func.count().label("total_alunos")).label("porcetagem")).\
                 join(Chamada).\
                 join(turma_professor).\
                 join(Turma).\
@@ -120,7 +123,7 @@ class ProfessorRepository():
                 filter(Turma.idTurma == idTurma).\
                 filter(Presenca.c.horario >= dataInicial).\
                 filter(Presenca.c.horario <= dataAtual).\
-                group_by(func.date(Presenca.c.date)).all() 
+                group_by(MainRepository.db.func.date(Presenca.c.date)).all() 
             
             if historico:
                 resultado = []
@@ -143,8 +146,8 @@ class ProfessorRepository():
         dataInicial = datetime.now() - datetime.timedelta(days=5)
 
         mediaFrequencia = MainRepository.db.session.query(
-            func.avg(func.coalesce(func.count(Presenca.c.id), 0) /
-                     func.count(Aluno.id)).label('media_frequencia')
+            MainRepository.db.func.avg(MainRepository.db.func.coalesce(MainRepository.db.func.count(Presenca.c.id), 0) /
+                     MainRepository.db.func.count(Aluno.id)).label('media_frequencia')
             ).join(Turma).\
             join(turma_aluno).\
             join(Aluno).\

@@ -22,14 +22,14 @@ def aluno():
         data = request.json
         
         idUsuario = data['idUsuario']
-        ativo = data['ativo']
+        status = True
+        ausente = True
         nome = data['nome']
-        curso = data['curso']
         ra = data['ra']
-        turma = data['turma']
+        
 
         try:
-            return AlunoService.register(AlunoDTO(idUsuario, ativo, nome, ra, turma, curso))
+            return AlunoService.register(AlunoDTO(id_usuario=idUsuario, status=status, nome=nome, ra=ra, ausente=ausente))
         except AssertionError as error:
             return str(error)
 
@@ -37,14 +37,14 @@ def aluno():
         id = request.args.get('id')
         data = request.json    
 
-        ativo = data['ativo']
+        idUsuario = data['idUsuario']
+        status = True
+        ausente = True
         nome = data['nome']
         ra = data['ra']
-        turma_id = data['turma']
-        curso = data['curso'] 
 
         try:
-            return jsonify(AlunoService.update(id, AlunoDTO))
+            return AlunoService.update(id, AlunoDTO(id_usuario=idUsuario, status=status, nome=nome, ra=ra, ausente=ausente))
         except AssertionError as error:
             return str(error)
         

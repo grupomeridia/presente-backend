@@ -16,7 +16,7 @@ class TurmaService():
         
         turma = TurmaService.toEntity(turmaDto)
 
-        return TurmaRepository.register(Turma(turma.status, turma.nome, turma.ano, turma.semestre, turma.turno, turma.modalidade, turma.curso))
+        return TurmaRepository.register(Turma(status=turma.status, nome=turma.nome, ano=turma.ano, semestre=turma.semestre, turno=turma.turno, modalidade=turma.modalidade, curso=turma.curso))
     
     def update(id, turmaDto):
         
@@ -35,13 +35,6 @@ class TurmaService():
         return TurmaRepository.delete(id)
     
     def toEntity(turmaDto):
-        turma = Turma()
-        turma.status = turmaDto.status
-        turma.nome = turmaDto.nome
-        turma.ano = turmaDto.ano
-        turma.semestre = turmaDto.semestre
-        turma.turno = turmaDto.turno
-        turma.modalidade = turmaDto.modalidade
-        turma.curso = turmaDto.curso
+        turma = Turma(status=turmaDto.status, nome=turmaDto.nome, ano=turmaDto.ano, semestre=turmaDto.semestre, turno=turmaDto.turno, modalidade=turmaDto.modalidade, curso=turmaDto.curso)
 
         return turma

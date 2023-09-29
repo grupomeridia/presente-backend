@@ -8,9 +8,9 @@ from dtos.UsuarioDTO import UsuarioDTO
 
 from service.UsuarioService import UsuarioService
 
-usuario = Blueprint("usuario", __name__)
+usuarios = Blueprint("usuario", __name__)
 
-@usuario.route("/api/usuario", methods=['GET', 'POST', 'PUT', 'DELETE'])
+@usuarios.route("/api/usuario", methods=['GET', 'POST', 'PUT', 'DELETE'])
 def usuario():
     if request.method == 'GET':
         id = request.args.get('id')
@@ -21,14 +21,14 @@ def usuario():
         
     if request.method == 'POST':
         data = request.json
-        
+                
         status = True
         login = data['login']
         senha = data['senha']
         cargo = data['cargo']
 
         try:
-            return UsuarioService.register(UsuarioDTO(status, login, senha, cargo))
+            return UsuarioService.register(UsuarioDTO(status=status, login=login, senha=senha, cargo=cargo))
         except AssertionError as error:
             return str(error)
         
@@ -41,7 +41,7 @@ def usuario():
         senha = data['senha']
         cargo = data['cargo']
 
-        return UsuarioService.update(id, UsuarioDTO(status, login, senha, cargo))
+        return UsuarioService.update(id, UsuarioDTO(status=status, login=login, senha=senha, cargo=cargo))
     
     if request.method == 'DELETE':
         id = request.args.get('id')

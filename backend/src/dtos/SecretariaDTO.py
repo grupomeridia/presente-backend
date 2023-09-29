@@ -1,8 +1,8 @@
-from pydantic import validade_arguments
+from pydantic import validate_arguments
 
 class SecretariaDTO:
-    @validade_arguments
-    def __init__(self, idUsuario:int, status:bool, nome:str):
-        self.idUsuario = idUsuario
+    @validate_arguments
+    def __init__(self, id_usuario:int, status:bool, nome:str):
+        self.id_usuario = id_usuario
         self.status = status
         self.nome = nome

@@ -15,7 +15,7 @@ class SecretariaService():
 
         secretaria = SecretariaService.toEntity(secretariaDto)
 
-        return SecretariaRepository.registerSecretaria(Secretaria(secretaria.idUsuario, secretaria.status, secretaria.nome))
+        return SecretariaRepository.registerSecretaria(Secretaria(id_usuario=secretaria.id_usuario, status=secretaria.status, nome=secretaria.nome))
     
     def update(id, secretariaDto):
 
@@ -34,9 +34,6 @@ class SecretariaService():
         return SecretariaRepository.delete(id)
     
     def toEntity(secretariaDto):
-        secretaria = Secretaria()
-        secretaria.idUsuario = secretariaDto.idUsuario
-        secretaria.status = secretariaDto.status
-        secretaria.nome = secretariaDto.nome
+        secretaria = Secretaria(id_usuario=secretariaDto.id_usuario, status=secretariaDto.status, nome=secretariaDto.nome)
 
         return secretaria

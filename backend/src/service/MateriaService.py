@@ -18,10 +18,7 @@ class MateriaService():
 
         materia = MateriaService.toEntity(materiaDTO)
 
-        assert ativo != None and ativo == True or False, "O campo ativo deve ser true ou false"
-        assert len(str(nome)) > 5 and nome != None, "Nome inválido"
-
-        return MateriaRepository.register(Materia(materia.ativo, materia.nome))
+        return MateriaRepository.register(Materia(status=materia.status, nome=materia.nome))
     
     def update(id, materia):
 
@@ -39,9 +36,7 @@ class MateriaService():
         assert Materia.query.filter(Materia.id == id).first() is not None, "Matéria não encontrada."
         return MateriaRepository.delete(id)
     
-    def toEntity(data):
-        materia = Materia()
-        materia.ativo = data.ativo
-        materia.nome = data.nome
+    def toEntity(materiaDto):
+        materia = Materia(status=materiaDto.status, nome=materiaDto.nome)
 
         return materia

@@ -20,7 +20,7 @@ class ProfessorService():
         
         professor = ProfessorService.toEntity(professorDto)
         
-        return ProfessorRepository.register(Professor(professor.idUsuario, professor.status, professor.nome))
+        return ProfessorRepository.register(Professor(id_usuario=professor.id_usuario, status=professor.status, nome=professor.nome))
     
     def update(id, professorDto):
 
@@ -47,8 +47,8 @@ class ProfessorService():
         
         assert int(idProfessor) > 0, "ID inválido!"
         assert int(idChamada) > 0, "ID inválido!"
-        assert Professor.query.get(id) != None, f"Nenhum professor foi encontrado com esse id"
-        assert Chamada.query.get(id) != None, f"Nenhuma chamada foi encontrada com esse id"
+        assert Professor.query.get(idProfessor) != None, f"Nenhum professor foi encontrado com esse id"
+        assert Chamada.query.get(idChamada) != None, f"Nenhuma chamada foi encontrada com esse id"
 
         return ProfessorRepository.numAlunos(idProfessor, idChamada)
     
@@ -75,9 +75,6 @@ class ProfessorService():
         return ProfessorRepository.mediaSemanal(idTurma)
 
     def toEntity(professorDto):
-        professor = Professor()
-        professor = professorDto.idUsuario
-        professor = professorDto.status
-        professor = professorDto.nome
-
+        professor = Professor(id_usuario=professorDto.id_usuario, status=professorDto.status, nome=professorDto.nome)
+  
         return professor

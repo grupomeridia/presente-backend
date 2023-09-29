@@ -57,4 +57,4 @@ class PainelRepository():
     def registerPainel(painel):
         MainRepository.db.session.add(painel)
         MainRepository.db.session.commit()
-        return f"Painel registrado com o ID {painel.idPainel}"
+        return f"Painel registrado com o ID {painel.id_painel}"

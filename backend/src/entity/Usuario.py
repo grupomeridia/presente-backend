@@ -1,11 +1,11 @@
-from CargoEnum import Cargo
+from entity.CargoEnum import Cargo
 from repository.MainRepository import MainRepository
 
 
 
 class Usuario(MainRepository.db.Model):
     __tablename__ = 'usuarios'
-    idUsuario = MainRepository.db.Column(MainRepository.db.Integer, primary_key=True)
+    id_usuario = MainRepository.db.Column(MainRepository.db.Integer, primary_key=True)
     status = MainRepository.db.Column(MainRepository.db.Boolean, nullable=False)
     login = MainRepository.db.Column(MainRepository.db.String(100), nullable=False)
     senha = MainRepository.db.Column(MainRepository.db.String(100), nullable=False)

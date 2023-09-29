@@ -19,19 +19,23 @@ def materia():
     if request.method == 'POST':
         data = request.json
     
-        ativo = data['ativo']
+        status = True
         nome = data['nome']
 
         try:
-            return MateriaService.register(MateriaDTO(ativo, nome))
+            return MateriaService.register(MateriaDTO(status=status, nome=nome))
         except AssertionError as error:
             return str(error)
     
     if request.method == 'PUT':
         id = request.args.get('id')
-        data = request.json   
+        data = request.json
+
+        status = True
+        nome = data['nome']
+
         try: 
-            return jsonify(MateriaRepository.update(MateriaDTO))
+            return jsonify(MateriaRepository.update(MateriaDTO(status=status, nome=nome)))
         except AssertionError as error:
             return str(error)
     

@@ -3,9 +3,9 @@ import datetime
 
 class Painel(MainRepository.db.Model):
     __tablename__ = 'painel'
-    idPainel = MainRepository.db.Column(MainRepository.db.Integer, primary_key=True)
-    idConfiguracao = MainRepository.db.Column(MainRepository.db.ForeignKey('configuracoes.idConfiguracao'))
-    idSecretaria = MainRepository.db.Column(MainRepository.db.ForegnKey('secretaria.idSecretaria'))
+    id_painel = MainRepository.db.Column(MainRepository.db.Integer, primary_key=True)
+    id_configuracao = MainRepository.db.Column(MainRepository.db.ForeignKey('configuracoes.id_configuracao'))
+    id_secretaria = MainRepository.db.Column(MainRepository.db.ForeignKey('secretaria.id_secretaria'))
     data = MainRepository.db.Column(MainRepository.db.DateTime, nullable=False)
     totalAtivos = MainRepository.db.Column(MainRepository.db.Integer, nullable=False)
     totalPresentes = MainRepository.db.Column(MainRepository.db.Integer, nullable=False)
@@ -16,7 +16,9 @@ class Painel(MainRepository.db.Model):
     configuracao = MainRepository.db.relationship('Configuracao', back_populates='painel')
     secretaria = MainRepository.db.relationship('Secretaria', back_populates='painel')
 
-    def __init__(self, data:datetime, totalAtivos:int, totalPresentes:int, totalAusentes:int, totalPresentesCurso:list, totalAtivoCurso:list, totalAusenteCurso:list):
+    def __init__(self, id_configuracao:int, id_secretaria:int, data:datetime, totalAtivos:int, totalPresentes:int, totalAusentes:int, totalPresentesCurso:list, totalAtivoCurso:list, totalAusenteCurso:list):
+        self.id_configuracao = id_configuracao
+        self.id_secretaria = id_secretaria
         self.data = data
         self.totalAtivos = totalAtivos
         self.totalPresentes = totalPresentes
