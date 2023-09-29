@@ -74,4 +74,4 @@ def cadastrarProfessor():
     id_turma = data['idTurma']
     id_professor = data['idProfessor']
 
-    return TurmaRepository.cadastrarAluno(id_turma, id_professor)
+    return TurmaRepository.cadastrarProfessor(id_turma, id_professor)
