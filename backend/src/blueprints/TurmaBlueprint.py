@@ -58,7 +58,7 @@ def turma():
 def listarAllTurmas():
     return TurmaRepository.listAll()
 
-@turmas.route("/api/turma/cadastrarAluno", methods=['GET'])
+@turmas.route("/api/turma/cadastrarAluno", methods=['POST'])
 def cadastrarAluno():
     data = request.json
 
@@ -67,7 +67,7 @@ def cadastrarAluno():
 
     return TurmaRepository.cadastrarAluno(id_turma, id_aluno)
 
-@turmas.route("/api/turma/cadastrarProfessor", methods=['GET'])
+@turmas.route("/api/turma/cadastrarProfessor", methods=['POST'])
 def cadastrarProfessor():
     data = request.json
 
