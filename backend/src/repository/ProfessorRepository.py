@@ -86,7 +86,7 @@ class ProfessorRepository():
                 join(turma_professor).\
                 join(Chamada).\
                 join(Presenca, and_(
-                    Aluno.id == Presenca.c.idAluno,
+                    Aluno.id_aluno == Presenca.c.id_aluno,
                     Presenca.c.id_chamada == idChamada)).\
                 filter(turma_professor.id_professor == Chamada.id_professor).scalar()
                 
