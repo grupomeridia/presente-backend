@@ -29,7 +29,7 @@ def painel():
         totalAusenteCurso = data['totalAusenteCurso']
 
         try:
-            return PainelService.register(PainelDTO(id_configuracao=id_configuracao, id_secretaria=id_secretaria, data=date, totalAtivos=totalAtivos, totalAusentes=totalPresentes, totalAusentes=totalAusentes, totalPresentesCurso=totalPresentesCurso, totalAtivoCurso=totalAtivoCurso, totalAusenteCurso=totalAusenteCurso))
+            return PainelService.register(PainelDTO(id_configuracao=id_configuracao, id_secretaria=id_secretaria, data=date, totalAtivos=totalAtivos, totalAusentes=totalPresentes, totalPresentesCurso=totalPresentesCurso, totalAtivoCurso=totalAtivoCurso, totalAusenteCurso=totalAusenteCurso))
         except AssertionError as error:
             return str(error)
     
@@ -48,7 +48,7 @@ def painel():
         totalAusenteCurso = data['totalAusenteCurso']
 
         try:
-            return PainelService.update(id, PainelDTO(id_configuracao=id_configuracao, id_secretaria=id_secretaria, data=date, totalAtivos=totalAtivos, totalAusentes=totalPresentes, totalAusentes=totalAusentes, totalPresentesCurso=totalPresentesCurso, totalAtivoCurso=totalAtivoCurso, totalAusenteCurso=totalAusenteCurso))
+            return PainelService.update(id, PainelDTO(id_configuracao=id_configuracao, id_secretaria=id_secretaria, data=date, totalAtivos=totalAtivos, totalAusentes=totalPresentes, totalPresentesCurso=totalPresentesCurso, totalAtivoCurso=totalAtivoCurso, totalAusenteCurso=totalAusenteCurso))
         except AssertionError as error:
             return str(error)
         
