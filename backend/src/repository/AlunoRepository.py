@@ -65,6 +65,6 @@ class AlunoRepository():
         MainRepository.db.session.add(Aluno)
         MainRepository.db.session.commit()
 
-        return f"Aluno registrado com o ID {Aluno.id}"
+        return f"Aluno registrado com o ID {Aluno.id_aluno}"
     
    

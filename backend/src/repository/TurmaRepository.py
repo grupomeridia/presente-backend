@@ -65,7 +65,7 @@ class TurmaRepository():
         MainRepository.db.session.add(turma)
         MainRepository.db.session.commit()
 
-        return f"Turma Cadastrada com o ID {turma.id}!"
+        return f"Turma Cadastrada com o ID {turma.id_turma}!"
     
     def cadastrarAluno(idTurma, idAluno):
 

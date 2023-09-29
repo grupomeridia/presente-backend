@@ -51,4 +51,4 @@ class SecretariaRepository():
         MainRepository.db.session.add(Secretaria)
         MainRepository.db.session.commit()
         
-        return f"Usuario registrado com o ID {Secretaria.id}"
+        return f"Usuario registrado com o ID {Secretaria.id_secretaria}"
