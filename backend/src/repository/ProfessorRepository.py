@@ -112,9 +112,9 @@ class ProfessorRepository():
             dataAtual = datetime.now()
             dataInicial = dataAtual - datetime.timedelta(days=4)
 
-            historico = MainRepository.db.session.query(func.date(Presenca.c.horario).label("data"),
-                                                        (func.count(Aluno.id)/
-                                                          func.count().label("total_alunos")).label("porcetagem")).\
+            historico = MainRepository.db.session.query(MainRepository.db.func.date(Presenca.c.horario).label("data"),
+                                                        (MainRepository.db.func.count(Aluno.id)/
+                                                          MainRepository.db.func.count().label("total_alunos")).label("porcetagem")).\
                 join(Chamada).\
                 join(turma_professor).\
                 join(Turma).\
@@ -123,7 +123,7 @@ class ProfessorRepository():
                 filter(Turma.idTurma == idTurma).\
                 filter(Presenca.c.horario >= dataInicial).\
                 filter(Presenca.c.horario <= dataAtual).\
-                group_by(func.date(Presenca.c.date)).all() 
+                group_by(MainRepository.db.func.date(Presenca.c.date)).all() 
             
             if historico:
                 resultado = []
@@ -146,8 +146,8 @@ class ProfessorRepository():
         dataInicial = datetime.now() - datetime.timedelta(days=5)
 
         mediaFrequencia = MainRepository.db.session.query(
-            func.avg(func.coalesce(func.count(Presenca.c.id), 0) /
-                     func.count(Aluno.id)).label('media_frequencia')
+            MainRepository.db.func.avg(MainRepository.db.func.coalesce(MainRepository.db.func.count(Presenca.c.id), 0) /
+                     MainRepository.db.func.count(Aluno.id)).label('media_frequencia')
             ).join(Turma).\
             join(turma_aluno).\
             join(Aluno).\
