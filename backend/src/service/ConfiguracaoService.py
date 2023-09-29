@@ -17,7 +17,7 @@ class ConfiguracaoService():
 
         configuracao = ConfiguracaoService.toEntity(configuracaoDTO)
         
-        return ConfiguracaoRepository.registerConfiguracao(Configuracao(status=configuracao.status, alunoAusente=configuracao.alunoAusente, inicioAula=configuracao.inicioAula, finalAula=configuracao.finalAula))
+        return ConfiguracaoRepository.registerConfiguracao(Configuracao(status=configuracao.status, aluno_ausente=configuracao.aluno_ausente, inicio_aula=configuracao.inicio_aula, final_aula=configuracao.final_aula))
     
     def update(id, configuracao):
 
@@ -32,10 +32,10 @@ class ConfiguracaoService():
             raise AssertionError("ID deve ser um número inteiro")
 
         assert int(id) > 0, "ID inválido"
-        assert Configuracao.query.filter(Configuracao.id == id).first() is not None, "Configuracao não encontrada"
+        assert Configuracao.query.filter(Configuracao.id_configuracao == id).first() is not None, "Configuracao não encontrada"
         return ConfiguracaoRepository.delete(id)
     
     def toEntity(configuracaoDto):
-        configuracao = Configuracao(status=configuracaoDto.status, alunoAusente=configuracaoDto.alunoAusente, inicioAula=configuracaoDto.inicioAula, finalAula=configuracaoDto.finalAula)
+        configuracao = Configuracao(status=configuracaoDto.status, aluno_ausente=configuracaoDto.aluno_ausente, inicio_aula=configuracaoDto.inicio_aula, final_aula=configuracaoDto.final_aula)
 
         return configuracao

@@ -19,7 +19,7 @@ class LembreteService():
         lembrete = LembreteService.toEntity(lembreteDTO)
         
         
-        return LembreteRepository.registerLembrete(Lembrete(id_secretaria=lembrete.id_secretaria, destinatarioCargo=lembrete.destinatarioCargo, titulo=lembrete.titulo, mensagem=lembrete.mensagem, criacao=lembrete.criacao, visualizacao=lembrete.visualizacao))
+        return LembreteRepository.create(Lembrete(id_secretaria=lembrete.id_secretaria, destinatario_cargo=lembrete.destinatario_cargo, destinatrio_id=lembrete.destinatario_id, titulo=lembrete.titulo, mensagem=lembrete.mensagem, criacao=lembrete.criacao, visualizacao=lembrete.visualizacao))
     
     def update(id, lembreteDTO):
 
@@ -35,10 +35,10 @@ class LembreteService():
             raise AssertionError("ID deve ser um número inteiro.")
         
         assert int(id) > 0, "ID inválido"
-        assert Lembrete.query.filter(Lembrete.id == id).first() is not None, "Aluno não encontrado."
+        assert Lembrete.query.filter(Lembrete.id_lembrete == id).first() is not None, "Aluno não encontrado."
         return LembreteRepository.delete(id)
     
     def toEntity(lembreteDto):
-        lembrete = Lembrete(id_secretaria=lembreteDto.id_secretaria, destinatarioCargo=lembreteDto.destinatarioCargo, titulo=lembreteDto.titulo, mensagem=lembreteDto.mensagem, criacao=lembreteDto.criacao, visualizacao=lembreteDto.visualizacao)
+        lembrete = Lembrete(id_secretaria=lembreteDto.id_secretaria, destinatario_cargo=lembreteDto.destinatario_cargo, destinatrio_id=lembreteDto.destinatario_id, titulo=lembreteDto.titulo, mensagem=lembreteDto.mensagem, criacao=lembreteDto.criacao, visualizacao=lembreteDto.visualizacao)
 
         return lembrete
