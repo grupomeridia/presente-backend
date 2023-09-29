@@ -12,17 +12,19 @@ from entity.Presenca import Presenca
 class ProfessorRepository():
     def getProfessorById(id):
         return {
-            "Id": Professor.query.get(id).id,
+            "id": Professor.query.get(id).id_professor,
+            "id_usuario" : Professor.query.get(id).id_usuario,
             "Nome": Professor.query.get(id).nome,
-            "Ativo": Professor.query.get(id).ativo
+            "Ativo": Professor.query.get(id).status
         }
     
     def listAll():
         professores = Professor.query.all()
         resultado = [{
-            'Id': p.id, 
+            'id': p.id_professor, 
+            'id_usuario': p.id_usuario,
             'Nome': p.nome, 
-            'Ativo': p.ativo
+            'Ativo': p.status
         } for p in professores]
 
         return jsonify(resultado)
@@ -30,9 +32,9 @@ class ProfessorRepository():
     def update(id, data):
         professor = Professor.query.get(id)
 
-        professor.idUsuario = data.idUsuario
-        professor.nome = data.status
-        professor.ativo = data.nome
+        professor.id_usuario = data.id_usuario
+        professor.nome = data.nome
+        professor.status = data.status
 
         MainRepository.db.session.merge(professor)
         MainRepository.db.session.commit()
@@ -67,6 +69,7 @@ class ProfessorRepository():
                 'Modalidade': t.modalidade,
                 'Curso': t.curso,
             } for t in turmas]
+            return jsonify(resultado)
         else:
             return "Professor não está cadastrado em nenhuma turma"
         

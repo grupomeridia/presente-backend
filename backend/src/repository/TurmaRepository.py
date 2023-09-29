@@ -11,27 +11,27 @@ from entity.TurmaProfessor import turma_professor
 class TurmaRepository():
     def getTurmaById(id):
         return {
-               "Id":Turma.query.get(id).idTurma,
+               "Id":Turma.query.get(id).id_turma,
                "status":Turma.query.get(id).status,
                "nome": Turma.query.get(id).nome,
                "Ano": Turma.query.get(id).ano,
                "Semestre": Turma.query.get(id).semestre,
-               "turno": Turma.query.get(id).turno,
-               "modalidade": Turma.query.get(id).modalidade,
-               "curso": Turma.query.get(id).curso
+               "turno": Turma.query.get(id).turno.value,
+               "modalidade": Turma.query.get(id).modalidade.value,
+               "curso": Turma.query.get(id).curso.value
                } 
     
     def listAll():
         turmas = Turma.query.all()
         resultado = [{
-            "Id": t.id,
+            "Id": t.id_turma,
             "status": t.status,
             "Nome": t.nome,
             "Ano": t.ano,
             "Semestre": t.semestre,
-            "turno": t.turno,
-            "modalidade": t.modalidade,
-            "curso": t.curso
+            "turno": t.turno.value,
+            "modalidade": t.modalidade.value,
+            "curso": t.curso.value
         } for t in turmas]
 
         return jsonify(resultado)

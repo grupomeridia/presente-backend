@@ -7,21 +7,23 @@ from entity.Aluno import Aluno
 class AlunoRepository():
     def getAlunoById(id):
         return {
-            "Id": Aluno.query.get(id).id_aluno,
+            "id": Aluno.query.get(id).id_aluno,
+            "id_usuario" : Aluno.query.get(id).id_usuario,
             "Nome": Aluno.query.get(id).nome,
             "RA": Aluno.query.get(id).ra,
-            "Ativo": Aluno.query.get(id).status
+            "Ativo": Aluno.query.get(id).status,
+            "Ausente": Aluno.query.get(id).ausente
         }
 
     def listAll():
         alunos = Aluno.query.all()
         resultado = [{
-            "Id": a.id,
+            "id": a.id_aluno,
+            "id_usuario" : a.id_usuario,
             "Nome": a.nome,
             "RA": a.ra,
-            "Ativo": a.ativo,
-            "Turma": a.turma.nome,
-            "Curso": a.curso.value
+            "Ativo": a.status,
+            "Ausente" : a.ausente
         } for a in alunos]
 
         return jsonify(resultado)
@@ -29,11 +31,10 @@ class AlunoRepository():
     def update(id, aluno):
         old_aluno = Aluno.query.get(id)
 
-        old_aluno.ativo = aluno.ativo
+        old_aluno.status = aluno.status
         old_aluno.nome = aluno.nome
         old_aluno.ra = aluno.ra
-        old_aluno.turma_id = aluno.turma_id
-        old_aluno.curso = aluno.curso
+        old_aluno.ausente = aluno.ausente
 
         MainRepository.db.session.merge(old_aluno)
         MainRepository.db.session.commit()
@@ -50,12 +51,12 @@ class AlunoRepository():
     def findByRA(ra):
         aluno = Aluno.query.filter(Aluno.ra == ra).first()
         return {
-            "Id": aluno.id,
+            "Id": aluno.id_aluno,
+            "id_usuario" : aluno.id_usuario,
             "Nome": aluno.nome,
             "RA": aluno.ra,
-            "Ativo": aluno.ativo,
-            "Turma": aluno.turma.nome,
-            "Curso": aluno.curso.value
+            "Ativo": aluno.status,
+            "Ausente" : aluno.ausente
         }
         
     def registerAluno(Aluno):
