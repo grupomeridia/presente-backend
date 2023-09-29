@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-
+from datetime import datetime
 from repository.MainRepository import MainRepository
 from repository.PresencaRepository import PresencaRepository
 
@@ -26,7 +26,7 @@ def presencasMain():
         id_chamada = data['idChamada']
         status = True
         tipo_presenca = data['tipoPresenca']
-        horario = data['horario']
+        horario = datetime.now()
 
         try:
             return PresencaService.register(PresencaDTO(id_aluno=id_aluno, id_chamada=id_chamada, status=status, tipoPresenca=tipo_presenca, horario=horario))
