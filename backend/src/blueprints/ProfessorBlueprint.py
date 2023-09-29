@@ -72,6 +72,7 @@ def numAlunos():
 
     idProfessor = data['idProfessor']
     idChamada = data['idChamada']
+    
     try:
         return ProfessorService.numAlunos(idProfessor, idChamada)
     except AssertionError as error:
