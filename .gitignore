@@ -9,3 +9,4 @@ backend/src/blueprints/__pycache__
 /vm
 .vscode/
 venv/
+/backend/src/.scannerwork/

@@ -7,12 +7,10 @@ from entity.Aluno import Aluno
 class AlunoRepository():
     def getAlunoById(id):
         return {
-            "Id": Aluno.query.get(id).id,
+            "Id": Aluno.query.get(id).id_aluno,
             "Nome": Aluno.query.get(id).nome,
             "RA": Aluno.query.get(id).ra,
-            "Ativo": Aluno.query.get(id).ativo,
-            "Turma": Aluno.query.get(id).turma.nome,
-            "Curso": Aluno.query.get(id).curso.value
+            "Ativo": Aluno.query.get(id).status
         }
 
     def listAll():
