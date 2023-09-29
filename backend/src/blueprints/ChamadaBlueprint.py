@@ -26,9 +26,10 @@ def professor():
         id_professor = data['idProfessor']
         status = True
         abertura = datetime.now()
+        encerramento = None
         
         try:
-            return ChamadaService.register(ChamadaDTO(id_materia=id_materia, id_turma=id_turma, id_professor=id_professor, status=status, abertura=abertura))
+            return ChamadaService.register(ChamadaDTO(id_materia=id_materia, id_turma=id_turma, id_professor=id_professor, status=status, abertura=abertura, encerramento=encerramento))
         except AssertionError as error:
             return str(error)
 
