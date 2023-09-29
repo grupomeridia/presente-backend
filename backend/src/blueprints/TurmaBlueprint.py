@@ -68,7 +68,7 @@ def cadastrarAluno():
     return TurmaRepository.cadastrarAluno(id_turma, id_aluno)
 
 @turmas.route("/api/turma/cadastrarProfessor", methods=['GET'])
-def cadastrarAluno():
+def cadastrarProfessor():
     data = request.json
 
     id_turma = data['idTurma']
