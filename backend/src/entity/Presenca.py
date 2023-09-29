@@ -9,7 +9,7 @@ class Presenca(MainRepository.db.Model):
     id_chamada = MainRepository.db.Column(MainRepository.db.Integer, MainRepository.db.ForeignKey('chamadas.id_chamada'))
     status = MainRepository.db.Column(MainRepository.db.Boolean, nullable=False)
     horario = MainRepository.db.Column(MainRepository.db.DateTime)
-    tipoPresenca = MainRepository.db.Column(MainRepository.db.Enum(TipoPresenca))
+    tipo_presenca = MainRepository.db.Column(MainRepository.db.Enum(TipoPresenca))
     aluno = MainRepository.db.relationship('Aluno', back_populates='presencas')
     chamada = MainRepository.db.relationship('Chamada', back_populates='presencas')
 
