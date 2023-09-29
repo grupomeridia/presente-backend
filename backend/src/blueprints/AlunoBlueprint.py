@@ -21,7 +21,7 @@ def aluno():
     if request.method == 'POST':    
         data = request.json
         
-        idUsuario = data['idUsuario']
+        id_usuario = data['id_usuario']
         status = True
         ausente = True
         nome = data['nome']
@@ -29,7 +29,7 @@ def aluno():
         
 
         try:
-            return AlunoService.register(AlunoDTO(id_usuario=idUsuario, status=status, nome=nome, ra=ra, ausente=ausente))
+            return AlunoService.register(AlunoDTO(id_usuario=id_usuario, status=status, nome=nome, ra=ra, ausente=ausente))
         except AssertionError as error:
             return str(error)
 
@@ -37,14 +37,14 @@ def aluno():
         id = request.args.get('id')
         data = request.json    
 
-        idUsuario = data['idUsuario']
+        id_usuario = data['id_usuario']
         status = True
         ausente = True
         nome = data['nome']
         ra = data['ra']
 
         try:
-            return AlunoService.update(id, AlunoDTO(id_usuario=idUsuario, status=status, nome=nome, ra=ra, ausente=ausente))
+            return AlunoService.update(id, AlunoDTO(id_usuario=id_usuario, status=status, nome=nome, ra=ra, ausente=ausente))
         except AssertionError as error:
             return str(error)
         

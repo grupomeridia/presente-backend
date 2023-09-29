@@ -68,10 +68,9 @@ def listarTurmas():
     
 @professores.route("/api/professor/numAlunos", methods=['GET'])
 def numAlunos():
-    data = request.json
 
-    idProfessor = data['idProfessor']
-    idChamada = data['idChamada']
+    idProfessor = request.args.get("id_professor")
+    idChamada = request.args.get("id_chamada")
     
     try:
         return ProfessorService.numAlunos(idProfessor, idChamada)

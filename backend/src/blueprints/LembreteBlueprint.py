@@ -20,15 +20,16 @@ def lembrete():
     if request.method == 'POST':
         data = request.json
         
-        id_secretaria = data['idSecretaria']
-        destinatarioCargo = data['destinatario']
+        id_secretaria = data['id_secretaria']
+        destinatario_cargo = data['destinatario_cargo']
+        destinatario_id = data['destinatario_id']
         titulo = data['titulo']
         mensagem = data['mensagem']
         criacao = data['criacao']
         visualizacao = data['visualizacao']
         
         try:
-            return LembreteService.register(LembreteDTO(id_secretaria=id_secretaria, destinatarioCargo=destinatarioCargo, titulo=titulo, mensagem=mensagem, criacao=criacao, visualizacao=visualizacao))
+            return LembreteService.register(LembreteDTO(id_secretaria=id_secretaria, destinatario_cargo=destinatario_cargo, destinatario_id=destinatario_id, titulo=titulo, mensagem=mensagem, criacao=criacao, visualizacao=visualizacao))
         except AssertionError as error:
             return str(error)
     
@@ -37,14 +38,15 @@ def lembrete():
         data = request.json
         
         id_secretaria = data['idSecretaria']
-        destinatarioCargo = data['destinatario']
+        destinatario_cargo = data['destinatario_cargo']
+        destinatario_id = data['destinatorio_id']
         titulo = data['titulo']
         mensagem = data['mensagem']
         criacao = data['criacao']
         visualizacao = data['visualizacao']
         
         try:
-            return LembreteService.update(LembreteDTO(id_secretaria=id_secretaria, destinatarioCargo=destinatarioCargo, titulo=titulo, mensagem=mensagem, criacao=criacao, visualizacao=visualizacao))
+            return LembreteService.update(LembreteDTO(id_secretaria=id_secretaria, destinatario_cargo=destinatario_cargo, destinatario_id=destinatario_id, titulo=titulo, mensagem=mensagem, criacao=criacao, visualizacao=visualizacao))
         except AssertionError as error:
             return str(error)
     

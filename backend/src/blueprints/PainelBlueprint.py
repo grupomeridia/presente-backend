@@ -18,18 +18,18 @@ def painel():
     if request.method == 'POST':
         data = request.json
 
-        id_configuracao = data['idConfiguracao']
-        id_secretaria = data['idSecretaria']
-        date = data['data']
-        totalAtivos = data['totalAtivos']
-        totalPresentes = data['totalPresentes']
-        totalAusentes = data['totalAusentes']
-        totalPresentesCurso = data['totalPresentesCurso']
-        totalAtivoCurso = data['totalAtivoCurso']
-        totalAusenteCurso = data['totalAusenteCurso']
+        id_configuracao = data['id_configuracao']
+        id_secretaria = data['id_secretaria']
+        date_criado = data['data_criado']
+        total_ativos = data['total_ativos']
+        total_presentes = data['total_presentes']
+        total_ausentes = data['total_ausentes']
+        total_presentes_curso = data['total_presentes_curso']
+        total_ativo_curso = data['total_ativo_curso']
+        total_ausente_curso = data['total_ausente_curso']
 
         try:
-            return PainelService.register(PainelDTO(id_configuracao=id_configuracao, id_secretaria=id_secretaria, data=date, totalAtivos=totalAtivos, totalAusentes=totalAusentes, totalPresentes=totalPresentes, totalPresentesCurso=totalPresentesCurso, totalAtivoCurso=totalAtivoCurso, totalAusenteCurso=totalAusenteCurso))
+            return PainelService.register(PainelDTO(id_configuracao=id_configuracao, id_secretaria=id_secretaria, data_criado=date_criado, total_ativos=total_ativos, total_ausentes=total_ausentes, total_presentes=total_presentes, total_presentes_curso=total_presentes_curso, total_ativo_curso=total_ativo_curso, total_ausente_curso=total_ausente_curso))
         except AssertionError as error:
             return str(error)
     
@@ -37,18 +37,18 @@ def painel():
         id = request.args.get('id')
         data = request.json
 
-        id_configuracao = data['idConfiguracao']
-        id_secretaria = data['idSecretaria']
-        date = data['data']
-        totalAtivos = data['totalAtivos']
-        totalPresentes = data['totalPresentes']
-        totalAusentes = data['totalAusentes']
-        totalPresentesCurso = data['totalPresentesCurso']
-        totalAtivoCurso = data['totalAtivoCurso']
-        totalAusenteCurso = data['totalAusenteCurso']
+        id_configuracao = data['id_configuracao']
+        id_secretaria = data['id_secretaria']
+        date_criado = data['data_criado']
+        total_ativos = data['total_ativos']
+        total_presentes = data['total_presentes']
+        total_ausentes = data['total_ausentes']
+        total_presentes_curso = data['total_presentes_curso']
+        total_ativo_curso = data['total_ativo_curso']
+        total_ausente_curso = data['total_ausente_curso']
 
         try:
-            return PainelService.update(id, PainelDTO(id_configuracao=id_configuracao, id_secretaria=id_secretaria, data=date, totalAtivos=totalAtivos, totalAusentes=totalAusentes, totalPresentes=totalPresentes, totalPresentesCurso=totalPresentesCurso, totalAtivoCurso=totalAtivoCurso, totalAusenteCurso=totalAusenteCurso))
+            return PainelService.update(id, PainelDTO(id_configuracao=id_configuracao, id_secretaria=id_secretaria, data_criado=date_criado, total_ativos=total_ativos, total_ausentes=total_ausentes, total_presentes=total_presentes, total_presentes_curso=total_presentes_curso, total_ativo_curso=total_ativo_curso, total_ausente_curso=total_ausente_curso))
         except AssertionError as error:
             return str(error)
         

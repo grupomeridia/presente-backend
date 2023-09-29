@@ -21,9 +21,9 @@ def professor():
     if request.method == 'POST':
         data = request.json
 
-        id_materia = data['idMateria']
-        id_turma = data['idTurma']
-        id_professor = data['idProfessor']
+        id_materia = data['id_materia']
+        id_turma = data['id_turma']
+        id_professor = data['id_professor']
         status = True
         abertura = datetime.now()
         encerramento = None
@@ -37,9 +37,9 @@ def professor():
         id = request.args.get('id')
         data = request.json
 
-        id_materia = data['idMateria']
-        id_turma = data['idTurma']
-        id_professor = data['idProfessor']
+        id_materia = data['id_materia']
+        id_turma = data['id_turma']
+        id_professor = data['id_professor']
         status = True
         abertura = data['abertura']
         encerramento = data['encerramento']

@@ -22,12 +22,12 @@ def configuracao():
         data = request.json
 
         status = True
-        alunoAusente = data['alunoAusente']
-        inicioAula = data['inicioAula']
-        finalAula = data['finalAula']
+        aluno_ausente = data['aluno_ausente']
+        inicio_aula = data['inicio_aula']
+        final_aula = data['final_aula']
 
         try:
-            return ConfiguracaoService.register(ConfiguracaoDTO(status=status, alunoAusente=alunoAusente, inicioAula=inicioAula, finalAula=finalAula))
+            return ConfiguracaoService.register(ConfiguracaoDTO(status=status, aluno_ausente=aluno_ausente, inicio_aula=inicio_aula, final_aula=final_aula))
         except AssertionError as error:
             return str(error)
             
@@ -36,12 +36,12 @@ def configuracao():
         data = request.json
 
         status = True
-        alunoAusente = data['alunoAusente']
-        inicioAula = data['inicioAula']
-        finalAula = data['finalAula']
+        aluno_ausente = data['aluno_ausente']
+        inicio_aula = data['inicio_aula']
+        final_aula = data['final_aula']
 
         
-        return ConfiguracaoService.update(id, ConfiguracaoDTO(status=status, alunoAusente=alunoAusente, inicioAula=inicioAula, finalAula=finalAula))
+        return ConfiguracaoService.update(id, ConfiguracaoDTO(status=status, aluno_ausente=aluno_ausente, inicio_aula=inicio_aula, final_aula=final_aula))
     
     if request.method == 'DELETE':
         id = request.args.get('id')
