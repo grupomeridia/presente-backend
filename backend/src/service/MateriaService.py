@@ -33,7 +33,7 @@ class MateriaService():
             raise AssertionError("ID deve ser um número inteiro.")
         
         assert int(id) > 0, "ID inválido"
-        assert Materia.query.filter(Materia.id == id).first() is not None, "Matéria não encontrada."
+        assert Materia.query.filter(Materia.id_materia == id).first() is not None, "Matéria não encontrada."
         return MateriaRepository.delete(id)
     
     def toEntity(materiaDto):

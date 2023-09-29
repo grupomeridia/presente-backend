@@ -34,7 +34,7 @@ class ChamadaService():
             raise AssertionError("ID deve ser um número inteiro.")
         
         assert int(id) > 0, "ID inválido"
-        assert Chamada.query.filter(Chamada.id == id).first() is not None, "Chamada não encontrada." 
+        assert Chamada.query.filter(Chamada.id_chamada == id).first() is not None, "Chamada não encontrada." 
         return ChamadaRepository.delete(id) 
     
     def toEntity(chamadaDto):

@@ -17,8 +17,9 @@ class AlunoService():
     def register(alunoDTO):
 
         aluno = AlunoService.toEntity(alunoDTO)
-            
 
+        #assert not Aluno.query.filter(Aluno.ra == aluno.ra).first(), "ra já está sendo usado"    
+    
         return AlunoRepository.registerAluno(Aluno(id_usuario=aluno.id_usuario, status=aluno.status, ausente=aluno.ausente, nome=aluno.nome, ra=aluno.ra))
     
     def update(id, alunoDTO):
@@ -34,7 +35,7 @@ class AlunoService():
             raise AssertionError("ID deve ser um número inteiro")
         
         assert int(id) > 0, "ID inválido"
-        assert Aluno.query.filter(Aluno.id == id).first() is not None, "Aluno não encontrado"
+        assert Aluno.query.filter(Aluno.id_aluno == id).first() is not None, "Aluno não encontrado"
         return AlunoRepository.delete(id)
 
     def getByRa(ra):

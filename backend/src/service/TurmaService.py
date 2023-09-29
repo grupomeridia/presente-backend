@@ -31,7 +31,7 @@ class TurmaService():
             raise AssertionError("ID deve ser um número inteiro")
     
         assert int(id) > 0, "ID inválido"
-        assert Turma.query.filter(Turma.id == id).first() is not None, "Turma não encontrada"
+        assert Turma.query.filter(Turma.id_turma == id).first() is not None, "Turma não encontrada"
         return TurmaRepository.delete(id)
     
     def toEntity(turmaDto):

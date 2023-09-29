@@ -6,7 +6,7 @@ from entity.Usuario import Usuario
 class UsuarioRepository():
     def getUsuarioById(id):
         return{
-            "id": Usuario.query.get(id).idUsuario,
+            "id": Usuario.query.get(id).id_usuario,
             "Status": Usuario.query.get(id).status,
             "Login": Usuario.query.get(id).login,
             "Senha": Usuario.query.get(id).senha,
@@ -34,7 +34,7 @@ class UsuarioRepository():
     def delete(id):
         usuario = Usuario.query.get(id)
 
-        usuario.ativo = False
+        usuario.status = False
 
         MainRepository.db.session.merge(usuario)
         MainRepository.db.session.commit()

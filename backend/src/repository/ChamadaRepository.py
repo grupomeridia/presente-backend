@@ -13,10 +13,10 @@ from entity.Materia import Materia
 class ChamadaRepository():
     def getChamadaById(id):
         return {
-            "Id": Chamada.query.get(id).idChamada,
-            "Materia" : Chamada.query.get(id).idMateria,
-            "Turma" : Chamada.query.get(id).idTurma,
-            "Professor" : Chamada.query.get(id).idProfessor,
+            "Id": Chamada.query.get(id).id_chamada,
+            "Materia" : Chamada.query.get(id).id_materia,
+            "Turma" : Chamada.query.get(id).id_turma,
+            "Professor" : Chamada.query.get(id).id_professor,
             "status": Chamada.query.get(id).status,
             "abertura":Chamada.query.get(id).abertura,
             "encerramento": Chamada.query.get(id).encerramento
@@ -25,10 +25,10 @@ class ChamadaRepository():
     def listAll():
         chamadas = Chamada.query.filter(Chamada.ativo.isnot(False)).all()
         resultado = [{
-            'Id': c.idChamada,
-            'Materia': c.idMateria,
-            'Turma': c.idTurma,
-            'Professor': c.idProfessor,
+            'Id': c.id_chamada,
+            'Materia': c.id_materia,
+            'Turma': c.id_turma,
+            'Professor': c.id_professor,
             'status': c.status,
             'abertura': c.abertura,
             'encerramento': c.encerramento
@@ -39,9 +39,9 @@ class ChamadaRepository():
     def update(id, data):
         chamada = Chamada.query.get(id)
 
-        chamada.idMateria = data.idMateria
-        chamada.idTurma = data.idTurma
-        chamada.idProfessor = data.idProfessor
+        chamada.id_materia = data.id_materia
+        chamada.id_turma = data.id_turma
+        chamada.id_professor = data.id_professor
         chamada.status = data.status
         chamada.abertura = data.abertura
         chamada.encerramento = data.encerramento
@@ -70,10 +70,10 @@ class ChamadaRepository():
     
     def getChamadasAbertasAluno(id):
 
-        turma = MainRepository.db.session.query(Turma).join(turma_aluno).filter(Aluno.id == id).first()
+        turma = MainRepository.db.session.query(Turma).join(turma_aluno).filter(Aluno.id_aluno == id).first()
 
         chamadas_abertas = MainRepository.db.session.query(Chamada, Turma, Professor, Materia).\
-            filter(Chamada.turma == turma, Chamada.encerramento > datetime.now()).\
+            filter(Chamada.id_turma == turma, Chamada.encerramento > datetime.now()).\
             join(Professor).\
             join(Materia).first()
         
@@ -94,7 +94,7 @@ class ChamadaRepository():
         join(Chamada).\
         join(turma_aluno).\
         join(Turma).\
-        filter(turma_aluno.c.idAluno == idAluno).\
+        filter(turma_aluno.c.id_aluno == idAluno).\
         order_by(MainRepository.db.desc(Chamada.abertura)).\
         limit(5).all()
 
