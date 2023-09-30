@@ -1,19 +1,19 @@
-import os
-import tempfile
-
 import pytest
+from application import create_app
+from models import db
 
-from flask import Flask
-from repository.MainRepository import MainRepository
+@pytest.fixture()
+def app():
+    app = create_app('settings_test.py')
+    app.config.update({
+        "TESTING": True,
+    })
+    yield app
 
-@pytest.fixture
-def client():
-    db_fd, MainRepository.app.config['DATABASE'] = tempfile.mkstemp()
-    MainRepository.app.config['TESTING'] = True
+@pytest.fixture()
+def client(app):
+    return app.test_client()
 
-    with MainRepository.app.test_client() as client:
-        with MainRepository.app.app_context():
-            MainRepository.app.init_db()
-        yield client
-
-    os.close(db_fd)
+@pytest.fixture()
+def runner(app):
+    return app.test_cli_runner()

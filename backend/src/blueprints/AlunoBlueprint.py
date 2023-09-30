@@ -65,3 +65,4 @@ def find_by_ra():
         return AlunoService.get_by_ra(ra)
     except AssertionError as error:
                 return str(error)
+    
