@@ -18,8 +18,8 @@ def create_app(config_file):
     from flask_wtf.csrf import CSRFProtect
 
     app = Flask(__name__)
-    CSRFProtect(app)
-
+    teste = CSRFProtect(app)
+    
     app.config.from_pyfile(config_file)   
 
     app.register_blueprint(alunos)
