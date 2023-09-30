@@ -1,7 +1,16 @@
-#GET
+
+
+#POST
+
+def test_quando_envia_cadastro_sem_body_entao_retorna_erro(client):
+    headers={'Content-Type': 'application/json'}
+    resposta = client.post("/api/aluno", headers=headers)
+    assert resposta.status_code == 400
+
+    #GET
 
 def test_quando_recebe_id_entao_retorna_aluno(client):
-    resposta = client.get("/api/aluno?id=2")
+    resposta = client.get("/api/aluno?id=1")
     assert "Ativo" in resposta.text
 
 def test_quando_recebe_id_incorreto_entao_retorna_erro(client):
@@ -11,13 +20,6 @@ def test_quando_recebe_id_incorreto_entao_retorna_erro(client):
 def test_quando_recebe_id_invalido_entao_retorna_erro(client):
     resposta = client.get("/api/aluno?id=abc")
     assert "Deve ser um número inteiro" in resposta.text
-
-#POST
-
-def test_quando_envia_cadastro_sem_body_entao_retorna_erro(client):
-    headers={'Content-Type': 'application/json'}
-    resposta = client.post("/api/aluno", headers=headers)
-    assert resposta.status_code == 400
 
 #PUT
 

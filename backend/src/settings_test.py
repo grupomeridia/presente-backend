@@ -2,7 +2,7 @@ TESTING = True
 DEBUG = False
 WTF_CSRF_ENABLED = False
 SQLALCHEMY_DATABASE_URI = 'postgresql://postgres:postgres@localhost/app_presente'
-
+SQLALCHEMY_TRACK_MODIFICATIONS = False
 # password hash method
 PROJECT_PASSWORD_HASH_METHOD = 'md5'
 
