@@ -1,5 +1,5 @@
 from flask import jsonify
-from repository.MainRepository import MainRepository
+from models import db
 import json
 
 from entity.Painel import Painel
@@ -37,20 +37,20 @@ class PainelRepository():
         old_painel.total_presentes = painel.total_presentes
         old_painel.total_ausentes = painel.total_ausentes
 
-        MainRepository.db.session.merge(old_painel)
-        MainRepository.db.session.commit()
+        db.session.merge(old_painel)
+        db.session.commit()
 
         return f"Painel ID {id} atualizado."
     
     @staticmethod
     def delete(id):
         painel = Painel.query.get(id)
-        MainRepository.db.session.delete(painel)
-        MainRepository.db.session.commit()
+        db.session.delete(painel)
+        db.session.commit()
         return f"Painel ID {id} deletado."
 
     @staticmethod
     def register_painel(painel):
-        MainRepository.db.session.add(painel)
-        MainRepository.db.session.commit()
+        db.session.add(painel)
+        db.session.commit()
         return f"Painel registrado com o ID {painel.id_painel}"

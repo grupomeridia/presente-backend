@@ -1,7 +1,6 @@
 from flask import Blueprint, request, jsonify
 
 from repository.ProfessorRepository import ProfessorRepository
-from repository.MainRepository import MainRepository
 
 from entity.Professor import Professor
 from dtos.ProfessorDTO import ProfessorDTO

@@ -1,5 +1,5 @@
 from flask import jsonify
-from repository.MainRepository import MainRepository
+from models import db
 
 
 from entity.Turma import Turma
@@ -50,8 +50,8 @@ class TurmaRepository():
         turma.modalidade = data.modalidade
         turma.curso = data.curso
 
-        MainRepository.db.session.merge(turma)
-        MainRepository.db.session.commit()
+        db.session.merge(turma)
+        db.session.commit()
         return {"mensagem":"sucesso"}
 
     @staticmethod
@@ -59,31 +59,31 @@ class TurmaRepository():
         turma = Turma.query.get(id)
         turma.ativo = False
 
-        MainRepository.db.session.merge(turma)
-        MainRepository.db.session.commit()
+        db.session.merge(turma)
+        db.session.commit()
 
         return {"mensagem":"sucesso"}
 
     @staticmethod  
     def register(turma):
         
-        MainRepository.db.session.add(turma)
-        MainRepository.db.session.commit()
+        db.session.add(turma)
+        db.session.commit()
 
         return f"Turma Cadastrada com o ID {turma.id_turma}!"
     
     @staticmethod
     def cadastrar_aluno(turma_id, aluno_id):
 
-        aluno = MainRepository.db.session.query(Aluno).filter_by(id_aluno=aluno_id).first()
+        aluno = db.session.query(Aluno).filter_by(id_aluno=aluno_id).first()
 
-        turma = MainRepository.db.session.query(Turma).filter_by(id_turma=turma_id).first()
+        turma = db.session.query(Turma).filter_by(id_turma=turma_id).first()
 
         if aluno is not None and turma is not None:
 
-            MainRepository.db.session.execute(turma_aluno.insert().values(id_turma=turma_id, id_aluno=aluno_id))
+            db.session.execute(turma_aluno.insert().values(id_turma=turma_id, id_aluno=aluno_id))
 
-            MainRepository.db.session.commit()
+            db.session.commit()
         else:
             print("Aluno ou Turma não encontrado")
 
@@ -92,15 +92,15 @@ class TurmaRepository():
     @staticmethod
     def cadastrar_professor(turma_id, professor_id):
 
-        professor = MainRepository.db.session.query(Professor).filter_by(id_professor=professor_id).first()
+        professor = db.session.query(Professor).filter_by(id_professor=professor_id).first()
 
-        turma = MainRepository.db.session.query(Turma).filter_by(id_turma=turma_id).first()
+        turma = db.session.query(Turma).filter_by(id_turma=turma_id).first()
 
         if professor is not None and turma is not None:
 
-            MainRepository.db.session.execute(turma_professor.insert().values(id_turma=turma_id, id_professor=professor_id))
+            db.session.execute(turma_professor.insert().values(id_turma=turma_id, id_professor=professor_id))
 
-            MainRepository.db.session.commit()
+            db.session.commit()
         else:
             print("Professor ou Turma não encontrado")
 

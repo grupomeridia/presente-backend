@@ -1,5 +1,5 @@
 from flask import jsonify
-from repository.MainRepository import MainRepository
+from models import db
 
 from entity.Materia import Materia
 
@@ -30,8 +30,8 @@ class MateriaRepository():
         materia.ativo = data.ativo
         materia.nome = data.nome
 
-        MainRepository.db.session.merge(materia)
-        MainRepository.db.session.commit()
+        db.session.merge(materia)
+        db.session.commit()
         return {"mensagem":"sucesso"}
     
     @staticmethod
@@ -39,15 +39,15 @@ class MateriaRepository():
         materia = Materia.query.get(id)
         materia.ativo = False
 
-        MainRepository.db.session.merge(materia)
-        MainRepository.db.session.commit()
+        db.session.merge(materia)
+        db.session.commit()
 
         return {"mensagem":"sucesso"}
     
     @staticmethod
     def register(materia):
 
-        MainRepository.db.session.add(materia)
-        MainRepository.db.session.commit()
+        db.session.add(materia)
+        db.session.commit()
 
         return f"Projeto cadastrado com o ID {materia.id_materia}"

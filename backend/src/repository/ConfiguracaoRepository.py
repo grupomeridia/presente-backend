@@ -1,5 +1,5 @@
 from flask import jsonify
-from repository.MainRepository import MainRepository
+from models import db
 
 from entity.Configuracao import Configuracao
 
@@ -36,8 +36,8 @@ class ConfiguracaoRepository():
         configuracao.inicio_aula = data.inicio_aula
         configuracao.final_aula = data.final_aula
 
-        MainRepository.db.session.merge(configuracao)
-        MainRepository.db.session.commit()
+        db.session.merge(configuracao)
+        db.session.commit()
         return {"mensagem":"sucesso"}
     
     @staticmethod
@@ -46,15 +46,15 @@ class ConfiguracaoRepository():
         
         configuracao.ativo= False
         
-        MainRepository.db.session.merge(configuracao)
-        MainRepository.db.session.commit()
+        db.session.merge(configuracao)
+        db.session.commit()
         
         return {"mensagem":"sucesso"}
 
     @staticmethod
     def register(configuracao):
 
-        MainRepository.db.session.add(configuracao)
-        MainRepository.db.session.commit()
+        db.session.add(configuracao)
+        db.session.commit()
 
         return "Configuracao criada com sucesso"

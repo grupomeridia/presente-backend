@@ -1,6 +1,5 @@
 from flask import Blueprint, request, jsonify
 
-from repository.MainRepository import MainRepository
 from repository.AlunoRepository import AlunoRepository
 from dtos.AlunoDTO import AlunoDTO
 from entity.Aluno import Aluno
@@ -57,7 +56,7 @@ def aluno():
 
 @alunos.route("/api/aluno/listAll", methods=['GET'])
 def list_all():
-    return AlunoRepository.listAll()
+    return AlunoRepository.list_all()
 
 @alunos.route("/api/aluno/findByRa", methods=['GET'])
 def find_by_ra():

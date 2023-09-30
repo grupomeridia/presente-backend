@@ -1,7 +1,5 @@
 from flask import jsonify
-from repository.MainRepository import MainRepository
-import json
-
+from models import db
 from entity.Aluno import Aluno
 
 class AlunoRepository():
@@ -39,8 +37,8 @@ class AlunoRepository():
         old_aluno.ra = aluno.ra
         old_aluno.ausente = aluno.ausente
 
-        MainRepository.db.session.merge(old_aluno)
-        MainRepository.db.session.commit()
+        db.session.merge(old_aluno)
+        db.session.commit()
 
         return f"Aluno ID {id} atualizado"
     
@@ -48,8 +46,8 @@ class AlunoRepository():
     def delete(id):
         aluno = Aluno.query.get(id)
         aluno.ativo = False
-        MainRepository.db.session.merge(aluno)
-        MainRepository.db.session.commit()
+        db.session.merge(aluno)
+        db.session.commit()
         return f"Aluno ID {id} deletado"
     
     @staticmethod
@@ -67,8 +65,8 @@ class AlunoRepository():
     @staticmethod
     def register_aluno(aluno):
 
-        MainRepository.db.session.add(aluno)
-        MainRepository.db.session.commit()
+        db.session.add(aluno)
+        db.session.commit()
 
         return f"Aluno registrado com o ID {aluno.id_aluno}"
     

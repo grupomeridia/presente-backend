@@ -1,6 +1,5 @@
 from flask import Blueprint, request, jsonify
 from datetime import datetime
-from repository.MainRepository import MainRepository
 from repository.ChamadaRepository import ChamadaRepository
 from dtos.ChamadaDTO import ChamadaDTO
 from entity.Chamada import Chamada

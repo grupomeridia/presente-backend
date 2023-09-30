@@ -1,5 +1,5 @@
 from flask import jsonify
-from repository.MainRepository import MainRepository
+from models import db
 
 from entity.Presenca import Presenca
 from entity.Aluno import Aluno
@@ -55,22 +55,22 @@ class PresencaRepository():
         presenca.tipoPresenca = data.tipoPresenca
         presenca.horario = data.horario
 
-        MainRepository.db.session.merge(presenca)
-        MainRepository.db.session.commit()
+        db.session.merge(presenca)
+        db.session.commit()
 
     @staticmethod
     def delete(id):
         presenca = Presenca.query.get(id)
         presenca.ativo = False
-        MainRepository.db.session.merge(presenca)
-        MainRepository.db.session.commit()
+        db.session.merge(presenca)
+        db.session.commit()
 
         return {"mensagem":"sucesso"}
     
     @staticmethod
     def register_presenca(presenca):
 
-        MainRepository.db.session.add(presenca)
-        MainRepository.db.session.commit()
+        db.session.add(presenca)
+        db.session.commit()
 
         return "Presença realizada!"

@@ -1,9 +1,6 @@
 from flask import Blueprint, request, jsonify
 
-from repository.ConfiguracaoRepository import ConfiguracaoRepository
-from repository.MainRepository import MainRepository
 from dtos.ConfiguracaoDTO import ConfiguracaoDTO
-from entity.Configuracao import Configuracao
 
 from service.ConfiguracaoService import ConfiguracaoService
 
