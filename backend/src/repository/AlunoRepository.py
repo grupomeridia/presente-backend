@@ -5,7 +5,8 @@ import json
 from entity.Aluno import Aluno
 
 class AlunoRepository():
-    def getAlunoById(id):
+    @staticmethod
+    def get_aluno_by_id(id):
         return {
             "id": Aluno.query.get(id).id_aluno,
             "id_usuario" : Aluno.query.get(id).id_usuario,
@@ -14,8 +15,9 @@ class AlunoRepository():
             "Ativo": Aluno.query.get(id).status,
             "Ausente": Aluno.query.get(id).ausente
         }
-
-    def listAll():
+    
+    @staticmethod
+    def list_all():
         alunos = Aluno.query.all()
         resultado = [{
             "id": a.id_aluno,
@@ -28,6 +30,7 @@ class AlunoRepository():
 
         return jsonify(resultado)
     
+    @staticmethod
     def update(id, aluno):
         old_aluno = Aluno.query.get(id)
 
@@ -40,7 +43,8 @@ class AlunoRepository():
         MainRepository.db.session.commit()
 
         return f"Aluno ID {id} atualizado"
-        
+    
+    @staticmethod
     def delete(id):
         aluno = Aluno.query.get(id)
         aluno.ativo = False
@@ -48,7 +52,8 @@ class AlunoRepository():
         MainRepository.db.session.commit()
         return f"Aluno ID {id} deletado"
     
-    def findByRA(ra):
+    @staticmethod
+    def find_by_ra(ra):
         aluno = Aluno.query.filter(Aluno.ra == ra).first()
         return {
             "Id": aluno.id_aluno,
@@ -59,11 +64,12 @@ class AlunoRepository():
             "Ausente" : aluno.ausente
         }
         
-    def registerAluno(Aluno):
+    @staticmethod
+    def register_aluno(aluno):
 
-        MainRepository.db.session.add(Aluno)
+        MainRepository.db.session.add(aluno)
         MainRepository.db.session.commit()
 
-        return f"Aluno registrado com o ID {Aluno.id_aluno}"
+        return f"Aluno registrado com o ID {aluno.id_aluno}"
     
    

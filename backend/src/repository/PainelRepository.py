@@ -5,7 +5,8 @@ import json
 from entity.Painel import Painel
 
 class PainelRepository():
-    def getPainelById(id):
+    @staticmethod
+    def get_painel_by_id(id):
         return {
             "Id": Painel.query.get(id).id_secretaria,
             "Data": Painel.query.get(id).data_criado.strftime,
@@ -14,7 +15,8 @@ class PainelRepository():
             "TotalAusentes": Painel.query.get(id).total_ausentes
         }
     
-    def listAll():
+    @staticmethod
+    def list_all():
         painel = Painel.query.all()
         resultado = [{
             "Id": p.id_secretaria,
@@ -26,6 +28,7 @@ class PainelRepository():
 
         return jsonify(resultado)
     
+    @staticmethod
     def update(id, painel):
         old_painel = Painel.query.get(id)
 
@@ -39,13 +42,15 @@ class PainelRepository():
 
         return f"Painel ID {id} atualizado."
     
+    @staticmethod
     def delete(id):
         painel = Painel.query.get(id)
         MainRepository.db.session.delete(painel)
         MainRepository.db.session.commit()
         return f"Painel ID {id} deletado."
 
-    def registerPainel(painel):
+    @staticmethod
+    def register_painel(painel):
         MainRepository.db.session.add(painel)
         MainRepository.db.session.commit()
         return f"Painel registrado com o ID {painel.id_painel}"

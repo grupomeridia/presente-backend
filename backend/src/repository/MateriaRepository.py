@@ -4,14 +4,16 @@ from repository.MainRepository import MainRepository
 from entity.Materia import Materia
 
 class MateriaRepository():
-    def getMateriaById(id):
+    @staticmethod
+    def get_materia_by_id(id):
         return {
             "Id": Materia.query.get(id).id_materia,
             "Ativo": Materia.query.get(id).status,
             "Nome": Materia.query.get(id).nome
         }
     
-    def listAll():
+    @staticmethod
+    def list_all():
         materia = Materia.query.all()
         resultado = [{
             "Id": p.id_materia,
@@ -21,6 +23,7 @@ class MateriaRepository():
 
         return jsonify(resultado)
     
+    @staticmethod
     def update(id, data):
         materia = Materia.query.get(id)
 
@@ -31,6 +34,7 @@ class MateriaRepository():
         MainRepository.db.session.commit()
         return {"mensagem":"sucesso"}
     
+    @staticmethod
     def delete(id):
         materia = Materia.query.get(id)
         materia.ativo = False
@@ -40,6 +44,7 @@ class MateriaRepository():
 
         return {"mensagem":"sucesso"}
     
+    @staticmethod
     def register(materia):
 
         MainRepository.db.session.add(materia)

@@ -4,7 +4,8 @@ from repository.MainRepository import MainRepository
 from entity.Configuracao import Configuracao
 
 class ConfiguracaoRepository():
-    def getConfiguracaoById(id):
+    @staticmethod
+    def get_configuracao_by_id(id):
         return{
             "id": Configuracao.query.get(id).id_configuracao,
             "Status": Configuracao.query.get(id).status,
@@ -13,7 +14,8 @@ class ConfiguracaoRepository():
             "Final Aula": Configuracao.query.get(id).final_aula
         }
     
-    def listAll():
+    @staticmethod
+    def list_all():
         configuracao = Configuracao.query.all()
         resultado = [{
             "Id": c.id_configuracao,
@@ -25,6 +27,7 @@ class ConfiguracaoRepository():
         
         return jsonify(resultado)
     
+    @staticmethod
     def update (id, data):
         configuracao = Configuracao.query.get(id)
 
@@ -37,6 +40,7 @@ class ConfiguracaoRepository():
         MainRepository.db.session.commit()
         return {"mensagem":"sucesso"}
     
+    @staticmethod
     def delete (id):
         configuracao = Configuracao.query.get(id)
         
@@ -47,8 +51,10 @@ class ConfiguracaoRepository():
         
         return {"mensagem":"sucesso"}
 
-    def register(status, alunoAusente, inicioAula, finalAula):
-        MainRepository.db.session.add(Configuracao(status=status, aluno_ausente=alunoAusente, inicio_aula=inicioAula, final_aula=finalAula))
+    @staticmethod
+    def register(configuracao):
+
+        MainRepository.db.session.add(configuracao)
         MainRepository.db.session.commit()
 
         return "Configuracao criada com sucesso"

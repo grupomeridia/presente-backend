@@ -11,7 +11,8 @@ from entity.Professor import Professor
 from entity.Materia import Materia
 
 class ChamadaRepository():
-    def getChamadaById(id):
+    @staticmethod
+    def get_chamada_by_id(id):
         return {
             "Id": Chamada.query.get(id).id_chamada,
             "Materia" : Chamada.query.get(id).id_materia,
@@ -22,7 +23,8 @@ class ChamadaRepository():
             "encerramento": Chamada.query.get(id).encerramento
         }
     
-    def listAll():
+    @staticmethod
+    def list_all():
         chamadas = Chamada.query.filter(Chamada.ativo.isnot(False)).all()
         resultado = [{
             'Id': c.id_chamada,
@@ -36,6 +38,7 @@ class ChamadaRepository():
 
         return jsonify(resultado)
     
+    @staticmethod
     def update(id, data):
         chamada = Chamada.query.get(id)
 
@@ -50,6 +53,7 @@ class ChamadaRepository():
         MainRepository.db.session.commit()
         return {"mensagem":"sucesso"}
     
+    @staticmethod
     def delete(id):
         chamada = Chamada.query.get(id)
 
@@ -61,14 +65,16 @@ class ChamadaRepository():
         else:
             return {"mensagem": "Chamada não encontrada"}
     
-    def registerChamada(Chamada):
+    @staticmethod
+    def register_chamada(chamada):
 
-        MainRepository.db.session.add(Chamada)
+        MainRepository.db.session.add(chamada)
         MainRepository.db.session.commit()
 
         return "Chamada registrada"
     
-    def getChamadasAbertasAluno(id):
+    @staticmethod
+    def get_chamadas_abertas_aluno(id):
 
         turma = MainRepository.db.session.query(Turma).join(turma_aluno).filter(Aluno.id_aluno == id).first()
 
@@ -88,13 +94,14 @@ class ChamadaRepository():
         else:
             return "Sem chamadas abertas no momento"
 
-    def getHistoricoAluno(idAluno):
+    @staticmethod
+    def get_historico_aluno(id_aluno):
         
         ultimas_presencas = MainRepository.db.session.query(Presenca).\
         join(Chamada).\
         join(turma_aluno).\
         join(Turma).\
-        filter(turma_aluno.c.id_aluno == idAluno).\
+        filter(turma_aluno.c.id_aluno == id_aluno).\
         order_by(MainRepository.db.desc(Chamada.abertura)).\
         limit(5).all()
 

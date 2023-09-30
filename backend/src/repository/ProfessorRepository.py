@@ -10,7 +10,8 @@ from entity.Chamada import Chamada
 from entity.Presenca import Presenca
 
 class ProfessorRepository():
-    def getProfessorById(id):
+    @staticmethod
+    def get_professor_by_id(id):
         return {
             "id": Professor.query.get(id).id_professor,
             "id_usuario" : Professor.query.get(id).id_usuario,
@@ -18,7 +19,8 @@ class ProfessorRepository():
             "Ativo": Professor.query.get(id).status
         }
     
-    def listAll():
+    @staticmethod
+    def list_all():
         professores = Professor.query.all()
         resultado = [{
             'id': p.id_professor, 
@@ -29,6 +31,7 @@ class ProfessorRepository():
 
         return jsonify(resultado)
     
+    @staticmethod
     def update(id, data):
         professor = Professor.query.get(id)
 
@@ -40,6 +43,7 @@ class ProfessorRepository():
         MainRepository.db.session.commit()
         return f"Professor ID {id} atualizado"
   
+    @staticmethod
     def delete(id):
         professor = Professor.query.get(id)
         professor.ativo = False
@@ -50,6 +54,7 @@ class ProfessorRepository():
 
         return f"Professor ID {id} deletado com sucesso"
     
+    @staticmethod
     def register(professor):
 
         MainRepository.db.session.add(professor)
@@ -57,7 +62,8 @@ class ProfessorRepository():
         
         return f"Professor cadastrado com o id {professor.id_professor}"
     
-    def listarTurmas(id):
+    @staticmethod
+    def listar_turmas(id):
         turmas = MainRepository.db.session.query(Turma).join(turma_professor).filter(Professor.id == id).all()
 
         if turmas:
@@ -72,8 +78,9 @@ class ProfessorRepository():
             return jsonify(resultado)
         else:
             return "Professor não está cadastrado em nenhuma turma"
-        
-    def numAlunos(professor_id, chamada_id):
+    
+    @staticmethod
+    def num_alunos(professor_id, chamada_id):
         
         professor = Professor.query.get(professor_id)
 
@@ -106,14 +113,15 @@ class ProfessorRepository():
 
         else:
             return "Professor não encontrado"
-        
-    def historicoSemanal(idTurma):
+    
+    @staticmethod
+    def historico_semanal(turma_id):
 
-        turma = MainRepository.db.session.query(Turma).filter_by(Turma.idTurma == idTurma).first()
+        turma = MainRepository.db.session.query(Turma).filter_by(Turma.id_turma == turma_id).first()
 
         if turma:
-            dataAtual = datetime.now()
-            dataInicial = dataAtual - datetime.timedelta(days=4)
+            data_atual = datetime.now()
+            data_inicial = data_atual - datetime.timedelta(days=4)
 
             historico = MainRepository.db.session.query(MainRepository.db.func.date(Presenca.c.horario).label("data"),
                                                         (MainRepository.db.func.count(Aluno.id)/
@@ -123,20 +131,20 @@ class ProfessorRepository():
                 join(Turma).\
                 join(turma_aluno).\
                 join(Aluno).\
-                filter(Turma.idTurma == idTurma).\
-                filter(Presenca.c.horario >= dataInicial).\
-                filter(Presenca.c.horario <= dataAtual).\
+                filter(Turma.id_turma == turma_id).\
+                filter(Presenca.c.horario >= data_inicial).\
+                filter(Presenca.c.horario <= data_atual).\
                 group_by(MainRepository.db.func.date(Presenca.c.date)).all() 
             
             if historico:
                 resultado = []
                 for data, porcetagem in historico:
-                    dataFormatada = data.strftime('%Y-%m-%d')
-                    porcetagemFormatada = round(porcetagem * 100, 2)
-                    resultado.append(f"Data: {dataFormatada}, Porcetagem: {porcetagemFormatada}%")
+                    data_formatada = data.strftime('%Y-%m-%d')
+                    porcetagem_formatada = round(porcetagem * 100, 2)
+                    resultado.append(f"Data: {data_formatada}, Porcetagem: {porcetagem_formatada}%")
 
-                resultadoComoString = ', '.join(resultado)
-                return resultadoComoString
+                resultado_como_string = ', '.join(resultado)
+                return resultado_como_string
             
             else: 
                 return "Nenhum dado de presença disponivel"
@@ -144,11 +152,12 @@ class ProfessorRepository():
         else:
             return "Turma não encontrada"
         
-    def mediaSemanal(idTurma):
+    @staticmethod
+    def media_semanal(turma_id):
         
-        dataInicial = datetime.now() - datetime.timedelta(days=5)
+        data_inicial = datetime.now() - datetime.timedelta(days=5)
 
-        mediaFrequencia = MainRepository.db.session.query(
+        media_frequencia = MainRepository.db.session.query(
             MainRepository.db.func.avg(MainRepository.db.func.coalesce(MainRepository.db.func.count(Presenca.c.id), 0) /
                      MainRepository.db.func.count(Aluno.id)).label('media_frequencia')
             ).join(Turma).\
@@ -156,7 +165,7 @@ class ProfessorRepository():
             join(Aluno).\
             outerjoin(Presenca, (
                 Aluno.id == Presenca.c.idAluno) & (Chamada.id == Presenca.c.idChamada)).\
-            filter(Turma.idTurma == idTurma).\
-            filter(Chamada.abertura >= dataInicial).scalar()
+            filter(Turma.id_turma == turma_id).\
+            filter(Chamada.abertura >= data_inicial).scalar()
         
-        return {f"Media frequencia {mediaFrequencia * 100:.2f}"} 
+        return {f"Media frequencia {media_frequencia * 100:.2f}"} 

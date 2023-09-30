@@ -5,7 +5,8 @@ from entity.Presenca import Presenca
 from entity.Aluno import Aluno
 
 class PresencaRepository():
-    def getPresencaById(id):
+    @staticmethod
+    def get_presenca_by_id(id):
         return {
             "Id" : Presenca.query.get(id).id,
             "Aluno": Presenca.query.get(id).idAluno.nome,
@@ -15,7 +16,8 @@ class PresencaRepository():
             "Horario": Presenca.query.get(id).horario
         }
     
-    def listAll():
+    @staticmethod
+    def list_all():
         presencas = Presenca.query.all()
         resultado = [{
             "Id": p.id,
@@ -28,7 +30,8 @@ class PresencaRepository():
 
         return jsonify(resultado)
     
-    def findByPresentes():
+    @staticmethod
+    def find_by_presentes():
         presencas = Presenca.query.filter(Presenca.horario.isnot(None)).all()
 
         resultado = [{
@@ -42,6 +45,7 @@ class PresencaRepository():
 
         return jsonify(resultado)
     
+    @staticmethod
     def update(id, data):
         presenca = Presenca.query.get(id)
 
@@ -54,6 +58,7 @@ class PresencaRepository():
         MainRepository.db.session.merge(presenca)
         MainRepository.db.session.commit()
 
+    @staticmethod
     def delete(id):
         presenca = Presenca.query.get(id)
         presenca.ativo = False
@@ -62,9 +67,10 @@ class PresencaRepository():
 
         return {"mensagem":"sucesso"}
     
-    def registerPresenca(Presenca):
+    @staticmethod
+    def register_presenca(presenca):
 
-        MainRepository.db.session.add(Presenca)
+        MainRepository.db.session.add(presenca)
         MainRepository.db.session.commit()
 
         return "Presença realizada!"

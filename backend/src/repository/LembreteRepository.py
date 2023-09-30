@@ -4,8 +4,8 @@ from entity.CargoEnum import Cargo
 from entity.Lembrete import Lembrete
 
 class LembreteRepository():
-    
-    def getLembreteById(id):
+    @staticmethod
+    def get_lembrete_by_id(id):
         return {
             "id_lembrete": Lembrete.query.get(id).id_lembrete,
             "id_secretaria" : Lembrete.query.get(id).id_secretaria,
@@ -16,8 +16,9 @@ class LembreteRepository():
             "Criacao": Lembrete.quey.get(id).criacao,
             "Visualizacao": Lembrete.query.get(id).visualizacao
         }
-        
-    def listaAll():
+    
+    @staticmethod
+    def lista_all():
         lembretes = Lembrete.query.all()
         resultado = []
         for lembrete in lembretes:
@@ -33,6 +34,7 @@ class LembreteRepository():
             })
         return jsonify(resultado)
     
+    @staticmethod
     def update(id, lembrete):
         old_lembrete = Lembrete.query.get(id)
         
@@ -49,6 +51,7 @@ class LembreteRepository():
         
         return f"Lembrete ID {id} atualizado."
     
+    @staticmethod
     def delete(id):
         lembrete = Lembrete.query.get(id)
         
@@ -57,8 +60,9 @@ class LembreteRepository():
         
         return f"Lembrete ID {id} deletado."
     
-    def create(Lembrete):
-        MainRepository.db.session.add(Lembrete)
+    @staticmethod
+    def create(lembrete):
+        MainRepository.db.session.add(lembrete)
         MainRepository.db.session.commit()
         
-        return f"Lembrete ID {Lembrete.id_lembrete} criado."
+        return f"Lembrete ID {lembrete.id_lembrete} criado."
