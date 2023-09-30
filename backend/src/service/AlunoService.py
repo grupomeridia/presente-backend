@@ -24,7 +24,7 @@ class AlunoService():
     
     def update(id, alunoDTO):
 
-        aluno = AlunoService.toEntity(id, alunoDTO)
+        aluno = AlunoService.toEntity(alunoDTO)
                
         return AlunoRepository.update(id, aluno)
     
