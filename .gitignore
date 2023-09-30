@@ -10,3 +10,6 @@ backend/src/blueprints/__pycache__
 .vscode/
 venv/
 /backend/src/.scannerwork/
+/backend/src/coverage.xml
+/backend/src/.coverage
+/backend/src/*coverage
