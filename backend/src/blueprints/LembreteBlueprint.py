@@ -11,9 +11,9 @@ lembretes = Blueprint("lembretes", __name__)
 @lembretes.route("/api/lembrete", methods=['GET', 'POST', 'PUT', 'DELETE'])
 def lembrete():
     if request.method == 'GET':
-        id = request.args.get('id')
+        id_lembrete = request.args.get('id')
         try:
-            return jsonify(LembreteService.getById(id))
+            return jsonify(LembreteService.get_by_id(id_lembrete))
         except AssertionError as error:
             return str(error)
     
@@ -34,7 +34,7 @@ def lembrete():
             return str(error)
     
     if request.method == 'PUT':
-        id = request.args.get('id')
+        id_lembrete = request.args.get('id')
         data = request.json
         
         id_secretaria = data['idSecretaria']
@@ -46,17 +46,17 @@ def lembrete():
         visualizacao = data['visualizacao']
         
         try:
-            return LembreteService.update(LembreteDTO(id_secretaria=id_secretaria, destinatario_cargo=destinatario_cargo, destinatario_id=destinatario_id, titulo=titulo, mensagem=mensagem, criacao=criacao, visualizacao=visualizacao))
+            return LembreteService.update(id_lembrete, LembreteDTO(id_secretaria=id_secretaria, destinatario_cargo=destinatario_cargo, destinatario_id=destinatario_id, titulo=titulo, mensagem=mensagem, criacao=criacao, visualizacao=visualizacao))
         except AssertionError as error:
             return str(error)
     
     if request.method == 'DELETE':
-        id = request.args.get('id')
+        id_lembrete = request.args.get('id')
         try:
-            return jsonify(LembreteService.delete(id))
+            return jsonify(LembreteService.delete(id_lembrete))
         except AssertionError as error:
             return str(error)
     
 @lembretes.route("/api/lembrete/listAll", methods=['GET'])
-def listAll():
-    return LembreteRepository.listaAll()
+def list_all():
+    return LembreteRepository.list_all()

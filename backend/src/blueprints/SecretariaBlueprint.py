@@ -11,9 +11,9 @@ secretaria = Blueprint("secretaria", __name__)
 @secretaria.route("/api/secretaria", methods=['GET', 'POST', 'PUT', 'DELETE'])
 def secret():
     if request.method == 'GET':
-        id = request.args.get('id')
+        id_secretaria = request.args.get('id')
         try:
-            return jsonify(SecretariaService.getById(id))
+            return jsonify(SecretariaService.get_by_id(id_secretaria))
         except AssertionError as error:
             return str(error)
         
@@ -30,7 +30,7 @@ def secret():
             return str(error)
     
     if request.method == 'PUT':
-        id = request.args.get('id')
+        id_secretaria = request.args.get('id')
         data = request.json
         
         id_usuario = data['idUsuario']
@@ -38,17 +38,17 @@ def secret():
         nome = data['nome']
         
         try:
-            return SecretariaService.update(id, SecretariaDTO(id_usuario=id_usuario, status=status, nome=nome))
+            return SecretariaService.update(id_secretaria, SecretariaDTO(id_usuario=id_usuario, status=status, nome=nome))
         except AssertionError as error:
             return str(error)
     
     if request.method == 'DELETE':
-        id = request.args.get('id')
+        id_secretaria = request.args.get('id')
         try:
-            return jsonify(SecretariaService.delete(id))
+            return jsonify(SecretariaService.delete(id_secretaria))
         except AssertionError as error:
             return str(error)
 
 @secretaria.route("/api/secretaria/listAll", methods=['GET'])
-def listAll():
-    return SecretariaRepository.listAll()
+def list_all():
+    return SecretariaRepository.list_all()

@@ -12,9 +12,9 @@ chamadas = Blueprint("chamadas", __name__)
 @chamadas.route("/api/chamada", methods=['GET', 'POST', 'PUT', 'DELETE'])
 def professor():
     if request.method == 'GET':
-        id = request.args.get('id')
+        id_chamada = request.args.get('id')
         try:
-            return jsonify(ChamadaService.getById(id))
+            return jsonify(ChamadaService.get_by_id(id_chamada))
         except AssertionError as error:
             return str(error)
     
@@ -34,7 +34,7 @@ def professor():
             return str(error)
 
     if request.method == 'PUT':
-        id = request.args.get('id')
+        id_chamada = request.args.get('id')
         data = request.json
 
         id_materia = data['id_materia']
@@ -44,28 +44,28 @@ def professor():
         abertura = data['abertura']
         encerramento = data['encerramento']
         try:
-            return ChamadaService.update(id, ChamadaDTO(id_materia=id_materia, id_turma=id_turma, id_professor=id_professor, status=status, abertura=abertura, encerramento=encerramento))
+            return ChamadaService.update(id_chamada, ChamadaDTO(id_materia=id_materia, id_turma=id_turma, id_professor=id_professor, status=status, abertura=abertura, encerramento=encerramento))
         except AssertionError as error:
             return str(error)
 
     if request.method == 'DELETE':
-        id = request.args.get('id')
+        id_chamada = request.args.get('id')
 
         try:
-            return jsonify(ChamadaService.delete(id))
+            return jsonify(ChamadaService.delete(id_chamada))
         except AssertionError as error:
             return str(error)
 
 
 @chamadas.route("/api/chamada/listAll", methods=['GET'])
-def listarAllChamadas():
+def listar_all_chamadas():
     return ChamadaRepository.listAll()
 
 
 @chamadas.route("/api/chamada/aluno", methods=['GET'])
-def chamadasAbertas():
-    id = request.args.get('id')
+def chamadas_abertas():
+    id_chamada = request.args.get('id')
     try: 
-        return jsonify(ChamadaService.chamadasAbertasAluno(id))
+        return jsonify(ChamadaRepository.get_chamadas_abertas_aluno(id_chamada))
     except AssertionError as error:
         return str(error)
