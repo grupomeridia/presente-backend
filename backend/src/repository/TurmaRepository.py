@@ -57,7 +57,7 @@ class TurmaRepository():
     @staticmethod
     def delete(id):
         turma = Turma.query.get(id)
-        turma.ativo = False
+        turma.status = False
 
         db.session.merge(turma)
         db.session.commit()

@@ -40,6 +40,8 @@ class PresencaService():
         except ValueError:
             raise AssertionError("Deve ser um número inteiro")
         
+        assert Presenca.query.filter(Presenca.id_presenca == id).first() is not None, "Presenca não encontrada"
+
         return PresencaRepository.delete(id)
     
     @staticmethod

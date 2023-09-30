@@ -42,7 +42,7 @@ def materia():
     if request.method == 'DELETE':
         id_materia = request.args.get('id')
         try:
-            return jsonify(MateriaRepository.delete(id_materia))
+            return jsonify(MateriaService.delete(id_materia))
         except AssertionError as error:
             return str(error)
     

@@ -21,7 +21,7 @@ class PainelService():
 
         painel = PainelService.to_entity(painel_dto)
 
-        return PainelRepository.register_painel(Painel(id_configuracao=painel.id_configuracao, id_secretaria=painel.id_secretaria, data_criado=painel.data_criado, total_ativo=painel.total_ativo, total_presentes=painel.total_presentes, total_ausentes=painel.total_ausentes, total_presentes_curso=painel.total_presentes_curso, total_ativo_curso=painel.total_ativo_curso, total_ausente_curso=painel.total_ausente_curso))
+        return PainelRepository.register_painel(Painel(id_configuracao=painel.id_configuracao, id_secretaria=painel.id_secretaria, status=painel.status, data_criado=painel.data_criado, total_ativo=painel.total_ativo, total_presentes=painel.total_presentes, total_ausentes=painel.total_ausentes, total_presentes_curso=painel.total_presentes_curso, total_ativo_curso=painel.total_ativo_curso, total_ausente_curso=painel.total_ausente_curso))
     
     @staticmethod
     def update(id, painel_dto):
@@ -43,6 +43,6 @@ class PainelService():
     
     @staticmethod
     def to_entity(painel_dto):
-        painel = Painel(id_configuracao=painel_dto.id_configuracao, id_secretaria=painel_dto.id_secretaria, data_criado=painel_dto.data_criado, total_ativo=painel_dto.total_ativo, total_presentes=painel_dto.total_presentes, total_ausentes=painel_dto.total_ausentes, total_presentes_curso=painel_dto.total_presentes_curso, total_ativo_curso=painel_dto.total_ativo_curso, total_ausente_curso=painel_dto.total_ausente_curso)
+        painel = Painel(id_configuracao=painel_dto.id_configuracao, id_secretaria=painel_dto.id_secretaria, status=painel_dto.status, data_criado=painel_dto.data_criado, total_ativo=painel_dto.total_ativo, total_presentes=painel_dto.total_presentes, total_ausentes=painel_dto.total_ausentes, total_presentes_curso=painel_dto.total_presentes_curso, total_ativo_curso=painel_dto.total_ativo_curso, total_ausente_curso=painel_dto.total_ausente_curso)
 
         return painel

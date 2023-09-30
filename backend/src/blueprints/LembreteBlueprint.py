@@ -21,6 +21,7 @@ def lembrete():
         data = request.json
         
         id_secretaria = data['id_secretaria']
+        status = True
         destinatario_cargo = data['destinatario_cargo']
         destinatario_id = data['destinatario_id']
         titulo = data['titulo']
@@ -29,7 +30,7 @@ def lembrete():
         visualizacao = None
         
         try:
-            return LembreteService.register(LembreteDTO(id_secretaria=id_secretaria, destinatario_cargo=destinatario_cargo, destinatario_id=destinatario_id, titulo=titulo, mensagem=mensagem, criacao=criacao, visualizacao=visualizacao))
+            return LembreteService.register(LembreteDTO(id_secretaria=id_secretaria, status=status, destinatario_cargo=destinatario_cargo, destinatario_id=destinatario_id, titulo=titulo, mensagem=mensagem, criacao=criacao, visualizacao=visualizacao))
         except AssertionError as error:
             return str(error)
     
@@ -38,6 +39,7 @@ def lembrete():
         data = request.json
         
         id_secretaria = data['idSecretaria']
+        status = data['status']
         destinatario_cargo = data['destinatario_cargo']
         destinatario_id = data['destinatorio_id']
         titulo = data['titulo']
@@ -46,7 +48,7 @@ def lembrete():
         visualizacao = data['visualizacao']
         
         try:
-            return LembreteService.update(id_lembrete, LembreteDTO(id_secretaria=id_secretaria, destinatario_cargo=destinatario_cargo, destinatario_id=destinatario_id, titulo=titulo, mensagem=mensagem, criacao=criacao, visualizacao=visualizacao))
+            return LembreteService.update(id_lembrete, LembreteDTO(id_secretaria=id_secretaria, status=status, destinatario_cargo=destinatario_cargo, destinatario_id=destinatario_id, titulo=titulo, mensagem=mensagem, criacao=criacao, visualizacao=visualizacao))
         except AssertionError as error:
             return str(error)
     

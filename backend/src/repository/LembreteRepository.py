@@ -55,7 +55,9 @@ class LembreteRepository():
     def delete(id):
         lembrete = Lembrete.query.get(id)
         
-        db.session.delete(lembrete)
+        lembrete.status = False
+
+        db.session.merge(lembrete)
         db.session.commit()
         
         return f"Lembrete ID {id} deletado."
