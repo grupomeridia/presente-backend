@@ -44,4 +44,7 @@ def usuario():
     
     if request.method == 'DELETE':
         id_usuario = request.args.get('id')
-        return jsonify(UsuarioService.delete(id_usuario))
+        try:
+            return jsonify(UsuarioService.delete(id_usuario))
+        except AssertionError as error:
+            return str(error)

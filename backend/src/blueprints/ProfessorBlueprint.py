@@ -21,7 +21,7 @@ def professor():
     if request.method == 'POST':
         data = request.json
 
-        id_usuario = data['idUsuario']
+        id_usuario = data['id_usuario']
         status = True
         nome = data['nome']
 
@@ -47,7 +47,7 @@ def professor():
     if request.method == 'DELETE':
         id_professor = request.args.get("id")
         try:
-            return jsonify(ProfessorRepository.delete(id_professor))
+            return jsonify(ProfessorService.delete(id_professor))
         except AssertionError as error:
             return str(error)
 

@@ -22,14 +22,14 @@ def presencas_main():
     if request.method == 'POST':
         data = request.json
 
-        id_aluno = data['idAluno']
-        id_chamada = data['idChamada']
+        id_aluno = data['id_aluno']
+        id_chamada = data['id_chamada']
         status = True
-        tipo_presenca = data['tipoPresenca']
+        tipo_presenca = data['tipo_presenca']
         horario = datetime.now()
 
         try:
-            return PresencaService.register(PresencaDTO(id_aluno=id_aluno, id_chamada=id_chamada, status=status, tipoPresenca=tipo_presenca, horario=horario))
+            return PresencaService.register(PresencaDTO(id_aluno=id_aluno, id_chamada=id_chamada, status=status, tipo_presenca=tipo_presenca, horario=horario))
         except AssertionError as error:
             return str(error)
     
@@ -37,13 +37,13 @@ def presencas_main():
         id_presenca = request.args.get('id')
         data = request.json
 
-        id_aluno = data['idAluno']
-        id_chamada = data['idChamada']
+        id_aluno = data['id_aluno']
+        id_chamada = data['id_chamada']
         status = True
-        tipo_presenca = data['tipoPresenca']
+        tipo_presenca = data['tipo_presenca']
         horario = data['horario']
 
-        return PresencaService.update(id_presenca, PresencaDTO(id_aluno=id_aluno, id_chamada=id_chamada, status=status, tipoPresenca=tipo_presenca, horario=horario))
+        return PresencaService.update(id_presenca, PresencaDTO(id_aluno=id_aluno, id_chamada=id_chamada, status=status, tipo_presenca=tipo_presenca, horario=horario))
     
     if request.method == 'DELETE':
         id_presenca = request.args.get('id')

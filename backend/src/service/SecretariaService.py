@@ -34,6 +34,8 @@ class SecretariaService():
             raise AssertionError("ID deve ser um número inteiro.")
 
         assert int(id) > 0, "ID inválido"
+
+        assert Secretaria.query.filter(Secretaria.id_secretaria == id).first() is not None, "Secretaria não encontrada"
         
         return SecretariaRepository.delete(id)
     

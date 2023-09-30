@@ -22,9 +22,9 @@ class PresencaService():
         presenca = PresencaService.to_entity(presenca_dto)
         
         assert Chamada.query.filter(Chamada.status == True).first() is not None, "Não existe nenhuma chamada aberta"
-        
+        1
          
-        return PresencaRepository.register_presenca(Presenca(id_aluno=presenca.id_aluno, id_chamada=presenca.id_chamada, status=presenca.status, tipoPresenca=presenca.tipoPresenca, horario=presenca.horario))
+        return PresencaRepository.register_presenca(Presenca(id_aluno=presenca.id_aluno, id_chamada=presenca.id_chamada, status=presenca.status, tipo_presenca=presenca.tipo_presenca, horario=presenca.horario))
     
     @staticmethod
     def update(id, presenca_dto):
@@ -44,6 +44,6 @@ class PresencaService():
     
     @staticmethod
     def to_entity(aluno_dto):
-        presenca = Presenca(id_aluno=aluno_dto.id_aluno, id_chamada=aluno_dto.id_chamada, status=aluno_dto.status, tipoPresenca=aluno_dto.tipoPresenca, horario=aluno_dto.horario)
+        presenca = Presenca(id_aluno=aluno_dto.id_aluno, id_chamada=aluno_dto.id_chamada, status=aluno_dto.status, tipo_presenca=aluno_dto.tipo_presenca, horario=aluno_dto.horario)
 
         return presenca

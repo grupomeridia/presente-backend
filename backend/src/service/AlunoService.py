@@ -20,7 +20,7 @@ class AlunoService():
 
         aluno = AlunoService.to_entity(aluno_dto)
     
-        return AlunoRepository.registerAluno(Aluno(id_usuario=aluno.id_usuario, status=aluno.status, ausente=aluno.ausente, nome=aluno.nome, ra=aluno.ra))
+        return AlunoRepository.register_aluno(Aluno(id_usuario=aluno.id_usuario, status=aluno.status, ausente=aluno.ausente, nome=aluno.nome, ra=aluno.ra))
     
     @staticmethod
     def update(id, aluno_dto):

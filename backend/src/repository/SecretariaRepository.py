@@ -44,7 +44,7 @@ class SecretariaRepository():
     @staticmethod
     def delete(id):
         secretaria = Secretaria.query.get(id)
-        secretaria.ativo = False
+        secretaria.status = False
         db.session.merge(secretaria)
         db.session.commit()
         return f"Secretaria ID {id} deletado."
@@ -55,4 +55,4 @@ class SecretariaRepository():
         db.session.add(secretaria)
         db.session.commit()
         
-        return f"Usuario registrado com o ID {secretaria.id_secretaria}"
+        return f"Secretaria registrado com o ID {secretaria.id_secretaria}"

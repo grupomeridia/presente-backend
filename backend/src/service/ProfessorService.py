@@ -32,6 +32,13 @@ class ProfessorService():
         return ProfessorRepository.update(id, professor)
     
     @staticmethod
+    def delete(id):
+        
+        assert Professor.query.filter(Professor.id_professor == id).first() is not None, "Professor não encontrado"
+
+        return ProfessorRepository.delete(id)
+
+    @staticmethod
     def listar_turmas(id):
         try:
             int(id)

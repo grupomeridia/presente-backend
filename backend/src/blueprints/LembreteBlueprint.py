@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-
+from datetime import datetime
 from repository.LembreteRepository import LembreteRepository
 
 from dtos.LembreteDTO import LembreteDTO
@@ -25,8 +25,8 @@ def lembrete():
         destinatario_id = data['destinatario_id']
         titulo = data['titulo']
         mensagem = data['mensagem']
-        criacao = data['criacao']
-        visualizacao = data['visualizacao']
+        criacao = datetime.now()
+        visualizacao = None
         
         try:
             return LembreteService.register(LembreteDTO(id_secretaria=id_secretaria, destinatario_cargo=destinatario_cargo, destinatario_id=destinatario_id, titulo=titulo, mensagem=mensagem, criacao=criacao, visualizacao=visualizacao))

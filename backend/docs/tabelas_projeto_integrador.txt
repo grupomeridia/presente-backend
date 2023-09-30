@@ -23,7 +23,7 @@ CREATE TABLE lembretes(
 	destinatario_id INTEGER NOT NULL,
 	titulo VARCHAR(50) NOT NULL,
 	mensagem VARCHAR(100) NOT NULL,
-	cricao TIMESTAMP NOT NULL,
+	criacao TIMESTAMP NOT NULL,
 	visualizacao TIMESTAMP
 );
 
