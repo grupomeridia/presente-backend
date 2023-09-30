@@ -21,6 +21,10 @@ def test_quando_recebe_id_invalido_entao_retorna_erro(client):
     resposta = client.get("/api/aluno?id=abc")
     assert "Deve ser um número inteiro" in resposta.text
 
+def test_dado_ra_retorna_aluno(client):
+    resposta = client.get("/api/aluno/findByRa?ra=504083")
+    assert "Ativo" in resposta.text
+
 #PUT
 
 def test_quando_envia_put_sem_id_entao_retorna_erro(client):

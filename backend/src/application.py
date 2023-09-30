@@ -15,8 +15,11 @@ def create_app(config_file):
     from blueprints.TurmaBlueprint import turmas
     from blueprints.UsuarioBlueprint import usuarios
     from blueprints.ConfiguracaoBlueprint import configuracoes
+    from flask_wtf.csrf import CSRFProtect
 
     app = Flask(__name__)
+    CSRFProtect(app)
+
     app.config.from_pyfile(config_file)   
 
     app.register_blueprint(alunos)

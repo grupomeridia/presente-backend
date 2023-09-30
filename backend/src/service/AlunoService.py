@@ -50,7 +50,7 @@ class AlunoService():
         assert int(ra) > 500000 and int(ra) < 999999, "RA fornecido é inválido"
         assert Aluno.query.filter(Aluno.ra == ra).first() is not None, "Nenhum aluno encontrado"
 
-        return AlunoRepository.findByRA(ra)
+        return AlunoRepository.find_by_ra(ra)
     
     @staticmethod
     def to_entity(aluno_dto):
