@@ -4,7 +4,8 @@ from entity.Materia import Materia
 
 
 class MateriaService():
-    def getById(id):
+    @staticmethod
+    def get_by_id(id):
         try:
             int(id)
         except ValueError:
@@ -12,20 +13,23 @@ class MateriaService():
         
         assert int(id) > 0, "ID inválido"
         assert Materia.query.get(id) != None, f"Nenhuma materia com o ID {id} foi encontrado"
-        return MateriaRepository.getMateriaById(id)
+        return MateriaRepository.get_materia_by_id(id)
     
-    def register(materiaDTO):
+    @staticmethod
+    def register(materia_dto):
 
-        materia = MateriaService.toEntity(materiaDTO)
+        materia = MateriaService.to_entity(materia_dto)
 
         return MateriaRepository.register(Materia(status=materia.status, nome=materia.nome))
     
+    @staticmethod
     def update(id, materia):
 
-        materia = MateriaService.toEntity(id, materia)
+        materia = MateriaService.to_entity(id, materia)
 
         return MateriaRepository.update(id, materia)
     
+    @staticmethod
     def delete(id):
         try:
             int(id)
@@ -36,7 +40,8 @@ class MateriaService():
         assert Materia.query.filter(Materia.id_materia == id).first() is not None, "Matéria não encontrada."
         return MateriaRepository.delete(id)
     
-    def toEntity(materiaDto):
-        materia = Materia(status=materiaDto.status, nome=materiaDto.nome)
+    @staticmethod
+    def to_entity(materia_dto):
+        materia = Materia(status=materia_dto.status, nome=materia_dto.nome)
 
         return materia

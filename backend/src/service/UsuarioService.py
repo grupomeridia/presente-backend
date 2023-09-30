@@ -2,27 +2,31 @@ from repository.UsuarioRepository import UsuarioRepository
 from entity.Usuario import Usuario
 
 class UsuarioService():
-    def getUsuarioById(id):
+    @staticmethod
+    def get_usuario_by_id(id):
         
         assert int(id) > 0, "ID inválido."
-        assert UsuarioRepository.getUsuarioById(id) != None, "Nenhum usuario foi encontrado"
+        assert UsuarioRepository.get_usuario_by_id(id) != None, "Nenhum usuario foi encontrado"
 
-        return UsuarioRepository.getUsuarioById(id)
+        return UsuarioRepository.get_usuario_by_id(id)
     
-    def register(usuarioDto):
+    @staticmethod
+    def register(usuario_dto):
         
-        usuario = UsuarioService.toEntity(usuarioDto)
+        usuario = UsuarioService.to_entity(usuario_dto)
         
         assert not Usuario.query.filter(Usuario.login == usuario.login).first(), "Esse login já está sendo usado"
 
         return UsuarioRepository.register(Usuario(status=usuario.status, login=usuario.login, senha=usuario.senha, cargo=usuario.cargo))
     
-    def update(id, usuarioDto):
+    @staticmethod
+    def update(id, usuario_dto):
         
-        usuario = UsuarioService.toEntity(usuarioDto)
+        usuario = UsuarioService.to_entity(usuario_dto)
 
         return UsuarioRepository.update(id, Usuario(status=usuario.status, login=usuario.login, senha=usuario.senha, cargo=usuario.cargo)) 
 
+    @staticmethod
     def delete(id):
         try:
             int(id)
@@ -33,7 +37,8 @@ class UsuarioService():
         assert Usuario.query.filter(Usuario.id_usuario == id).first() is not None, "Usuario não encontrado" 
         return UsuarioRepository.delete(id)      
 
-    def toEntity(usuarioDto):
-        usuario = Usuario(status=usuarioDto.status, login=usuarioDto.login, senha=usuarioDto.senha, cargo=usuarioDto.cargo)
+    @staticmethod
+    def to_entity(usuario_dto):
+        usuario = Usuario(status=usuario_dto.status, login=usuario_dto.login, senha=usuario_dto.senha, cargo=usuario_dto.cargo)
 
         return usuario

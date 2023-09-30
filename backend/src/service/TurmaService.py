@@ -2,7 +2,8 @@ from entity.Turma import Turma
 from repository.TurmaRepository import TurmaRepository
 
 class TurmaService():
-    def getTurma(id):
+    @staticmethod
+    def get_turma(id):
         try:
             int(id)
         except ValueError:
@@ -10,20 +11,23 @@ class TurmaService():
 
         assert int(id) > 0, "ID inválido"
         assert Turma.query.get(id) != None, f"Nenhuma turma com o ID {id} foi encontrada."
-        return TurmaRepository.getTurmaById(id)
+        return TurmaRepository.get_turma_by_id(id)
     
-    def postTurma(turmaDto):
+    @staticmethod
+    def post_turma(turma_dto):
         
-        turma = TurmaService.toEntity(turmaDto)
+        turma = TurmaService.to_entity(turma_dto)
 
         return TurmaRepository.register(Turma(status=turma.status, nome=turma.nome, ano=turma.ano, semestre=turma.semestre, turno=turma.turno, modalidade=turma.modalidade, curso=turma.curso))
     
-    def update(id, turmaDto):
+    @staticmethod
+    def update(id, turma_dto):
         
-        turma = TurmaService.toEntity(turmaDto)
+        turma = TurmaService.to_entity(turma_dto)
         
         return TurmaRepository.update(id, turma)
     
+    @staticmethod
     def delete(id):
         try:
             int(id)
@@ -34,7 +38,8 @@ class TurmaService():
         assert Turma.query.filter(Turma.id_turma == id).first() is not None, "Turma não encontrada"
         return TurmaRepository.delete(id)
     
-    def toEntity(turmaDto):
-        turma = Turma(status=turmaDto.status, nome=turmaDto.nome, ano=turmaDto.ano, semestre=turmaDto.semestre, turno=turmaDto.turno, modalidade=turmaDto.modalidade, curso=turmaDto.curso)
+    @staticmethod
+    def to_entity(turma_dto):
+        turma = Turma(status=turma_dto.status, nome=turma_dto.nome, ano=turma_dto.ano, semestre=turma_dto.semestre, turno=turma_dto.turno, modalidade=turma_dto.modalidade, curso=turma_dto.curso)
 
         return turma

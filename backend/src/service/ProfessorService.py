@@ -5,7 +5,8 @@ from entity.Chamada import Chamada
 from entity.Turma import Turma
 
 class ProfessorService():
-    def getById(id):
+    @staticmethod
+    def get_by_id(id):
         try:
             int(id)
         except ValueError:
@@ -14,67 +15,69 @@ class ProfessorService():
         assert int(id) > 0, "ID inválido."
         assert Professor.query.get(id) != None, "Nenhum professor com este ID foi encontrado."
 
-        return ProfessorRepository.getProfessorById(id)
+        return ProfessorRepository.get_professor_by_id(id)
     
-    def register(professorDto):
+    @staticmethod
+    def register(professor_dto):
         
-        professor = ProfessorService.toEntity(professorDto)
+        professor = ProfessorService.to_entity(professor_dto)
         
         return ProfessorRepository.register(Professor(id_usuario=professor.id_usuario, status=professor.status, nome=professor.nome))
     
-    def update(id, professorDto):
+    @staticmethod
+    def update(id, professor_dto):
 
-        professor = ProfessorService.toEntity(professorDto)
+        professor = ProfessorService.to_entity(professor_dto)
 
         return ProfessorRepository.update(id, professor)
     
-    def listarTurmas(id):
+    @staticmethod
+    def listar_turmas(id):
         try:
             int(id)
         except ValueError:
-            raise AssertionError("ID deve ser um número inteiro")
+            raise AssertionError("id inválido")
         
-        assert int(id) > 0, "ID inválido!"
-        assert Professor.query.get(id) != None, f"Nenhum professor foi encontrado com esse id"
-        return ProfessorRepository.listarTurmas(id)
+        assert Professor.query.get(id) != None, "Nenhum professor foi encontrado"
+        return ProfessorRepository.listar_turmas(id)
     
-    def numAlunos(idProfessor, idChamada):
+    @staticmethod
+    def num_alunos(id_professor, id_chamada):
         try:
-            int(idProfessor)
-            int(idChamada)
+            int(id_professor)
+            int(id_chamada)
         except ValueError:
-            raise AssertionError("ID deve ser um número inteiro")
+            raise AssertionError("id do professor ou da chamada inválidos")
         
-        assert int(idProfessor) > 0, "ID inválido!"
-        assert int(idChamada) > 0, "ID inválido!"
-        assert Professor.query.get(idProfessor) != None, f"Nenhum professor foi encontrado com esse id"
-        assert Chamada.query.get(idChamada) != None, f"Nenhuma chamada foi encontrada com esse id"
+        assert Professor.query.get(id_professor) != None, "Nenhum professor foi encontrado com esse id"
+        assert Chamada.query.get(id_chamada) != None, "Nenhuma chamada foi encontrada com esse id"
 
-        return ProfessorRepository.numAlunos(idProfessor, idChamada)
+        return ProfessorRepository.num_alunos(id_professor, id_chamada)
     
-    def historicoSemanal(idTurma):
+    @staticmethod
+    def historico_semanal(id_turma):
         try:
-            int(idTurma)
+            int(id_turma)
         except ValueError:
-            raise AssertionError("ID deve ser um número inteiro")
+            raise AssertionError("id da turma inválido")
         
-        assert int(idTurma) > 0, "ID inválido!"
-        assert Turma.query.get(id) != None, f"Nenhuma turma foi encontrada com esse id"
+        assert Turma.query.get(id) != None, "Nenhuma turma foi encontrada com esse id"
 
-        return ProfessorRepository.historicoSemanal(idTurma)
+        return ProfessorRepository.historico_semanal(id_turma)
     
-    def mediaSemanal(idTurma):
+    @staticmethod
+    def media_semanal(id_turma):
         try:
-            int(idTurma)
+            int(id_turma)
         except ValueError:
-            raise AssertionError("ID deve ser um número inteiro")
+            raise AssertionError("id da turma está inválido")
         
-        assert int(idTurma) > 0, "ID inválido!"
-        assert Turma.query.get(id) != None, f"Nenhum turma foi encontrada com esse id"
+        assert Turma.query.get(id) != None, "Nenhum turma foi encontrada"
 
-        return ProfessorRepository.mediaSemanal(idTurma)
+        return ProfessorRepository.media_semanal(id_turma)
 
-    def toEntity(professorDto):
-        professor = Professor(id_usuario=professorDto.id_usuario, status=professorDto.status, nome=professorDto.nome)
+    @staticmethod
+    def to_entity(professor_dto):
+        professor = Professor(id_usuario=professor_dto.id_usuario, status=professor_dto.status, nome=professor_dto.nome)
   
         return professor

@@ -3,30 +3,34 @@ from repository.ChamadaRepository import ChamadaRepository
 from entity.Chamada import Chamada
 
 class ChamadaService():
-    def getById(id):
+    @staticmethod
+    def get_by_id(id):
         try:
             int(id)
         except ValueError:
             raise AssertionError("Deve ser um número inteiro")
         
         assert int(id) > 0, "ID inválido."
-        assert ChamadaRepository.getChamadaById(id) != None, "Nenhum aluno com este ID foi encontrado."
+        assert ChamadaRepository.get_chamada_by_id(id) != None, "Nenhum aluno com este ID foi encontrado."
 
-        return ChamadaRepository.getChamadaById(id)
+        return ChamadaRepository.get_chamada_by_id(id)
 
-    def register(chamadaDTO):
+    @staticmethod
+    def register(chamada_dto):
 
-        chamada = ChamadaService.toEntity(chamadaDTO)
+        chamada = ChamadaService.to_entity(chamada_dto)
         
 
-        return ChamadaRepository.registerChamada(Chamada(id_materia=chamada.id_materia, id_turma=chamada.id_turma, id_professor=chamada.id_professor, status=chamada.status, abertura=chamada.abertura, encerramento=chamada.encerramento))
+        return ChamadaRepository.register_chamada(Chamada(id_materia=chamada.id_materia, id_turma=chamada.id_turma, id_professor=chamada.id_professor, status=chamada.status, abertura=chamada.abertura, encerramento=chamada.encerramento))
 
+    @staticmethod
     def update(id, chamada):
 
-        chamada = ChamadaService.toEntity(id, chamada)
+        chamada = ChamadaService.to_entity(id, chamada)
         
         return ChamadaRepository.update(id, chamada)
     
+    @staticmethod
     def delete(id):
         try:
             int(id)
@@ -37,7 +41,8 @@ class ChamadaService():
         assert Chamada.query.filter(Chamada.id_chamada == id).first() is not None, "Chamada não encontrada." 
         return ChamadaRepository.delete(id) 
     
-    def toEntity(chamadaDto):
-        chamada = Chamada(id_materia=chamadaDto.id_materia, id_turma=chamadaDto.id_turma, id_professor=chamadaDto.id_professor, status=chamadaDto.status, abertura=chamadaDto.abertura, encerramento=chamadaDto.encerramento)
+    @staticmethod
+    def to_entity(chamada_dto):
+        chamada = Chamada(id_materia=chamada_dto.id_materia, id_turma=chamada_dto.id_turma, id_professor=chamada_dto.id_professor, status=chamada_dto.status, abertura=chamada_dto.abertura, encerramento=chamada_dto.encerramento)
 
         return chamada
