@@ -19,7 +19,7 @@ class ConfiguracaoService():
 
         configuracao = ConfiguracaoService.to_entity(configuracao_dto)
         
-        return ConfiguracaoRepository.register(Configuracao(status=configuracao.status, aluno_ausente=configuracao.aluno_ausente, inicio_aula=configuracao.inicio_aula, final_aula=configuracao.final_aula))
+        return ConfiguracaoRepository.register(Configuracao(status=configuracao.status, aluno_ausente=configuracao.aluno_ausente, inicio_aula=configuracao.inicio_aula, fim_aula=configuracao.fim_aula))
     
     @staticmethod
     def update(id, configuracao):
@@ -41,6 +41,6 @@ class ConfiguracaoService():
     
     @staticmethod
     def to_entity(configuracao_dto):
-        configuracao = Configuracao(status=configuracao_dto.status, aluno_ausente=configuracao_dto.aluno_ausente, inicio_aula=configuracao_dto.inicio_aula, final_aula=configuracao_dto.final_aula)
+        configuracao = Configuracao(status=configuracao_dto.status, aluno_ausente=configuracao_dto.aluno_ausente, inicio_aula=configuracao_dto.inicio_aula, fim_aula=configuracao_dto.fim_aula)
 
         return configuracao

@@ -45,7 +45,7 @@ class AlunoRepository():
     @staticmethod
     def delete(id):
         aluno = Aluno.query.get(id)
-        aluno.ativo = False
+        aluno.status = False
         db.session.merge(aluno)
         db.session.commit()
         return f"Aluno ID {id} deletado"

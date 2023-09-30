@@ -21,7 +21,7 @@ class LembreteService():
         lembrete = LembreteService.to_entity(lembrete_dto)
         
         
-        return LembreteRepository.create(Lembrete(id_secretaria=lembrete.id_secretaria, destinatario_cargo=lembrete.destinatario_cargo, destinatrio_id=lembrete.destinatario_id, titulo=lembrete.titulo, mensagem=lembrete.mensagem, criacao=lembrete.criacao, visualizacao=lembrete.visualizacao))
+        return LembreteRepository.create(Lembrete(id_secretaria=lembrete.id_secretaria, destinatario_cargo=lembrete.destinatario_cargo, destinatario_id=lembrete.destinatario_id, titulo=lembrete.titulo, mensagem=lembrete.mensagem, criacao=lembrete.criacao, visualizacao=lembrete.visualizacao))
     
     @staticmethod
     def update(id, lembrete_dto):
@@ -44,6 +44,6 @@ class LembreteService():
     
     @staticmethod
     def to_entity(lembrete_dto):
-        lembrete = Lembrete(id_secretaria=lembrete_dto.id_secretaria, destinatario_cargo=lembrete_dto.destinatario_cargo, destinatrio_id=lembrete_dto.destinatario_id, titulo=lembrete_dto.titulo, mensagem=lembrete_dto.mensagem, criacao=lembrete_dto.criacao, visualizacao=lembrete_dto.visualizacao)
+        lembrete = Lembrete(id_secretaria=lembrete_dto.id_secretaria, destinatario_cargo=lembrete_dto.destinatario_cargo, destinatario_id=lembrete_dto.destinatario_id, titulo=lembrete_dto.titulo, mensagem=lembrete_dto.mensagem, criacao=lembrete_dto.criacao, visualizacao=lembrete_dto.visualizacao)
 
         return lembrete

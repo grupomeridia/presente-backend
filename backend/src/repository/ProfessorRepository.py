@@ -46,7 +46,7 @@ class ProfessorRepository():
     @staticmethod
     def delete(id):
         professor = Professor.query.get(id)
-        professor.ativo = False
+        professor.status = False
         
         db.session.merge(professor)
         db.session.commit()

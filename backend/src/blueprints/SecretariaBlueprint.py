@@ -20,7 +20,7 @@ def secret():
     if request.method == 'POST':
         data = request.json
         
-        id_usuario = data['idUsuario']
+        id_usuario = data['id_usuario']
         status = True
         nome = data['nome']
         
@@ -33,7 +33,7 @@ def secret():
         id_secretaria = request.args.get('id')
         data = request.json
         
-        id_usuario = data['idUsuario']
+        id_usuario = data['id_usuario']
         status = True
         nome = data['nome']
         
