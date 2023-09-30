@@ -1,6 +1,5 @@
 from flask import jsonify
-from repository.MainRepository import MainRepository
-
+from models import db
 from entity.Secretaria import Secretaria
 
 class SecretariaRepository():
@@ -37,8 +36,8 @@ class SecretariaRepository():
         old_secretaria.status = secretaria.status
         old_secretaria.nome = secretaria.nome
         
-        MainRepository.db.session.merge(old_secretaria)
-        MainRepository.db.session.commit()
+        db.session.merge(old_secretaria)
+        db.session.commit()
         
         return f"Secretaria ID {id} atualizado."
     
@@ -46,14 +45,14 @@ class SecretariaRepository():
     def delete(id):
         secretaria = Secretaria.query.get(id)
         secretaria.ativo = False
-        MainRepository.db.session.merge(secretaria)
-        MainRepository.db.session.commit()
+        db.session.merge(secretaria)
+        db.session.commit()
         return f"Secretaria ID {id} deletado."
     
     @staticmethod
     def register_secretaria(secretaria):
         
-        MainRepository.db.session.add(secretaria)
-        MainRepository.db.session.commit()
+        db.session.add(secretaria)
+        db.session.commit()
         
         return f"Usuario registrado com o ID {secretaria.id_secretaria}"

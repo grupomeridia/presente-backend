@@ -17,8 +17,6 @@ def test_deve_criar_um_aluno():
 
     assert "Aluno registrado com o ID" in data.text
 
-
-
 def test_deve_retornar_um_aluno():
     data = requests.get(url, params={"id":2})
     data = data.json()   
@@ -48,4 +46,11 @@ def test_deve_deletar_um_aluno_nao_encontrado():
 def test_deve_deletar_um_aluno_sucesso():
     data = requests.delete(url, params={"id":2})
     assert "Aluno ID" in data.text
+
+def test_retorna_200(client):
+    assert client.get("api/aluno").status_code == 404
+
+def test_cadastra_aluno(client):
+    response = client.get("/api/aluno", data={"id_usuario":1,"nome":"Matheus Almeida","ra":56526591})
+    assert "Aluno ID " in response.text
 

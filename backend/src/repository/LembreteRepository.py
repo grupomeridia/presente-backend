@@ -1,5 +1,5 @@
 from flask import jsonify
-from repository.MainRepository import MainRepository
+from models import db
 from entity.CargoEnum import Cargo
 from entity.Lembrete import Lembrete
 
@@ -46,8 +46,8 @@ class LembreteRepository():
         old_lembrete.criacao = lembrete.criacao
         old_lembrete.visualizacao = lembrete.visualizacao
 
-        MainRepository.db.session.merge(old_lembrete)
-        MainRepository.db.session.commit()
+        db.session.merge(old_lembrete)
+        db.session.commit()
         
         return f"Lembrete ID {id} atualizado."
     
@@ -55,14 +55,14 @@ class LembreteRepository():
     def delete(id):
         lembrete = Lembrete.query.get(id)
         
-        MainRepository.db.session.delete(lembrete)
-        MainRepository.db.session.commit()
+        db.session.delete(lembrete)
+        db.session.commit()
         
         return f"Lembrete ID {id} deletado."
     
     @staticmethod
     def create(lembrete):
-        MainRepository.db.session.add(lembrete)
-        MainRepository.db.session.commit()
+        db.session.add(lembrete)
+        db.session.commit()
         
         return f"Lembrete ID {lembrete.id_lembrete} criado."

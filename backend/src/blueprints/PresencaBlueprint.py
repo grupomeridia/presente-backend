@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 from datetime import datetime
-from repository.MainRepository import MainRepository
+
 from repository.PresencaRepository import PresencaRepository
 
 from entity.Presenca import Presenca

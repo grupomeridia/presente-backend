@@ -1,5 +1,5 @@
 from flask import jsonify
-from repository.MainRepository import MainRepository
+from models import db
 
 from entity.Usuario import Usuario
 
@@ -16,8 +16,8 @@ class UsuarioRepository():
     
     @staticmethod
     def register(usuario):
-        MainRepository.db.session.add(usuario)
-        MainRepository.db.session.commit()
+        db.session.add(usuario)
+        db.session.commit()
 
         return "Usuario criado com sucesso"
     
@@ -30,8 +30,8 @@ class UsuarioRepository():
         usuario.senha = data.senha
         usuario.cargo = data.cargo
 
-        MainRepository.db.session.merge(usuario)
-        MainRepository.db.session.commit()
+        db.session.merge(usuario)
+        db.session.commit()
         return {"mensagem":"sucesso"}
     
     @staticmethod
@@ -40,7 +40,7 @@ class UsuarioRepository():
 
         usuario.status = False
 
-        MainRepository.db.session.merge(usuario)
-        MainRepository.db.session.commit()
+        db.session.merge(usuario)
+        db.session.commit()
 
         return {"mensagem":"sucesso"}

@@ -1,5 +1,6 @@
 from flask import jsonify
-from repository.MainRepository import MainRepository
+from models import db
+
 import datetime
 
 from entity.Chamada import Chamada
@@ -49,8 +50,8 @@ class ChamadaRepository():
         chamada.abertura = data.abertura
         chamada.encerramento = data.encerramento
 
-        MainRepository.db.session.merge(chamada)
-        MainRepository.db.session.commit()
+        db.session.merge(chamada)
+        db.session.commit()
         return {"mensagem":"sucesso"}
     
     @staticmethod
@@ -59,8 +60,8 @@ class ChamadaRepository():
 
         if chamada:
             chamada.status = False
-            MainRepository.db.session.merge(chamada)
-            MainRepository.db.session.commit()
+            db.session.merge(chamada)
+            db.session.commit()
             return {"mensagem": "sucesso"}
         else:
             return {"mensagem": "Chamada não encontrada"}
@@ -68,17 +69,17 @@ class ChamadaRepository():
     @staticmethod
     def register_chamada(chamada):
 
-        MainRepository.db.session.add(chamada)
-        MainRepository.db.session.commit()
+        db.session.add(chamada)
+        db.session.commit()
 
         return "Chamada registrada"
     
     @staticmethod
     def get_chamadas_abertas_aluno(id):
 
-        turma = MainRepository.db.session.query(Turma).join(turma_aluno).filter(Aluno.id_aluno == id).first()
+        turma = db.session.query(Turma).join(turma_aluno).filter(Aluno.id_aluno == id).first()
 
-        chamadas_abertas = MainRepository.db.session.query(Chamada, Turma, Professor, Materia).\
+        chamadas_abertas = db.session.query(Chamada, Turma, Professor, Materia).\
             filter(Chamada.id_turma == turma, Chamada.encerramento > datetime.now()).\
             join(Professor).\
             join(Materia).first()
@@ -97,12 +98,12 @@ class ChamadaRepository():
     @staticmethod
     def get_historico_aluno(id_aluno):
         
-        ultimas_presencas = MainRepository.db.session.query(Presenca).\
+        ultimas_presencas = db.session.query(Presenca).\
         join(Chamada).\
         join(turma_aluno).\
         join(Turma).\
         filter(turma_aluno.c.id_aluno == id_aluno).\
-        order_by(MainRepository.db.desc(Chamada.abertura)).\
+        order_by(db.desc(Chamada.abertura)).\
         limit(5).all()
 
         resultado = [{

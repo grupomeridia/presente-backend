@@ -1,6 +1,5 @@
 from flask import Blueprint, request, jsonify
 
-from repository.MainRepository import MainRepository
 from repository.TurmaRepository import TurmaRepository
 
 from entity.Turma import Turma

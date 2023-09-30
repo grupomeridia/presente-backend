@@ -1,7 +1,6 @@
 from flask import Blueprint, request, jsonify
 
 from repository.UsuarioRepository import UsuarioRepository
-from repository.MainRepository import MainRepository
 
 from entity.Usuario import Usuario
 from dtos.UsuarioDTO import UsuarioDTO
