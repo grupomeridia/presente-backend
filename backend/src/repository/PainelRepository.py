@@ -9,8 +9,8 @@ class PainelRepository():
     def get_painel_by_id(id):
         return {
             "Id": Painel.query.get(id).id_secretaria,
-            "Data": Painel.query.get(id).data_criado.strftime,
-            "TotalAtivos": Painel.query.get(id).total_ativos,
+            "Data": Painel.query.get(id).data_criado,
+            "TotalAtivos": Painel.query.get(id).total_ativo,
             "TotalPresentes": Painel.query.get(id).total_presentes,
             "TotalAusentes": Painel.query.get(id).total_ausentes
         }
@@ -20,7 +20,7 @@ class PainelRepository():
         painel = Painel.query.all()
         resultado = [{
             "Id": p.id_secretaria,
-            "Data": p.data_criado.strftime,
+            "Data": p.data_criado,
             "TotalAtivos": p.total_ativos,
             "TotalPresentes": p.total_presentes,
             "TotalAusentes": p.total_ausentes

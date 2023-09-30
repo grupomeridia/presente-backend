@@ -10,10 +10,10 @@ class LembreteRepository():
             "id_lembrete": Lembrete.query.get(id).id_lembrete,
             "id_secretaria" : Lembrete.query.get(id).id_secretaria,
             "DestinatarioId": Lembrete.query.get(id).destinatario_id,
-            "DestinatarioCargo": Lembrete.query.get(id).destinatario_cargo,
+            "DestinatarioCargo": Lembrete.query.get(id).destinatario_cargo.value,
             "Titulo": Lembrete.query.get(id).titulo,
             "Mensagem": Lembrete.query.get(id).mensagem,
-            "Criacao": Lembrete.quey.get(id).criacao,
+            "Criacao": Lembrete.query.get(id).criacao,
             "Visualizacao": Lembrete.query.get(id).visualizacao
         }
     

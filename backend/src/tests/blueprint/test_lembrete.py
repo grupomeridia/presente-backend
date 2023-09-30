@@ -1,7 +1,7 @@
 #GET
 
 def test_retornar_lembrete(client):
-    resposta = client.get("/api/lembrete?id=2")
+    resposta = client.get("/api/lembrete?id=550097")
 
     assert "Nenhum lembrete com este ID foi encontrado" in resposta.text
 
@@ -20,7 +20,7 @@ def test_quando_envia_deve_retornar_sucesso(client):
     headers={'Content-Type': 'application/json'}
     dados = {
         "id_secretaria": 1,
-        "destinatario_cargo": "Coordenador",
+        "destinatario_cargo": "Professor",
         "destinatario_id": 123,
         "titulo": "Lembrete importante",
         "mensagem": "Não se esqueça da reunião amanhã.",
@@ -29,7 +29,7 @@ def test_quando_envia_deve_retornar_sucesso(client):
     }
     resposta = client.post("/api/lembrete", headers=headers, json=dados)
 
-    assert "Lembrete registrado com sucesso" in resposta.text
+    assert "Lembrete ID" in resposta.text
 
 #DEL
 
