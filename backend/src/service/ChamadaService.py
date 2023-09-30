@@ -11,7 +11,8 @@ class ChamadaService():
             raise AssertionError("Deve ser um número inteiro")
         
         assert int(id) > 0, "ID inválido."
-        assert ChamadaRepository.get_chamada_by_id(id) != None, "Nenhum aluno com este ID foi encontrado."
+
+        assert Chamada.query.filter(Chamada.id_chamada == id).first() is not None, "Chamada não encontrada." 
 
         return ChamadaRepository.get_chamada_by_id(id)
 
