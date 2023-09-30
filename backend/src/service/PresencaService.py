@@ -5,7 +5,8 @@ from entity.Chamada import Chamada
 from entity.Aluno import Aluno
 
 class PresencaService():
-    def getById(id):
+    @staticmethod
+    def get_by_id(id):
         try:
             int(id)
         except ValueError:
@@ -13,23 +14,26 @@ class PresencaService():
         
         assert int(id) > 0, "ID inválido."
         assert Presenca.query.get(id) != None, f"Nenhuma presença foi encontrada com o ID {id}"
-        assert PresencaRepository.getPresencaById(id)
+        assert PresencaRepository.get_presenca_by_id(id)
 
-    def register(presencaDto):
+    @staticmethod
+    def register(presenca_dto):
 
-        presenca = PresencaService.toEntity(presencaDto)
+        presenca = PresencaService.to_entity(presenca_dto)
         
-        assert not Chamada.query.filter(Chamada.status == True).first() is None, "Não existe nenhuma chamada aberta"
+        assert Chamada.query.filter(Chamada.status == True).first() is not None, "Não existe nenhuma chamada aberta"
         
          
-        return PresencaRepository.registerPresenca(Presenca(id_aluno=presenca.id_aluno, id_chamada=presenca.id_chamada, status=presenca.status, tipoPresenca=presenca.tipoPresenca, horario=presenca.horario))
+        return PresencaRepository.register_presenca(Presenca(id_aluno=presenca.id_aluno, id_chamada=presenca.id_chamada, status=presenca.status, tipoPresenca=presenca.tipoPresenca, horario=presenca.horario))
     
-    def update(id, presencaDto):
+    @staticmethod
+    def update(id, presenca_dto):
         
-        presenca = PresencaService.toEntity(presencaDto)
+        presenca = PresencaService.to_entity(presenca_dto)
 
         return PresencaRepository.update(id, presenca)
     
+    @staticmethod
     def delete(id):
         try:
             int(id)
@@ -38,7 +42,8 @@ class PresencaService():
         
         return PresencaRepository.delete(id)
     
-    def toEntity(alunoDto):
-        presenca = Presenca(id_aluno=alunoDto.id_aluno, id_chamada=alunoDto.id_chamada, status=alunoDto.status, tipoPresenca=alunoDto.tipoPresenca, horario=alunoDto.horario)
+    @staticmethod
+    def to_entity(aluno_dto):
+        presenca = Presenca(id_aluno=aluno_dto.id_aluno, id_chamada=aluno_dto.id_chamada, status=aluno_dto.status, tipoPresenca=aluno_dto.tipoPresenca, horario=aluno_dto.horario)
 
         return presenca

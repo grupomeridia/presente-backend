@@ -10,9 +10,9 @@ materias = Blueprint("Materia", __name__)
 @materias.route("/api/materia", methods=['GET', 'POST','PUT','DELETE'])
 def materia():
     if request.method == 'GET':
-        id = request.args.get('id')
+        id_materia = request.args.get('id')
         try:    
-            return jsonify(MateriaService.getMateria(id))
+            return jsonify(MateriaService.get_by_id(id_materia))
         except AssertionError as error:
             return str(error)
     
@@ -28,24 +28,24 @@ def materia():
             return str(error)
     
     if request.method == 'PUT':
-        id = request.args.get('id')
+        id_materia = request.args.get('id')
         data = request.json
 
         status = True
         nome = data['nome']
 
         try: 
-            return jsonify(MateriaRepository.update(MateriaDTO(status=status, nome=nome)))
+            return jsonify(MateriaRepository.update(id_materia, MateriaDTO(status=status, nome=nome)))
         except AssertionError as error:
             return str(error)
     
     if request.method == 'DELETE':
-        id = request.args.get('id')
+        id_materia = request.args.get('id')
         try:
-            return jsonify(MateriaRepository.delete(id))
+            return jsonify(MateriaRepository.delete(id_materia))
         except AssertionError as error:
             return str(error)
     
 @materias.route("/api/materia/listAll", methods=['GET'])
-def listarAllMaterias():
-    return MateriaRepository.listAll()
+def listar_all_materias():
+    return MateriaRepository.list_all()

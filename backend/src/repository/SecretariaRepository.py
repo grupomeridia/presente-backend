@@ -4,7 +4,8 @@ from repository.MainRepository import MainRepository
 from entity.Secretaria import Secretaria
 
 class SecretariaRepository():
-    def getById(id):
+    @staticmethod
+    def get_by_id(id):
         return {
             "Id": Secretaria.query.get(id).id,
             "Ativo": Secretaria.query.get(id).ativo,
@@ -13,7 +14,8 @@ class SecretariaRepository():
             "Lembrete": Secretaria.query.get(id).lembrete.mensagem
         }
     
-    def listAll():
+    @staticmethod
+    def list_all():
         secretaria = Secretaria.query.all()
         resultado = []
         for secre in secretaria:
@@ -27,6 +29,7 @@ class SecretariaRepository():
         
         return jsonify(resultado)
     
+    @staticmethod
     def update(id, secretaria):
         old_secretaria = Secretaria.query.get(id)
         
@@ -39,6 +42,7 @@ class SecretariaRepository():
         
         return f"Secretaria ID {id} atualizado."
     
+    @staticmethod
     def delete(id):
         secretaria = Secretaria.query.get(id)
         secretaria.ativo = False
@@ -46,9 +50,10 @@ class SecretariaRepository():
         MainRepository.db.session.commit()
         return f"Secretaria ID {id} deletado."
     
-    def registerSecretaria(Secretaria):
+    @staticmethod
+    def register_secretaria(secretaria):
         
-        MainRepository.db.session.add(Secretaria)
+        MainRepository.db.session.add(secretaria)
         MainRepository.db.session.commit()
         
-        return f"Usuario registrado com o ID {Secretaria.id_secretaria}"
+        return f"Usuario registrado com o ID {secretaria.id_secretaria}"

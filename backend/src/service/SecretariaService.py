@@ -2,7 +2,8 @@ from repository.SecretariaRepository import SecretariaRepository
 from entity.Secretaria import Secretaria
 
 class SecretariaService():
-    def getById(id):
+    @staticmethod
+    def get_by_id(id):
         try:
             int(id)
         except ValueError:
@@ -11,18 +12,21 @@ class SecretariaService():
         assert int(id) > 0, "ID inválido."
         assert Secretaria.query.get(id) != None, "Nenhum ID encontrado."
         
-    def register(secretariaDto):
+    @staticmethod
+    def register(secretaria_dto):
 
-        secretaria = SecretariaService.toEntity(secretariaDto)
+        secretaria = SecretariaService.to_entity(secretaria_dto)
 
-        return SecretariaRepository.registerSecretaria(Secretaria(id_usuario=secretaria.id_usuario, status=secretaria.status, nome=secretaria.nome))
+        return SecretariaRepository.register_secretaria(Secretaria(id_usuario=secretaria.id_usuario, status=secretaria.status, nome=secretaria.nome))
     
-    def update(id, secretariaDto):
+    @staticmethod
+    def update(id, secretaria_dto):
 
-        secretaria = SecretariaService.toEntity(secretariaDto)
+        secretaria = SecretariaService.to_entity(secretaria_dto)
 
         return SecretariaRepository.update(id, secretaria)
     
+    @staticmethod
     def delete(id):
         try:
             int(id)
@@ -33,7 +37,8 @@ class SecretariaService():
         
         return SecretariaRepository.delete(id)
     
-    def toEntity(secretariaDto):
-        secretaria = Secretaria(id_usuario=secretariaDto.id_usuario, status=secretariaDto.status, nome=secretariaDto.nome)
+    @staticmethod
+    def to_entity(secretaria_dto):
+        secretaria = Secretaria(id_usuario=secretaria_dto.id_usuario, status=secretaria_dto.status, nome=secretaria_dto.nome)
 
         return secretaria

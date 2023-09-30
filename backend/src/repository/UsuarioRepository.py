@@ -4,7 +4,8 @@ from repository.MainRepository import MainRepository
 from entity.Usuario import Usuario
 
 class UsuarioRepository():
-    def getUsuarioById(id):
+    @staticmethod
+    def get_usuario_by_id(id):
         return{
             "id": Usuario.query.get(id).id_usuario,
             "Status": Usuario.query.get(id).status,
@@ -13,12 +14,14 @@ class UsuarioRepository():
             "Cargo": Usuario.query.get(id).cargo.value
         }
     
+    @staticmethod
     def register(usuario):
         MainRepository.db.session.add(usuario)
         MainRepository.db.session.commit()
 
         return "Usuario criado com sucesso"
     
+    @staticmethod
     def update(id, data):
         usuario = Usuario.query.get(id)
 
@@ -31,6 +34,7 @@ class UsuarioRepository():
         MainRepository.db.session.commit()
         return {"mensagem":"sucesso"}
     
+    @staticmethod
     def delete(id):
         usuario = Usuario.query.get(id)
 

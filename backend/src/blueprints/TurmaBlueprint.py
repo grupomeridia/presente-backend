@@ -13,9 +13,9 @@ turmas = Blueprint("turmas", __name__)
 @turmas.route("/api/turma", methods=['GET', 'POST', 'PUT', 'DELETE'])
 def turma():
     if request.method == 'GET':
-        id = request.args.get('id')
+        id_turma = request.args.get('id')
         try:
-            return jsonify(TurmaService.getTurma(id))
+            return jsonify(TurmaService.get_turma(id_turma))
         except AssertionError as error:
             return str(error)
 
@@ -31,12 +31,12 @@ def turma():
         curso = data['curso']
 
         try:
-            return TurmaService.postTurma(TurmaDTO(status=status, nome=nome, ano=ano, semestre=semestre, turno=turno, modalidade=modalidade, curso=curso))
+            return TurmaService.post_turma(TurmaDTO(status=status, nome=nome, ano=ano, semestre=semestre, turno=turno, modalidade=modalidade, curso=curso))
         except AssertionError as error:
             return str(error)
 
     if request.method == 'PUT':
-        id = request.args.get('id')
+        id_turma = request.args.get('id')
         data = request.json
 
         status = True
@@ -48,30 +48,30 @@ def turma():
         curso = data['curso']
 
 
-        return TurmaService.update(id, TurmaDTO(status=status, nome=nome, ano=ano, semestre=semestre, turno=turno, modalidade=modalidade, curso=curso))
+        return TurmaService.update(id_turma, TurmaDTO(status=status, nome=nome, ano=ano, semestre=semestre, turno=turno, modalidade=modalidade, curso=curso))
     
     if request.method == 'DELETE':
-        id = request.args.get('id')
-        return jsonify(TurmaService.delete(id))
+        id_turma = request.args.get('id')
+        return jsonify(TurmaService.delete(id_turma))
 
 @turmas.route("/api/turma/listAll", methods=['GET'])
-def listarAllTurmas():
-    return TurmaRepository.listAll()
+def listar_all_turmas():
+    return TurmaRepository.list_all()
 
 @turmas.route("/api/turma/cadastrarAluno", methods=['POST'])
-def cadastrarAluno():
+def cadastrar_aluno():
     data = request.json
 
-    id_turma = data['idTurma']
-    id_aluno = data['idAluno']
+    id_turma = data['id_turma']
+    id_aluno = data['id_aluno']
 
-    return TurmaRepository.cadastrarAluno(id_turma, id_aluno)
+    return TurmaRepository.cadastrar_aluno(id_turma, id_aluno)
 
 @turmas.route("/api/turma/cadastrarProfessor", methods=['POST'])
-def cadastrarProfessor():
+def cadastrar_professor():
     data = request.json
 
-    id_turma = data['idTurma']
-    id_professor = data['idProfessor']
+    id_turma = data['id_turma']
+    id_professor = data['id_professor']
 
-    return TurmaRepository.cadastrarProfessor(id_turma, id_professor)
+    return TurmaRepository.cadastrar_professor(id_turma, id_professor)

@@ -12,9 +12,9 @@ alunos = Blueprint("alunos", __name__)
 @alunos.route("/api/aluno", methods=['GET', 'POST', 'PUT', 'DELETE'])
 def aluno():
     if request.method == 'GET':
-        id = request.args.get('id')
+        id_aluno = request.args.get('id')
         try:
-            return jsonify(AlunoService.getbyid(id))
+            return jsonify(AlunoService.get_by_id(id_aluno))
         except AssertionError as error:
             return str(error)
         
@@ -34,7 +34,7 @@ def aluno():
             return str(error)
 
     if request.method == 'PUT':
-        id = request.args.get('id')
+        id_aluno = request.args.get('id')
         data = request.json    
 
         id_usuario = data['id_usuario']
@@ -44,25 +44,25 @@ def aluno():
         ra = data['ra']
 
         try:
-            return AlunoService.update(id, AlunoDTO(id_usuario=id_usuario, status=status, nome=nome, ra=ra, ausente=ausente))
+            return AlunoService.update(id_aluno, AlunoDTO(id_usuario=id_usuario, status=status, nome=nome, ra=ra, ausente=ausente))
         except AssertionError as error:
             return str(error)
         
     if request.method == 'DELETE':
-        id = request.args.get('id')
+        id_aluno = request.args.get('id')
         try:
-            return jsonify(AlunoService.delete(id))
+            return jsonify(AlunoService.delete(id_aluno))
         except AssertionError as error:
             return str(error)
 
 @alunos.route("/api/aluno/listAll", methods=['GET'])
-def listAll():
+def list_all():
     return AlunoRepository.listAll()
 
 @alunos.route("/api/aluno/findByRa", methods=['GET'])
-def findByRa():
+def find_by_ra():
     ra = request.args.get('ra')
     try:
-        return AlunoService.getByRa(ra)
+        return AlunoService.get_by_ra(ra)
     except AssertionError as error:
                 return str(error)

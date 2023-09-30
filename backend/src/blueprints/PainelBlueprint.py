@@ -9,9 +9,9 @@ paineis = Blueprint("painel", __name__)
 @paineis.route("/api/painel", methods=['GET', 'POST', 'PUT', 'DELETE'])
 def painel():
     if request.method == 'GET':
-        id = request.args.get('id')
+        id_painel = request.args.get('id')
         try:
-            return jsonify(PainelService.getById(id))
+            return jsonify(PainelService.get_by_id(id_painel))
         except AssertionError as error:
             return str(error)
     
@@ -34,7 +34,7 @@ def painel():
             return str(error)
     
     if request.method == 'PUT':
-        id = request.args.get('id')
+        id_painel = request.args.get('id')
         data = request.json
 
         id_configuracao = data['id_configuracao']
@@ -48,17 +48,17 @@ def painel():
         total_ausente_curso = data['total_ausente_curso']
 
         try:
-            return PainelService.update(id, PainelDTO(id_configuracao=id_configuracao, id_secretaria=id_secretaria, data_criado=date_criado, total_ativos=total_ativos, total_ausentes=total_ausentes, total_presentes=total_presentes, total_presentes_curso=total_presentes_curso, total_ativo_curso=total_ativo_curso, total_ausente_curso=total_ausente_curso))
+            return PainelService.update(id_painel, PainelDTO(id_configuracao=id_configuracao, id_secretaria=id_secretaria, data_criado=date_criado, total_ativos=total_ativos, total_ausentes=total_ausentes, total_presentes=total_presentes, total_presentes_curso=total_presentes_curso, total_ativo_curso=total_ativo_curso, total_ausente_curso=total_ausente_curso))
         except AssertionError as error:
             return str(error)
         
     if request.method == 'DELETE':
-        id = request.args.get('id')
+        id_painel = request.args.get('id')
         try:
-            return jsonify(PainelService.delete(id))
+            return jsonify(PainelService.delete(id_painel))
         except AssertionError as error:
             return str(error)
     
 @paineis.route("/api/painel/listAll", methods=['GET'])
-def listAll():
-    return PainelRepository.listAll()
+def list_all():
+    return PainelRepository.list_all()

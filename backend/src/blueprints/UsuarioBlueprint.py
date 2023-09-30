@@ -13,9 +13,9 @@ usuarios = Blueprint("usuario", __name__)
 @usuarios.route("/api/usuario", methods=['GET', 'POST', 'PUT', 'DELETE'])
 def usuario():
     if request.method == 'GET':
-        id = request.args.get('id')
+        id_usuario = request.args.get('id')
         try:
-            return jsonify(UsuarioService.getUsuarioById(id))
+            return jsonify(UsuarioService.get_usuario_by_id(id_usuario))
         except AssertionError as error:
             return str(error)
         
@@ -33,7 +33,7 @@ def usuario():
             return str(error)
         
     if request.method == 'PUT':
-        id = request.args.get('id')
+        id_usuario = request.args.get('id')
         data = request.json
 
         status = True
@@ -41,8 +41,8 @@ def usuario():
         senha = data['senha']
         cargo = data['cargo']
 
-        return UsuarioService.update(id, UsuarioDTO(status=status, login=login, senha=senha, cargo=cargo))
+        return UsuarioService.update(id_usuario, UsuarioDTO(status=status, login=login, senha=senha, cargo=cargo))
     
     if request.method == 'DELETE':
-        id = request.args.get('id')
-        return jsonify(UsuarioService.delete(id))
+        id_usuario = request.args.get('id')
+        return jsonify(UsuarioService.delete(id_usuario))

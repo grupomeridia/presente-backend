@@ -3,7 +3,8 @@ from repository.AlunoRepository import AlunoRepository
 from entity.Aluno import Aluno
 
 class AlunoService():
-    def getbyid(id):
+    @staticmethod
+    def get_by_id(id):
         try: 
             int(id)
         except ValueError:
@@ -12,22 +13,23 @@ class AlunoService():
         assert int(id) > 0, "ID inválido."
         assert Aluno.query.get(id) != None, "Nenhum aluno com este ID foi encontrado."
         
-        return AlunoRepository.getAlunoById(id)
+        return AlunoRepository.get_aluno_by_id(id)
     
-    def register(alunoDTO):
+    @staticmethod
+    def register(aluno_dto):
 
-        aluno = AlunoService.toEntity(alunoDTO)
-
-        #assert not Aluno.query.filter(Aluno.ra == aluno.ra).first(), "ra já está sendo usado"    
+        aluno = AlunoService.to_entity(aluno_dto)
     
         return AlunoRepository.registerAluno(Aluno(id_usuario=aluno.id_usuario, status=aluno.status, ausente=aluno.ausente, nome=aluno.nome, ra=aluno.ra))
     
-    def update(id, alunoDTO):
+    @staticmethod
+    def update(id, aluno_dto):
 
-        aluno = AlunoService.toEntity(alunoDTO)
+        aluno = AlunoService.to_entity(aluno_dto)
                
         return AlunoRepository.update(id, aluno)
     
+    @staticmethod
     def delete(id):
         try: 
             int(id)
@@ -38,7 +40,8 @@ class AlunoService():
         assert Aluno.query.filter(Aluno.id_aluno == id).first() is not None, "Aluno não encontrado"
         return AlunoRepository.delete(id)
 
-    def getByRa(ra):
+    @staticmethod
+    def get_by_ra(ra):
         try: 
             int(ra)
         except ValueError:
@@ -49,7 +52,8 @@ class AlunoService():
 
         return AlunoRepository.findByRA(ra)
     
-    def toEntity(alunoDto):
-        aluno = Aluno(id_usuario=alunoDto.id_usuario, status=alunoDto.status, ausente=alunoDto.ausente, nome=alunoDto.nome, ra=alunoDto.ra)
+    @staticmethod
+    def to_entity(aluno_dto):
+        aluno = Aluno(id_usuario=aluno_dto.id_usuario, status=aluno_dto.status, ausente=aluno_dto.ausente, nome=aluno_dto.nome, ra=aluno_dto.ra)
    
         return aluno

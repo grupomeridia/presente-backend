@@ -12,9 +12,9 @@ configuracoes = Blueprint("configuracoes", __name__)
 @configuracoes.route("/api/configuracao", methods=['GET', 'POST', 'PUT', 'DELETE'])
 def configuracao():
     if request.method == 'GET':
-        id = request.args.get('id')
+        id_configuracao = request.args.get('id')
         try:
-            return jsonify(ConfiguracaoService.getConfiguracaoById(id))
+            return jsonify(ConfiguracaoService.get_configuracao_by_id(id_configuracao))
         except AssertionError as error:
             return str(error)
     
@@ -32,7 +32,7 @@ def configuracao():
             return str(error)
             
     if request.method == 'PUT':
-        id = request.args.get('id')
+        id_configuracao = request.args.get('id')
         data = request.json
 
         status = True
@@ -41,10 +41,10 @@ def configuracao():
         final_aula = data['final_aula']
 
         
-        return ConfiguracaoService.update(id, ConfiguracaoDTO(status=status, aluno_ausente=aluno_ausente, inicio_aula=inicio_aula, final_aula=final_aula))
+        return ConfiguracaoService.update(id_configuracao, ConfiguracaoDTO(status=status, aluno_ausente=aluno_ausente, inicio_aula=inicio_aula, final_aula=final_aula))
     
     if request.method == 'DELETE':
-        id = request.args.get('id')
-        return jsonify(ConfiguracaoService.delete(id))
+        id_configuracao = request.args.get('id')
+        return jsonify(ConfiguracaoService.delete(id_configuracao))
 
 
