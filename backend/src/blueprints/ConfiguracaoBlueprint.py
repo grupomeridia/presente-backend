@@ -42,6 +42,9 @@ def configuracao():
     
     if request.method == 'DELETE':
         id_configuracao = request.args.get('id')
-        return jsonify(ConfiguracaoService.delete(id_configuracao))
 
+        try:
+            return jsonify(ConfiguracaoService.delete(id_configuracao))
+        except AssertionError as error:
+            return str(error)
 

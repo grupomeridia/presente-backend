@@ -47,7 +47,10 @@ def presencas_main():
     
     if request.method == 'DELETE':
         id_presenca = request.args.get('id')
-        return PresencaService.delete(id_presenca)
+        try:
+            return PresencaService.delete(id_presenca)
+        except AssertionError as error:
+            return str(error)
 
 @presencas.route("/api/presenca/listAll", methods=['GET'])
 def list_all():

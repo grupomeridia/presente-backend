@@ -6,6 +6,7 @@ class Lembrete(db.Model):
     __tablename__ = 'lembretes'
     id_lembrete = db.Column(db.Integer, primary_key=True)
     id_secretaria = db.Column(db.Integer, db.ForeignKey('secretaria.id_secretaria'))
+    status = db.Column(db.Boolean, nullable=False)
     destinatario_cargo = db.Column(db.Enum(Cargo))
     destinatario_id = db.Column(db.Integer, nullable=False)
     titulo = db.Column(db.String(50), nullable=False)
@@ -14,8 +15,9 @@ class Lembrete(db.Model):
     visualizacao = db.Column(db.DateTime)
     secretaria = db.relationship('Secretaria', back_populates='lembrete')
 
-    def __init__(self, id_secretaria:int, destinatario_cargo:Cargo, destinatario_id:int, titulo:str, mensagem:str, criacao:datetime, visualizacao:datetime):
+    def __init__(self, id_secretaria:int, status:bool, destinatario_cargo:Cargo, destinatario_id:int, titulo:str, mensagem:str, criacao:datetime, visualizacao:datetime):
         self.id_secretaria = id_secretaria
+        self.status = status
         self.destinatario_cargo = destinatario_cargo
         self.destinatario_id = destinatario_id
         self.titulo = titulo

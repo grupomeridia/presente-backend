@@ -44,7 +44,7 @@ class ConfiguracaoRepository():
     def delete (id):
         configuracao = Configuracao.query.get(id)
         
-        configuracao.ativo= False
+        configuracao.status= False
         
         db.session.merge(configuracao)
         db.session.commit()

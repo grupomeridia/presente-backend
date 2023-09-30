@@ -51,7 +51,11 @@ def turma():
     
     if request.method == 'DELETE':
         id_turma = request.args.get('id')
-        return jsonify(TurmaService.delete(id_turma))
+
+        try:
+            return jsonify(TurmaService.delete(id_turma))
+        except AssertionError as error:
+            return str(error)
 
 @turmas.route("/api/turma/listAll", methods=['GET'])
 def listar_all_turmas():

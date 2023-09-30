@@ -61,7 +61,7 @@ class PresencaRepository():
     @staticmethod
     def delete(id):
         presenca = Presenca.query.get(id)
-        presenca.ativo = False
+        presenca.status = False
         db.session.merge(presenca)
         db.session.commit()
 

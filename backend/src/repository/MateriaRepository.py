@@ -27,7 +27,7 @@ class MateriaRepository():
     def update(id, data):
         materia = Materia.query.get(id)
 
-        materia.ativo = data.ativo
+        materia.status = data.ativo
         materia.nome = data.nome
 
         db.session.merge(materia)
@@ -37,7 +37,7 @@ class MateriaRepository():
     @staticmethod
     def delete(id):
         materia = Materia.query.get(id)
-        materia.ativo = False
+        materia.status = False
 
         db.session.merge(materia)
         db.session.commit()

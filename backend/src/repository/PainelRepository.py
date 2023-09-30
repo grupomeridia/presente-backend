@@ -45,7 +45,10 @@ class PainelRepository():
     @staticmethod
     def delete(id):
         painel = Painel.query.get(id)
-        db.session.delete(painel)
+
+        painel.status = False
+
+        db.session.merge(painel)
         db.session.commit()
         return f"Painel ID {id} deletado."
 
