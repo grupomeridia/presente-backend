@@ -35,7 +35,7 @@ class PainelService():
         try:
             int(id)
         except ValueError:
-            raise AssertionError("ID de ser um número inteiro.")
+            raise AssertionError("ID deve ser um número inteiro.")
         
         assert int(id) > 0, "ID inválido."
         assert Painel.query.filter(Painel.id_painel == id).first() is not None, "Painel não encontrado."
