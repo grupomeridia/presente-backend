@@ -10,7 +10,7 @@ class ConfiguracaoService():
             raise AssertionError("Deve ser um número inteiro")
         
         assert int(id) > 0, "ID inválido."
-        assert ConfiguracaoRepository.get_configuracao_by_id(id) != None, "Nenhuma configuracao foi encontrada"
+        assert Configuracao.query.filter(Configuracao.id_configuracao == id).first() is not None, "Configuracao não encontrada"
 
         return ConfiguracaoRepository.get_configuracao_by_id(id)
     
@@ -22,9 +22,9 @@ class ConfiguracaoService():
         return ConfiguracaoRepository.register(Configuracao(status=configuracao.status, aluno_ausente=configuracao.aluno_ausente, inicio_aula=configuracao.inicio_aula, fim_aula=configuracao.fim_aula))
     
     @staticmethod
-    def update(id, configuracao):
+    def update(id, configuracao_dto):
 
-        configuracao = ConfiguracaoService.to_entity(id, configuracao)
+        configuracao = ConfiguracaoService.to_entity(configuracao_dto)
         
         return ConfiguracaoRepository.update(id, configuracao)
 

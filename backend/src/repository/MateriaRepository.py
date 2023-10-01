@@ -27,7 +27,7 @@ class MateriaRepository():
     def update(id, data):
         materia = Materia.query.get(id)
 
-        materia.status = data.ativo
+        materia.status = data.status
         materia.nome = data.nome
 
         db.session.merge(materia)
