@@ -18,7 +18,7 @@ def create_app(config_file):
     from flask_wtf.csrf import CSRFProtect
 
     app = Flask(__name__)
-    teste = CSRFProtect(app)
+    CSRFProtect(app)
     
     app.config.from_pyfile(config_file)   
 

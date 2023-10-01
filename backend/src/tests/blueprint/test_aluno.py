@@ -7,7 +7,7 @@ def test_quando_envia_cadastro_sem_body_entao_retorna_erro(client):
     resposta = client.post("/api/aluno", headers=headers)
     assert resposta.status_code == 400
 
-    #GET
+#GET
 
 def test_quando_recebe_id_entao_retorna_aluno(client):
     resposta = client.get("/api/aluno?id=1")
@@ -22,7 +22,11 @@ def test_quando_recebe_id_invalido_entao_retorna_erro(client):
     assert "Deve ser um número inteiro" in resposta.text
 
 def test_dado_ra_retorna_aluno(client):
-    resposta = client.get("/api/aluno/findByRa?ra=504083")
+    resposta = client.get("/api/aluno/findByRa?ra=504084")
+    assert "Ativo" in resposta.text
+
+def test_list_all(client):
+    resposta = client.get("/api/aluno/listAll")
     assert "Ativo" in resposta.text
 
 #PUT
