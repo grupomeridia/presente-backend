@@ -19,7 +19,7 @@ def test_quando_enviar_sem_body(client):
 def test_quando_envia_deve_retornar_sucesso(client):
     headers={'Content-Type': 'application/json'}
     dados = {
-        "id_secretaria": 1,
+        "id_secretaria": 8,
         "destinatario_cargo": "Professor",
         "destinatario_id": 123,
         "titulo": "Lembrete importante",

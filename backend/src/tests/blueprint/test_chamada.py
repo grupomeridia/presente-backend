@@ -15,7 +15,7 @@ def test_quando_envia_cadastro_sem_body(client):
 #GET
 
 def test_quando_recebe_id_entao_retorna_turma(client):
-    resposta = client.get("/api/chamada?id=1")
+    resposta = client.get("/api/chamada?id=3")
     assert "status" in resposta.text
 
 def test_quando_recebe_id_incorreto_entao_retornar_error(client):

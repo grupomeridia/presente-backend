@@ -14,7 +14,7 @@ def test_quando_envia_post_sem_body_deve_retornar_erro(client):
 
 def test_quando_envia_cadastro_correto_deve_retornar_sucesso(client):
     headers={'Content-Type': 'application/json'}
-    usuario = {"login":"teste9","senha":"teste","cargo":"Aluno"}
+    usuario = {"login":"teste13","senha":"teste","cargo":"Aluno"}
     resposta = client.post("/api/usuario", headers=headers, json=usuario)
     assert "Usuario criado com sucesso" in resposta.text 
 
