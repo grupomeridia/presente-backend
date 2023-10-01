@@ -17,6 +17,16 @@ def test_retorna_um_id_negativo(client):
     resposta = client.get("/api/professor?id=-1")
     assert "ID inválido." in resposta.text
 
+#PUT
+
+def test_quando_envia_put_sem_id_entao_retorna_erro(client):
+    resposta = client.put("/api/professor")
+    assert resposta.status_code == 400
+
+def test_quando_envia_put_sem_body_retorna_erro(client):
+    resposta = client.put("/api/professor?id=2")
+    assert resposta.status_code == 400
+
 #POST
 
 def test_quando_enviar_sem_body(client):
