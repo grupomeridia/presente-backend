@@ -11,7 +11,7 @@ class ConfiguracaoRepository():
             "Status": Configuracao.query.get(id).status,
             "Alunos Ausentes": Configuracao.query.get(id).aluno_ausente,
             "Inicio Aula": Configuracao.query.get(id).inicio_aula,
-            "Final Aula": Configuracao.query.get(id).final_aula
+            "Final Aula": Configuracao.query.get(id).fim_aula
         }
     
     @staticmethod
@@ -22,7 +22,7 @@ class ConfiguracaoRepository():
             "Status": c.status,
             "Alunos Ausentes": c.aluno_ausente,
             "Inicio Aula": c.inicio_aula,
-            "Final Aula": c.final_aula  
+            "Final Aula": c.fim_aula  
           }for c in configuracao]
         
         return jsonify(resultado)
@@ -34,7 +34,7 @@ class ConfiguracaoRepository():
         configuracao.status = data.status
         configuracao.aluno_ausente = data.aluno_ausente
         configuracao.inicio_aula = data.inicio_aula
-        configuracao.final_aula = data.final_aula
+        configuracao.fim_aula = data.fim_aula
 
         db.session.merge(configuracao)
         db.session.commit()

@@ -29,6 +29,14 @@ def test_quando_recebe_numero_negativo_entao_retorna_error(client):
     resposta = client.get("/api/materia?id=-1")
     assert "ID inválido" in resposta.text
 
+#PUT
+
+def test_quando_edita_retorna_sucesso(client):
+    headers={'Content-Type':'application/json'}
+    materia={"nome" : "materia"}
+    resposta = client.put("/api/materia?id=1", headers=headers, json=materia)
+    assert "sucesso" in resposta.text
+
 #DELETE
 
 def test_quando_envia_delete_id_inexistente_deve_retornar_error(client):
