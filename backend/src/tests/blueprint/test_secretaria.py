@@ -46,3 +46,7 @@ def test_delete_painel_inexistente(client):
 def test_delete_painel_invalido(client):
     resposta = client.delete("/api/secretaria?id=eyu")
     assert "ID deve ser um número inteiro." in resposta.text
+
+def test_delete_painel_sucesso(client):
+    resposta = client.delete("/api/secretaria?id=1")
+    assert "Secretaria ID" in resposta.text
