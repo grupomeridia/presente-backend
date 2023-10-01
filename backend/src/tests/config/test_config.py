@@ -18,7 +18,7 @@ def test_secret_key_exists(client):
 def wtf_scrf_not_enabled(client):
     assert settings.WTF_CSRF_ENABLED == False
 
-def MAIL_SENDER(client):
+def mail_sender(client):
     assert settings.MAIL_DEFAULT_SENDER == 'noreply@yourmail.com'
 
 def sqlachemy_database_exists(client):
