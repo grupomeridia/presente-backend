@@ -33,6 +33,10 @@ class ProfessorService():
     
     @staticmethod
     def delete(id):
+        try:
+            int(id)
+        except ValueError:
+            raise AssertionError("ID deve ser um número inteiro.")
         
         assert Professor.query.filter(Professor.id_professor == id).first() is not None, "Professor não encontrado"
 

@@ -9,6 +9,13 @@ def test_retorna_um_id_incorreto(client):
     resposta = client.get("/api/lembrete?id=999999")
     assert "Nenhum lembrete com este ID foi encontrado" in resposta.text
 
+def test_retorna_um_id_invalido(client):
+    resposta = client.get("/api/lembrete?id=abc")
+    assert "ID deve ser um número inteiro." in resposta.text
+
+def test_retorna_um_id_negativo(client):
+    resposta = client.get("/api/lembrete?id=-1")
+    assert "ID inválido." in resposta.text
 #POST
 
 def test_quando_enviar_sem_body(client):
@@ -36,3 +43,7 @@ def test_quando_envia_deve_retornar_sucesso(client):
 def test_delete_lembrete_inexistente(client):
     resposta = client.delete("/api/lembrete?id=9999999")
     assert "Lembrete não encontrado" in resposta.text
+
+def test_delete_lembrete_com_id_invalido(client):
+    resposta = client.delete("/api/lembrete?id=oiu")
+    assert "ID deve ser um número inteiro" in resposta.text

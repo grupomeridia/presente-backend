@@ -9,6 +9,14 @@ def test_retorna_um_id_incorreto(client):
     resposta = client.get("/api/painel?id=9999999")
     assert "Nenhum painel com este ID foi encontrado." in resposta.text
 
+def test_quando_recebe_id_invalido(client):
+    resposta = client.get("/api/painel?id=jier")
+    assert "Deve ser um número inteiro" in resposta.text
+
+def test_retorna_um_id_negativo(client):
+    resposta = client.get("/api/painel?id=-1")
+    assert "ID inválido." in resposta.text
+
 #POST
 
 def test_quando_enviar_sem_body(client):
@@ -37,3 +45,7 @@ def test_quando_envia_deve_retornar_sucesso(client):
 def test_delete_painel_inexistente(client):
     resposta = client.delete("/api/painel?id=9999999")
     assert "Painel não encontrado." in resposta.text
+
+def test_delete_painel_invalido(client):
+    resposta = client.delete("/api/painel?id=iau")
+    assert "ID deve ser um número inteiro" in resposta.text
