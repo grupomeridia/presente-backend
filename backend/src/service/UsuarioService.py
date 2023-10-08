@@ -1,5 +1,10 @@
 from repository.UsuarioRepository import UsuarioRepository
+
 from entity.Usuario import Usuario
+from entity.CargoEnum import Cargo
+
+from dtos.UsuarioDTO import UsuarioDTO
+
 import re
 
 class UsuarioService():
@@ -12,43 +17,44 @@ class UsuarioService():
         return UsuarioRepository.get_usuario_by_id(id)
     
     @staticmethod
-    def register(usuario_dto):
+    def register(status, login, senha, cargo):     
+
+        assert login != 'NOT_FOUND', "Campo 'login' inexistente."
+        assert cargo != 'NOT_FOUND', "Campo 'cargo' inexistente."
+        assert senha != 'NOT_FOUND', "Campo 'senha' inexistente."
+
+        cargos = [x.value for x in Cargo]
+        assert cargo in cargos, "Cargo inválido"
+
+        assert len(login) > 3, "Login com tamanho inválido."
+        assert login.isalpha(), "O Login deve conter apenas letras."
+
+        assert len(senha) > 6, "Tamanho de senha mínimo não atingido."
+        assert not re.match(r'^[a-zA-Z]+$', senha), "Senha deve conter números, letras maiúsculas e caractéres especiais."
+
+        assert not Usuario.query.filter(Usuario.login ==login).first(), "Esse login já está sendo usado"
         
-        usuario = UsuarioService.to_entity(usuario_dto)
-
-        assert usuario.login != 'NOT_FOUND', "Campo 'login' inexistente."
-        assert usuario.cargo != 'NOT_FOUND', "Campo 'cargo' inexistente."
-        assert usuario.senha != 'NOT_FOUND', "Campo 'senha' inexistente."
-
-        assert len(usuario.login) > 3, "Login com tamanho inválido."
-        assert usuario.login.isalpha(), "O Login deve conter apenas letras."
-
-        assert len(usuario.senha) > 6, "Tamanho de senha mínimo não atingido."
-        assert not re.match(r'^[a-zA-Z]+$', usuario.senha), "Senha deve conter números, letras maiúsculas e caractéres especiais."
-
-        assert not Usuario.query.filter(Usuario.login == usuario.login).first(), "Esse login já está sendo usado"
-
-        return UsuarioRepository.register(Usuario(status=usuario.status, login=usuario.login, senha=usuario.senha, cargo=usuario.cargo))
+        usuario = UsuarioService.to_entity(UsuarioDTO(status=status, login=login, senha=senha, cargo=cargo))
+        return UsuarioRepository.register(usuario)
     
     @staticmethod
-    def update(id, usuario_dto):
-        
-        usuario = UsuarioService.to_entity(usuario_dto)
+    def update(id, status, login, senha, cargo):      
 
-        assert usuario.login != 'NOT_FOUND', "Campo 'login' inexistente."
-        assert usuario.cargo != 'NOT_FOUND', "Campo 'cargo' inexistente."
-        assert usuario.senha != 'NOT_FOUND', "Campo 'senha' inexistente."
+        assert login != 'NOT_FOUND', "Campo 'login' inexistente."
+        assert cargo != 'NOT_FOUND', "Campo 'cargo' inexistente."
+        assert senha != 'NOT_FOUND', "Campo 'senha' inexistente."
 
-        assert len(usuario.login) > 3, "Login com tamanho inválido."
-        assert usuario.login.isalpha(), "O Login deve conter apenas letras."
+        assert len(login) > 3, "Login com tamanho inválido."
+        assert login.isalpha(), "O Login deve conter apenas letras."
 
-        assert len(usuario.senha) > 6, "Tamanho de senha mínimo não atingido."
-        assert not re.match(r'^[a-zA-Z]+$', usuario.senha), "Senha deve conter números, letras maiúsculas e caractéres especiais."
+        assert len(senha) > 6, "Tamanho de senha mínimo não atingido."
+        assert not re.match(r'^[a-zA-Z]+$', senha), "Senha deve conter números, letras maiúsculas e caractéres especiais."
 
-        assert not Usuario.query.filter(Usuario.login == usuario.login).first(), "Esse login já está sendo usado"
+        assert not Usuario.query.filter(Usuario.login == login).first(), "Esse login já está sendo usado"
 
+        usuario = UsuarioService.to_entity(UsuarioDTO(status=status, login=login, senha=senha, cargo=cargo))
 
-        return UsuarioRepository.update(id, Usuario(status=usuario.status, login=usuario.login, senha=usuario.senha, cargo=usuario.cargo)) 
+        return UsuarioRepository.update(id, usuario) 
 
     @staticmethod
     def delete(id):
@@ -62,5 +68,4 @@ class UsuarioService():
     @staticmethod
     def to_entity(usuario_dto):
         usuario = Usuario(status=usuario_dto.status, login=usuario_dto.login, senha=usuario_dto.senha, cargo=usuario_dto.cargo)
-
         return usuario

@@ -15,7 +15,7 @@ def secret():
         try:
             return jsonify(SecretariaService.get_by_id(id_secretaria))
         except AssertionError as error:
-            return str(error)
+            return str(error), 400
         
     if request.method == 'POST':
         data = request.json
@@ -25,9 +25,9 @@ def secret():
         nome = data.get('nome', 'NOT_FOUND')
         
         try:
-            return SecretariaService.register(SecretariaDTO(id_usuario=id_usuario, status=status, nome=nome), id_usuario)
+            return SecretariaService.register(id_usuario, status, nome)
         except AssertionError as error:
-            return str(error)
+            return str(error), 400
     
     if request.method == 'PUT':
         id_secretaria = request.args.get('id')
@@ -40,14 +40,14 @@ def secret():
         try:
             return SecretariaService.update(id_secretaria, SecretariaDTO(id_usuario=id_usuario, status=status, nome=nome))
         except AssertionError as error:
-            return str(error)
+            return str(error), 400
     
     if request.method == 'DELETE':
         id_secretaria = request.args.get('id')
         try:
             return jsonify(SecretariaService.delete(id_secretaria))
         except AssertionError as error:
-            return str(error)
+            return str(error), 400 
 
 @secretaria.route("/api/secretaria/listAll", methods=['GET'])
 def list_all():
