@@ -6,12 +6,14 @@ from entity.Materia import Materia
 class MateriaRepository():
     @staticmethod
     def get_materia_by_id(id):
-        return {
-            "Id": Materia.query.get(id).id_materia,
-            "Ativo": Materia.query.get(id).status,
-            "Nome": Materia.query.get(id).nome
-        }
-    
+        try:
+            return {
+                "id": Materia.query.get(id).id_materia,
+                "ativo": Materia.query.get(id).status,
+                "nome": Materia.query.get(id).nome
+            }
+        except AttributeError as error:
+            raise AssertionError ("Matéria não existe.")
     @staticmethod
     def list_all():
         materia = Materia.query.all()
