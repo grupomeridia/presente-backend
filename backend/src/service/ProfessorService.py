@@ -72,7 +72,7 @@ class ProfessorService():
         except ValueError:
             raise AssertionError("id da turma inválido")
         
-        assert Turma.query.get(id) != None, "Nenhuma turma foi encontrada com esse id"
+        assert Turma.query.get(id_turma) != None, "Nenhuma turma foi encontrada com esse id"
 
         return ProfessorRepository.historico_semanal(id_turma)
     
@@ -83,7 +83,7 @@ class ProfessorService():
         except ValueError:
             raise AssertionError("id da turma está inválido")
         
-        assert Turma.query.get(id) != None, "Nenhum turma foi encontrada"
+        assert Turma.query.get(id_turma) != None, "Nenhum turma foi encontrada"
 
         return ProfessorRepository.media_semanal(id_turma)
 

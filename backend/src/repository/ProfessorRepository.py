@@ -1,6 +1,6 @@
 from flask import jsonify
 from models import db
-import datetime
+from datetime import datetime, timedelta
 from entity.Professor import Professor
 from entity.Aluno import Aluno
 from entity.Turma import Turma
@@ -81,91 +81,102 @@ class ProfessorRepository():
     
     @staticmethod
     def num_alunos(professor_id, chamada_id):
-        
-        professor = Professor.query.get(professor_id)
+        consulta_sql = db.text("""
+        SELECT
+            COUNT(ta.id_aluno) AS quantidade_alunos,
+            SUM(CASE WHEN p.horario IS NOT NULL THEN 1 ELSE 0 END) AS alunos_presentes,
+            SUM(CASE WHEN p.horario IS NULL THEN 1 ELSE 0 END) AS alunos_nao_presenca
+        FROM
+            turma_aluno ta
+        LEFT JOIN
+            presencas p ON ta.id_aluno = p.id_aluno AND p.id_chamada = :chamada_id
+        LEFT JOIN
+            turmas t ON t.id_turma = ta.id_turma
+        LEFT JOIN
+            turma_professor tp ON t.id_turma = tp.id_turma
+        WHERE
+            tp.id_professor = :professor_id
+    """)
 
-        if professor:
-            quantidade_alunos = db.session.query(db.func.count(Aluno.id_aluno)).\
-                join(turma_aluno).\
-                join(Turma).\
-                join(turma_professor).\
-                filter(turma_professor.c.id_professor == professor_id).scalar()
-            
-            alunos_presentes = db.session.query(db.func.count(Aluno.id_aluno)).\
-                join(turma_aluno).\
-                join(Turma).\
-                join(turma_professor).\
-                join(Chamada).\
-                join(Presenca, db.and_(
-                    Aluno.id_aluno == turma_aluno.c.id_aluno,
-                    Presenca.id_aluno == turma_aluno.c.id_aluno,
-                    Presenca.id_chamada == chamada_id)).\
-                filter(turma_professor.c.id_professor == Chamada.id_professor).scalar()
-                
+        with db.engine.connect() as connection:
+            resultado = connection.execute(consulta_sql, {'professor_id': professor_id, 'chamada_id': chamada_id})
+            resultado_dict = resultado.fetchone()
 
-            alunos_nao_presenca = quantidade_alunos - alunos_presentes
+        quantidade_alunos = resultado_dict[0]
+        alunos_presentes = resultado_dict[1]
+        alunos_nao_presenca = resultado_dict[2]
 
-            return {
-                "Total de Alunos": quantidade_alunos,
-                "Faltam a chegar": alunos_nao_presenca,
-                "Aluno presentes": alunos_presentes
-            }
+        resultado_json = {
+            "Total de Alunos": quantidade_alunos,
+            "Faltam a chegar": alunos_nao_presenca,
+            "Alunos presentes": alunos_presentes
+        }
 
-        else:
-            return "Professor não encontrado"
+        return resultado_json
     
     @staticmethod
     def historico_semanal(turma_id):
+        consulta_sql = db.text("""
+            SELECT
+                (SUM(CASE WHEN p.horario IS NOT NULL THEN 1 ELSE 0 END) * 100.0 / COUNT(*)) AS porcentagem_presenca
+            FROM
+                turmas t
+            LEFT JOIN
+                turma_aluno ta ON t.id_turma = ta.id_turma
+            LEFT JOIN
+                presencas p ON ta.id_aluno = p.id_aluno
+            WHERE
+                t.id_turma = :turma_id
+                AND (p.horario IS NULL OR p.horario >= NOW() - INTERVAL '7 days');
 
-        turma = db.session.query(Turma).filter_by(Turma.id_turma == turma_id).first()
-
-        if turma:
-            data_atual = datetime.now()
-            data_inicial = data_atual - datetime.timedelta(days=4)
-
-            historico = db.session.query(db.func.date(Presenca.c.horario).label("data"),
-                                                        (db.func.count(Aluno.id)/
-                                                          db.func.count().label("total_alunos")).label("porcetagem")).\
-                join(Chamada).\
-                join(turma_professor).\
-                join(Turma).\
-                join(turma_aluno).\
-                join(Aluno).\
-                filter(Turma.id_turma == turma_id).\
-                filter(Presenca.c.horario >= data_inicial).\
-                filter(Presenca.c.horario <= data_atual).\
-                group_by(db.func.date(Presenca.c.date)).all() 
-            
-            if historico:
-                resultado = []
-                for data, porcetagem in historico:
-                    data_formatada = data.strftime('%Y-%m-%d')
-                    porcetagem_formatada = round(porcetagem * 100, 2)
-                    resultado.append(f"Data: {data_formatada}, Porcetagem: {porcetagem_formatada}%")
-
-                resultado_como_string = ', '.join(resultado)
-                return resultado_como_string
-            
-            else: 
-                return "Nenhum dado de presença disponivel"
-
-        else:
-            return "Turma não encontrada"
+            """)
         
+        with db.engine.connect() as connection:
+            resultado = connection.execute(consulta_sql, {'turma_id': turma_id})
+            porcentagem_presenca = resultado.scalar()
+
+        resultado_json = {
+            'porcentagem_presenca': porcentagem_presenca
+        }
+        
+        return jsonify(resultado_json)
+                
     @staticmethod
     def media_semanal(turma_id):
-        
-        data_inicial = datetime.now() - datetime.timedelta(days=5)
+        consulta_sql = db.text("""
+            SELECT
+                EXTRACT(DOW FROM c.abertura) AS dia_semana,
+                CASE
+                    WHEN COUNT(p.id_aluno) > 0 THEN
+                        ROUND(SUM(CASE WHEN p.horario IS NOT NULL THEN 1 ELSE 0 END) * 100.0 / COUNT(DISTINCT ta.id_aluno), 2)
+                    ELSE
+                        0
+                END AS porcentagem_presenca
+            FROM
+                turma_aluno ta
+            LEFT JOIN
+                presencas p ON ta.id_aluno = p.id_aluno
+            LEFT JOIN
+                chamadas c ON p.id_chamada = c.id_chamada
+            WHERE
+                ta.id_turma = :turma_id
+                AND c.abertura >= NOW() - INTERVAL '7 days'
+            GROUP BY
+                dia_semana
+            ORDER BY
+                dia_semana;
+    """)
 
-        media_frequencia = db.session.query(
-            db.func.avg(db.func.coalesce(db.func.count(Presenca.c.id), 0) /
-                     db.func.count(Aluno.id)).label('media_frequencia')
-            ).join(Turma).\
-            join(turma_aluno).\
-            join(Aluno).\
-            outerjoin(Presenca, (
-                Aluno.id == Presenca.c.idAluno) & (Chamada.id == Presenca.c.idChamada)).\
-            filter(Turma.id_turma == turma_id).\
-            filter(Chamada.abertura >= data_inicial).scalar()
-        
-        return {f"Media frequencia {media_frequencia * 100:.2f}"} 
+        with db.engine.connect() as connection:
+            resultado = connection.execute(consulta_sql, {'turma_id': turma_id})
+            resultados_dict = resultado.fetchall()
+
+        resultado_json = []
+        for dia_semana, porcentagem_presenca in resultados_dict:
+            resultado_json.append({
+                'dia_semana': int(dia_semana), 
+                'porcentagem_presenca': porcentagem_presenca
+            })
+
+        return resultado_json
+
