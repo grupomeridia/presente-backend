@@ -71,3 +71,22 @@ class AlunoService():
         aluno = Aluno(id_usuario=aluno_dto.id_usuario, status=aluno_dto.status, ausente=aluno_dto.ausente, nome=aluno_dto.nome, ra=aluno_dto.ra)
    
         return aluno
+    
+    @staticmethod
+    def ausentes_presentes(turma_id):
+        try:
+            int(turma_id)
+        except ValueError:
+            return AssertionError("Deve ser uma turma válida")
+        
+        return AlunoRepository.ausentes_presentes(turma_id)
+    
+    @staticmethod
+    def ativo_inativo(turma_id):
+        try:
+            int(turma_id)
+        except ValueError:
+            return AssertionError("Deve ser uma turma com valor válido")
+        
+        return AlunoRepository.ativo_inativo(turma_id)
+    

@@ -72,4 +72,64 @@ class AlunoRepository():
 
         return f"Aluno registrado com o ID {aluno.id_aluno}"
     
-   
+    @staticmethod
+    def ausentes_presentes(turma_id):
+        consulta_sql = db.text("""
+            SELECT
+                ta.id_aluno,
+                CASE
+                    WHEN p.horario IS NOT NULL THEN 'Presente'
+                    ELSE 'Ausente'
+                END AS situacao
+            FROM
+                turma_aluno ta
+            LEFT JOIN
+                presencas p ON ta.id_aluno = p.id_aluno
+            LEFT JOIN
+                chamadas c ON p.id_chamada = c.id_chamada
+            WHERE
+                ta.id_turma = :turma_id
+                AND DATE(c.abertura) = DATE(NOW())
+        """)
+
+        with db.engine.connect() as connection:
+            resultado = connection.execute(consulta_sql, {'turma_id': turma_id})
+            resultados_dict = resultado.fetchall()
+
+        resultado_json = []
+        for id_aluno, situacao in resultados_dict:
+            resultado_json.append({
+                'id_aluno': id_aluno,
+                'situacao': situacao
+            })
+
+        return resultado_json
+
+    @staticmethod
+    def ativo_inativo(turma_id):
+        consulta_sql = db.text("""
+        SELECT
+            ta.id_aluno,
+            CASE
+                WHEN a.status = 'true' THEN 'Ativo'
+                WHEN a.status = 'false' THEN 'Inativo'
+                ELSE 'Desconhecido'
+            END AS situacao
+        FROM turma_aluno ta
+        JOIN alunos a ON ta.id_aluno = a.id_aluno
+        WHERE ta.id_turma = :turma_id
+    """)
+
+        with db.engine.connect() as connection:
+            resultado = connection.execute(consulta_sql, {'turma_id': turma_id})
+            resultados_dict = resultado.fetchall()
+
+        resultado_json = []
+        for id_aluno, situacao in resultados_dict:
+            resultado_json.append({
+                'id_aluno': id_aluno,
+                'situacao': situacao
+            })
+
+        return resultado_json
+    

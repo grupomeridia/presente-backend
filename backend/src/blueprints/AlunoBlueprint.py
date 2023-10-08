@@ -67,5 +67,21 @@ def find_by_ra():
     try:
         return AlunoService.get_by_ra(ra)
     except AssertionError as error:
-                return str(error)
+        return str(error)
+    
+@alunos.route("/api/aluno/AusentesPresentes", methods=['GET'])
+def ausentes_presentes():
+    turma_id = request.args.get('id_turma')
+    try:
+        return AlunoService.ausentes_presentes(turma_id)
+    except AssertionError as error:
+        return str(error)
+    
+@alunos.route("/api/aluno/AtivoInativo", methods=['GET'])
+def ativo_inativo():
+    turma_id = request.args.get('id_turma')
+    try:
+        return AlunoService.ativo_inativo(turma_id)
+    except AssertionError as error:
+        return str(error)
     

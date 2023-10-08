@@ -76,7 +76,7 @@ def num_alunos():
     except AssertionError as error:
         return str(error)
     
-@professores.route("/api/professor/historico", methods=['GET'])
+@professores.route("/api/professor/historicoSemanal", methods=['GET'])
 def historico_semanal():
     id_turma = request.args.get("id")
     try:
