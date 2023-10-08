@@ -131,3 +131,50 @@ class AlunoRepository():
 
         return resultado_json
     
+    @staticmethod
+    def media_ativo(turma_id):
+        consulta_sql = db.text("""
+        SELECT 
+            COUNT(*) * 100.0 / (SELECT COUNT(*) FROM turma_aluno WHERE id_turma = :turma_id) 
+            AS media_alunos_ativos 
+        FROM 
+            turma_aluno 
+        WHERE 
+            id_turma = :turma_id 
+            AND id_aluno IN (SELECT id_aluno FROM alunos WHERE status = 'true');
+    """)
+
+        with db.engine.connect() as connection:
+            resultado = connection.execute(consulta_sql, {'turma_id': turma_id})
+            media_alunos_ativos = resultado.scalar()
+
+        return {
+            'media_alunos_ativos': media_alunos_ativos
+        }
+
+    @staticmethod
+    def media_ausente(turma_id):
+        consulta_presencas = db.text("""
+        SELECT COUNT(id_presenca) 
+        FROM presencas
+    """)
+
+        consulta_ausentes = db.text("""
+            SELECT COUNT(p.id_aluno)
+            FROM presencas p
+            LEFT JOIN chamadas c ON p.id_chamada = c.id_chamada
+            WHERE c.id_turma = :turma_id AND p.horario IS NULL
+        """)
+
+        with db.engine.connect() as connection:
+            total_presencas = connection.execute(consulta_presencas).scalar()
+            total_ausentes = connection.execute(consulta_ausentes, {'turma_id': turma_id}).scalar()
+
+            if total_presencas > 0:
+                media_alunos_ausentes = (total_ausentes / total_presencas) * 100
+            else:
+                media_alunos_ausentes = 0
+
+        return {
+            'media_alunos_ausentes': media_alunos_ausentes
+    }

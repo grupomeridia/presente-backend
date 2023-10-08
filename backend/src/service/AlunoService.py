@@ -76,3 +76,20 @@ class AlunoService():
         
         return AlunoRepository.ativo_inativo(turma_id)
     
+    @staticmethod
+    def media_ativo(turma_id):
+        try:
+            int(turma_id)
+        except ValueError:
+            return AssertionError("deve ser uma turma valida")
+        
+        return AlunoRepository.media_ativo(turma_id)
+    
+    @staticmethod
+    def media_ausente(turma_id):
+        try:
+            int(turma_id)
+        except ValueError:
+            return AssertionError("deve ser uma turma com valor valido")
+        
+        return AlunoRepository.media_ausente(turma_id)
