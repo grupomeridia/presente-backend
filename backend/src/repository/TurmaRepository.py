@@ -52,7 +52,7 @@ class TurmaRepository():
 
         db.session.merge(turma)
         db.session.commit()
-        return {"mensagem":"sucesso"}
+        return f"Turma {id} atualizada com sucesso"
 
     @staticmethod
     def delete(id):
@@ -62,7 +62,7 @@ class TurmaRepository():
         db.session.merge(turma)
         db.session.commit()
 
-        return {"mensagem":"sucesso"}
+        return f"Turma {id} deletada com sucesso"
 
     @staticmethod  
     def register(turma):
