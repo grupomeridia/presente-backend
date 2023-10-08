@@ -3,6 +3,9 @@ from repository.AlunoRepository import AlunoRepository
 from entity.Aluno import Aluno
 from entity.Usuario import Usuario
 from entity.CargoEnum import Cargo
+
+from dtos.AlunoDTO import AlunoDTO
+
 import re
 
 class AlunoService():
@@ -16,25 +19,32 @@ class AlunoService():
         return AlunoRepository.get_aluno_by_id(id)
     
     @staticmethod
-    def register(aluno_dto, id_usuario):
+    def register(id_aluno, id_usuario, status, nome, ra, ausente):
 
-        aluno = AlunoService.to_entity(aluno_dto)
-        usuario = Usuario.query.get(id_usuario)
-
-        assert isinstance(id_usuario, int), "O ID está incorreto."
-        assert usuario is not None, "Usuário não encontrado."
-        assert int(id_usuario) > 0, "ID de usuário inválido."
-
-        assert usuario.cargo == Cargo.Aluno, "Usuário não é um aluno."
-        assert not Aluno.query.filter(Aluno.id_usuario == aluno.id_usuario).first(), "ID já cadastrado."
-        assert not Aluno.query.filter(Aluno.nome == aluno.nome).first(), "Nome já cadastrado"
-        assert usuario.login == aluno_dto.nome, "O nome de usuário não existe."
-
-        assert re.match(r'^\d+$', str(aluno.ra)), "O RA deve ter apenas números."
-        assert aluno.ra >= 100000 and aluno.ra <= 999999, "RA inválido."
+        assert id_aluno != 'NOT_FOUND', "Campo 'ID Aluno' inexistente."
+        assert id_usuario != 'NOT_FOUND', "Campo 'ID Usuário' inexistente."
+        assert nome != 'NOT_FOUND', "Campo 'Nome inexistente."
+        assert ra != 'NOT_FOUND', "Campo 'RA inexistente."
         
+        
+        assert int(id_aluno) if isinstance(id_aluno, (int,str)) and str(id_aluno).isdigit() else None, "ID do Aluno incorreto."
+        assert int(id_usuario) if isinstance(id_usuario, (int,str)) and str(id_usuario).isdigit() else None, "ID do Usuário incorreto."
+        assert int(id_usuario) > 0 and int(id_usuario) < 999999, "ID de usuário inválido."
 
-        return AlunoRepository.register_aluno(Aluno(id_usuario=id_usuario, status=aluno_dto.status, ausente=aluno_dto.ausente, nome=aluno_dto.nome, ra=aluno_dto.ra))
+        assert not Aluno.query.filter(Aluno.id_usuario == id_usuario).first(), "ID de usuário já cadastrado."
+        assert not Aluno.query.filter(Aluno.nome == nome).first(), "Nome já cadastrado"
+        
+        assert re.match(r'^\d+$', str(ra)), "O RA deve ter apenas números."
+        assert ra >= 100000 and ra <= 999999, "RA inválido."
+        
+        usuario = Usuario.query.get(id_usuario)
+        assert usuario is not None, "Usuário não encontrado."
+        assert usuario.cargo == Cargo.Aluno, "Usuário não é um aluno."
+        assert usuario.login == nome, "O nome de usuário não existe."
+
+        aluno = AlunoService.to_entity(AlunoDTO(id_usuario=id_usuario, status=status, nome=nome, ra=ra, ausente=ausente))
+        
+        return AlunoRepository.register_aluno(aluno)
     
     @staticmethod
     def update(id, aluno_dto):
