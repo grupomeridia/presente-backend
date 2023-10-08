@@ -1,5 +1,14 @@
+
+from entity.CursoEnum import Curso
+from entity.TurnoEnum import Turno
+from entity.ModalidadeEnum import Modalidade
 from entity.Turma import Turma
+
+from dtos.TurmaDTO import TurmaDTO
+
 from repository.TurmaRepository import TurmaRepository
+
+
 
 class TurmaService():
     @staticmethod
@@ -12,46 +21,61 @@ class TurmaService():
         return TurmaRepository.get_turma_by_id(id)
     
     @staticmethod
-    def post_turma(turma_dto):
+    def post_turma(status, nome, ano, semestre, turno, modalidade, curso):      
+
+        modalidades = [x.value for x in Modalidade]
+        turnos = [x.value for x in Turno]
+        cursos = [x.value for x in Curso]
+
+        assert modalidade in modalidades, "Modalidade inválida"
+        assert turno in turnos, "Turno inválido"
+        assert curso in cursos, "Curso inválido"
+
+        assert nome != 'NOT_FOUND', "Campo 'nome' inexistente."
+        assert ano != 'NOT_FOUND', "Campo 'ano' inexistente."
+        assert semestre != 'NOT_FOUND', "Campo 'semestre' inexistente."
+        assert turno != 'NOT_FOUND', "Campo 'turno' inexistente."
+        assert modalidade != 'NOT_FOUND', "Campo 'modadelidade' inexistente."
+        assert curso != 'NOT_FOUND', "Campo 'curso' inexistente."
+
+        assert len(nome) > 3, "Nome com tamanho inválido."
+        assert nome.isalpha(), "O nome deve conter apenas letras."
         
-        turma = TurmaService.to_entity(turma_dto)
 
-        assert turma.nome != 'NOT_FOUND', "Campo 'nome' inexistente."
-        assert turma.ano != 'NOT_FOUND', "Campo 'ano' inexistente."
-        assert turma.semestre != 'NOT_FOUND', "Campo 'semestre' inexistente."
-        assert turma.turno != 'NOT_FOUND', "Campo 'turno' inexistente."
-        assert turma.modalidade != 'NOT_FOUND', "Campo 'modadelidade' inexistente."
-        assert turma.curso != 'NOT_FOUND', "Campo 'curso' inexistente."
+        assert 2000 <= int(ano) <= 2023, "Ano inválido."
+        assert 1 <= int(semestre) <= 8, "Semestre inválido."
 
-        assert len(turma.nome) > 3, "Nome com tamanho inválido."
-        assert turma.nome.isalpha(), "O nome deve conter apenas letras."
-        
-
-        assert 2000 <= int(turma.ano) <= 2023, "Ano inválido."
-        assert 1 <= int(turma.semestre) <= 8, "Semestre inválido."
-
-
-        return TurmaRepository.register(Turma(status=turma.status, nome=turma.nome, ano=turma.ano, semestre=turma.semestre, turno=turma.turno, modalidade=turma.modalidade, curso=turma.curso))
+        turma = TurmaService.to_entity(TurmaDTO(status=status, nome=nome, ano=ano, semestre=semestre, turno=turno, modalidade=modalidade, curso=curso))
+        return TurmaRepository.register(turma)
     
     @staticmethod
-    def update(id, turma_dto):
+    def update(id, status, nome, ano, semestre, turno, modalidade, curso):
         
-        turma = TurmaService.to_entity(turma_dto)
+        modalidades = [x.value for x in Modalidade]
+        turnos = [x.value for x in Turno]
+        cursos = [x.value for x in Curso]
 
-        assert turma.nome != 'NOT_FOUND', "Campo 'nome' inexistente."
-        assert turma.ano != 'NOT_FOUND', "Campo 'ano' inexistente."
-        assert turma.semestre != 'NOT_FOUND', "Campo 'semestre' inexistente."
-        assert turma.turno != 'NOT_FOUND', "Campo 'turno' inexistente."
-        assert turma.modalidade != 'NOT_FOUND', "Campo 'modadelidade' inexistente."
-        assert turma.curso != 'NOT_FOUND', "Campo 'curso' inexistente."
+        assert modalidade in modalidades, "Modalidade inválida"
+        assert turno in turnos, "Turno inválido"
+        assert curso in cursos, "Curso inválido"
 
-        assert len(turma.nome) > 3, "Nome com tamanho inválido."
-        assert turma.nome.isalpha(), "O nome deve conter apenas letras."
+        assert int(id) if isinstance(id, (int, str)) and id.isdigit() else None, "ID incorreto."
+        assert int(id) > 0 and int(id) < 999999, "ID inválido"
+
+        assert nome != 'NOT_FOUND', "Campo 'nome' inexistente."
+        assert ano != 'NOT_FOUND', "Campo 'ano' inexistente."
+        assert semestre != 'NOT_FOUND', "Campo 'semestre' inexistente."
+        assert turno != 'NOT_FOUND', "Campo 'turno' inexistente."
+        assert modalidade != 'NOT_FOUND', "Campo 'modadelidade' inexistente."
+        assert curso != 'NOT_FOUND', "Campo 'curso' inexistente."
+
+        assert len(nome) > 3, "Nome com tamanho inválido."
+        assert nome.isalpha(), "O nome deve conter apenas letras."
+
+        assert 2000 <= int(ano) <= 2023, "Ano inválido."
+        assert 1 <= int(semestre) <= 8, "Semestre inválido."
         
-
-        assert 2000 <= int(turma.ano) <= 2023, "Ano inválido."
-        assert 1 <= int(turma.semestre) <= 8, "Semestre inválido."
-        
+        turma = TurmaService.to_entity(TurmaDTO(status=status, nome=nome, ano=ano, semestre=semestre, turno=turno, modalidade=modalidade, curso=curso))
         return TurmaRepository.update(id, turma)
     
     @staticmethod
