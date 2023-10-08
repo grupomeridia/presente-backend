@@ -4,6 +4,7 @@ from repository.UsuarioRepository import UsuarioRepository
 
 from entity.Usuario import Usuario
 from dtos.UsuarioDTO import UsuarioDTO
+from entity.CargoEnum import Cargo
 
 from service.UsuarioService import UsuarioService
 
@@ -22,9 +23,12 @@ def usuario():
         data = request.json
                 
         status = True
-        login = data['login']
-        senha = data['senha']
-        cargo = data['cargo']
+        login = data.get('login', 'NOT_FOUND')
+        senha = data.get('senha', 'NOT_FOUND')
+        cargo = data.get('cargo', 'NOT_FOUND')
+
+        if not cargo or cargo not in [cargo.value for cargo in Cargo]:
+            return jsonify({"error": "Campo 'cargo' inválido."}), 400
 
         try:
             return UsuarioService.register(UsuarioDTO(status=status, login=login, senha=senha, cargo=cargo))
