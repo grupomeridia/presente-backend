@@ -6,11 +6,9 @@ class SecretariaRepository():
     @staticmethod
     def get_by_id(id):
         return {
-            "Id": Secretaria.query.get(id).id,
-            "Ativo": Secretaria.query.get(id).ativo,
-            "Nome": Secretaria.query.get(id).nome,
-            "Usuario": Secretaria.query.get(id).usuario.nome,
-            "Lembrete": Secretaria.query.get(id).lembrete.mensagem
+            "id": Secretaria.query.get(id).id_secretaria,
+            "ativo": Secretaria.query.get(id).status,
+            "nome": Secretaria.query.get(id).nome
         }
     
     @staticmethod
@@ -22,8 +20,6 @@ class SecretariaRepository():
                 "Id": secre.id,
                 "Ativo": secre.ativo,
                 "Nome": secre.nome,
-                "Usuario": secre.usuario.nome,
-                "Lembrete": secre.lembrete.mensagem
             })
         
         return jsonify(resultado)

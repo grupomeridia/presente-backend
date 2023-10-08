@@ -20,15 +20,18 @@ def aluno():
     if request.method == 'POST':    
         data = request.json
         
-        id_usuario = data['id_usuario']
+        id_aluno = data.get('id_aluno', None)
         status = True
         ausente = True
-        nome = data['nome']
-        ra = data['ra']
+        id_usuario = data.get('id_usuario', None)
+        nome = data.get('nome', 'NOT_FOUND')
+        ra = data.get('ra', 'NOT_FOUND')
         
-
         try:
-            return AlunoService.register(AlunoDTO(id_usuario=id_usuario, status=status, nome=nome, ra=ra, ausente=ausente))
+            if id_usuario is None or id_usuario == 'NOT_FOUND':
+                raise AssertionError("Campo 'id_usuario' inexistente ou inválido.")
+
+            return AlunoService.register(AlunoDTO(id_usuario=id_usuario, status=status, nome=nome, ra=ra, ausente=ausente), id_usuario)
         except AssertionError as error:
             return str(error)
 

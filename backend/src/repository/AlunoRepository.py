@@ -5,15 +5,17 @@ from entity.Aluno import Aluno
 class AlunoRepository():
     @staticmethod
     def get_aluno_by_id(id):
-        return {
-            "id": Aluno.query.get(id).id_aluno,
-            "id_usuario" : Aluno.query.get(id).id_usuario,
-            "Nome": Aluno.query.get(id).nome,
-            "RA": Aluno.query.get(id).ra,
-            "Ativo": Aluno.query.get(id).status,
-            "Ausente": Aluno.query.get(id).ausente
-        }
-    
+        try:
+            return {
+                "id": Aluno.query.get(id).id_aluno,
+                "id_usuario" : Aluno.query.get(id).id_usuario,
+                "Nome": Aluno.query.get(id).nome,
+                "RA": Aluno.query.get(id).ra,
+                "Ativo": Aluno.query.get(id).status,
+                "Ausente": Aluno.query.get(id).ausente
+            }
+        except AttributeError as error:
+            raise AssertionError ("Aluno não existe.")
     @staticmethod
     def list_all():
         alunos = Aluno.query.all()

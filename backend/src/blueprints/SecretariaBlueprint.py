@@ -20,12 +20,12 @@ def secret():
     if request.method == 'POST':
         data = request.json
         
-        id_usuario = data['id_usuario']
         status = True
-        nome = data['nome']
+        id_usuario = data.get('id_usuario', 'NOT_FOUND')
+        nome = data.get('nome', 'NOT_FOUND')
         
         try:
-            return SecretariaService.register(SecretariaDTO(id_usuario=id_usuario, status=status, nome=nome))
+            return SecretariaService.register(SecretariaDTO(id_usuario=id_usuario, status=status, nome=nome), id_usuario)
         except AssertionError as error:
             return str(error)
     
