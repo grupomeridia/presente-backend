@@ -5,12 +5,14 @@ from entity.Secretaria import Secretaria
 class SecretariaRepository():
     @staticmethod
     def get_by_id(id):
-        return {
-            "id": Secretaria.query.get(id).id_secretaria,
-            "ativo": Secretaria.query.get(id).status,
-            "nome": Secretaria.query.get(id).nome
-        }
-    
+        try:
+            return {
+                "id": Secretaria.query.get(id).id_secretaria,
+                "ativo": Secretaria.query.get(id).status,
+                "nome": Secretaria.query.get(id).nome
+            }
+        except AttributeError as error:
+            raise AssertionError ("Secretaria não existe.")
     @staticmethod
     def list_all():
         secretaria = Secretaria.query.all()
