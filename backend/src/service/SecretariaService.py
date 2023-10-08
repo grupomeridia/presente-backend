@@ -29,8 +29,8 @@ class SecretariaService():
         assert not Secretaria.query.filter(Secretaria.id_usuario == id_usuario).first(), "ID já cadastrado."
 
         usuario = Usuario.query.get(id_usuario)
-        assert usuario != None, "Usuário não encontrado"
-        assert usuario.cargo == Cargo.Secretaria, "Usuário não é uma secretaria."
+        assert usuario != None, "Usuário não encontrado."
+        assert usuario.cargo == Cargo.Secretaria, "Usuário não é da secretaria."
         assert usuario.login == nome, "O nome de usuário não existe."
 
         
@@ -43,9 +43,21 @@ class SecretariaService():
 
     
     @staticmethod
-    def update(id, secretaria_dto):
+    def update(id_secretaria, nome, status):
 
-        secretaria = SecretariaService.to_entity(secretaria_dto)
+        assert id_secretaria != 'NOT_FOUND', "Campo 'id' inexistente."
+        assert nome != 'NOT_FOUND', "Campo 'nome' inexistente."
+ 
+
+        assert int(id_secretaria) if isinstance(id_secretaria, (int,str)) and str(id).isdigit() else None, "ID inválido."
+        assert int(id_secretaria) > 0 and int(id_secretaria) < 999999, "ID de usuário inválido."
+
+
+        secretaria = Secretaria.query.get(id)
+        assert secretaria != None, "Usuário não encontrado"
+
+        
+        secretaria = SecretariaService.to_entity(SecretariaDTO(status=status, nome=nome, id_usuario=id))
 
         return SecretariaRepository.update(id, secretaria)
     
