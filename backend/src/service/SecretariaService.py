@@ -3,6 +3,8 @@ from entity.Secretaria import Secretaria
 from entity.Usuario import Usuario
 from entity.CargoEnum import Cargo
 
+from dtos.SecretariaDTO import SecretariaDTO
+
 class SecretariaService():
     @staticmethod
     def get_by_id(id):
@@ -15,26 +17,29 @@ class SecretariaService():
         return SecretariaRepository.get_by_id(id)
         
     @staticmethod
-    def register(secretaria_dto, id_usuario):
+    def register(id_usuario, status, nome):
 
-        secretaria = SecretariaService.to_entity(secretaria_dto)
+        assert id_usuario != 'NOT_FOUND', "Campo 'id' inexistente."
+        assert nome != 'NOT_FOUND', "Campo 'nome' inexistente."
+ 
+
+        assert int(id_usuario) if isinstance(id_usuario, (int,str)) and str(id_usuario).isdigit() else None, "ID inválido."
+        assert int(id_usuario) > 0 and int(id_usuario) < 999999, "ID de usuário inválido."
+
+        assert not Secretaria.query.filter(Secretaria.id_usuario == id_usuario).first(), "ID já cadastrado."
+
         usuario = Usuario.query.get(id_usuario)
-
-        assert secretaria.id_usuario != 'NOT_FOUND', "Campo 'id' inexistente."
-        assert secretaria.nome != 'NOT_FOUND', "Campo 'nome' inexistente."
-
-        assert isinstance(id_usuario, int), "O ID está incorreto."
-        assert usuario is not None, "Usuário não encontrado."
-        assert int(id_usuario) > 0, "ID de usuário inválido."
-
+        assert usuario != None, "Usuário não encontrado"
         assert usuario.cargo == Cargo.Secretaria, "Usuário não é uma secretaria."
-        assert not Secretaria.query.filter(Secretaria.id_usuario == secretaria.id_usuario).first(), "ID já cadastrado."
-        assert not Secretaria.query.filter(Secretaria.nome == secretaria.nome).first(), "Nome já cadastrado"
-        assert usuario.login == secretaria_dto.nome, "O nome de usuário não existe."
-    
-            
+        assert usuario.login == nome, "O nome de usuário não existe."
 
-        return SecretariaRepository.register_secretaria(Secretaria(id_usuario=id_usuario, status=secretaria_dto.status, nome=secretaria_dto.nome))
+        
+        assert not Secretaria.query.filter(Secretaria.nome == nome).first(), "Nome já cadastrado"
+        
+
+        secretaria = SecretariaService.to_entity(SecretariaDTO(id_usuario=id_usuario, status=status, nome=nome))
+
+        return SecretariaRepository.register_secretaria(secretaria)
 
     
     @staticmethod
