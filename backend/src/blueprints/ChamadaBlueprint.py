@@ -15,37 +15,37 @@ def professor():
         try:
             return jsonify(ChamadaService.get_by_id(id_chamada))
         except AssertionError as error:
-            return str(error)
+            return str(error), 400
     
     if request.method == 'POST':
         data = request.json
 
-        id_materia = data['id_materia']
-        id_turma = data['id_turma']
-        id_professor = data['id_professor']
         status = True
         abertura = datetime.now()
         encerramento = None
+        id_materia = data.get('id_materia', 'NOT_FOUND')
+        id_turma = data.get('id_turma', 'NOT_FOUND')
+        id_professor = data.get('id_professor', 'NOT_FOUND')
         
         try:
-            return ChamadaService.register(ChamadaDTO(id_materia=id_materia, id_turma=id_turma, id_professor=id_professor, status=status, abertura=abertura, encerramento=encerramento))
+            return ChamadaService.register(id_materia, id_turma,id_professor, status, abertura)
         except AssertionError as error:
-            return str(error)
+            return str(error), 400
 
     if request.method == 'PUT':
         id_chamada = request.args.get('id')
         data = request.json
 
-        id_materia = data['id_materia']
-        id_turma = data['id_turma']
-        id_professor = data['id_professor']
         status = True
-        abertura = data['abertura']
-        encerramento = data['encerramento']
+        id_materia = data.get('id_materia', 'NOT_FOUND')
+        id_turma = data.get('id_turma', 'NOT_FOUND')
+        id_professor = data.get('id_professor', 'NOT_FOUND')
+        abertura = data.get('abertura', 'NOT_FOUND')
+        encerramento = data.get('encerramento', 'NOT_FOUND')
         try:
-            return ChamadaService.update(id_chamada, ChamadaDTO(id_materia=id_materia, id_turma=id_turma, id_professor=id_professor, status=status, abertura=abertura, encerramento=encerramento))
+            return ChamadaService.update(id_chamada, id_materia, id_turma, id_professor, status, abertura, encerramento)
         except AssertionError as error:
-            return str(error)
+            return str(error), 400
 
     if request.method == 'DELETE':
         id_chamada = request.args.get('id')
@@ -53,7 +53,7 @@ def professor():
         try:
             return jsonify(ChamadaService.delete(id_chamada))
         except AssertionError as error:
-            return str(error)
+            return str(error), 400
 
 
 @chamadas.route("/api/chamada/listAll", methods=['GET'])

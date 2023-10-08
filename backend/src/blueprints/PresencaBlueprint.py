@@ -15,42 +15,46 @@ def presencas_main():
     if request.method == 'GET':
         id_presenca = request.args.get('id')
         try:
+            print(f"AQUI DE NOVO {id}")
             return jsonify(PresencaService.get_by_id(id_presenca))
         except AssertionError as error:
-            return str(error)
+            return str(error), 400
     
     if request.method == 'POST':
         data = request.json
 
-        id_aluno = data['id_aluno']
-        id_chamada = data['id_chamada']
         status = True
-        tipo_presenca = data['tipo_presenca']
+        id_aluno = data.get('id_aluno', 'NOT_FOUND')
+        id_chamada = data.get('id_chamada', 'NOT_FOUND')
+        tipo_presenca = data.get('tipo_presenca', 'NOT_FOUND')
         horario = datetime.now()
 
         try:
-            return PresencaService.register(PresencaDTO(id_aluno=id_aluno, id_chamada=id_chamada, status=status, tipo_presenca=tipo_presenca, horario=horario))
+            return PresencaService.register(id_aluno, id_chamada, status, tipo_presenca, horario)
         except AssertionError as error:
-            return str(error)
+            return str(error), 400
     
     if request.method == 'PUT':
         id_presenca = request.args.get('id')
         data = request.json
 
-        id_aluno = data['id_aluno']
-        id_chamada = data['id_chamada']
         status = True
-        tipo_presenca = data['tipo_presenca']
-        horario = data['horario']
+        id_aluno = data.get('id_aluno', 'NOT_FOUND')
+        id_chamada = data.get('id_chamada', 'NOT_FOUND')
+        tipo_presenca = data.get('tipo_presenca', 'NOT_FOUND')
+        horario = datetime.now()
 
-        return PresencaService.update(id_presenca, PresencaDTO(id_aluno=id_aluno, id_chamada=id_chamada, status=status, tipo_presenca=tipo_presenca, horario=horario))
-    
+        try:
+            return PresencaService.register(id_aluno, id_chamada, status, tipo_presenca, horario)
+        except AssertionError as error:
+            return str(error), 400
+        
     if request.method == 'DELETE':
         id_presenca = request.args.get('id')
         try:
             return PresencaService.delete(id_presenca)
         except AssertionError as error:
-            return str(error)
+            return str(error), 400
 
 @presencas.route("/api/presenca/listAll", methods=['GET'])
 def list_all():
