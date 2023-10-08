@@ -22,7 +22,7 @@ class UsuarioRepository():
         db.session.add(usuario)
         db.session.commit()
 
-        return "Usuario criado com sucesso"
+        return f"Usuario {usuario.id_usuario} criado com sucesso"
     
     @staticmethod
     def update(id, data):
@@ -35,7 +35,7 @@ class UsuarioRepository():
 
         db.session.merge(usuario)
         db.session.commit()
-        return {"mensagem":"sucesso"}
+        return f"Usuario {id} atualizado com sucesso"
     
     @staticmethod
     def delete(id):
@@ -46,4 +46,4 @@ class UsuarioRepository():
         db.session.merge(usuario)
         db.session.commit()
 
-        return {"mensagem":"sucesso"}
+        return f"Usuario {id} deletado com sucesso!"
