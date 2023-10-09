@@ -30,7 +30,7 @@ class AlunoService():
         assert int(id_usuario) > 0 and int(id_usuario) < 999999, "ID de usuário inválido."
 
         assert not Aluno.query.filter(Aluno.id_usuario == id_usuario).first(), "ID de usuário já cadastrado."
-        assert not Aluno.query.filter(Aluno.nome == nome).first(), "Nome já cadastrado"
+        
         
         assert re.match(r'^\d+$', str(ra)), "O RA deve ter apenas números."
         assert ra >= 100000 and ra <= 999999, "RA inválido."
@@ -54,7 +54,7 @@ class AlunoService():
         assert int(id_aluno) if isinstance(id_aluno, (int,str)) and str(id_aluno).isdigit() else None, "ID do Aluno incorreto."
 
         assert not Aluno.query.filter(Aluno.id_aluno == id_aluno).first(), "ID de usuário já cadastrado."
-        assert not Aluno.query.filter(Aluno.nome == nome).first(), "Nome já cadastrado"
+        
 
         assert re.match(r'^\d+$', str(ra)), "O RA deve ter apenas números."
         assert ra >= 100000 and ra <= 999999, "RA inválido."
