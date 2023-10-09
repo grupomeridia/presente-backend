@@ -3,44 +3,88 @@ from repository.PresencaRepository import PresencaRepository
 from entity.Presenca import Presenca
 from entity.Chamada import Chamada
 from entity.Aluno import Aluno
+from dtos.PresencaDTO import PresencaDTO
+from entity.PresencaEnum import TipoPresenca
+
+import re
 
 class PresencaService():
     @staticmethod
     def get_by_id(id):
-        try:
-            int(id)
-        except ValueError:
-            raise AssertionError("Deve ser um número inteiro")
+        assert id != None, "Nenhum ID enviado."
+        assert int(id) if isinstance(id, (int,str)) and id.isdigit() else None, "ID incorreto."
+        assert int(id) > 0 and int(id) < 999999, "ID inválido."
+        assert Presenca.query.get(id) != None, "Nenhua presença com este ID foi encontrado."
         
-        assert int(id) > 0, "ID inválido."
-        assert Presenca.query.get(id) != None, f"Nenhuma presença foi encontrada com o ID {id}"
-        assert PresencaRepository.get_presenca_by_id(id)
+        return PresencaRepository.get_presenca_by_id(id)
 
     @staticmethod
-    def register(presenca_dto):
+    def register(id_aluno, id_chamada, tipo_presenca, horario, status):
 
-        presenca = PresencaService.to_entity(presenca_dto)
+        tipoPresenca = [x.value for x in TipoPresenca]
+
+        assert id_aluno != 'NOT_FOUND', "Campo 'id_aluno' inexistente."
+        assert id_chamada != 'NOT_FOUND', "Campo 'id_chamada' inexistente."
+        assert tipo_presenca != 'NOT_FOUND', "Campo 'tipo_presenca' inexistente."
+
+        assert int(id_aluno) if isinstance(id_aluno, (int,str)) and str(id_aluno).isdigit() else None, "ID de aluno incorreto."
+        assert int(id_aluno) > 0 and int(id_aluno) < 999999, "ID de aluno inválido."
+        assert re.match(r'^\d+$', str(id_aluno)), "O ID de Aluno deve ter apenas números."
+        aluno = Aluno.query.get(id_aluno)
+        assert aluno is not None, "Aluno não encontrado"
+
+        assert int(id_chamada) if isinstance(id_chamada, (int,str)) and str(id_chamada).isdigit() else None, "ID de chamada incorreto."
+        assert int(id_chamada) > 0 and int(id_chamada) < 999999, "ID de chamada inválido."
+        assert re.match(r'^\d+$', str(id_chamada)), "O ID de chamada deve ter apenas números."
+        chamada = Chamada.query.get(id_aluno)
+        assert chamada is not None, "Chamada não encontrada."
+
+        assert tipo_presenca in tipoPresenca, "Tipo de presença incorreto."
         
         assert Chamada.query.filter(Chamada.status == True).first() is not None, "Não existe nenhuma chamada aberta"
         
-         
-        return PresencaRepository.register_presenca(Presenca(id_aluno=presenca.id_aluno, id_chamada=presenca.id_chamada, status=presenca.status, tipo_presenca=presenca.tipo_presenca, horario=presenca.horario))
+        presenca = PresencaService.to_entity(PresencaDTO(id_aluno=id_aluno, id_chamada=id_chamada, tipo_presenca=tipo_presenca, horario=horario, status=status))
+
+        return PresencaRepository.register_presenca(presenca)
     
     @staticmethod
-    def update(id, presenca_dto):
-        
-        presenca = PresencaService.to_entity(presenca_dto)
+    def update(id_presenca, id_aluno, id_chamada, tipo_presenca, horario, status):
 
-        return PresencaRepository.update(id, presenca)
+        tipoPresenca = [x.value for x in TipoPresenca]
+
+        assert id_aluno != 'NOT_FOUND', "Campo 'id_aluno' inexistente."
+        assert id_chamada != 'NOT_FOUND', "Campo 'id_chamada' inexistente."
+        assert tipo_presenca != 'NOT_FOUND', "Campo 'tipo_presenca' inexistente."
+        assert id_presenca != 'NOT_FOUND', "Campo 'id_presenca' inexistente."
+
+        assert int(id_aluno) if isinstance(id_aluno, (int,str)) and str(id_aluno).isdigit() else None, "ID de aluno incorreto."
+        assert int(id_aluno) > 0 and int(id_aluno) < 999999, "ID de aluno inválido."
+        assert re.match(r'^\d+$', str(id_aluno)), "O ID de Aluno deve ter apenas números."
+        aluno = Aluno.query.get(id_aluno)
+        assert aluno is not None, "Aluno não encontrado"
+
+        assert int(id_chamada) if isinstance(id_chamada, (int,str)) and str(id_chamada).isdigit() else None, "ID de chamada incorreto."
+        assert int(id_chamada) > 0 and int(id_chamada) < 999999, "ID de chamada inválido."
+        assert re.match(r'^\d+$', str(id_chamada)), "O ID de chamada deve ter apenas números."
+        chamada = Chamada.query.get(id_aluno)
+        assert chamada is not None, "Chamada não encontrada."
+
+        assert tipo_presenca in tipoPresenca, "Tipo de presença incorreto."
+
+        assert Chamada.query.filter(Chamada.status == True).first() is not None, "Não existe nenhuma chamada aberta"
+
+
+        presenca = PresencaService.to_entity(PresencaDTO(id_presenca=id_presenca, id_aluno=id_aluno, id_chamada=id_chamada, tipo_presenca=tipo_presenca, horario=horario, status=status))
+
+        return PresencaRepository.update(presenca)
     
     @staticmethod
     def delete(id):
-        try:
-            int(id)
-        except ValueError:
-            raise AssertionError("Deve ser um número inteiro")
+        assert id != None, "Nenhum ID enviado."
+        assert int(id) if isinstance(id, (int,str)) and id.isdigit() else None, "ID incorreto."
+        assert int(id) > 0 and int(id) < 999999, "ID inválido."
+        assert Presenca.query.get(id) != None, "Nenhua presença com este ID foi encontrado."
         
-        assert Presenca.query.filter(Presenca.id_presenca == id).first() is not None, "Presenca não encontrada"
 
         return PresencaRepository.delete(id)
     

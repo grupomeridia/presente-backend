@@ -11,17 +11,20 @@ from entity.TurmaProfessor import turma_professor
 class TurmaRepository():
     @staticmethod
     def get_turma_by_id(id):
-        return {
-               "Id":Turma.query.get(id).id_turma,
-               "status":Turma.query.get(id).status,
-               "nome": Turma.query.get(id).nome,
-               "Ano": Turma.query.get(id).ano,
-               "Semestre": Turma.query.get(id).semestre,
-               "turno": Turma.query.get(id).turno.value,
-               "modalidade": Turma.query.get(id).modalidade.value,
-               "curso": Turma.query.get(id).curso.value
-               } 
-    
+        try:
+            return {
+                   "Id":Turma.query.get(id).id_turma,
+                   "status":Turma.query.get(id).status,
+                   "nome": Turma.query.get(id).nome,
+                   "Ano": Turma.query.get(id).ano,
+                   "Semestre": Turma.query.get(id).semestre,
+                   "turno": Turma.query.get(id).turno.value,
+                   "modalidade": Turma.query.get(id).modalidade.value,
+                   "curso": Turma.query.get(id).curso.value
+                   } 
+        except AttributeError as error:
+            raise AssertionError ("Turma não existe.")
+        
     @staticmethod
     def list_all():
         turmas = Turma.query.all()

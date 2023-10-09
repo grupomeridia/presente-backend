@@ -14,16 +14,18 @@ from entity.Materia import Materia
 class ChamadaRepository():
     @staticmethod
     def get_chamada_by_id(id):
-        return {
-            "Id": Chamada.query.get(id).id_chamada,
-            "Materia" : Chamada.query.get(id).id_materia,
-            "Turma" : Chamada.query.get(id).id_turma,
-            "Professor" : Chamada.query.get(id).id_professor,
-            "status": Chamada.query.get(id).status,
-            "abertura":Chamada.query.get(id).abertura,
-            "encerramento": Chamada.query.get(id).encerramento
-        }
-    
+        try:
+            return {
+                "Id": Chamada.query.get(id).id_chamada,
+                "Materia" : Chamada.query.get(id).id_materia,
+                "Turma" : Chamada.query.get(id).id_turma,
+                "Professor" : Chamada.query.get(id).id_professor,
+                "status": Chamada.query.get(id).status,
+                "abertura":Chamada.query.get(id).abertura,
+                "encerramento": Chamada.query.get(id).encerramento
+            }
+        except AttributeError as error:
+            raise AssertionError ("Chamada não existe.")
     @staticmethod
     def list_all():
         chamadas = Chamada.query.filter(Chamada.ativo.isnot(False)).all()

@@ -13,6 +13,7 @@ class UsuarioService():
         assert id != None, "Nenhum ID enviado."
         assert int(id) if isinstance(id, (int,str)) and id.isdigit() else None, "ID incorreto."
         assert int(id) > 0 and int(id) < 999999, "ID inválido."
+        assert Usuario.query.get(id) != None, "Nenhum usuário com este ID foi encontrado."
     
         return UsuarioRepository.get_usuario_by_id(id)
     

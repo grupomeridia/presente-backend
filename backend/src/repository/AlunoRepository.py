@@ -9,10 +9,10 @@ class AlunoRepository():
             return {
                 "id": Aluno.query.get(id).id_aluno,
                 "id_usuario" : Aluno.query.get(id).id_usuario,
-                "Nome": Aluno.query.get(id).nome,
-                "RA": Aluno.query.get(id).ra,
-                "Ativo": Aluno.query.get(id).status,
-                "Ausente": Aluno.query.get(id).ausente
+                "nome": Aluno.query.get(id).nome,
+                "ra": Aluno.query.get(id).ra,
+                "ativo": Aluno.query.get(id).status,
+                "ausente": Aluno.query.get(id).ausente
             }
         except AttributeError as error:
             raise AssertionError ("Aluno não existe.")

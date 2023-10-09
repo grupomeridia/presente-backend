@@ -7,15 +7,20 @@ from entity.Aluno import Aluno
 class PresencaRepository():
     @staticmethod
     def get_presenca_by_id(id):
-        return {
-            "Id" : Presenca.query.get(id).id,
-            "Aluno": Presenca.query.get(id).idAluno.nome,
-            "Chamada": Presenca.query.get(id).idChamada.id,
-            "status": Presenca.query.get(id).status,
-            "Tipo_presenca": Presenca.query.get(id).tipoPresenca.value,
-            "Horario": Presenca.query.get(id).horario
-        }
-    
+
+        print(f"AQUI CARAIO {id}")
+        try:
+            return {
+                "id" : Presenca.query.get(id).id_presenca,
+                "aluno": Presenca.query.get(id).id_aluno,
+                "chamada": Presenca.query.get(id).id_chamada,
+                "status": Presenca.query.get(id).status,
+                "tipo_presenca": Presenca.query.get(id).tipo_presenca.value,
+                "horario": Presenca.query.get(id).horario
+            }
+        except AttributeError as error:
+            print(f"{str(error)}")
+            raise AssertionError ("Prensença não existe.")
     @staticmethod
     def list_all():
         presencas = Presenca.query.all()

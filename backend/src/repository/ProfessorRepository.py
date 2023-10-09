@@ -12,12 +12,15 @@ from entity.Presenca import Presenca
 class ProfessorRepository():
     @staticmethod
     def get_professor_by_id(id):
-        return {
-            "id": Professor.query.get(id).id_professor,
-            "id_usuario" : Professor.query.get(id).id_usuario,
-            "Nome": Professor.query.get(id).nome,
-            "Ativo": Professor.query.get(id).status
-        }
+        try:
+            return {
+                "id": Professor.query.get(id).id_professor,
+                "id_usuario" : Professor.query.get(id).id_usuario,
+                "nome": Professor.query.get(id).nome,
+                "status": Professor.query.get(id).status
+            }
+        except AttributeError as error:
+            raise AssertionError ("Professor não existe.")
     
     @staticmethod
     def list_all():

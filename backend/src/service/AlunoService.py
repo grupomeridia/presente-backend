@@ -19,15 +19,13 @@ class AlunoService():
         return AlunoRepository.get_aluno_by_id(id)
     
     @staticmethod
-    def register(id_aluno, id_usuario, status, nome, ra, ausente):
+    def register(id_usuario, status, nome, ra, ausente):
 
-        assert id_aluno != 'NOT_FOUND', "Campo 'ID Aluno' inexistente."
         assert id_usuario != 'NOT_FOUND', "Campo 'ID Usuário' inexistente."
         assert nome != 'NOT_FOUND', "Campo 'Nome inexistente."
         assert ra != 'NOT_FOUND', "Campo 'RA inexistente."
         
         
-        assert int(id_aluno) if isinstance(id_aluno, (int,str)) and str(id_aluno).isdigit() else None, "ID do Aluno incorreto."
         assert int(id_usuario) if isinstance(id_usuario, (int,str)) and str(id_usuario).isdigit() else None, "ID do Usuário incorreto."
         assert int(id_usuario) > 0 and int(id_usuario) < 999999, "ID de usuário inválido."
 
@@ -47,21 +45,31 @@ class AlunoService():
         return AlunoRepository.register_aluno(aluno)
     
     @staticmethod
-    def update(id, aluno_dto):
+    def update(id_aluno, status, nome, ra, ausente):
 
-        aluno = AlunoService.to_entity(aluno_dto)
+        assert id_aluno != 'NOT_FOUND', "Campo 'ID Aluno' inexistente."
+        assert nome != 'NOT_FOUND', "Campo 'Nome inexistente."
+        assert ra != 'NOT_FOUND', "Campo 'RA inexistente."
+
+        assert int(id_aluno) if isinstance(id_aluno, (int,str)) and str(id_aluno).isdigit() else None, "ID do Aluno incorreto."
+
+        assert not Aluno.query.filter(Aluno.id_aluno == id_aluno).first(), "ID de usuário já cadastrado."
+        assert not Aluno.query.filter(Aluno.nome == nome).first(), "Nome já cadastrado"
+
+        assert re.match(r'^\d+$', str(ra)), "O RA deve ter apenas números."
+        assert ra >= 100000 and ra <= 999999, "RA inválido."
+
+        aluno = AlunoService.to_entity(AlunoDTO(status=status, nome=nome, ra=ra, ausente=ausente, id_aluno=id_aluno))
                
         return AlunoRepository.update(id, aluno)
     
     @staticmethod
     def delete(id):
-        try: 
-            int(id)
-        except ValueError:
-            raise AssertionError("ID deve ser um número inteiro")
+        assert id != None, "Nenhum ID enviado."
+        assert int(id) if isinstance(id, (int,str)) and id.isdigit() else None, "ID incorreto."
+        assert int(id) > 0 and int(id) < 999999, "ID inválido."
+        assert Aluno.query.get(id) != None, "Nenhum aluno com este ID foi encontrado."
         
-        assert int(id) > 0, "ID inválido"
-        assert Aluno.query.filter(Aluno.id_aluno == id).first() is not None, "Aluno não encontrado"
         return AlunoRepository.delete(id)
 
     @staticmethod

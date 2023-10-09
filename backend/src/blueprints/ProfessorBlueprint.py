@@ -16,40 +16,39 @@ def professor():
         try:
            return jsonify(ProfessorService.get_by_id(id_professor))
         except AssertionError as error:
-            return str(error)
+            return str(error), 400
 
     if request.method == 'POST':
         data = request.json
 
-        id_usuario = data['id_usuario']
         status = True
-        nome = data['nome']
+        id_usuario = data.get('id_usuario', 'NOT_FOUND')
+        nome = data.get('nome', 'NOT_FOUND')
 
         try:
-            return ProfessorService.register(ProfessorDTO(id_usuario=id_usuario, status=status, nome=nome))
+            return ProfessorService.register(id_usuario, status, nome)
         except AssertionError as error:
-            return str(error)        
+            return str(error), 400  
 
 
     if request.method == 'PUT':
         id_professor = request.args.get('id')
         data = request.json
 
-        id_usuario = data['idUsuario']
         status = True
-        nome = data['nome']
-
+        id_usuario = data.get('id_usuario', 'NOT_FOUND')
+        nome = data.get('nome', 'NOT_FOUND')
         try:
-            return ProfessorService.update(id_professor, ProfessorDTO(id_usuario=id_usuario, status=status, nome=nome))
+            return ProfessorService.update(id_professor, id_usuario, status, nome)
         except AssertionError as error:
-            return str(error)
+            return str(error), 400
         
     if request.method == 'DELETE':
         id_professor = request.args.get("id")
         try:
             return jsonify(ProfessorService.delete(id_professor))
         except AssertionError as error:
-            return str(error)
+            return str(error), 400
 
 
 
@@ -63,7 +62,7 @@ def listar_turmas():
     try:
         return ProfessorService.listar_turmas(id_professor)
     except AssertionError as error:
-        return str(error)
+        return str(error), 400
     
 @professores.route("/api/professor/numAlunos", methods=['GET'])
 def num_alunos():
@@ -74,7 +73,7 @@ def num_alunos():
     try:
         return ProfessorService.num_alunos(id_professor, id_chamada)
     except AssertionError as error:
-        return str(error)
+        return str(error), 400
     
 @professores.route("/api/professor/historicoSemanal", methods=['GET'])
 def historico_semanal():
@@ -82,7 +81,7 @@ def historico_semanal():
     try:
         return ProfessorService.historico_semanal(id_turma)
     except AssertionError as error:
-        return str(error)
+        return str(error), 400
     
 @professores.route("/api/professor/mediaSemanal", methods=['GET'])
 def media_semanal():
@@ -90,4 +89,4 @@ def media_semanal():
     try:
         return ProfessorService.media_semanal(id_turma)
     except AssertionError as error:
-        return str(error)
+        return str(error), 400
