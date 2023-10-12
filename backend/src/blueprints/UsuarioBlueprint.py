@@ -27,7 +27,7 @@ def usuario():
         cargo = data.get('cargo', 'NOT_FOUND')
 
         try:
-            return UsuarioService.register(status, login, senha, cargo)
+            return UsuarioService.register(status=status, login=login, senha=senha, cargo=cargo)
         except AssertionError as error:
             return str(error), 400
         
@@ -40,7 +40,7 @@ def usuario():
         senha = data.get('senha', 'NOT_FOUND')
         cargo = data.get('cargo', 'NOT_FOUND')
 
-        return UsuarioService.update(id_usuario, status, login, senha, cargo)
+        return UsuarioService.update(id_usuario=id_usuario, status=status, login=login, senha=senha, cargo=cargo)
 
     if request.method == 'DELETE':
         id_usuario = request.args.get('id')
