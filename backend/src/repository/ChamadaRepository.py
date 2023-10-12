@@ -17,7 +17,6 @@ class ChamadaRepository():
         try:
             return {
                 "Id": Chamada.query.get(id).id_chamada,
-                "Materia" : Chamada.query.get(id).id_materia,
                 "Turma" : Chamada.query.get(id).id_turma,
                 "Professor" : Chamada.query.get(id).id_professor,
                 "status": Chamada.query.get(id).status,
@@ -31,7 +30,6 @@ class ChamadaRepository():
         chamadas = Chamada.query.filter(Chamada.ativo.isnot(False)).all()
         resultado = [{
             'Id': c.id_chamada,
-            'Materia': c.id_materia,
             'Turma': c.id_turma,
             'Professor': c.id_professor,
             'status': c.status,
@@ -45,7 +43,7 @@ class ChamadaRepository():
     def update(id, data):
         chamada = Chamada.query.get(id)
 
-        chamada.id_materia = data.id_materia
+        
         chamada.id_turma = data.id_turma
         chamada.id_professor = data.id_professor
         chamada.status = data.status
