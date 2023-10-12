@@ -24,7 +24,7 @@ def configuracao():
         fim_aula = data.get('fim_aula', 'NOT_FOUND')
 
         try:
-            return ConfiguracaoService.register(status, aluno_ausente, inicio_aula, fim_aula)
+            return ConfiguracaoService.register(status=status, aluno_ausente=aluno_ausente, inicio_aula=inicio_aula, fim_aula=fim_aula)
         except AssertionError as error:
             return str(error), 400
             
@@ -38,7 +38,7 @@ def configuracao():
         fim_aula = data.get('fim_aula', 'NOT_FOUND')
 
         try:
-            return ConfiguracaoService.update(id_configuracao, status, aluno_ausente, inicio_aula, fim_aula)
+            return ConfiguracaoService.update(id_configuracao=id_configuracao, status=status, aluno_ausente=aluno_ausente, inicio_aula=inicio_aula, fim_aula=fim_aula)
         except AssertionError as error:
             return str(error), 400
         
