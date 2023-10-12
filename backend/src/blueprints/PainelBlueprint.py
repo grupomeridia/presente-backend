@@ -13,53 +13,54 @@ def painel():
         try:
             return jsonify(PainelService.get_by_id(id_painel))
         except AssertionError as error:
-            return str(error)
+            return str(error), 400
     
     if request.method == 'POST':
         data = request.json
 
-        id_configuracao = data['id_configuracao']
-        id_secretaria = data['id_secretaria']
-        date_criado = datetime.now()
+        data_criado = datetime.now()
         status = True
-        total_ativo = data['total_ativo']
-        total_presentes = data['total_presentes']
-        total_ausentes = data['total_ausentes']
-        total_presentes_curso = data['total_presentes_curso']
-        total_ativo_curso = data['total_ativo_curso']
-        total_ausente_curso = data['total_ausente_curso']
+        id_configuracao = data.get('id_configuracao', 'NOT_FOUND')
+        id_secretaria = data.get('id_secretaria', 'NOT_FOUND')
+        total_ativo = data.get('total_ativo', 'NOT_FOUND')
+        total_presentes = data.get('total_presentes', 'NOT_FOUND')
+        total_ausentes = data.get('total_ausentes', 'NOT_FOUND')
+        total_presentes_curso = data.get('total_presentes_curso', 'NOT_FOUND')
+        total_ativo_curso = data.get('total_ativo_curso', 'NOT_FOUND')
+        total_ausente_curso = data.get('total_ausente_curso', 'NOT_FOUND')
 
+        print(data)
         try:
-            return PainelService.register(PainelDTO(id_configuracao=id_configuracao, id_secretaria=id_secretaria, status=status, data_criado=date_criado, total_ativo=total_ativo, total_ausentes=total_ausentes, total_presentes=total_presentes, total_presentes_curso=total_presentes_curso, total_ativo_curso=total_ativo_curso, total_ausente_curso=total_ausente_curso))
+            return PainelService.register(id_configuracao=id_configuracao, id_secretaria=id_secretaria, total_ativo=total_ativo, total_ausentes=total_ausentes, total_presentes=total_presentes, total_presentes_curso=total_presentes_curso, total_ativo_curso=total_ativo_curso, total_ausente_curso=total_ausente_curso, status=status, data_criado=data_criado)
         except AssertionError as error:
-            return str(error)
+            return str(error), 400
     
     if request.method == 'PUT':
         id_painel = request.args.get('id')
         data = request.json
 
-        id_configuracao = data['id_configuracao']
-        id_secretaria = data['id_secretaria']
-        date_criado = data['data_criado']
-        status = data['status']
-        total_ativo = data['total_ativo']
-        total_presentes = data['total_presentes']
-        total_ausentes = data['total_ausentes']
-        total_presentes_curso = data['total_presentes_curso']
-        total_ativo_curso = data['total_ativo_curso']
-        total_ausente_curso = data['total_ausente_curso']
+        date_criado = datetime.now()
+        status = True
+        id_configuracao = data.get('id_configuracao', 'NOT_FOUND')
+        id_secretaria = data.get('id_secretaria', 'NOT_FOUND')
+        total_ativo = data.get('total_ativo', 'NOT_FOUND')
+        total_presentes = data.get('total_presentes', 'NOT_FOUND')
+        total_ausentes = data.get('total_ausentes', 'NOT_FOUND')
+        total_presentes_curso = data.get('total_presentes_curso', 'NOT_FOUND')
+        total_ativo_curso = data.get('total_ativo_curso', 'NOT_FOUND')
+        total_ausente_curso = data.get('total_ausente_curso', 'NOT_FOUND')
 
         try:
-            return PainelService.update(id_painel, PainelDTO(id_configuracao=id_configuracao, id_secretaria=id_secretaria, status=status, data_criado=date_criado, total_ativo=total_ativo, total_ausentes=total_ausentes, total_presentes=total_presentes, total_presentes_curso=total_presentes_curso, total_ativo_curso=total_ativo_curso, total_ausente_curso=total_ausente_curso))
+            return PainelService.update(id_painel, id_configuracao, id_secretaria, status, date_criado, total_ativo, total_ausentes, total_presentes, total_presentes_curso, total_ativo_curso, total_ausente_curso)
         except AssertionError as error:
-            return str(error)
+            return str(error), 400
         
     if request.method == 'DELETE':
         id_painel = request.args.get('id')
         try:
             return jsonify(PainelService.delete(id_painel))
         except AssertionError as error:
-            return str(error)
+            return str(error), 400
     
 @paineis.route("/api/painel/listAll", methods=['GET'])
 def list_all():
