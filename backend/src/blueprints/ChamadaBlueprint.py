@@ -27,7 +27,7 @@ def professor():
         id_professor = data.get('id_professor', 'NOT_FOUND')
         
         try:
-            return ChamadaService.register(id_turma,id_professor, status, abertura)
+            return ChamadaService.register(id_turma=id_turma,id_professor=id_professor, status=status, abertura=abertura)
         except AssertionError as error:
             return str(error), 400
 
@@ -41,7 +41,7 @@ def professor():
         abertura = data.get('abertura', 'NOT_FOUND')
         encerramento = data.get('encerramento', 'NOT_FOUND')
         try:
-            return ChamadaService.update(id_chamada, id_turma, id_professor, status, abertura, encerramento)
+            return ChamadaService.update(id_chamada=id_chamada, id_turma=id_turma, id_professor=id_professor, status=status, abertura=abertura, encerramento=encerramento)
         except AssertionError as error:
             return str(error), 400
 

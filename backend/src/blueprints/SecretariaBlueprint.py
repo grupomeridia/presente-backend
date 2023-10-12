@@ -25,7 +25,7 @@ def secret():
         nome = data.get('nome', 'NOT_FOUND')
         
         try:
-            return SecretariaService.register(id_usuario, status, nome)
+            return SecretariaService.register(id_usuario=id_usuario, status=status, nome=nome)
         except AssertionError as error:
             return str(error), 400
     
@@ -38,7 +38,7 @@ def secret():
         nome = data.get('nome', 'NOT_FOUND')
         
         try:
-            return SecretariaService.update(id_secretaria, status, nome)
+            return SecretariaService.update(id_secretaria=id_secretaria, status=status, nome=nome)
         except AssertionError as error:
             return str(error), 400
     

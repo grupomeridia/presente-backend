@@ -30,14 +30,12 @@ class PainelService():
         assert total_ativo_curso != 'NOT_FOUND', "Campo 'total_ativo_curso' inexistente."
         assert total_ausente_curso != 'NOT_FOUND', "Campo 'total_ausente_curso' inexistente."
 
-        print(id_configuracao)
         assert int(id_configuracao) if isinstance(id_configuracao, (int,str)) and str(id_configuracao).isdigit() else None, "ID de configuração incorreto."
         assert int(id_configuracao) > 0 and int(id_configuracao) < 999999, "ID de configuração inválido."
         assert re.match(r'^\d+$', str(id_configuracao)), "O ID de configuração deve ter apenas números."
         configuracao = Configuracao.query.get(id_configuracao)
         assert configuracao is not None, "Configuração não encontrada"
 
-        print(id_secretaria)
         assert int(id_secretaria) if isinstance(id_secretaria, (int,str)) and str(id_secretaria).isdigit() else None, "ID de secretaria incorreto."
         assert int(id_secretaria) > 0 and int(id_secretaria) < 999999, "ID de secretaria inválido."
         assert re.match(r'^\d+$', str(id_secretaria)), "O ID de secretaria deve ter apenas números."
@@ -58,21 +56,54 @@ class PainelService():
         return PainelRepository.register_painel(painel)
     
     @staticmethod
-    def update(id, painel_dto):
+    def update(id_painel,id_configuracao, id_secretaria, status, data_criado, total_ativo, total_ausentes, total_presentes, total_presentes_curso, total_ativo_curso, total_ausente_curso):
         
-        painel = PainelService.to_entity(id, painel_dto)
+        assert id_painel != None, "Nenhum ID enviado."
+        assert int(id_painel) if isinstance(id_painel, (int,str)) and id_painel.isdigit() else None, "ID incorreto."
+        assert int(id_painel) > 0 and int(id_painel) < 999999, "ID inválido."
+        assert Painel.query.get(id_painel) != None, "Nenhum painel com este ID foi encontrado."
+        
 
-        return PainelRepository.update(id, painel)
+        assert id_configuracao != 'NOT_FOUND', "Campo 'id_configuracao' inexistente."
+        assert id_secretaria != 'NOT_FOUND', "Campo 'id_secretaria' inexistente."
+        assert total_ativo != 'NOT_FOUND', "Campo 'total_ativo' inexistente."
+        assert total_presentes != 'NOT_FOUND', "Campo 'otal_presentes' inexistente."
+        assert total_ausentes != 'NOT_FOUND', "Campo 'total_ausentes' inexistente."
+        assert total_presentes_curso != 'NOT_FOUND', "Campo 'total_presentes_curso' inexistente."
+        assert total_ativo_curso != 'NOT_FOUND', "Campo 'total_ativo_curso' inexistente."
+        assert total_ausente_curso != 'NOT_FOUND', "Campo 'total_ausente_curso' inexistente."
+
+        assert int(id_configuracao) if isinstance(id_configuracao, (int,str)) and str(id_configuracao).isdigit() else None, "ID de configuração incorreto."
+        assert int(id_configuracao) > 0 and int(id_configuracao) < 999999, "ID de configuração inválido."
+        assert re.match(r'^\d+$', str(id_configuracao)), "O ID de configuração deve ter apenas números."
+        configuracao = Configuracao.query.get(id_configuracao)
+        assert configuracao is not None, "Configuração não encontrada"
+
+        assert int(id_secretaria) if isinstance(id_secretaria, (int,str)) and str(id_secretaria).isdigit() else None, "ID de secretaria incorreto."
+        assert int(id_secretaria) > 0 and int(id_secretaria) < 999999, "ID de secretaria inválido."
+        assert re.match(r'^\d+$', str(id_secretaria)), "O ID de secretaria deve ter apenas números."
+        secretaria = Secretaria.query.get(id_secretaria)
+        assert secretaria is not None, "Secretaria não encontrada"
+
+        assert isinstance(total_ativo, int) and total_ativo >= 0, "O campo 'total_ativo' deve ser um número inteiro não negativo."
+        assert isinstance(total_presentes, int) and total_presentes >= 0, "O campo 'total_presentes' deve ser um número inteiro não negativo."
+        assert isinstance(total_ausentes, int) and total_ausentes >= 0, "O campo 'total_ausentes' deve ser um número inteiro não negativo."
+        assert isinstance(total_presentes_curso, int) and total_presentes_curso >= 0, "O campo 'total_presentes_curso' deve ser um número inteiro não negativo."
+        assert isinstance(total_ativo_curso, int) and total_ativo_curso >= 0, "O campo 'total_ativo_curso' deve ser um número inteiro não negativo."
+        assert isinstance(total_ausente_curso, int) and total_ausente_curso >= 0, "O campo 'total_ausente_curso' deve ser um número inteiro não negativo."
+
+
+        painel = PainelService.to_entity(PainelDTO(id_configuracao=id_configuracao, id_secretaria=id_secretaria, status=status, data_criado=data_criado, total_ativo=total_ativo, total_ausentes=total_ausentes, total_presentes=total_presentes, total_presentes_curso=total_presentes_curso, total_ativo_curso=total_ativo_curso, total_ausente_curso=total_ausente_curso))
+
+        return PainelRepository.update(id_painel, painel)
     
     @staticmethod
     def delete(id):
-        try:
-            int(id)
-        except ValueError:
-            raise AssertionError("ID deve ser um número inteiro.")
-        
-        assert int(id) > 0, "ID inválido."
-        assert Painel.query.filter(Painel.id_painel == id).first() is not None, "Painel não encontrado."
+        assert id != None, "Nenhum ID enviado."
+        assert int(id) if isinstance(id, (int,str)) and id.isdigit() else None, "ID incorreto."
+        assert int(id) > 0 and int(id) < 999999, "ID inválido."
+        assert Painel.query.get(id) != None, "Nenhum painel com este ID foi encontrado."
+
         return PainelRepository.delete(id)
     
     @staticmethod

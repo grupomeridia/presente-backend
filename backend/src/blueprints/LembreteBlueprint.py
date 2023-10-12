@@ -31,7 +31,7 @@ def lembrete():
         
 
         try:
-            return LembreteService.register(criacao, status, id_secretaria,  destinatario_cargo, destinatario_id, titulo, mensagem)
+            return LembreteService.register(criacao=criacao, status=status, id_secretaria=id_secretaria,  destinatario_cargo=destinatario_cargo, destinatario_id=destinatario_id, titulo=titulo, mensagem=mensagem)
         except AssertionError as error:
             return str(error), 400
     
@@ -48,7 +48,7 @@ def lembrete():
         visualizacao = data.get('visualizacao', 'NOT_FOUND')
         
         try:
-            return LembreteService.update(id_lembrete, id_secretaria, status, destinatario_cargo, destinatario_id, titulo, mensagem, criacao, visualizacao)
+            return LembreteService.update(id_lembrete=id_lembrete, id_secretaria=id_secretaria, status=status, destinatario_cargo=destinatario_cargo, destinatario_id=destinatario_id, titulo=titulo, mensagem=mensagem, criacao=criacao, visualizacao=visualizacao)
         except AssertionError as error:
             return str(error), 400
     
