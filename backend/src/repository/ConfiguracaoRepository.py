@@ -6,14 +6,16 @@ from entity.Configuracao import Configuracao
 class ConfiguracaoRepository():
     @staticmethod
     def get_configuracao_by_id(id):
-        return{
-            "id": Configuracao.query.get(id).id_configuracao,
-            "Status": Configuracao.query.get(id).status,
-            "Alunos Ausentes": Configuracao.query.get(id).aluno_ausente,
-            "Inicio Aula": Configuracao.query.get(id).inicio_aula,
-            "Final Aula": Configuracao.query.get(id).fim_aula
-        }
-    
+        try:
+            return{
+                "id": Configuracao.query.get(id).id_configuracao,
+                "Status": Configuracao.query.get(id).status,
+                "Alunos Ausentes": Configuracao.query.get(id).aluno_ausente,
+                "Inicio Aula": Configuracao.query.get(id).inicio_aula,
+                "Final Aula": Configuracao.query.get(id).fim_aula
+            }
+        except AttributeError as error:
+            raise AssertionError("Configuração não existe.")
     @staticmethod
     def list_all():
         configuracao = Configuracao.query.all()
