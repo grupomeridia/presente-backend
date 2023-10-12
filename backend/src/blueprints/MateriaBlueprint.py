@@ -23,7 +23,7 @@ def materia():
         nome = data.get('nome', 'NOT_FOUND')
 
         try:
-            return MateriaService.register(status, nome)
+            return MateriaService.register(status=status, nome=nome)
         except AssertionError as error:
             return str(error), 400
     
@@ -35,7 +35,7 @@ def materia():
         nome = data.get('nome', 'NOT_FOUND')
 
         try: 
-            return MateriaService.update(id_materia, status, nome)
+            return MateriaService.update(id_materia=id_materia, status=status, nome=nome)
         except AssertionError as error:
             return str(error), 400
     
