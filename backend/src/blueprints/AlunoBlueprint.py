@@ -26,7 +26,7 @@ def aluno():
         ausente = False
         
         try:
-            return AlunoService.register(id_usuario, status, nome, ra, ausente)
+            return AlunoService.register(id_usuario=id_usuario, status=status, nome=nome, ra=ra, ausente=ausente)
         except AssertionError as error:
             return str(error), 400
 
@@ -43,7 +43,7 @@ def aluno():
         ausente = False
 
         try:
-            return AlunoService.update(id_aluno, status, nome, ra, ausente)
+            return AlunoService.update(id_aluno=id_aluno, status=status, nome=nome, ra=ra, ausente=ausente)
         except AssertionError as error:
             return str(error), 400
         
