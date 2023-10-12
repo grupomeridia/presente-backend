@@ -7,13 +7,17 @@ from entity.Painel import Painel
 class PainelRepository():
     @staticmethod
     def get_painel_by_id(id):
-        return {
-            "Id": Painel.query.get(id).id_secretaria,
-            "Data": Painel.query.get(id).data_criado,
-            "TotalAtivos": Painel.query.get(id).total_ativo,
-            "TotalPresentes": Painel.query.get(id).total_presentes,
-            "TotalAusentes": Painel.query.get(id).total_ausentes
-        }
+        try:
+            return {
+                "id_configuracao": Painel.query.get(id).id_configuracao,
+                "id_secretaria": Painel.query.get(id).id_secretaria,
+                "Data": Painel.query.get(id).data_criado,
+                "TotalAtivos": Painel.query.get(id).total_ativo,
+                "TotalPresentes": Painel.query.get(id).total_presentes,
+                "TotalAusentes": Painel.query.get(id).total_ausentes
+            }
+        except AttributeError as error:
+            raise AssertionError ("Painel não existe.")
     
     @staticmethod
     def list_all():
