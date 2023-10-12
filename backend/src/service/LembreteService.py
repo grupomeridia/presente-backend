@@ -50,7 +50,7 @@ class LembreteService():
         return LembreteRepository.create(lembrete)
     
     @staticmethod
-    def update(id_lembrete, criacao, status, id_secretaria, destinatario_cargo, destinatario_id, titulo, mensagem):
+    def update(criacao, status, id_secretaria, destinatario_cargo, destinatario_id, titulo, mensagem):
 
         cargos = [x.value for x in Cargo]
         assert destinatario_cargo in cargos, "Cargo inválido"
