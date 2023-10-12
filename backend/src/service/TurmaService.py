@@ -32,8 +32,6 @@ class TurmaService():
         assert curso in cursos, "Curso inválido"
         assert id_materia != 'NOT_FOUND', "Campo 'id_materia' inexistente."
 
-        assert materia is not None, "Matéria não encontrada"
-
         assert nome != 'NOT_FOUND', "Campo 'nome' inexistente."
         assert ano != 'NOT_FOUND', "Campo 'ano' inexistente."
         assert semestre != 'NOT_FOUND', "Campo 'semestre' inexistente."
