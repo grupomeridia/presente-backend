@@ -19,17 +19,10 @@ class ChamadaService():
         return ChamadaRepository.get_chamada_by_id(id)
 
     @staticmethod
-    def register(id_materia, id_turma, id_professor, status, abertura):
+    def register(id_turma, id_professor, status, abertura):
 
         assert id_turma != 'NOT_FOUND', "Campo 'id_turma' inexistente."
         assert id_professor != 'NOT_FOUND', "Campo 'id_professor' inexistente."
-        assert id_materia != 'NOT_FOUND', "Campo 'id_materia' inexistente."
-
-        assert int(id_materia) if isinstance(id_materia, (int,str)) and str(id_materia).isdigit() else None, "ID de matéria incorreto."
-        assert int(id_materia) > 0 and int(id_materia) < 999999, "ID de matéria inválido."
-        assert re.match(r'^\d+$', str(id_materia)), "O ID de matéria deve ter apenas números."
-        materia = Materia.query.get(id_materia)
-        assert materia is not None, "Matéria não encontrada"
 
         assert int(id_turma) if isinstance(id_turma, (int,str)) and str(id_turma).isdigit() else None, "ID do Turma incorreto."
         assert int(id_turma) > 0 and int(id_turma) < 999999, "ID de turma inválido."
@@ -44,22 +37,17 @@ class ChamadaService():
         assert professor is not None, "Professor não encontrado"
         
 
-        chamada = ChamadaService.to_entity(ChamadaDTO(id_materia=id_materia, id_professor=id_professor, id_turma=id_turma, status=status, abertura=abertura))
+        chamada = ChamadaService.to_entity(ChamadaDTO(id_professor=id_professor, id_turma=id_turma, status=status, abertura=abertura))
 
         return ChamadaRepository.register_chamada(chamada)
 
     @staticmethod
-    def update(id_chamada, id_materia, id_turma, id_professor, status, abertura):
+    def update(id_chamada, id_turma, id_professor, status, abertura):
 
         assert id_chamada != 'NOT_FOUND', "Campo 'id_chamada' inexistente."
         assert id_turma != 'NOT_FOUND', "Campo 'id_turma' inexistente."
         assert id_professor != 'NOT_FOUND', "Campo 'id_professor' inexistente."
-        assert id_materia != 'NOT_FOUND', "Campo 'id_materia' inexistente."
 
-        assert int(id_materia) if isinstance(id_materia, (int,str)) and str(id_materia).isdigit() else None, "ID de matéria incorreto."
-        assert int(id_materia) > 0 and int(id_materia) < 999999, "ID de matéria inválido."
-        assert re.match(r'^\d+$', str(id_materia)), "O ID de matéria deve ter apenas números."
-        
 
         assert int(id_turma) if isinstance(id_turma, (int,str)) and str(id_turma).isdigit() else None, "ID do Turma incorreto."
         assert int(id_turma) > 0 and int(id_turma) < 999999, "ID de turma inválido."
@@ -76,7 +64,7 @@ class ChamadaService():
         assert int(id_chamada) > 0 and int(id_chamada) < 999999, "ID inválido."
         assert Chamada.query.get(id) != None, "Chamada não encontrada." 
 
-        chamada = ChamadaService.to_entity(ChamadaDTO(id_chamada=id_chamada, id_materia=id_materia, id_professor=id_professor, id_turma=id_turma, status=status, abertura=abertura))
+        chamada = ChamadaService.to_entity(ChamadaDTO(id_chamada=id_chamada, id_professor=id_professor, id_turma=id_turma, status=status, abertura=abertura))
         
         return ChamadaRepository.update(id, chamada)
     
@@ -91,6 +79,6 @@ class ChamadaService():
     
     @staticmethod
     def to_entity(chamada_dto):
-        chamada = Chamada(id_materia=chamada_dto.id_materia, id_turma=chamada_dto.id_turma, id_professor=chamada_dto.id_professor, status=chamada_dto.status, abertura=chamada_dto.abertura, encerramento=chamada_dto.encerramento)
+        chamada = Chamada(id_turma=chamada_dto.id_turma, id_professor=chamada_dto.id_professor, status=chamada_dto.status, abertura=chamada_dto.abertura, encerramento=chamada_dto.encerramento)
 
         return chamada

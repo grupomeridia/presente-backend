@@ -15,6 +15,7 @@ class TurmaRepository():
             return {
                    "Id":Turma.query.get(id).id_turma,
                    "status":Turma.query.get(id).status,
+                   "Materia" : Turma.query.get(id).id_materia,
                    "nome": Turma.query.get(id).nome,
                    "Ano": Turma.query.get(id).ano,
                    "Semestre": Turma.query.get(id).semestre,
@@ -31,6 +32,7 @@ class TurmaRepository():
         resultado = [{
             "Id": t.id_turma,
             "status": t.status,
+            'Materia': t.id_materia,
             "Nome": t.nome,
             "Ano": t.ano,
             "Semestre": t.semestre,
@@ -46,6 +48,7 @@ class TurmaRepository():
         turma = Turma.query.get(id)
 
         turma.status = data.status
+        turma.id_materia = data.id_materia
         turma.nome = data.nome
         turma.ano = data.ano
         turma.semestre = data.semestre
