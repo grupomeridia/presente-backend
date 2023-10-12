@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_cors import CORS
 
 def create_app(config_file):
     
@@ -18,6 +19,7 @@ def create_app(config_file):
     from flask_wtf.csrf import CSRFProtect
 
     app = Flask(__name__)
+    CORS(app)
     CSRFProtect(app)
     
     app.config.from_pyfile(config_file)   
