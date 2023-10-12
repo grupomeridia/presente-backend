@@ -32,7 +32,6 @@ class TurmaService():
         assert curso in cursos, "Curso inválido"
         assert id_materia != 'NOT_FOUND', "Campo 'id_materia' inexistente."
 
-        assert materia is not None, "Matéria não encontrada"
 
         assert nome != 'NOT_FOUND', "Campo 'nome' inexistente."
         assert ano != 'NOT_FOUND', "Campo 'ano' inexistente."
@@ -58,7 +57,7 @@ class TurmaService():
         return TurmaRepository.register(turma)
     
     @staticmethod
-    def update(id, status, id_materia,nome, ano, semestre, turno, modalidade, curso):
+    def update(id_turma, status, id_materia,nome, ano, semestre, turno, modalidade, curso):
         
         modalidades = [x.value for x in Modalidade]
         turnos = [x.value for x in Turno]
@@ -67,9 +66,9 @@ class TurmaService():
         assert modalidade in modalidades, "Modalidade inválida"
         assert turno in turnos, "Turno inválido"
         assert curso in cursos, "Curso inválido"
-
-        assert int(id) if isinstance(id, (int, str)) and id.isdigit() else None, "ID incorreto."
-        assert int(id) > 0 and int(id) < 999999, "ID inválido"
+        
+        assert int(id_turma) if isinstance(id_turma, (int, str)) and id_turma.isdigit() else None, "ID incorreto."
+        assert int(id_turma) > 0 and int(id_turma) < 999999, "ID inválido"
 
         assert id_materia != 'NOT_FOUND', "Campo 'id_materia' inexistente."
         assert nome != 'NOT_FOUND', "Campo 'nome' inexistente."
@@ -78,7 +77,7 @@ class TurmaService():
         assert turno != 'NOT_FOUND', "Campo 'turno' inexistente."
         assert modalidade != 'NOT_FOUND', "Campo 'modadelidade' inexistente."
         assert curso != 'NOT_FOUND', "Campo 'curso' inexistente."
-
+        
         assert int(id_materia) if isinstance(id_materia, (int,str)) and str(id_materia).isdigit() else None, "ID de matéria incorreto."
         assert int(id_materia) > 0 and int(id_materia) < 999999, "ID de matéria inválido."
         assert re.match(r'^\d+$', str(id_materia)), "O ID de matéria deve ter apenas números."
@@ -90,7 +89,7 @@ class TurmaService():
         assert 1 <= int(semestre) <= 8, "Semestre inválido."
         
         turma = TurmaService.to_entity(TurmaDTO(status=status, id_materia=id_materia,nome=nome, ano=ano, semestre=semestre, turno=turno, modalidade=modalidade, curso=curso))
-        return TurmaRepository.update(id, turma)
+        return TurmaRepository.update(id_turma, turma)
     
     @staticmethod
     def delete(id):
