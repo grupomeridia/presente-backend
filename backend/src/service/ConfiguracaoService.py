@@ -1,42 +1,73 @@
 from repository.ConfiguracaoRepository import ConfiguracaoRepository
 from entity.Configuracao import Configuracao
+from dtos.ConfiguracaoDTO import ConfiguracaoDTO
+from datetime import datetime
+
+
 
 class ConfiguracaoService():
     @staticmethod
     def get_configuracao_by_id(id):
-        try:
-            int(id)
-        except ValueError:
-            raise AssertionError("Deve ser um número inteiro")
+        assert id != None, "Nenhum ID enviado."
+        assert int(id) if isinstance(id, (int,str)) and id.isdigit() else None, "ID incorreto."
+        assert int(id) > 0 and int(id) < 999999, "ID inválido."
+        assert Configuracao.query.get(id) != None, "Nenhuma configuração com este ID foi encontrado."
         
-        assert int(id) > 0, "ID inválido."
-        assert Configuracao.query.filter(Configuracao.id_configuracao == id).first() is not None, "Configuracao não encontrada"
-
         return ConfiguracaoRepository.get_configuracao_by_id(id)
     
     @staticmethod
-    def register(configuracao_dto):
+    def register(status, aluno_ausente, inicio_aula, fim_aula):
 
-        configuracao = ConfiguracaoService.to_entity(configuracao_dto)
+        assert aluno_ausente != 'NOT_FOUND', "Campo 'aluno_ausente' inexistente."
+        assert inicio_aula != 'NOT_FOUND', "Campo 'inicio_aula' inexistente."
+        assert fim_aula != 'NOT_FOUND', "Campo 'fim_aula' inexistente."
+
+        inicio_aula = datetime.strptime(inicio_aula, "%Y-%m-%d %H:%M:%S")
+        fim_aula = datetime.strptime(fim_aula, "%Y-%m-%d %H:%M:%S")
+        assert isinstance(aluno_ausente, int) and aluno_ausente > 0, "Valor incorreto ausências do aluno."
+        assert isinstance(inicio_aula, datetime), "O campo 'inicio_aula' deve ser uma data e hora válida."
+        assert isinstance(fim_aula, datetime), "O campo 'fim_aula' deve ser uma data e hora válida."
+
+        assert fim_aula > inicio_aula, "A data e hora de término da aula deve ser posterior à data e hora de início."
+
+        configuracao = ConfiguracaoService.to_entity(ConfiguracaoDTO(status=status, aluno_ausente=aluno_ausente, inicio_aula=inicio_aula, fim_aula=fim_aula))
         
-        return ConfiguracaoRepository.register(Configuracao(status=configuracao.status, aluno_ausente=configuracao.aluno_ausente, inicio_aula=configuracao.inicio_aula, fim_aula=configuracao.fim_aula))
+        return ConfiguracaoRepository.register(configuracao)
     
     @staticmethod
-    def update(id, configuracao_dto):
-
-        configuracao = ConfiguracaoService.to_entity(configuracao_dto)
+    def update(id_configuracao, status, aluno_ausente, inicio_aula, fim_aula):
         
-        return ConfiguracaoRepository.update(id, configuracao)
+        assert id_configuracao != None, "Nenhum ID enviado."
+        assert int(id_configuracao) if isinstance(id_configuracao, (int,str)) and id_configuracao.isdigit() else None, "ID incorreto."
+        assert int(id_configuracao) > 0 and int(id_configuracao) < 999999, "ID inválido."
+        assert Configuracao.query.get(id_configuracao) != None, "Nenhuma configuração com este ID foi encontrado."
+        
+        assert id_configuracao != 'NOT_FOUND', "Campo 'id_configuração' inexistente."
+        assert aluno_ausente != 'NOT_FOUND', "Campo 'aluno_ausente' inexistente."
+        assert inicio_aula != 'NOT_FOUND', "Campo 'inicio_aula' inexistente."
+        assert fim_aula != 'NOT_FOUND', "Campo 'fim_aula' inexistente."
+
+        inicio_aula = datetime.strptime(inicio_aula, "%Y-%m-%d %H:%M:%S")
+        fim_aula = datetime.strptime(fim_aula, "%Y-%m-%d %H:%M:%S")
+        assert isinstance(aluno_ausente, int) and aluno_ausente > 0, "Valor incorreto ausências do aluno."
+        assert isinstance(inicio_aula, datetime), "O campo 'inicio_aula' deve ser uma data e hora válida."
+        assert isinstance(fim_aula, datetime), "O campo 'fim_aula' deve ser uma data e hora válida."
+
+        assert fim_aula > inicio_aula, "A data e hora de término da aula deve ser posterior à data e hora de início."
+
+
+        configuracao = ConfiguracaoService.to_entity(ConfiguracaoDTO(status=status, aluno_ausente=aluno_ausente, inicio_aula=inicio_aula, fim_aula=fim_aula))
+        
+        return ConfiguracaoRepository.update(id_configuracao, configuracao)
 
     @staticmethod
     def delete(id):
-        try:
-            int(id)
-        except ValueError:
-            raise AssertionError("ID deve ser um número inteiro")
+        
+        assert id != None, "Nenhum ID enviado."
+        assert int(id) if isinstance(id, (int,str)) and id.isdigit() else None, "ID incorreto."
+        assert int(id) > 0 and int(id) < 999999, "ID inválido."
+        assert Configuracao.query.get(id) != None, "Nenhuma configuração com este ID foi encontrado."
 
-        assert int(id) > 0, "ID inválido"
-        assert Configuracao.query.filter(Configuracao.id_configuracao == id).first() is not None, "Configuracao não encontrada"
         return ConfiguracaoRepository.delete(id)
     
     @staticmethod
