@@ -30,7 +30,7 @@ def presencas_main():
         horario = datetime.now()
 
         try:
-            return PresencaService.register(id_aluno, id_chamada, status, tipo_presenca, horario)
+            return PresencaService.register(id_aluno=id_aluno, id_chamada=id_chamada, status=status, tipo_presenca=tipo_presenca, horario=horario)
         except AssertionError as error:
             return str(error), 400
     
@@ -45,7 +45,7 @@ def presencas_main():
         horario = datetime.now()
 
         try:
-            return PresencaService.register(id_aluno, id_chamada, status, tipo_presenca, horario)
+            return PresencaService.register(id_aluno=id_aluno, id_chamada=id_chamada, status=status, tipo_presenca=tipo_presenca, horario=horario)
         except AssertionError as error:
             return str(error), 400
         
