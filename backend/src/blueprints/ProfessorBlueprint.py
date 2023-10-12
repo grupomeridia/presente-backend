@@ -56,7 +56,7 @@ def professor():
 def listar_all_professores():
    return ProfessorRepository.list_all()
 
-@professores.route("/api/professor/cadastrado", methods=['GET'])
+@professores.route("/api/professor/listarTurmas", methods=['GET'])
 def listar_turmas():
     id_professor = request.args.get("id")
     try:
