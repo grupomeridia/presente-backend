@@ -39,7 +39,7 @@ def painel():
         id_painel = request.args.get('id')
         data = request.json
 
-        date_criado = datetime.now()
+        data_criado = datetime.now()
         status = True
         id_configuracao = data.get('id_configuracao', 'NOT_FOUND')
         id_secretaria = data.get('id_secretaria', 'NOT_FOUND')
@@ -51,7 +51,7 @@ def painel():
         total_ausente_curso = data.get('total_ausente_curso', 'NOT_FOUND')
 
         try:
-            return PainelService.update(id_painel, id_configuracao, id_secretaria, status, date_criado, total_ativo, total_ausentes, total_presentes, total_presentes_curso, total_ativo_curso, total_ausente_curso)
+            return PainelService.update(id_painel=id_painel, id_configuracao=id_configuracao, id_secretaria=id_secretaria, total_ativo=total_ativo, total_ausentes=total_ausentes, total_presentes=total_presentes, total_presentes_curso=total_presentes_curso, total_ativo_curso=total_ativo_curso, total_ausente_curso=total_ausente_curso, status=status, data_criado=data_criado)
         except AssertionError as error:
             return str(error), 400
         
