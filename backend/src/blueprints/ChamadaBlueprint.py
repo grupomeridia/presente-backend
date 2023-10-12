@@ -23,12 +23,11 @@ def professor():
         status = True
         abertura = datetime.now()
         encerramento = None
-        id_materia = data.get('id_materia', 'NOT_FOUND')
         id_turma = data.get('id_turma', 'NOT_FOUND')
         id_professor = data.get('id_professor', 'NOT_FOUND')
         
         try:
-            return ChamadaService.register(id_materia, id_turma,id_professor, status, abertura)
+            return ChamadaService.register(id_turma,id_professor, status, abertura)
         except AssertionError as error:
             return str(error), 400
 
@@ -37,13 +36,12 @@ def professor():
         data = request.json
 
         status = True
-        id_materia = data.get('id_materia', 'NOT_FOUND')
         id_turma = data.get('id_turma', 'NOT_FOUND')
         id_professor = data.get('id_professor', 'NOT_FOUND')
         abertura = data.get('abertura', 'NOT_FOUND')
         encerramento = data.get('encerramento', 'NOT_FOUND')
         try:
-            return ChamadaService.update(id_chamada, id_materia, id_turma, id_professor, status, abertura, encerramento)
+            return ChamadaService.update(id_chamada, id_turma, id_professor, status, abertura, encerramento)
         except AssertionError as error:
             return str(error), 400
 

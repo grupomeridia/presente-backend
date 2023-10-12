@@ -19,6 +19,7 @@ def turma():
         data = request.json
         
         status = True
+        id_materia = data.get('id_materia', 'NOT_FOUND')
         nome = data.get('nome', 'NOT_FOUND')
         ano = data.get('ano', 'NOT_FOUND')
         semestre = data.get('semestre', 'NOT_FOUND')
@@ -27,7 +28,7 @@ def turma():
         curso = data.get('curso', 'NOT_FOUND')
 
         try:
-            return TurmaService.post_turma(status, nome, ano, semestre, turno, modalidade, curso)
+            return TurmaService.post_turma(status, id_materia, nome, ano, semestre, turno, modalidade, curso)
         except AssertionError as error:
             return str(error), 400
 
@@ -36,6 +37,7 @@ def turma():
         data = request.json
 
         status = True
+        id_materia = data.get('id_materia', 'NOT_FOUND')
         nome = data.get('nome', 'NOT_FOUND')
         ano = data.get('ano', 'NOT_FOUND')
         semestre = data.get('semestre', 'NOT_FOUND')
@@ -43,7 +45,7 @@ def turma():
         modalidade = data.get('modalidade', 'NOT_FOUND')
         curso = data.get('curso', 'NOT_FOUND')
 
-        return TurmaService.update(id_turma, status, nome, ano, semestre, turno, modalidade, curso)
+        return TurmaService.update(id_turma, id_materia, status, nome, ano, semestre, turno, modalidade, curso)
     
     if request.method == 'DELETE':
         id_turma = request.args.get('id')
