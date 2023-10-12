@@ -15,49 +15,49 @@ def lembrete():
         try:
             return jsonify(LembreteService.get_by_id(id_lembrete))
         except AssertionError as error:
-            return str(error)
+            return str(error), 400
     
     if request.method == 'POST':
         data = request.json
-        
-        id_secretaria = data['id_secretaria']
-        status = True
-        destinatario_cargo = data['destinatario_cargo']
-        destinatario_id = data['destinatario_id']
-        titulo = data['titulo']
-        mensagem = data['mensagem']
+
         criacao = datetime.now()
         visualizacao = None
+        status = True
+        id_secretaria = data.get('id_secretaria', 'NOT_FOUND')
+        destinatario_cargo = data.get('destinatario_cargo', 'NOT_FOUND')
+        destinatario_id = data.get('destinatario_id', 'NOT_FOUND')
+        titulo = data.get('titulo', 'NOT_FOUND')
+        mensagem = data.get('mensagem', 'NOT_FOUND')
         
+
         try:
-            return LembreteService.register(LembreteDTO(id_secretaria=id_secretaria, status=status, destinatario_cargo=destinatario_cargo, destinatario_id=destinatario_id, titulo=titulo, mensagem=mensagem, criacao=criacao, visualizacao=visualizacao))
+            return LembreteService.register(criacao, status, id_secretaria,  destinatario_cargo, destinatario_id, titulo, mensagem)
         except AssertionError as error:
-            return str(error)
+            return str(error), 400
     
     if request.method == 'PUT':
         id_lembrete = request.args.get('id')
         data = request.json
         
-        id_secretaria = data['idSecretaria']
-        status = data['status']
-        destinatario_cargo = data['destinatario_cargo']
-        destinatario_id = data['destinatorio_id']
-        titulo = data['titulo']
-        mensagem = data['mensagem']
-        criacao = data['criacao']
-        visualizacao = data['visualizacao']
+        status = True
+        id_secretaria = data.get('id_secretaria', 'NOT_FOUND')
+        destinatario_cargo = data.get('destinatario_cargo', 'NOT_FOUND')
+        destinatario_id = data.get('destinatario_id', 'NOT_FOUND')
+        titulo = data.get('titulo', 'NOT_FOUND')
+        mensagem = data.get('mensagem', 'NOT_FOUND')
+        visualizacao = data.get('visualizacao', 'NOT_FOUND')
         
         try:
-            return LembreteService.update(id_lembrete, LembreteDTO(id_secretaria=id_secretaria, status=status, destinatario_cargo=destinatario_cargo, destinatario_id=destinatario_id, titulo=titulo, mensagem=mensagem, criacao=criacao, visualizacao=visualizacao))
+            return LembreteService.update(id_lembrete, id_secretaria, status, destinatario_cargo, destinatario_id, titulo, mensagem, criacao, visualizacao)
         except AssertionError as error:
-            return str(error)
+            return str(error), 400
     
     if request.method == 'DELETE':
         id_lembrete = request.args.get('id')
         try:
             return jsonify(LembreteService.delete(id_lembrete))
         except AssertionError as error:
-            return str(error)
+            return str(error), 400
     
 @lembretes.route("/api/lembrete/listAll", methods=['GET'])
 def list_all():
