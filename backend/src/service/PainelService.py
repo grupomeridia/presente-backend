@@ -4,51 +4,45 @@ from repository.PainelRepository import PainelRepository
 from entity.Painel import Painel
 
 class PainelService():
-    def getById(id):
+    @staticmethod
+    def get_by_id(id):
         try:
             int(id)
         except ValueError:
             raise AssertionError("Deve ser um número inteiro.")
         
         assert int(id) > 0, "ID inválido."
-        assert Aluno.query.get(id) != None, "Nenhum painel com este ID foi encontrado."
+        assert Painel.query.get(id) != None, "Nenhum painel com este ID foi encontrado."
 
-        return PainelRepository.getPainelById(id)
+        return PainelRepository.get_painel_by_id(id)
     
-    def register(data, totalAtivos, totalPresentes, totalAusentes, totalPresentesCurso, totalAtivoCurso, totalAusenteCurso):
-        try:
-            assert isinstance(data, datetime.datetime), "Data inválida"
-            assert isinstance(totalAtivos, int), "TotalAtivos deve ser um número inteiro"
-            assert isinstance(totalPresentes, int), "TotalPresentes deve ser um número inteiro"
-            assert isinstance(totalAusentes, int), "TotalAusentes deve ser um número inteiro"
-            assert isinstance(totalPresentesCurso, list), "TotalPresentesCurso deve ser uma lista"
-            assert isinstance(totalAtivoCurso, list), "TotalAtivoCurso deve ser uma lista"
-            assert isinstance(totalAusenteCurso, list), "TotalAusenteCurso deve ser uma lista"
-        except AssertionError as error:
-            raise AssertionError(f"Campos obrigatórios inválidos: {str(error)}")
+    @staticmethod
+    def register(painel_dto):
 
-        return PainelRepository.registerPainel(Painel(data, totalAtivos, totalPresentes, totalAusentes, totalPresentesCurso, totalAtivoCurso, totalAusenteCurso))
-    
-    def update(id, data, totalAtivos, totalPresentes, totalAusentes, totalPresentesCurso, totalAtivoCurso, totalAusenteCurso):
-        try:
-            assert isinstance(data, datetime.datetime), "Data inválida"
-            assert isinstance(totalAtivos, int), "TotalAtivos deve ser um número inteiro"
-            assert isinstance(totalPresentes, int), "TotalPresentes deve ser um número inteiro"
-            assert isinstance(totalAusentes, int), "TotalAusentes deve ser um número inteiro"
-            assert isinstance(totalPresentesCurso, list), "TotalPresentesCurso deve ser uma lista"
-            assert isinstance(totalAtivoCurso, list), "TotalAtivoCurso deve ser uma lista"
-            assert isinstance(totalAusenteCurso, list), "TotalAusenteCurso deve ser uma lista"
-        except AssertionError as error:
-            raise AssertionError(f"Campos obrigatórios inválidos: {str(error)}")
+        painel = PainelService.to_entity(painel_dto)
 
-        return PainelRepository.update(id, Painel(data, totalAtivos, totalPresentes, totalAusentes, totalPresentesCurso, totalAtivoCurso, totalAusenteCurso))
+        return PainelRepository.register_painel(Painel(id_configuracao=painel.id_configuracao, id_secretaria=painel.id_secretaria, status=painel.status, data_criado=painel.data_criado, total_ativo=painel.total_ativo, total_presentes=painel.total_presentes, total_ausentes=painel.total_ausentes, total_presentes_curso=painel.total_presentes_curso, total_ativo_curso=painel.total_ativo_curso, total_ausente_curso=painel.total_ausente_curso))
     
+    @staticmethod
+    def update(id, painel_dto):
+        
+        painel = PainelService.to_entity(id, painel_dto)
+
+        return PainelRepository.update(id, painel)
+    
+    @staticmethod
     def delete(id):
         try:
             int(id)
         except ValueError:
-            raise AssertionError("ID de ser um número inteiro.")
+            raise AssertionError("ID deve ser um número inteiro.")
         
         assert int(id) > 0, "ID inválido."
-        assert Painel.query.filter(Painel.id == id).first() is not None, "Painel não encontrado."
+        assert Painel.query.filter(Painel.id_painel == id).first() is not None, "Painel não encontrado."
         return PainelRepository.delete(id)
+    
+    @staticmethod
+    def to_entity(painel_dto):
+        painel = Painel(id_configuracao=painel_dto.id_configuracao, id_secretaria=painel_dto.id_secretaria, status=painel_dto.status, data_criado=painel_dto.data_criado, total_ativo=painel_dto.total_ativo, total_presentes=painel_dto.total_presentes, total_ausentes=painel_dto.total_ausentes, total_presentes_curso=painel_dto.total_presentes_curso, total_ativo_curso=painel_dto.total_ativo_curso, total_ausente_curso=painel_dto.total_ausente_curso)
+
+        return painel

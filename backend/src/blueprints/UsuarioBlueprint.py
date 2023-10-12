@@ -1,47 +1,50 @@
 from flask import Blueprint, request, jsonify
 
 from repository.UsuarioRepository import UsuarioRepository
-from repository.MainRepository import MainRepository
 
 from entity.Usuario import Usuario
+from entity.CargoEnum import Cargo
 
 from service.UsuarioService import UsuarioService
 
-usuario = Blueprint("usuario", __name__)
+usuarios = Blueprint("usuario", __name__)
 
-@usuario.route("/api/usuario", methods=['GET', 'POST', 'PUT', 'DELETE'])
+@usuarios.route("/api/usuario", methods=['GET', 'POST', 'PUT', 'DELETE'])
 def usuario():
     if request.method == 'GET':
-        id = request.args.get('id')
+        id_usuario = request.args.get('id')
         try:
-            return jsonify(UsuarioService.getUsuarioById(id))
+            return jsonify(UsuarioService.get_usuario_by_id(id_usuario))
         except AssertionError as error:
-            return str(error)
+            return str(error), 400
         
     if request.method == 'POST':
         data = request.json
-        
+                
         status = True
-        login = data['login']
-        senha = data['senha']
-        cargo = data['cargo']
+        login = data.get('login', 'NOT_FOUND')
+        senha = data.get('senha', 'NOT_FOUND')
+        cargo = data.get('cargo', 'NOT_FOUND')
 
         try:
             return UsuarioService.register(status, login, senha, cargo)
         except AssertionError as error:
-            return str(error)
+            return str(error), 400
         
     if request.method == 'PUT':
-        id = request.args.get('id')
+        id_usuario = request.args.get('id')
         data = request.json
 
         status = True
-        login = data['login']
-        senha = data['senha']
-        cargo = data['cargo']
+        login = data.get('login', 'NOT_FOUND')
+        senha = data.get('senha', 'NOT_FOUND')
+        cargo = data.get('cargo', 'NOT_FOUND')
 
-        return jsonify(UsuarioService.update(id, status, login, senha, cargo))
-    
+        return UsuarioService.update(id_usuario, status, login, senha, cargo)
+
     if request.method == 'DELETE':
-        id = request.args.get('id')
-        return jsonify(UsuarioService.delete(id))
+        id_usuario = request.args.get('id')
+        try:
+            return jsonify(UsuarioService.delete(id_usuario))
+        except AssertionError as error:
+            return str(error), 400

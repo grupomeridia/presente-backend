@@ -1,21 +1,28 @@
 from flask import jsonify
-from repository.MainRepository import MainRepository
+from models import db
 
 from entity.Presenca import Presenca
 from entity.Aluno import Aluno
 
 class PresencaRepository():
-    def getPresencaById(id):
-        return {
-            "Id" : Presenca.query.get(id).id,
-            "Aluno": Presenca.query.get(id).idAluno.nome,
-            "Chamada": Presenca.query.get(id).idChamada.id,
-            "status": Presenca.query.get(id).status,
-            "Tipo_presenca": Presenca.query.get(id).tipoPresenca.value,
-            "Horario": Presenca.query.get(id).horario
-        }
-    
-    def listAll():
+    @staticmethod
+    def get_presenca_by_id(id):
+
+        print(f"AQUI CARAIO {id}")
+        try:
+            return {
+                "id" : Presenca.query.get(id).id_presenca,
+                "aluno": Presenca.query.get(id).id_aluno,
+                "chamada": Presenca.query.get(id).id_chamada,
+                "status": Presenca.query.get(id).status,
+                "tipo_presenca": Presenca.query.get(id).tipo_presenca.value,
+                "horario": Presenca.query.get(id).horario
+            }
+        except AttributeError as error:
+            print(f"{str(error)}")
+            raise AssertionError ("Prensença não existe.")
+    @staticmethod
+    def list_all():
         presencas = Presenca.query.all()
         resultado = [{
             "Id": p.id,
@@ -28,7 +35,8 @@ class PresencaRepository():
 
         return jsonify(resultado)
     
-    def findByPresentes():
+    @staticmethod
+    def find_by_presentes():
         presencas = Presenca.query.filter(Presenca.horario.isnot(None)).all()
 
         resultado = [{
@@ -42,29 +50,32 @@ class PresencaRepository():
 
         return jsonify(resultado)
     
+    @staticmethod
     def update(id, data):
         presenca = Presenca.query.get(id)
 
-        presenca.idAluno = data['idAluno']
-        presenca.idChamada = data['idChamada']
-        presenca.status = data['status']
-        presenca.tipoPresenca = data['tipoPresenca']
-        presenca.horario = data['horario']
+        presenca.idAluno = data.idAluno
+        presenca.idChamada = data.idChamada
+        presenca.status = data.status
+        presenca.tipoPresenca = data.tipoPresenca
+        presenca.horario = data.horario
 
-        MainRepository.db.session.merge(presenca)
-        MainRepository.db.session.commit()
+        db.session.merge(presenca)
+        db.session.commit()
 
+    @staticmethod
     def delete(id):
         presenca = Presenca.query.get(id)
-        presenca.ativo = False
-        MainRepository.db.session.merge(presenca)
-        MainRepository.db.session.commit()
+        presenca.status = False
+        db.session.merge(presenca)
+        db.session.commit()
 
         return {"mensagem":"sucesso"}
     
-    def registerPresenca(Presenca):
+    @staticmethod
+    def register_presenca(presenca):
 
-        MainRepository.db.session.add(Presenca)
-        MainRepository.db.session.commit()
+        db.session.add(presenca)
+        db.session.commit()
 
         return "Presença realizada!"

@@ -1,21 +1,22 @@
 from entity.PresencaEnum import TipoPresenca
-from repository.MainRepository import MainRepository
-import datetime
+from models import db
 
-class Presenca(MainRepository.db.Model):
+from datetime import datetime
+
+class Presenca(db.Model):
     __tablename__ = 'presencas'
-    idPresenca = MainRepository.db.Column(MainRepository.db.Integer, primary_key=True)
-    idAluno = MainRepository.db.Column(MainRepository.db.Integer, MainRepository.db.ForeignKey('alunos.idAluno'))
-    idChamada = MainRepository.db.Column(MainRepository.db.Integer, MainRepository.db.ForeignKey('chamadas.idChamada'))
-    status = MainRepository.db.Column(MainRepository.db.Boolean, nullable=False)
-    horario = MainRepository.db.Column(MainRepository.db.DateTime)
-    tipoPresenca = MainRepository.db.Column(MainRepository.db.Enum(TipoPresenca))
-    aluno = MainRepository.db.relationship('Aluno', back_populates='presencas')
-    chamada = MainRepository.db.relationship('Chamada', back_populates='presencas')
+    id_presenca = db.Column(db.Integer, primary_key=True)
+    id_aluno = db.Column(db.Integer, db.ForeignKey('alunos.id_aluno'))
+    id_chamada = db.Column(db.Integer, db.ForeignKey('chamadas.id_chamada'))
+    status = db.Column(db.Boolean, nullable=False)
+    horario = db.Column(db.DateTime)
+    tipo_presenca = db.Column(db.Enum(TipoPresenca))
+    aluno = db.relationship('Aluno', back_populates='presencas')
+    chamada = db.relationship('Chamada', back_populates='presencas')
 
-    def __init__(self, idAluno:int, idChamada:int, status:bool, tipoPresenca:TipoPresenca, horario:datetime):
-        self.idAluno = idAluno
-        self.idChamada = idChamada
+    def __init__(self, id_aluno:int, id_chamada:int, status:bool, tipo_presenca:TipoPresenca, horario:datetime):
+        self.id_aluno = id_aluno
+        self.id_chamada = id_chamada
         self.status = status
-        self.tipoPresenca = tipoPresenca
+        self.tipo_presenca = tipo_presenca
         self.horario = horario

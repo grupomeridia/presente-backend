@@ -1,9 +1,9 @@
 from flask import Blueprint, request, jsonify
 
 from repository.ProfessorRepository import ProfessorRepository
-from repository.MainRepository import MainRepository
 
 from entity.Professor import Professor
+from dtos.ProfessorDTO import ProfessorDTO
 
 from service.ProfessorService import ProfessorService
 
@@ -12,84 +12,81 @@ professores = Blueprint("professores", __name__)
 @professores.route("/api/professor", methods=['GET', 'POST', 'PUT', 'DELETE'])
 def professor():
     if request.method == 'GET':
-        id = request.args.get('id')
+        id_professor = request.args.get('id')
         try:
-           return jsonify(ProfessorService.getProfessor(id))
+           return jsonify(ProfessorService.get_by_id(id_professor))
         except AssertionError as error:
-            return str(error)
+            return str(error), 400
 
     if request.method == 'POST':
         data = request.json
 
-        idProfessor = data['idProfessor']
-        idUsuario = data['idUsuario']
-        ativo = data['ativo']
-        nome = data['nome']
+        status = True
+        id_usuario = data.get('id_usuario', 'NOT_FOUND')
+        nome = data.get('nome', 'NOT_FOUND')
 
         try:
-            return ProfessorService.register(idProfessor, idUsuario, ativo, nome)
+            return ProfessorService.register(id_usuario, status, nome)
         except AssertionError as error:
-            return str(error)        
+            return str(error), 400  
 
 
     if request.method == 'PUT':
-        id = request.args.get('id')
+        id_professor = request.args.get('id')
         data = request.json
 
-        idProfessor = data['idProfessor']
-        idUsuario = data['idUsuario']
-        ativo = data['ativo']
-        nome = data['nome']
-
+        status = True
+        id_usuario = data.get('id_usuario', 'NOT_FOUND')
+        nome = data.get('nome', 'NOT_FOUND')
         try:
-            return jsonify(ProfessorService.update(id, idProfessor, idUsuario, ativo, nome))
+            return ProfessorService.update(id_professor, id_usuario, status, nome)
         except AssertionError as error:
-            return str(error)
+            return str(error), 400
         
     if request.method == 'DELETE':
-        id = request.args.get("id")
+        id_professor = request.args.get("id")
         try:
-            return jsonify(ProfessorRepository.delete(id))
+            return jsonify(ProfessorService.delete(id_professor))
         except AssertionError as error:
-            return str(error)
+            return str(error), 400
 
 
 
 @professores.route("/api/professor/listAll", methods=['GET'])
-def listarAllProfessores():
-   return ProfessorRepository.listAll()
+def listar_all_professores():
+   return ProfessorRepository.list_all()
 
 @professores.route("/api/professor/cadastrado", methods=['GET'])
-def listarTurmas():
-    id = request.args.get("id")
+def listar_turmas():
+    id_professor = request.args.get("id")
     try:
-        return ProfessorService.listarTurmas(id)
+        return ProfessorService.listar_turmas(id_professor)
     except AssertionError as error:
-        return str(error)
+        return str(error), 400
     
 @professores.route("/api/professor/numAlunos", methods=['GET'])
-def numAlunos():
-    data = request.json
+def num_alunos():
 
-    idProfessor = data['idProfessor']
-    idChamada = data['idChamada']
-    try:
-        return ProfessorService.numAlunos(idProfessor, idChamada)
-    except AssertionError as error:
-        return str(error)
+    id_professor = request.args.get("id_professor")
+    id_chamada = request.args.get("id_chamada")
     
-@professores.route("/api/professor/historico", methods=['GET'])
-def historicoSemanal():
-    idTurma = request.args.get("id")
     try:
-        return ProfessorService.historicoSemanal(idTurma)
+        return ProfessorService.num_alunos(id_professor, id_chamada)
     except AssertionError as error:
-        return str(error)
+        return str(error), 400
+    
+@professores.route("/api/professor/historicoSemanal", methods=['GET'])
+def historico_semanal():
+    id_turma = request.args.get("id")
+    try:
+        return ProfessorService.historico_semanal(id_turma)
+    except AssertionError as error:
+        return str(error), 400
     
 @professores.route("/api/professor/mediaSemanal", methods=['GET'])
-def mediaSemanal():
-    idTurma = request.args.get("id")
+def media_semanal():
+    id_turma = request.args.get("id")
     try:
-        return ProfessorService.mediaSemanal(idTurma)
+        return ProfessorService.media_semanal(id_turma)
     except AssertionError as error:
-        return str(error)
+        return str(error), 400

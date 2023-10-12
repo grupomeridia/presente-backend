@@ -1,54 +1,60 @@
 from flask import jsonify
-from repository.MainRepository import MainRepository
+from models import db
 
 from entity.Configuracao import Configuracao
 
 class ConfiguracaoRepository():
-    def getConfiguracaoById(id):
+    @staticmethod
+    def get_configuracao_by_id(id):
         return{
-            "id": Configuracao.query.get(id).id,
+            "id": Configuracao.query.get(id).id_configuracao,
             "Status": Configuracao.query.get(id).status,
-            "Alunos Ausentes": Configuracao.query.get(id).alunoAusente,
-            "Inicio Aula": Configuracao.query.get(id).inicioAula,
-            "Final Aula": Configuracao.query.get(id).finalAula
+            "Alunos Ausentes": Configuracao.query.get(id).aluno_ausente,
+            "Inicio Aula": Configuracao.query.get(id).inicio_aula,
+            "Final Aula": Configuracao.query.get(id).fim_aula
         }
     
-    def listAll():
+    @staticmethod
+    def list_all():
         configuracao = Configuracao.query.all()
         resultado = [{
-            "Id": c.id,
+            "Id": c.id_configuracao,
             "Status": c.status,
-            "Alunos Ausentes": c.alunoAusente,
-            "Inicio Aula": c.inicioAula,
-            "Final Aula": c.finalAula  
+            "Alunos Ausentes": c.aluno_ausente,
+            "Inicio Aula": c.inicio_aula,
+            "Final Aula": c.fim_aula  
           }for c in configuracao]
         
         return jsonify(resultado)
     
-    def update (id, status, alunoAusente, inicioAula, finalAula):
+    @staticmethod
+    def update (id, data):
         configuracao = Configuracao.query.get(id)
 
-        configuracao.status = status
-        configuracao.alunoAusente = alunoAusente
-        configuracao.inicioAula = inicioAula
-        configuracao.finalAula = finalAula
+        configuracao.status = data.status
+        configuracao.aluno_ausente = data.aluno_ausente
+        configuracao.inicio_aula = data.inicio_aula
+        configuracao.fim_aula = data.fim_aula
 
-        MainRepository.db.session.merge(configuracao)
-        MainRepository.db.session.commit()
+        db.session.merge(configuracao)
+        db.session.commit()
         return {"mensagem":"sucesso"}
     
+    @staticmethod
     def delete (id):
         configuracao = Configuracao.query.get(id)
         
-        configuracao.ativo= False
+        configuracao.status= False
         
-        MainRepository.db.session.merge(configuracao)
-        MainRepository.db.session.commit()
+        db.session.merge(configuracao)
+        db.session.commit()
         
         return {"mensagem":"sucesso"}
 
-    def register(status, alunoAusente, inicioAula, finalAula):
-        MainRepository.db.session.add(Configuracao(status, alunoAusente, inicioAula, finalAula))
-        MainRepository.db.session.commit()
+    @staticmethod
+    def register(configuracao):
+
+        db.session.add(configuracao)
+        db.session.commit()
 
         return "Configuracao criada com sucesso"

@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify
 
 from repository.MateriaRepository import MateriaRepository
+from dtos.MateriaDTO import MateriaDTO
 
 from service.MateriaService import MateriaService
 
@@ -9,38 +10,42 @@ materias = Blueprint("Materia", __name__)
 @materias.route("/api/materia", methods=['GET', 'POST','PUT','DELETE'])
 def materia():
     if request.method == 'GET':
-        id = request.args.get('id')
+        id_materia = request.args.get('id')
         try:    
-            return jsonify(MateriaService.getMateria(id))
+            return jsonify(MateriaService.get_by_id(id_materia))
         except AssertionError as error:
-            return str(error)
+            return str(error), 400
     
     if request.method == 'POST':
         data = request.json
     
-        ativo = data['ativo']
-        nome = data['nome']
+        status = True
+        nome = data.get('nome', 'NOT_FOUND')
 
         try:
-            return MateriaService.register(ativo, nome)
+            return MateriaService.register(status, nome)
         except AssertionError as error:
-            return str(error)
+            return str(error), 400
     
     if request.method == 'PUT':
-        id = request.args.get('id')
-        data = request.json   
+        id_materia = request.args.get('id')
+        data = request.json
+
+        status = True
+        nome = data.get('nome', 'NOT_FOUND')
+
         try: 
-            return jsonify(MateriaRepository.update(id, ativo, nome))
+            return MateriaService.update(id_materia, status, nome)
         except AssertionError as error:
-            return str(error)
+            return str(error), 400
     
     if request.method == 'DELETE':
-        id = request.args.get('id')
+        id_materia = request.args.get('id')
         try:
-            return jsonify(MateriaRepository.delete(id))
+            return jsonify(MateriaService.delete(id_materia))
         except AssertionError as error:
-            return str(error)
+            return str(error), 400
     
 @materias.route("/api/materia/listAll", methods=['GET'])
-def listarAllMaterias():
-    return MateriaRepository.listAll()
+def listar_all_materias():
+    return MateriaRepository.list_all()

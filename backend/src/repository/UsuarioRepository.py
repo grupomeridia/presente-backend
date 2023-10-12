@@ -1,42 +1,49 @@
 from flask import jsonify
-from repository.MainRepository import MainRepository
+from models import db
 
 from entity.Usuario import Usuario
 
 class UsuarioRepository():
-    def getUsuarioById(id):
-        return{
-            "id": Usuario.query.get(id).idUsuario,
-            "Status": Usuario.query.get(id).status,
-            "Login": Usuario.query.get(id).login,
-            "Senha": Usuario.query.get(id).senha,
-            "Cargo": Usuario.query.get(id).cargo.value
-        }
+    @staticmethod
+    def get_usuario_by_id(id):
+        try:
+            return{
+                "id": Usuario.query.get(id).id_usuario,
+                "Status": Usuario.query.get(id).status,
+                "Login": Usuario.query.get(id).login,
+                "Senha": Usuario.query.get(id).senha,
+                "Cargo": Usuario.query.get(id).cargo.value
+            }
+        except AttributeError as error:
+            raise AssertionError ("Usuário não existe.")
     
-    def register(status, login, senha, cargo):
-        MainRepository.db.session.add(Usuario(status, login, senha, cargo))
-        MainRepository.db.session.commit()
+    @staticmethod
+    def register(usuario):
+        db.session.add(usuario)
+        db.session.commit()
 
-        return "Usuario criado com sucesso"
+        return f"Usuario {usuario.id_usuario} criado com sucesso"
     
-    def update(id, status, login, senha, cargo):
+    @staticmethod
+    def update(id, data):
         usuario = Usuario.query.get(id)
 
-        usuario.status = status
-        usuario.login = login
-        usuario.senha = senha
-        usuario.cargo = cargo
+        usuario.status = data.status
+        usuario.login = data.login
+        usuario.senha = data.senha
+        usuario.cargo = data.cargo
 
-        MainRepository.db.session.merge(usuario)
-        MainRepository.db.session.commit()
-        return {"mensagem":"sucesso"}
+        db.session.merge(usuario)
+        db.session.commit()
+        return f"Usuario {id} atualizado com sucesso"
     
+    @staticmethod
     def delete(id):
         usuario = Usuario.query.get(id)
 
-        usuario.ativo = False
+        usuario.status = False
 
-        MainRepository.db.session.merge(usuario)
-        MainRepository.db.session.commit()
+        db.session.merge(usuario)
+        db.session.commit()
 
-        return {"mensagem":"sucesso"}
+        return f"Usuario {id} deletado com sucesso!"

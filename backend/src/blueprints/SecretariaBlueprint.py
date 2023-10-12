@@ -2,6 +2,8 @@ from flask import Blueprint, request, jsonify
 
 from repository.SecretariaRepository import SecretariaRepository
 
+from dtos.SecretariaDTO import SecretariaDTO
+
 from service.SecretariaService import SecretariaService
 
 secretaria = Blueprint("secretaria", __name__)
@@ -9,40 +11,44 @@ secretaria = Blueprint("secretaria", __name__)
 @secretaria.route("/api/secretaria", methods=['GET', 'POST', 'PUT', 'DELETE'])
 def secret():
     if request.method == 'GET':
-        id = request.args.get('id')
+        id_secretaria = request.args.get('id')
         try:
-            return jsonify(SecretariaService.getById(id))
+            return jsonify(SecretariaService.get_by_id(id_secretaria))
         except AssertionError as error:
-            return str(error)
+            return str(error), 400
         
     if request.method == 'POST':
         data = request.json
         
-        nome = data['nome']
+        status = True
+        id_usuario = data.get('id_usuario', 'NOT_FOUND')
+        nome = data.get('nome', 'NOT_FOUND')
         
         try:
-            return SecretariaService.register(nome)
+            return SecretariaService.register(id_usuario, status, nome)
         except AssertionError as error:
-            return str(error)
+            return str(error), 400
     
     if request.method == 'PUT':
-        id = request.args.get('id')
+        id_secretaria = request.args.get('id')
         data = request.json
         
-        nome = data['nome']
+        status = True
+        id_secretaria = data.get('id_secretaria', 'NOT_FOUND')
+        nome = data.get('nome', 'NOT_FOUND')
         
         try:
-            return jsonify(SecretariaService.update(nome))
+            return SecretariaService.update(id_secretaria, status, nome)
         except AssertionError as error:
-            return str(error)
+            return str(error), 400
     
     if request.method == 'DELETE':
-        id = request.args.get('id')
+        id_secretaria = request.args.get('id')
         try:
-            return jsonify(SecretariaService.delete(id))
+            return jsonify(SecretariaService.delete(id_secretaria))
         except AssertionError as error:
-            return str(error)
+            return str(error), 400 
 
 @secretaria.route("/api/secretaria/listAll", methods=['GET'])
-def listAll():
-    return SecretariaRepository.listAll()
+def list_all():
+    return SecretariaRepository.list_all()

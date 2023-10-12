@@ -1,9 +1,6 @@
 from flask import Blueprint, request, jsonify
 
-from repository.MainRepository import MainRepository
 from repository.AlunoRepository import AlunoRepository
-
-from entity.Aluno import Aluno
 
 from service.AlunoService import AlunoService
 
@@ -12,57 +9,91 @@ alunos = Blueprint("alunos", __name__)
 @alunos.route("/api/aluno", methods=['GET', 'POST', 'PUT', 'DELETE'])
 def aluno():
     if request.method == 'GET':
-        id = request.args.get('id')
+        id_aluno = request.args.get('id')
         try:
-            return jsonify(AlunoService.getbyid(id))
+            return jsonify(AlunoService.get_by_id(id_aluno))
         except AssertionError as error:
-            return str(error)
+            return str(error), 400
         
     if request.method == 'POST':    
         data = request.json
         
-        idUsuario = data['idUsuario']
-        ativo = data['ativo']
-        nome = data['nome']
-        curso = data['curso']
-        ra = data['ra']
-        turma = data['turma']
+        id_usuario = data.get('id_usuario', 'NOT_FOUND')
+        nome = data.get('nome', 'NOT_FOUND')
+        ra = data.get('ra', 'NOT_FOUND')
 
+        status = True
+        ausente = False
+        
         try:
-            return AlunoService.register(idUsuario, ativo, nome, ra, turma, curso)
+            return AlunoService.register(id_usuario, status, nome, ra, ausente)
         except AssertionError as error:
-            return str(error)
+            return str(error), 400
 
     if request.method == 'PUT':
-        id = request.args.get('id')
+        id_aluno = request.args.get('id')
         data = request.json    
 
-        ativo = data['ativo']
-        nome = data['nome']
-        ra = data['ra']
-        turma_id = data['turma']
-        curso = data['curso'] 
+        
+        id_aluno = data.get('id_aluno', 'NOT_FOUND')
+        nome = data.get('nome', 'NOT_FOUND')
+        ra = data.get('ra', 'NOT_FOUND')
+
+        status = True
+        ausente = False
 
         try:
-            return jsonify(AlunoService.update(id, ativo, nome, ra, turma_id, curso))
+            return AlunoService.update(id_aluno, status, nome, ra, ausente)
         except AssertionError as error:
-            return str(error)
+            return str(error), 400
         
     if request.method == 'DELETE':
-        id = request.args.get('id')
+        id_aluno = request.args.get('id')
         try:
-            return jsonify(AlunoService.delete(id))
+            return jsonify(AlunoService.delete(id_aluno))
         except AssertionError as error:
-            return str(error)
+            return str(error), 400
 
 @alunos.route("/api/aluno/listAll", methods=['GET'])
-def listAll():
-    return AlunoRepository.listAll()
+def list_all():
+    return AlunoRepository.list_all()
 
 @alunos.route("/api/aluno/findByRa", methods=['GET'])
-def findByRa():
+def find_by_ra():
     ra = request.args.get('ra')
     try:
-        return AlunoService.getByRa(ra)
+        return AlunoService.get_by_ra(ra)
     except AssertionError as error:
-                return str(error)
+        return str(error), 400
+    
+@alunos.route("/api/aluno/AusentesPresentes", methods=['GET'])
+def ausentes_presentes():
+    turma_id = request.args.get('id_turma')
+    try:
+        return AlunoService.ausentes_presentes(turma_id)
+    except AssertionError as error:
+        return str(error), 400
+    
+@alunos.route("/api/aluno/AtivoInativo", methods=['GET'])
+def ativo_inativo():
+    turma_id = request.args.get('id_turma')
+    try:
+        return AlunoService.ativo_inativo(turma_id)
+    except AssertionError as error:
+        return str(error)
+    
+@alunos.route("/api/aluno/mediaAtivo", methods=['GET'])
+def media_ativo():
+    turma_id = request.args.get('id_turma')
+    try:
+        return AlunoService.media_ativo(turma_id)
+    except AssertionError as error:
+        return str(error)
+    
+@alunos.route("/api/aluno/mediaAusente", methods=['GET'])
+def media_ausente():
+    turma_id = request.args.get('id_turma')
+    try:
+        return AlunoService.media_ausente(turma_id)
+    except AssertionError as error:
+        return str(error)

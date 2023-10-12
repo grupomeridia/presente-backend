@@ -1,19 +1,20 @@
 from flask import jsonify
-from repository.MainRepository import MainRepository
-
+from models import db
 from entity.Secretaria import Secretaria
 
 class SecretariaRepository():
-    def getById(id):
-        return {
-            "Id": Secretaria.query.get(id).id,
-            "Ativo": Secretaria.query.get(id).ativo,
-            "Nome": Secretaria.query.get(id).nome,
-            "Usuario": Secretaria.query.get(id).usuario.nome,
-            "Lembrete": Secretaria.query.get(id).lembrete.mensagem
-        }
-    
-    def listAll():
+    @staticmethod
+    def get_by_id(id):
+        try:
+            return {
+                "id": Secretaria.query.get(id).id_secretaria,
+                "ativo": Secretaria.query.get(id).status,
+                "nome": Secretaria.query.get(id).nome
+            }
+        except AttributeError as error:
+            raise AssertionError ("Secretaria não existe.")
+    @staticmethod
+    def list_all():
         secretaria = Secretaria.query.all()
         resultado = []
         for secre in secretaria:
@@ -21,35 +22,35 @@ class SecretariaRepository():
                 "Id": secre.id,
                 "Ativo": secre.ativo,
                 "Nome": secre.nome,
-                "Usuario": secre.usuario.nome,
-                "Lembrete": secre.lembrete.mensagem
             })
         
         return jsonify(resultado)
     
+    @staticmethod
     def update(id, secretaria):
         old_secretaria = Secretaria.query.get(id)
         
-        old_secretaria.ativo = secretaria.ativo
+        old_secretaria.idUsuario = secretaria.idUsuario
+        old_secretaria.status = secretaria.status
         old_secretaria.nome = secretaria.nome
-        old_secretaria.usuario = secretaria.usuario
-        old_secretaria.lembrete = secretaria.lembrete
         
-        MainRepository.db.session.merge(old_secretaria)
-        MainRepository.db.session.commit()
+        db.session.merge(old_secretaria)
+        db.session.commit()
         
         return f"Secretaria ID {id} atualizado."
     
+    @staticmethod
     def delete(id):
         secretaria = Secretaria.query.get(id)
-        secretaria.ativo = False
-        MainRepository.db.session.merge(secretaria)
-        MainRepository.db.session.commit()
+        secretaria.status = False
+        db.session.merge(secretaria)
+        db.session.commit()
         return f"Secretaria ID {id} deletado."
     
-    def registerSecretaria(Secretaria):
+    @staticmethod
+    def register_secretaria(secretaria):
         
-        MainRepository.db.session.add(Secretaria)
-        MainRepository.db.session.commit()
+        db.session.add(secretaria)
+        db.session.commit()
         
-        return f"Usuario registrado com o ID {Secretaria.id}"
+        return f"Secretaria registrado com o ID {secretaria.id_secretaria}"

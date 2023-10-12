@@ -1,9 +1,6 @@
 from flask import Blueprint, request, jsonify
 
-from repository.ConfiguracaoRepository import ConfiguracaoRepository
-from repository.MainRepository import MainRepository
-
-from entity.Configuracao import Configuracao
+from dtos.ConfiguracaoDTO import ConfiguracaoDTO
 
 from service.ConfiguracaoService import ConfiguracaoService
 
@@ -12,9 +9,9 @@ configuracoes = Blueprint("configuracoes", __name__)
 @configuracoes.route("/api/configuracao", methods=['GET', 'POST', 'PUT', 'DELETE'])
 def configuracao():
     if request.method == 'GET':
-        id = request.args.get('id')
+        id_configuracao = request.args.get('id')
         try:
-            return jsonify(ConfiguracaoService.getConfiguracaoById(id))
+            return jsonify(ConfiguracaoService.get_configuracao_by_id(id_configuracao))
         except AssertionError as error:
             return str(error)
     
@@ -22,29 +19,32 @@ def configuracao():
         data = request.json
 
         status = True
-        alunoAusente = data['alunoAusente']
-        inicioAula = data['inicioAula']
-        finalAula = data['finalAula']
+        aluno_ausente = data['aluno_ausente']
+        inicio_aula = data['inicio_aula']
+        fim_aula = data['fim_aula']
 
         try:
-            return ConfiguracaoService.register(status, alunoAusente, inicioAula, finalAula)
+            return ConfiguracaoService.register(ConfiguracaoDTO(status=status, aluno_ausente=aluno_ausente, inicio_aula=inicio_aula, fim_aula=fim_aula))
         except AssertionError as error:
             return str(error)
             
     if request.method == 'PUT':
-        id = request.args.get('id')
+        id_configuracao = request.args.get('id')
         data = request.json
 
         status = True
-        alunoAusente = data['alunoAusente']
-        inicioAula = data['inicioAula']
-        finalAula = data['finalAula']
+        aluno_ausente = data['aluno_ausente']
+        inicio_aula = data['inicio_aula']
+        fim_aula = data['fim_aula']
 
         
-        return jsonify(ConfiguracaoService.update(id, status, alunoAusente, inicioAula, finalAula))
+        return ConfiguracaoService.update(id_configuracao, ConfiguracaoDTO(status=status, aluno_ausente=aluno_ausente, inicio_aula=inicio_aula, fim_aula=fim_aula))
     
     if request.method == 'DELETE':
-        id = request.args.get('id')
-        return jsonify(ConfiguracaoService.delete(id))
+        id_configuracao = request.args.get('id')
 
+        try:
+            return jsonify(ConfiguracaoService.delete(id_configuracao))
+        except AssertionError as error:
+            return str(error)
 

@@ -1,6 +1,6 @@
 from flask import jsonify
-from repository.MainRepository import MainRepository
-import datetime
+from models import db
+from datetime import datetime, timedelta
 from entity.Professor import Professor
 from entity.Aluno import Aluno
 from entity.Turma import Turma
@@ -10,52 +10,64 @@ from entity.Chamada import Chamada
 from entity.Presenca import Presenca
 
 class ProfessorRepository():
-    def getProfessorById(id):
-        return {
-            "Id": Professor.query.get(id).id,
-            "Nome": Professor.query.get(id).nome,
-            "Ativo": Professor.query.get(id).ativo
-        }
+    @staticmethod
+    def get_professor_by_id(id):
+        try:
+            return {
+                "id": Professor.query.get(id).id_professor,
+                "id_usuario" : Professor.query.get(id).id_usuario,
+                "nome": Professor.query.get(id).nome,
+                "status": Professor.query.get(id).status
+            }
+        except AttributeError as error:
+            raise AssertionError ("Professor não existe.")
     
-    def listAll():
+    @staticmethod
+    def list_all():
         professores = Professor.query.all()
         resultado = [{
-            'Id': p.id, 
+            'id': p.id_professor, 
+            'id_usuario': p.id_usuario,
             'Nome': p.nome, 
-            'Ativo': p.ativo
+            'Ativo': p.status
         } for p in professores]
 
         return jsonify(resultado)
     
+    @staticmethod
     def update(id, data):
         professor = Professor.query.get(id)
-        professor.nome = data['nome']
-        professor.ativo = data['ativo']
 
+        professor.id_usuario = data.id_usuario
+        professor.nome = data.nome
+        professor.status = data.status
 
-        MainRepository.db.session.merge(professor)
-        MainRepository.db.session.commit()
+        db.session.merge(professor)
+        db.session.commit()
         return f"Professor ID {id} atualizado"
   
+    @staticmethod
     def delete(id):
         professor = Professor.query.get(id)
-        professor.ativo = False
+        professor.status = False
         
-        MainRepository.db.session.merge(professor)
-        MainRepository.db.session.commit()
+        db.session.merge(professor)
+        db.session.commit()
 
 
         return f"Professor ID {id} deletado com sucesso"
     
+    @staticmethod
     def register(professor):
 
-        MainRepository.db.session.add(professor)
-        MainRepository.db.session.commit()
+        db.session.add(professor)
+        db.session.commit()
         
-        return f"Professor cadastrado com o id {professor.id}"
+        return f"Professor cadastrado com o id {professor.id_professor}"
     
-    def listarTurmas(id):
-        turmas = MainRepository.db.session.query(Turma).join(turma_professor).filter(Professor.id == id).all()
+    @staticmethod
+    def listar_turmas(id):
+        turmas = db.session.query(Turma).join(turma_professor).filter(Professor.id == id).all()
 
         if turmas:
             resultado = [{
@@ -66,90 +78,108 @@ class ProfessorRepository():
                 'Modalidade': t.modalidade,
                 'Curso': t.curso,
             } for t in turmas]
+            return jsonify(resultado)
         else:
             return "Professor não está cadastrado em nenhuma turma"
-        
-    def numAlunos(idProfessor, idChamada):
-        professor = MainRepository.db.session.query(Professor).filter_by(Professor.id == id).first()
+    
+    @staticmethod
+    def num_alunos(professor_id, chamada_id):
+        consulta_sql = db.text("""
+        SELECT
+            COUNT(ta.id_aluno) AS quantidade_alunos,
+            SUM(CASE WHEN p.horario IS NOT NULL THEN 1 ELSE 0 END) AS alunos_presentes,
+            SUM(CASE WHEN p.horario IS NULL THEN 1 ELSE 0 END) AS alunos_nao_presenca
+        FROM
+            turma_aluno ta
+        LEFT JOIN
+            presencas p ON ta.id_aluno = p.id_aluno AND p.id_chamada = :chamada_id
+        LEFT JOIN
+            turmas t ON t.id_turma = ta.id_turma
+        LEFT JOIN
+            turma_professor tp ON t.id_turma = tp.id_turma
+        WHERE
+            tp.id_professor = :professor_id
+    """)
 
-        if professor:
-            quantidade_alunos = MainRepository.db.session.query(func.count(Aluno.id)).\
-                join(turma_aluno).\
-                join(Turma).\
-                join(turma_professor).\
-                filter(turma_professor.idProfessor == id).scalar()
-            
-            alunos_presentes = MainRepository.db.session.query(func.count(Aluno.id)).\
-                join(turma_aluno).\
-                join(Turma).\
-                join(turma_professor).\
-                join(Chamada).\
-                join(Presenca, and_(
-                    Aluno.id == Presenca.c.idAluno,
-                    Presenca.c.idChamada == idChamada)).\
-                filter(turma_professor.idProfessor == Chamada.idProfessor).scalar()
+        with db.engine.connect() as connection:
+            resultado = connection.execute(consulta_sql, {'professor_id': professor_id, 'chamada_id': chamada_id})
+            resultado_dict = resultado.fetchone()
+
+        quantidade_alunos = resultado_dict[0]
+        alunos_presentes = resultado_dict[1]
+        alunos_nao_presenca = resultado_dict[2]
+
+        resultado_json = {
+            "Total de Alunos": quantidade_alunos,
+            "Faltam a chegar": alunos_nao_presenca,
+            "Alunos presentes": alunos_presentes
+        }
+
+        return resultado_json
+    
+    @staticmethod
+    def historico_semanal(turma_id):
+        consulta_sql = db.text("""
+            SELECT
+                (SUM(CASE WHEN p.horario IS NOT NULL THEN 1 ELSE 0 END) * 100.0 / COUNT(*)) AS porcentagem_presenca
+            FROM
+                turmas t
+            LEFT JOIN
+                turma_aluno ta ON t.id_turma = ta.id_turma
+            LEFT JOIN
+                presencas p ON ta.id_aluno = p.id_aluno
+            WHERE
+                t.id_turma = :turma_id
+                AND (p.horario IS NULL OR p.horario >= NOW() - INTERVAL '7 days');
+
+            """)
+        
+        with db.engine.connect() as connection:
+            resultado = connection.execute(consulta_sql, {'turma_id': turma_id})
+            porcentagem_presenca = resultado.scalar()
+
+        resultado_json = {
+            'porcentagem_presenca': porcentagem_presenca
+        }
+        
+        return jsonify(resultado_json)
                 
+    @staticmethod
+    def media_semanal(turma_id):
+        consulta_sql = db.text("""
+            SELECT
+                EXTRACT(DOW FROM c.abertura) AS dia_semana,
+                CASE
+                    WHEN COUNT(p.id_aluno) > 0 THEN
+                        ROUND(SUM(CASE WHEN p.horario IS NOT NULL THEN 1 ELSE 0 END) * 100.0 / COUNT(DISTINCT ta.id_aluno), 2)
+                    ELSE
+                        0
+                END AS porcentagem_presenca
+            FROM
+                turma_aluno ta
+            LEFT JOIN
+                presencas p ON ta.id_aluno = p.id_aluno
+            LEFT JOIN
+                chamadas c ON p.id_chamada = c.id_chamada
+            WHERE
+                ta.id_turma = :turma_id
+                AND c.abertura >= NOW() - INTERVAL '7 days'
+            GROUP BY
+                dia_semana
+            ORDER BY
+                dia_semana;
+    """)
 
-            alunos_nao_presenca = quantidade_alunos - alunos_presentes
+        with db.engine.connect() as connection:
+            resultado = connection.execute(consulta_sql, {'turma_id': turma_id})
+            resultados_dict = resultado.fetchall()
 
-            return {
-                "Total de Alunos": quantidade_alunos,
-                "Faltam a chegar": alunos_nao_presenca
-            }
+        resultado_json = []
+        for dia_semana, porcentagem_presenca in resultados_dict:
+            resultado_json.append({
+                'dia_semana': int(dia_semana), 
+                'porcentagem_presenca': porcentagem_presenca
+            })
 
-        else:
-            return "Professor não encontrado"
-        
-    def historicoSemanal(idTurma):
+        return resultado_json
 
-        turma = MainRepository.db.session.query(Turma).filter_by(Turma.idTurma == idTurma).first()
-
-        if turma:
-            dataAtual = datetime.now()
-            dataInicial = dataAtual - datetime.timedelta(days=4)
-
-            historico = MainRepository.db.session.query(func.date(Presenca.c.horario).label("data"),
-                                                        (func.count(Aluno.id)/
-                                                          func.count().label("total_alunos")).label("porcetagem")).\
-                join(Chamada).\
-                join(turma_professor).\
-                join(Turma).\
-                join(turma_aluno).\
-                join(Aluno).\
-                filter(Turma.idTurma == idTurma).\
-                filter(Presenca.c.horario >= dataInicial).\
-                filter(Presenca.c.horario <= dataAtual).\
-                group_by(func.date(Presenca.c.date)).all() 
-            
-            if historico:
-                resultado = []
-                for data, porcetagem in historico:
-                    dataFormatada = data.strftime('%Y-%m-%d')
-                    porcetagemFormatada = round(porcetagem * 100, 2)
-                    resultado.append(f"Data: {dataFormatada}, Porcetagem: {porcetagemFormatada}%")
-
-                resultadoComoString = ', '.join(resultado)
-                return resultadoComoString
-            
-            else: 
-                return "Nenhum dado de presença disponivel"
-
-        else:
-            return "Turma não encontrada"
-        
-    def mediaSemanal(idTurma):
-        
-        dataInicial = datetime.now() - datetime.timedelta(days=5)
-
-        mediaFrequencia = MainRepository.db.session.query(
-            func.avg(func.coalesce(func.count(Presenca.c.id), 0) /
-                     func.count(Aluno.id)).label('media_frequencia')
-            ).join(Turma).\
-            join(turma_aluno).\
-            join(Aluno).\
-            outerjoin(Presenca, (
-                Aluno.id == Presenca.c.idAluno) & (Chamada.id == Presenca.c.idChamada)).\
-            filter(Turma.idTurma == idTurma).\
-            filter(Chamada.abertura >= dataInicial).scalar()
-        
-        return {f"Media frequencia {mediaFrequencia * 100:.2f}"} 

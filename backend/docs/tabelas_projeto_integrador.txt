@@ -3,6 +3,7 @@ CREATE TYPE cargo AS ENUM ('Professor', 'Aluno', 'Secretaria');
 
 CREATE TABLE usuarios(
 	id_usuario SERIAL PRIMARY KEY,
+	status BOOLEAN NOT NULL,
 	login VARCHAR(100) NOT NULL,
 	senha VARCHAR(100) NOT NULL,
 	cargo cargo
@@ -20,9 +21,10 @@ CREATE TABLE lembretes(
 	id_secretaria INTEGER REFERENCES secretaria(id_secretaria),
 	destinatario_cargo cargo,
 	destinatario_id INTEGER NOT NULL,
+	status BOOLEAN NOT NULL,
 	titulo VARCHAR(50) NOT NULL,
 	mensagem VARCHAR(100) NOT NULL,
-	cricao TIMESTAMP NOT NULL,
+	criacao TIMESTAMP NOT NULL,
 	visualizacao TIMESTAMP
 );
 
@@ -43,7 +45,7 @@ CREATE TABLE professores(
 );
 
 CREATE TYPE modalidade AS ENUM ('Online', 'Presencial');
-CREATE TYPE curso AS ENUM ('ADS', 'Engenharia de Software', 'Psicologia', 'Ciências Biológicas');
+CREATE TYPE curso AS ENUM ('Analise_e_desenvolvimento_de_sistemas', 'Engenharia_de_Software', 'Psicologia', 'Ciências Biológicas');
 CREATE TYPE turno AS ENUM ('Matutino', 'Vespertino', 'Noturno');
 
 CREATE TABLE turmas(
@@ -113,6 +115,9 @@ CREATE TABLE configuracoes(
 
 CREATE TABLE painel(
 	id_painel SERIAL PRIMARY KEY,
+	id_configuracao INTEGER REFERENCES configuracoes(id_configuracao),
+	id_secretaria INTEGER REFERENCES secretaria(id_secretaria),
+	status BOOLEAN NOT NULL,
 	data_criado timestamp NOT NULL,
 	total_ativo INTEGER NOT NULL,
 	total_presentes INTEGER NOT NULL,

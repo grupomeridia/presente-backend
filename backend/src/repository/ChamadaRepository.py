@@ -1,5 +1,6 @@
 from flask import jsonify
-from repository.MainRepository import MainRepository
+from models import db
+
 import datetime
 
 from entity.Chamada import Chamada
@@ -11,24 +12,28 @@ from entity.Professor import Professor
 from entity.Materia import Materia
 
 class ChamadaRepository():
-    def getChamadaById(id):
-        return {
-            "Id": Chamada.query.get(id).idChamada,
-            "Materia" : Chamada.query.get(id).idMateria,
-            "Turma" : Chamada.query.get(id).idTurma,
-            "Professor" : Chamada.query.get(id).idProfessor,
-            "status": Chamada.query.get(id).status,
-            "abertura":Chamada.query.get(id).abertura,
-            "encerramento": Chamada.query.get(id).encerramento
-        }
-    
-    def listAll():
+    @staticmethod
+    def get_chamada_by_id(id):
+        try:
+            return {
+                "Id": Chamada.query.get(id).id_chamada,
+                "Materia" : Chamada.query.get(id).id_materia,
+                "Turma" : Chamada.query.get(id).id_turma,
+                "Professor" : Chamada.query.get(id).id_professor,
+                "status": Chamada.query.get(id).status,
+                "abertura":Chamada.query.get(id).abertura,
+                "encerramento": Chamada.query.get(id).encerramento
+            }
+        except AttributeError as error:
+            raise AssertionError ("Chamada não existe.")
+    @staticmethod
+    def list_all():
         chamadas = Chamada.query.filter(Chamada.ativo.isnot(False)).all()
         resultado = [{
-            'Id': c.idChamada,
-            'Materia': c.idMateria,
-            'Turma': c.idTurma,
-            'Professor': c.idProfessor,
+            'Id': c.id_chamada,
+            'Materia': c.id_materia,
+            'Turma': c.id_turma,
+            'Professor': c.id_professor,
             'status': c.status,
             'abertura': c.abertura,
             'encerramento': c.encerramento
@@ -36,44 +41,48 @@ class ChamadaRepository():
 
         return jsonify(resultado)
     
+    @staticmethod
     def update(id, data):
         chamada = Chamada.query.get(id)
 
-        chamada.idMateria = data['idMateria']
-        chamada.idTurma = data['idTurma']
-        chamada.idProfessor = data['idProfessor']
-        chamada.status = data['status']
-        chamada.abertura = data['abertura']
-        chamada.encerramento = data['encerramento']
+        chamada.id_materia = data.id_materia
+        chamada.id_turma = data.id_turma
+        chamada.id_professor = data.id_professor
+        chamada.status = data.status
+        chamada.abertura = data.abertura
+        chamada.encerramento = data.encerramento
 
-        MainRepository.db.session.merge(chamada)
-        MainRepository.db.session.commit()
+        db.session.merge(chamada)
+        db.session.commit()
         return {"mensagem":"sucesso"}
     
+    @staticmethod
     def delete(id):
         chamada = Chamada.query.get(id)
 
         if chamada:
             chamada.status = False
-            MainRepository.db.session.merge(chamada)
-            MainRepository.db.session.commit()
+            db.session.merge(chamada)
+            db.session.commit()
             return {"mensagem": "sucesso"}
         else:
             return {"mensagem": "Chamada não encontrada"}
     
-    def registerChamada(Chamada):
+    @staticmethod
+    def register_chamada(chamada):
 
-        MainRepository.db.session.add(Chamada)
-        MainRepository.db.session.commit()
+        db.session.add(chamada)
+        db.session.commit()
 
         return "Chamada registrada"
     
-    def getChamadasAbertasAluno(id):
+    @staticmethod
+    def get_chamadas_abertas_aluno(id):
 
-        turma = MainRepository.db.session.query(Turma).join(turma_aluno).filter(Aluno.id == id).first()
+        turma = db.session.query(Turma).join(turma_aluno).filter(Aluno.id_aluno == id).first()
 
-        chamadas_abertas = MainRepository.db.session.query(Chamada, Turma, Professor, Materia).\
-            filter(Chamada.turma == turma, Chamada.encerramento > datetime.now()).\
+        chamadas_abertas = db.session.query(Chamada, Turma, Professor, Materia).\
+            filter(Chamada.id_turma == turma, Chamada.encerramento > datetime.now()).\
             join(Professor).\
             join(Materia).first()
         
@@ -88,14 +97,15 @@ class ChamadaRepository():
         else:
             return "Sem chamadas abertas no momento"
 
-    def getHistoricoAluno(idAluno):
+    @staticmethod
+    def get_historico_aluno(id_aluno):
         
-        ultimas_presencas = MainRepository.db.session.query(Presenca).\
+        ultimas_presencas = db.session.query(Presenca).\
         join(Chamada).\
         join(turma_aluno).\
         join(Turma).\
-        filter(turma_aluno.c.idAluno == idAluno).\
-        order_by(desc(Chamada.abertura)).\
+        filter(turma_aluno.c.id_aluno == id_aluno).\
+        order_by(db.desc(Chamada.abertura)).\
         limit(5).all()
 
         resultado = [{

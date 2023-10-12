@@ -1,7 +1,7 @@
-from repository.MainRepository import MainRepository
+from models import db
 
-turma_aluno = MainRepository.Table(
+turma_aluno = db.Table(
     'turma_aluno',
-    MainRepository.db.Column('id_turma', MainRepository.db.Integer, MainRepository.db.ForeignKey('turmas.idTurma')),
-    MainRepository.db.Column('id_aluno', MainRepository.db.Integer, MainRepository.db.ForeignKey('alunos.idALuno'))
+    db.Column('id_turma', db.Integer, db.ForeignKey('turmas.id_turma')),
+    db.Column('id_aluno', db.Integer, db.ForeignKey('alunos.id_aluno'))
 )

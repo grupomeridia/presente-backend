@@ -1,22 +1,22 @@
 from entity.TurnoEnum import Turno
 from entity.ModalidadeEnum import Modalidade
 from entity.CursoEnum import Curso
-from repository.MainRepository import MainRepository
+from models import db
 
 
-class Turma(MainRepository.db.Model):
+class Turma(db.Model):
     __tablename__ = 'turmas'
-    idTurma = MainRepository.db.Column(MainRepository.db.Integer, primary_key=True)
-    status = MainRepository.db.Column(MainRepository.db.Boolean, nullable=False)
-    nome = MainRepository.db.Column(MainRepository.db.String(50), nullable=False)
-    ano = MainRepository.db.Column(MainRepository.db.Integer, nullable=False)
-    semestre = MainRepository.db.Column(MainRepository.db.Integer, nullable=False)
-    turno = MainRepository.db.Column(MainRepository.db.Enum(Turno))
-    modalidade = MainRepository.db.Column(MainRepository.db.Enum(Modalidade))
-    curso = MainRepository.db.Column(MainRepository.db.Enum(Curso))
-    chamadas = MainRepository.db.relationship('Chamada', back_populates='turma')
-    alunos = MainRepository.db.relationship('Aluno', secondary='turma_aluno')
-    professores = MainRepository.db.relationship('Professor', secondary='turma_professor')
+    id_turma = db.Column(db.Integer, primary_key=True)
+    status = db.Column(db.Boolean, nullable=False)
+    nome = db.Column(db.String(50), nullable=False)
+    ano = db.Column(db.Integer, nullable=False)
+    semestre = db.Column(db.Integer, nullable=False)
+    turno = db.Column(db.Enum(Turno))
+    modalidade = db.Column(db.Enum(Modalidade))
+    curso = db.Column(db.Enum(Curso))
+    chamadas = db.relationship('Chamada', back_populates='turma')
+    alunos = db.relationship('Aluno', secondary='turma_aluno')
+    professores = db.relationship('Professor', secondary='turma_professor')
 
     def __init__(self, status:bool, nome:str, ano:int, semestre:int, turno:Turno, modalidade:Modalidade, curso:Curso):
         self.status = status
