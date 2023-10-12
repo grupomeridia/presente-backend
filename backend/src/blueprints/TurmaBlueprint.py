@@ -45,7 +45,7 @@ def turma():
         modalidade = data.get('modalidade', 'NOT_FOUND')
         curso = data.get('curso', 'NOT_FOUND')
 
-        return TurmaService.update(id_turma, id_materia, status, nome, ano, semestre, turno, modalidade, curso)
+        return TurmaService.update(id_turma=id_turma, id_materia=id_materia, status=status, nome=nome, ano=ano, semestre=semestre, turno=turno, modalidade=modalidade, curso=curso)
     
     if request.method == 'DELETE':
         id_turma = request.args.get('id')
