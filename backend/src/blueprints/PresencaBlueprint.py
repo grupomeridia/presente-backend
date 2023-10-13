@@ -56,6 +56,17 @@ def presencas_main():
         except AssertionError as error:
             return str(error), 400
 
+@presencas.route("/api/presenca/ra", methods=['POST'])
+def marcar_presenca_pelo_ra():
+    data = request.json
+
+    ra = data.get('ra')
+
+    try:
+        return PresencaService.marcar_presenca_pelo_ra(ra)
+    except AssertionError as error:
+        return str(error), 400
+
 @presencas.route("/api/presenca/listAll", methods=['GET'])
 def list_all():
     return PresencaRepository.list_all()
