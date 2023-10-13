@@ -19,6 +19,15 @@ class ChamadaService():
         return ChamadaRepository.get_chamada_by_id(id)
 
     @staticmethod
+    def listar_all_chamadas_professor(id_professor):
+        
+        assert id_professor != None, "Nenhum ID enviado."
+        assert int(id_professor) if isinstance(id_professor, (int,str)) and id_professor.isdigit() else None, "ID incorreto."
+        assert Professor.query.get(id_professor) != None, "Professor não encontrado."
+
+        return ChamadaRepository.listar_all_chamadas_professor(id_professor)
+
+    @staticmethod
     def register(id_turma, id_professor, status, abertura):
 
         assert id_turma != 'NOT_FOUND', "Campo 'id_turma' inexistente."
@@ -77,6 +86,15 @@ class ChamadaService():
         
         return ChamadaRepository.delete(id) 
     
+    @staticmethod
+    def fechar_chamada(id_chamada):
+        assert id_chamada != None, "Nenhum ID enviado."
+        assert int(id_chamada) if isinstance(id_chamada, (int,str)) and id_chamada.isdigit() else None, "ID incorreto."
+        assert int(id_chamada) > 0 and int(id_chamada) < 999999, "ID inválido."
+        assert Chamada.query.get(id_chamada) != None, "Chamada não encontrada." 
+
+        return ChamadaRepository.fechar_chamada(id_chamada)
+
     @staticmethod
     def to_entity(chamada_dto):
         chamada = Chamada(id_turma=chamada_dto.id_turma, id_professor=chamada_dto.id_professor, status=chamada_dto.status, abertura=chamada_dto.abertura, encerramento=chamada_dto.encerramento)

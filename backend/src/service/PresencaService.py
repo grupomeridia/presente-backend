@@ -48,6 +48,16 @@ class PresencaService():
         return PresencaRepository.register_presenca(presenca)
     
     @staticmethod
+    def marcar_presenca_pelo_ra(ra):
+
+        assert ra != 'NOT_FOUND', "Campo 'RA inexistente."
+
+        assert re.match(r'^\d+$', str(ra)), "O RA deve ter apenas números."
+        assert ra >= 100000 and ra <= 999999, "RA inválido."
+
+        return PresencaRepository.marcar_presenca_pelo_ra(ra)
+    
+    @staticmethod
     def update(id_presenca, id_aluno, id_chamada, tipo_presenca, horario, status):
 
         tipoPresenca = [x.value for x in TipoPresenca]
