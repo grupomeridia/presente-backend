@@ -3,6 +3,8 @@ from models import db
 
 from entity.Presenca import Presenca
 from entity.Aluno import Aluno
+from repository.ChamadaRepository import ChamadaRepository
+from datetime import datetime
 
 class PresencaRepository():
     @staticmethod
@@ -21,6 +23,7 @@ class PresencaRepository():
         except AttributeError as error:
             print(f"{str(error)}")
             raise AssertionError ("Prensença não existe.")
+    
     @staticmethod
     def list_all():
         presencas = Presenca.query.all()
@@ -72,6 +75,37 @@ class PresencaRepository():
 
         return {"mensagem":"sucesso"}
     
+    @staticmethod
+    def marcar_presenca_pelo_ra(ra):
+        aluno = db.text(""" Select * from alunos where ra = :ra """)
+        
+        with db.engine.connect() as connection:
+            valor = connection.execute(aluno, {'ra': ra}).fetchone()
+      
+        valor2 = ChamadaRepository.get_chamadas_abertas_aluno(valor.id_aluno)
+
+    
+        if not valor2:
+            return "Não existe chamada aberta para esse aluno"
+
+        id_aluno = valor.id_aluno
+
+        id_chamada = valor2[0]['id_chamada']
+
+        presenca = db.text(""" SELECT * FROM presencas where id_aluno = :id_aluno and id_chamada = :id_chamada""")
+        
+        with db.engine.connect() as connection:
+            resultado = connection.execute(presenca, {'id_aluno':id_aluno, 'id_chamada':id_chamada}).fetchone()
+        
+            if resultado is not None:
+                return "Presenca já registrada"
+
+        presenca = Presenca(id_aluno=id_aluno, id_chamada=id_chamada, status=True, horario=datetime.now(), tipo_presenca='Manual')
+        db.session.add(presenca)
+        db.session.commit()
+
+        return {"mensagem": "presenca registrada"}
+
     @staticmethod
     def register_presenca(presenca):
 
