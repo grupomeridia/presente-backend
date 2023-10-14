@@ -38,10 +38,12 @@ class ChamadaRepository():
         
         resultado_json = []
         for id_chamada, id_turma, id_professor, status, abertura, encerramento in resultado:
+            professor_nome = Professor.query.get(id_professor)
+            turma_nome = Turma.query.get(id_turma)
             resultado_json.append({
                 'id_chamada': id_chamada,
-                'id_professor': id_professor,
-                'id_turma': id_turma,
+                'id_professor': professor_nome.nome,
+                'id_turma': turma_nome.nome,
                 'status': status,
                 'abertura': abertura,
                 'encerramento': encerramento
