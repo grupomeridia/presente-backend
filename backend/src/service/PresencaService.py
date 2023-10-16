@@ -26,6 +26,9 @@ class PresencaService():
         assert id_aluno != 'NOT_FOUND', "Campo 'id_aluno' inexistente."
         assert id_chamada != 'NOT_FOUND', "Campo 'id_chamada' inexistente."
         assert tipo_presenca != 'NOT_FOUND', "Campo 'tipo_presenca' inexistente."
+        
+        existe_presenca = Presenca.query.filter_by(id_aluno=id_aluno, id_chamada=id_chamada).first()
+        assert existe_presenca is None, "O aluno já possui presença na mesma chamada."
 
         assert int(id_aluno) if isinstance(id_aluno, (int,str)) and str(id_aluno).isdigit() else None, "ID de aluno incorreto."
         assert int(id_aluno) > 0 and int(id_aluno) < 999999, "ID de aluno inválido."
@@ -36,7 +39,7 @@ class PresencaService():
         assert int(id_chamada) if isinstance(id_chamada, (int,str)) and str(id_chamada).isdigit() else None, "ID de chamada incorreto."
         assert int(id_chamada) > 0 and int(id_chamada) < 999999, "ID de chamada inválido."
         assert re.match(r'^\d+$', str(id_chamada)), "O ID de chamada deve ter apenas números."
-        chamada = Chamada.query.get(id_aluno)
+        chamada = Chamada.query.get(id_chamada)
         assert chamada is not None, "Chamada não encontrada."
 
         assert tipo_presenca in tipoPresenca, "Tipo de presença incorreto."
@@ -76,7 +79,7 @@ class PresencaService():
         assert int(id_chamada) if isinstance(id_chamada, (int,str)) and str(id_chamada).isdigit() else None, "ID de chamada incorreto."
         assert int(id_chamada) > 0 and int(id_chamada) < 999999, "ID de chamada inválido."
         assert re.match(r'^\d+$', str(id_chamada)), "O ID de chamada deve ter apenas números."
-        chamada = Chamada.query.get(id_aluno)
+        chamada = Chamada.query.get(id_chamada)
         assert chamada is not None, "Chamada não encontrada."
 
         assert tipo_presenca in tipoPresenca, "Tipo de presença incorreto."
@@ -84,9 +87,9 @@ class PresencaService():
         assert Chamada.query.filter(Chamada.status == True).first() is not None, "Não existe nenhuma chamada aberta"
 
 
-        presenca = PresencaService.to_entity(PresencaDTO(id_presenca=id_presenca, id_aluno=id_aluno, id_chamada=id_chamada, tipo_presenca=tipo_presenca, horario=horario, status=status))
+        presenca = PresencaService.to_entity(PresencaDTO(id_aluno=id_aluno, id_chamada=id_chamada, tipo_presenca=tipo_presenca, horario=horario, status=status))
 
-        return PresencaRepository.update(presenca)
+        return PresencaRepository.update(id_presenca, presenca)
     
     @staticmethod
     def delete(id):
