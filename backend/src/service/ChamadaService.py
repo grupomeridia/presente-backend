@@ -73,9 +73,9 @@ class ChamadaService():
         assert int(id_chamada) > 0 and int(id_chamada) < 999999, "ID inválido."
         assert Chamada.query.get(id) != None, "Chamada não encontrada." 
 
-        chamada = ChamadaService.to_entity(ChamadaDTO(id_chamada=id_chamada, id_professor=id_professor, id_turma=id_turma, status=status, abertura=abertura))
+        chamada = ChamadaService.to_entity(ChamadaDTO(id_professor=id_professor, id_turma=id_turma, status=status, abertura=abertura))
         
-        return ChamadaRepository.update(id, chamada)
+        return ChamadaRepository.update(id_chamada, chamada)
     
     @staticmethod
     def delete(id):
