@@ -15,7 +15,6 @@ def presencas_main():
     if request.method == 'GET':
         id_presenca = request.args.get('id')
         try:
-            print(f"AQUI DE NOVO {id}")
             return jsonify(PresencaService.get_by_id(id_presenca))
         except AssertionError as error:
             return str(error), 400
@@ -45,14 +44,14 @@ def presencas_main():
         horario = datetime.now()
 
         try:
-            return PresencaService.register(id_aluno=id_aluno, id_chamada=id_chamada, status=status, tipo_presenca=tipo_presenca, horario=horario)
+            return PresencaService.update(id_presenca=id_presenca, id_aluno=id_aluno, id_chamada=id_chamada, status=status, tipo_presenca=tipo_presenca, horario=horario)
         except AssertionError as error:
             return str(error), 400
         
     if request.method == 'DELETE':
         id_presenca = request.args.get('id')
         try:
-            return PresencaService.delete(id_presenca)
+            return jsonify(PresencaService.delete(id_presenca))
         except AssertionError as error:
             return str(error), 400
 
