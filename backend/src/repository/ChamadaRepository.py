@@ -16,9 +16,9 @@ class ChamadaRepository():
     def get_chamada_by_id(id):
         try:
             return {
-                "Id": Chamada.query.get(id).id_chamada,
-                "Turma" : Chamada.query.get(id).id_turma,
-                "Professor" : Chamada.query.get(id).id_professor,
+                "id_chamada": Chamada.query.get(id).id_chamada,
+                "turma" : Chamada.query.get(id).id_turma,
+                "professor" : Chamada.query.get(id).id_professor,
                 "status": Chamada.query.get(id).status,
                 "abertura":Chamada.query.get(id).abertura,
                 "encerramento": Chamada.query.get(id).encerramento
