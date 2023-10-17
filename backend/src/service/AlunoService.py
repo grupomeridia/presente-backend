@@ -50,6 +50,8 @@ class AlunoService():
         assert id_aluno != 'NOT_FOUND', "Campo 'ID Aluno' inexistente."
         assert nome != 'NOT_FOUND', "Campo 'Nome inexistente."
         assert ra != 'NOT_FOUND', "Campo 'RA inexistente."
+        
+        aluno_antigo = AlunoRepository.get_aluno_by_id(id_aluno)
 
         assert int(id_aluno) if isinstance(id_aluno, (int,str)) and str(id_aluno).isdigit() else None, "ID do Aluno incorreto."
         
@@ -57,7 +59,7 @@ class AlunoService():
         assert re.match(r'^\d+$', str(ra)), "O RA deve ter apenas números."
         assert ra >= 100000 and ra <= 999999, "RA inválido."
 
-        aluno = AlunoService.to_entity(AlunoDTO(status=status, nome=nome, ra=ra, ausente=ausente))
+        aluno = AlunoService.to_entity(AlunoDTO(id_usuario=aluno_antigo['id_aluno'], status=status, nome=nome, ra=ra, ausente=ausente))
                
         return AlunoRepository.update(id_aluno, aluno)
     
