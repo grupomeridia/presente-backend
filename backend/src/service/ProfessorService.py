@@ -46,16 +46,18 @@ class ProfessorService():
         assert id_professor != 'NOT_FOUND', "Campo 'id_professor' inexistente."
         assert nome != 'NOT_FOUND', "Campo 'nome' inexistente."
 
+        professor_antigo = ProfessorRepository.get_professor_by_id(id_professor)
+        
         assert int(id_professor) if isinstance(id_professor, (int,str)) and str(id_professor).isdigit() else None, "ID inválido."
         assert int(id_professor) > 0 and int(id_professor) < 999999, "ID de usuário inválido."
 
-        professor = Professor.query.get(id)
+        professor = Professor.query.get(id_professor)
         assert professor != None, "Usuário não encontrado."
 
 
-        professor = ProfessorService.to_entity(ProfessorDTO(id_professor=id_professor, status=status, nome=nome))
+        professor = ProfessorService.to_entity(ProfessorDTO(id_usuario=professor_antigo['id_professor'] , status=status, nome=nome))
 
-        return ProfessorRepository.update(id, professor)
+        return ProfessorRepository.update(id_professor, professor)
     
     @staticmethod
     def delete(id):
