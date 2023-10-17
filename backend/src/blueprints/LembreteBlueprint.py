@@ -45,10 +45,11 @@ def lembrete():
         destinatario_id = data.get('destinatario_id', 'NOT_FOUND')
         titulo = data.get('titulo', 'NOT_FOUND')
         mensagem = data.get('mensagem', 'NOT_FOUND')
-        visualizacao = data.get('visualizacao', 'NOT_FOUND')
+        visualizacao = data.get('visualizacao', None)
+        criacao = data.get('criacao', None)
         
         try:
-            return LembreteService.update(id_lembrete=id_lembrete, id_secretaria=id_secretaria, status=status, destinatario_cargo=destinatario_cargo, destinatario_id=destinatario_id, titulo=titulo, mensagem=mensagem, criacao=criacao, visualizacao=visualizacao)
+            return LembreteService.update(id_lembrete=id_lembrete, id_secretaria=id_secretaria, status=status, destinatario_cargo=destinatario_cargo, destinatario_id=destinatario_id, titulo=titulo, mensagem=mensagem, visualizacao=visualizacao, criacao=criacao)
         except AssertionError as error:
             return str(error), 400
     
