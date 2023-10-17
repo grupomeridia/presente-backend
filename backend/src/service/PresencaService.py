@@ -19,7 +19,7 @@ class PresencaService():
         return PresencaRepository.get_presenca_by_id(id)
 
     @staticmethod
-    def register(id_aluno, id_chamada, tipo_presenca, horario, status):
+    def register(id_presenca, id_aluno, id_chamada, tipo_presenca, horario, status):
 
         tipoPresenca = [x.value for x in TipoPresenca]
 
@@ -48,7 +48,7 @@ class PresencaService():
         
         presenca = PresencaService.to_entity(PresencaDTO(id_aluno=id_aluno, id_chamada=id_chamada, tipo_presenca=tipo_presenca, horario=horario, status=status))
 
-        return PresencaRepository.register_presenca(presenca)
+        return PresencaRepository.update(id_presenca, presenca)
     
     @staticmethod
     def marcar_presenca_pelo_ra(ra):
