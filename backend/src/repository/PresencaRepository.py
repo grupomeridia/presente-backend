@@ -10,10 +10,9 @@ class PresencaRepository():
     @staticmethod
     def get_presenca_by_id(id):
 
-        print(f"AQUI CARAIO {id}")
         try:
             return {
-                "id" : Presenca.query.get(id).id_presenca,
+                "id_presenca" : Presenca.query.get(id).id_presenca,
                 "aluno": Presenca.query.get(id).id_aluno,
                 "chamada": Presenca.query.get(id).id_chamada,
                 "status": Presenca.query.get(id).status,
@@ -57,10 +56,10 @@ class PresencaRepository():
     def update(id, data):
         presenca = Presenca.query.get(id)
 
-        presenca.idAluno = data.idAluno
-        presenca.idChamada = data.idChamada
+        presenca.id_aluno = data.id_aluno
+        presenca.id_hamada = data.id_chamada
         presenca.status = data.status
-        presenca.tipoPresenca = data.tipoPresenca
+        presenca.tipo_presenca = data.tipo_presenca
         presenca.horario = data.horario
 
         db.session.merge(presenca)
