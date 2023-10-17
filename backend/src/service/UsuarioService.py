@@ -51,7 +51,6 @@ class UsuarioService():
         assert len(senha) > 6, "Tamanho de senha mínimo não atingido."
         assert not re.match(r'^[a-zA-Z]+$', senha), "Senha deve conter números, letras maiúsculas e caractéres especiais."
         
-        usuario_antigo = UsuarioRepository.get_usuario_by_id(id_usuario)
 
         usuario = UsuarioService.to_entity(UsuarioDTO(status=status, login=login, senha=senha, cargo=cargo))
 
