@@ -64,6 +64,8 @@ class PresencaRepository():
 
         db.session.merge(presenca)
         db.session.commit()
+        
+        return f"Presenca {id} atualizada!"
 
     @staticmethod
     def delete(id):
