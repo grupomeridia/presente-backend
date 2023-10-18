@@ -67,8 +67,8 @@ class ChamadaRepository():
     
     @staticmethod
     def update(id, data):
+        print("AQUI CARAIOOO",id)
         chamada = Chamada.query.get(id)
-
         
         chamada.id_turma = data.id_turma
         chamada.id_professor = data.id_professor
