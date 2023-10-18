@@ -26,7 +26,7 @@ def presencas_main():
         id_aluno = data.get('id_aluno', 'NOT_FOUND')
         id_chamada = data.get('id_chamada', 'NOT_FOUND')
         tipo_presenca = data.get('tipo_presenca', 'NOT_FOUND')
-        horario = datetime.now()
+        horario = data.get('horario', 'NOT_FOUND')
 
         try:
             return PresencaService.register(id_aluno=id_aluno, id_chamada=id_chamada, status=status, tipo_presenca=tipo_presenca, horario=horario)
@@ -41,7 +41,7 @@ def presencas_main():
         id_aluno = data.get('id_aluno', 'NOT_FOUND')
         id_chamada = data.get('id_chamada', 'NOT_FOUND')
         tipo_presenca = data.get('tipo_presenca', 'NOT_FOUND')
-        horario = datetime.now()
+        horario = data.get('horario', 'NOT_FOUND')
 
         try:
             return PresencaService.update(id_presenca=id_presenca, id_aluno=id_aluno, id_chamada=id_chamada, status=status, tipo_presenca=tipo_presenca, horario=horario)
