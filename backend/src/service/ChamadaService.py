@@ -6,6 +6,8 @@ from entity.Professor import Professor
 from entity.Materia import Materia
 from dtos.ChamadaDTO import ChamadaDTO
 
+from datetime import datetime
+
 import re
 
 class ChamadaService():
@@ -28,10 +30,18 @@ class ChamadaService():
         return ChamadaRepository.listar_all_chamadas_professor(id_professor)
 
     @staticmethod
-    def register(id_turma, id_professor, status, abertura):
+    def register(id_turma, id_professor, status, abertura, encerramento):
 
         assert id_turma != 'NOT_FOUND', "Campo 'id_turma' inexistente."
+        assert abertura != 'NOT_FOUND', "Campo 'abertura' inexistente."
         assert id_professor != 'NOT_FOUND', "Campo 'id_professor' inexistente."
+        assert encerramento != 'NOT_FOUND', "Campo 'encerramento' inexistente."
+        
+        abertura = datetime.now() if not abertura else datetime.strptime(abertura, "%Y-%m-%d %H:%M:%S")
+        encerramento = datetime.now() if not encerramento else datetime.strptime(encerramento, "%Y-%m-%d %H:%M:%S")
+        assert re.match(r'^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$', abertura.strftime("%Y-%m-%d %H:%M:%S")), "Formato de abertura inválido."
+        assert re.match(r'^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$', encerramento.strftime("%Y-%m-%d %H:%M:%S")), "Formato de encerramento inválido."
+
 
         assert int(id_turma) if isinstance(id_turma, (int,str)) and str(id_turma).isdigit() else None, "ID do Turma incorreto."
         assert int(id_turma) > 0 and int(id_turma) < 999999, "ID de turma inválido."
@@ -46,16 +56,18 @@ class ChamadaService():
         assert professor is not None, "Professor não encontrado"
         
 
-        chamada = ChamadaService.to_entity(ChamadaDTO(id_professor=id_professor, id_turma=id_turma, status=status, abertura=abertura))
+        chamada = ChamadaService.to_entity(ChamadaDTO(id_professor=id_professor, id_turma=id_turma, status=status, abertura=abertura, encerramento=encerramento))
 
         return ChamadaRepository.register_chamada(chamada)
 
     @staticmethod
-    def update(id_chamada, id_turma, id_professor, status, abertura):
+    def update(id_chamada:int, id_turma, id_professor, status, abertura, encerramento):
 
         assert id_chamada != 'NOT_FOUND', "Campo 'id_chamada' inexistente."
         assert id_turma != 'NOT_FOUND', "Campo 'id_turma' inexistente."
         assert id_professor != 'NOT_FOUND', "Campo 'id_professor' inexistente."
+        assert encerramento != 'NOT_FOUND', "Campo 'encerramento' inexistente."
+        assert isinstance(int(id_chamada), (int)), "ID da chamada incorreto."
 
 
         assert int(id_turma) if isinstance(id_turma, (int,str)) and str(id_turma).isdigit() else None, "ID do Turma incorreto."
@@ -71,11 +83,19 @@ class ChamadaService():
         assert id_chamada != None, "Nenhum ID enviado."
         assert int(id_chamada) if isinstance(id_chamada, (int,str)) and id_chamada.isdigit() else None, "ID incorreto."
         assert int(id_chamada) > 0 and int(id_chamada) < 999999, "ID inválido."
-        assert Chamada.query.get(id) != None, "Chamada não encontrada." 
-
-        chamada = ChamadaService.to_entity(ChamadaDTO(id_professor=id_professor, id_turma=id_turma, status=status, abertura=abertura))
         
-        return ChamadaRepository.update(id_chamada, chamada)
+        try:
+            abertura = datetime.strptime(abertura, "%Y-%m-%d %H:%M:%S")
+            encerramento = datetime.strptime(encerramento, "%Y-%m-%d %H:%M:%S")
+        except Exception as error:
+            raise AssertionError("Abertura ou encerramento inválidos!")
+        
+        
+        assert Chamada.query.get(id_chamada) != None, "Chamada não encontrada." 
+
+        chamada = ChamadaService.to_entity(ChamadaDTO(id_professor=id_professor, id_turma=id_turma, status=status, abertura=abertura, encerramento=encerramento))
+        
+        return ChamadaRepository.update(id=id_chamada, data=chamada)
     
     @staticmethod
     def delete(id):
