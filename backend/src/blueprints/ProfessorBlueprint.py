@@ -36,10 +36,9 @@ def professor():
         data = request.json
 
         status = True
-        id_usuario = data.get('id_usuario', 'NOT_FOUND')
         nome = data.get('nome', 'NOT_FOUND')
         try:
-            return ProfessorService.update(id_professor=id_professor, id_usuario=id_usuario, status=status, nome=nome)
+            return ProfessorService.update(id_professor=id_professor, status=status, nome=nome)
         except AssertionError as error:
             return str(error), 400
         

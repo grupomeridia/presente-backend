@@ -7,7 +7,7 @@ class AlunoRepository():
     def get_aluno_by_id(id):
         try:
             return {
-                "id": Aluno.query.get(id).id_aluno,
+                "id_aluno": Aluno.query.get(id).id_aluno,
                 "id_usuario" : Aluno.query.get(id).id_usuario,
                 "nome": Aluno.query.get(id).nome,
                 "ra": Aluno.query.get(id).ra,

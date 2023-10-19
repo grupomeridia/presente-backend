@@ -34,8 +34,6 @@ def aluno():
         id_aluno = request.args.get('id')
         data = request.json    
 
-        
-        id_aluno = data.get('id_aluno', 'NOT_FOUND')
         nome = data.get('nome', 'NOT_FOUND')
         ra = data.get('ra', 'NOT_FOUND')
 

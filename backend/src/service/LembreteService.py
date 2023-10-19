@@ -50,15 +50,15 @@ class LembreteService():
         return LembreteRepository.create(lembrete)
     
     @staticmethod
-    def update(criacao, status, id_secretaria, destinatario_cargo, destinatario_id, titulo, mensagem):
+    def update(id_lembrete, status, id_secretaria, destinatario_cargo, destinatario_id, titulo, mensagem, visualizacao, criacao):
 
         cargos = [x.value for x in Cargo]
         assert destinatario_cargo in cargos, "Cargo inválido"
 
-        assert id != None, "Nenhum ID enviado."
-        assert int(id) if isinstance(id, (int,str)) and id.isdigit() else None, "ID incorreto."
-        assert int(id) > 0 and int(id) < 999999, "ID inválido."
-        assert Lembrete.query.get(id) != None, "Nenhum lembrete com este ID foi encontrado."
+        assert id_lembrete != None, "Nenhum ID enviado."
+        assert int(id_lembrete) if isinstance(id_lembrete, (int,str)) and id_lembrete.isdigit() else None, "ID incorreto."
+        assert int(id_lembrete) > 0 and int(id_lembrete) < 999999, "ID inválido."
+        assert Lembrete.query.get(id_lembrete) != None, "Nenhum lembrete com este ID foi encontrado."
         
         assert id_secretaria != 'NOT_FOUND', "Campo 'id_secretaria' inexistente."
         assert destinatario_cargo != 'NOT_FOUND', "Campo 'destinatario_cargo' inexistente."
@@ -83,9 +83,9 @@ class LembreteService():
 
 
 
-        lembrete = LembreteService.to_entity(LembreteDTO(criacao=criacao, status=status, id_secretaria=id_secretaria, destinatario_cargo=destinatario_cargo, destinatario_id=destinatario_id, titulo=titulo, mensagem=mensagem))
+        lembrete = LembreteService.to_entity(LembreteDTO(status=status, criacao=criacao, id_secretaria=id_secretaria, destinatario_cargo=destinatario_cargo, destinatario_id=destinatario_id, titulo=titulo, mensagem=mensagem, visualizacao=visualizacao))
 
-        return LembreteRepository.update(id, lembrete)
+        return LembreteRepository.update(id_lembrete, lembrete)
     
     @staticmethod
     def delete(id):
