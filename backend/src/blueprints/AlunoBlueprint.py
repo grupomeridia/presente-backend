@@ -104,3 +104,11 @@ def historico_presenca():
         return AlunoService.historico_presenca(id_aluno)
     except AssertionError as error:
         return str(error), 400
+
+@alunos.route("/api/aluno/PresencaFalta", methods=['GET'])
+def presenca_falta():
+    id_aluno = request.args.get('id_aluno')
+    try:
+        return AlunoService.presenca_falta(id_aluno)
+    except AssertionError as error:
+        return str(error), 400
