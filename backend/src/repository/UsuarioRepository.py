@@ -1,6 +1,7 @@
-from flask import jsonify
+from flask_login import login_user
 from models import db
 
+from entity.Aluno import Aluno
 from entity.Usuario import Usuario
 
 class UsuarioRepository():
@@ -47,3 +48,18 @@ class UsuarioRepository():
         db.session.commit()
 
         return f"Usuario {id} deletado com sucesso!"
+    
+    @staticmethod
+    def login(login):
+        user = Usuario.query.filter(Usuario.login == login).first()
+        
+        if login_user(user):
+            return {
+            "id_usuario":user.id_usuario,
+            "Cargo": user.cargo.value,
+            }
+        else:
+            raise AssertionError("Não foi possivel realizar o login!")
+              
+
+           
