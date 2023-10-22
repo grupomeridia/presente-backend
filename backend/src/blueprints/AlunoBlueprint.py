@@ -78,7 +78,7 @@ def ativo_inativo():
     try:
         return AlunoService.ativo_inativo(turma_id)
     except AssertionError as error:
-        return str(error)
+        return str(error), 400
     
 @alunos.route("/api/aluno/mediaAtivo", methods=['GET'])
 def media_ativo():
@@ -86,7 +86,7 @@ def media_ativo():
     try:
         return AlunoService.media_ativo(turma_id)
     except AssertionError as error:
-        return str(error)
+        return str(error), 400
     
 @alunos.route("/api/aluno/mediaAusente", methods=['GET'])
 def media_ausente():
@@ -95,4 +95,12 @@ def media_ausente():
     try:
         return AlunoService.media_ausente(turma_id)
     except AssertionError as error:
-        return str(error)
+        return str(error), 400
+
+@alunos.route("/api/aluno/HistoricoPresenca", methods=['GET'])
+def historico_presenca():
+    id_aluno = request.args.get('id_aluno')
+    try:
+        return AlunoService.historico_presenca(id_aluno)
+    except AssertionError as error:
+        return str(error), 400
