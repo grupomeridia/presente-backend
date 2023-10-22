@@ -119,6 +119,7 @@ class AlunoService():
     
     @staticmethod
     def media_ausente(turma_id):
+        
         try:
             int(turma_id)
         except ValueError:
