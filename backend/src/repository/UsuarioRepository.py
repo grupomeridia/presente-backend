@@ -6,6 +6,7 @@ from entity.Usuario import Usuario
 from entity.Aluno import Aluno
 from entity.Professor import Professor
 from entity.Secretaria import Secretaria
+from entity.Turma import Turma
 
 class UsuarioRepository():
     @staticmethod

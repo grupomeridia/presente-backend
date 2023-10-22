@@ -122,10 +122,8 @@ class ChamadaRepository():
     
     """)
         
-
         with db.engine.connect() as connection:    
             resultado = connection.execute(consulta_sql, {'id': id}).fetchall()
-            
             
         resultado_json = []
         for id_chamada, id_turma, id_professor, status, abertura, encerramento in resultado:
