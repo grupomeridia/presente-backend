@@ -20,7 +20,7 @@ class PresencaService():
         return PresencaRepository.get_presenca_by_id(id)
 
     @staticmethod
-    def register(id_presenca, id_aluno, id_chamada, tipo_presenca, horario, status):
+    def register(id_aluno, id_chamada, tipo_presenca, horario, status):
 
         tipoPresenca = [x.value for x in TipoPresenca]
 
@@ -31,8 +31,8 @@ class PresencaService():
         existe_presenca = Presenca.query.filter_by(id_aluno=id_aluno, id_chamada=id_chamada).first()
         assert existe_presenca is None, "O aluno já possui presença na mesma chamada."
         
-        horario = datetime.now().strftime('%H:%M') if horario is None else horario
-        assert re.match(r'^\d{2}:\d{2}$', horario), "Formato de horário incorreto. Use o formato HH:MM."
+        horario = datetime.now().strftime("%Y-%m-%d %H:%M:%S") if horario is None else horario
+        assert re.match(r'^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$', horario), "Formato de horário incorreto. Use o formato HH:MM."
 
         assert int(id_aluno) if isinstance(id_aluno, (int,str)) and str(id_aluno).isdigit() else None, "ID de aluno incorreto."
         assert int(id_aluno) > 0 and int(id_aluno) < 999999, "ID de aluno inválido."
@@ -52,7 +52,7 @@ class PresencaService():
         
         presenca = PresencaService.to_entity(PresencaDTO(id_aluno=id_aluno, id_chamada=id_chamada, tipo_presenca=tipo_presenca, horario=horario, status=status))
 
-        return PresencaRepository.update(id_presenca, presenca)
+        return PresencaRepository.register_presenca(presenca)
     
     @staticmethod
     def marcar_presenca_pelo_ra(ra):
