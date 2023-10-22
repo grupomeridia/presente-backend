@@ -29,7 +29,7 @@ class ChamadaRepository():
     @staticmethod
     def listar_all_chamadas_professor(id_professor):
         consulta_sql = db.text("""
-        SELECT * FROM chamadas WHERE id_professor = :id_professor and encerramento IS NULL
+        SELECT * FROM chamadas WHERE id_professor = :id_professor and status is True
 
     """)
         
@@ -118,7 +118,7 @@ class ChamadaRepository():
         consulta_sql = db.text("""
         select c.* from chamadas c 
         join turma_aluno ta on ta.id_turma = c.id_turma
-        where ta.id_aluno = :id and encerramento IS NULL
+        where ta.id_aluno = :id and status is True
     
     """)
         
