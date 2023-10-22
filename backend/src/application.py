@@ -1,10 +1,12 @@
 from flask import Flask
 from flask_cors import CORS
+from models import login_manager
 
 def create_app(config_file):
     
 
     from models import db
+    from flask_login import LoginManager
     from blueprints.AlunoBlueprint import alunos
     from blueprints.ChamadaBlueprint import chamadas
     from blueprints.LembreteBlueprint import lembretes
@@ -35,8 +37,12 @@ def create_app(config_file):
     app.register_blueprint(turmas)
     app.register_blueprint(usuarios)
     app.register_blueprint(configuracoes)
+
     
     db.init_app(app)
+    
+    
+    login_manager.init_app(app)
 
     return app
 
