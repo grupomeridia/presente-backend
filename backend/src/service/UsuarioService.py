@@ -26,7 +26,7 @@ class UsuarioService():
         assert cargo != 'NOT_FOUND', "Campo 'cargo' inexistente."
         assert senha != 'NOT_FOUND', "Campo 'senha' inexistente."
         assert nome != 'NOT_FOUND', "Campo 'nome' inexistente."
-
+    
 
         cargos = [x.value for x in Cargo]
         assert cargo in cargos, "Cargo inválido"
@@ -43,6 +43,8 @@ class UsuarioService():
         
         if (cargo != "Aluno"):
                     ra = None
+        else:
+            assert ra != 'NOT_FOUND', "Campo 'ra' inexistente."
 
         usuario = UsuarioService.to_entity(UsuarioDTO(status=status, login=login, senha=senha, nome=nome, ra=ra, cargo=cargo))
         
@@ -55,6 +57,7 @@ class UsuarioService():
         assert cargo != 'NOT_FOUND', "Campo 'cargo' inexistente."
         assert senha != 'NOT_FOUND', "Campo 'senha' inexistente."
         assert nome != 'NOT_FOUND', "Campo 'nome' inexistente."
+        assert ra != 'NOT_FOUND', "Campo 'ra' inexistente."
 
         assert len(login) > 3, "login com tamanho inválido."
         assert login.isalpha(), "O login deve conter apenas letras."
@@ -91,7 +94,7 @@ class UsuarioService():
         assert login != 'NOT_FOUND', "Campo 'login' inexistente."
         assert senha != 'NOT_FOUND', "Campo 'senha' inexistente."
         
-        assert len(login) > 3 and len(login) < 10, "Login inválido!!"
+        assert len(login) > 3 and len(login) < 25, "Login inválido!!"
 
         assert login != None and len(login) > 0, "Insira um Login!"
         assert senha != None and len(senha) > 0, "Insira uma senha!"
