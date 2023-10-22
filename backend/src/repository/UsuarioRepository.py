@@ -74,10 +74,32 @@ class UsuarioRepository():
         user = Usuario.query.filter(Usuario.login == login).first()
         
         if login_user(user):
-            return {
-            "id_usuario":user.id_usuario,
-            "Cargo": user.cargo.value,
-            }
+            if user.cargo.value == "Aluno":  
+                aluno = Aluno.query.filter(Aluno.id_usuario == user.id_usuario).first()  
+                return {
+                "id_usuario":user.id_usuario,
+                "id_aluno":aluno.id_aluno,
+                "Cargo": user.cargo.value,
+                "Nome": user.nome,
+                "RA":aluno.ra
+                }
+            elif user.cargo.value == "Professor":
+                professor = Professor.query.filter(Professor.id_usuario == user.id_usuario).first()
+                return{
+                    "id_usuario":user.id_usuario,
+                    "id_professor":professor.id_professor,
+                    "Cargo": user.cargo.value,
+                    "Nome": user.nome
+                }
+            
+            elif user.cargo.value == "Secretaria":
+                secretaria = Secretaria.query.filter(Secretaria.id_usuario == user.id_usuario).first()
+                return{
+                    "id_usuario":user.id_usuario,
+                    "id_secretaria":secretaria.id_secretaria,
+                    "Cargo": user.cargo.value,
+                    "Nome": user.nome
+                }
         else:
             raise AssertionError("Não foi possivel realizar o login!")
               
