@@ -91,6 +91,7 @@ def media_ativo():
 @alunos.route("/api/aluno/mediaAusente", methods=['GET'])
 def media_ausente():
     turma_id = request.args.get('id_turma')
+    
     try:
         return AlunoService.media_ausente(turma_id)
     except AssertionError as error:
