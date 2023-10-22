@@ -65,7 +65,7 @@ class UsuarioService():
         if (cargo != "Aluno"):
             ra = None
 
-        usuario = UsuarioService.to_entity(UsuarioDTO(status=status, login=login, login=login, nome=nome, ra=ra, cargo=cargo))
+        usuario = UsuarioService.to_entity(UsuarioDTO(status=status, login=login, senha=senha, nome=nome, ra=ra, cargo=cargo))
 
         return UsuarioRepository.update(id_usuario, usuario) 
 
