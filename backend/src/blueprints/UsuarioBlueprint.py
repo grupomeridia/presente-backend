@@ -22,14 +22,14 @@ def usuario():
         data = request.json
                 
         status = True
-        username = data.get('username', 'NOT_FOUND')
-        password = data.get('password', 'NOT_FOUND')
+        login = data.get('login', 'NOT_FOUND')
+        senha = data.get('senha', 'NOT_FOUND')
         nome = data.get('nome', 'NOT_FOUND')
         ra = data.get('ra', 'NOT_FOUND')
         cargo = data.get('cargo', 'NOT_FOUND')
 
         try:
-            return UsuarioService.register(status=status, username=username, password=password, nome=nome, ra=ra, cargo=cargo)
+            return UsuarioService.register(status=status, login=login, senha=senha, nome=nome, ra=ra, cargo=cargo)
         except AssertionError as error:
             return str(error), 400
         
@@ -38,14 +38,14 @@ def usuario():
         data = request.json
 
         status = True
-        username = data.get('username', 'NOT_FOUND')
-        password = data.get('password', 'NOT_FOUND')
+        login = data.get('login', 'NOT_FOUND')
+        senha = data.get('senha', 'NOT_FOUND')
         nome = data.get('nome', 'NOT_FOUND')
         ra = data.get('ra', 'NOT_FOUND')
         cargo = data.get('cargo', 'NOT_FOUND')
 
         try:
-            return UsuarioService.update(id_usuario=id_usuario, status=status, username=username, password=password, nome=nome, ra=ra, cargo=cargo)
+            return UsuarioService.update(id_usuario=id_usuario, status=status, login=login, senha=senha, nome=nome, ra=ra, cargo=cargo)
         except AssertionError as error:
             return str(error), 400
 

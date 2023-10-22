@@ -18,54 +18,54 @@ class UsuarioService():
         return UsuarioRepository.get_usuario_by_id(id)
     
     @staticmethod
-    def register(status, username, password, nome, ra, cargo):     
+    def register(status, login, senha, nome, ra, cargo):     
 
-        assert username != 'NOT_FOUND', "Campo 'username' inexistente."
+        assert login != 'NOT_FOUND', "Campo 'login' inexistente."
         assert cargo != 'NOT_FOUND', "Campo 'cargo' inexistente."
-        assert password != 'NOT_FOUND', "Campo 'senha' inexistente."
+        assert senha != 'NOT_FOUND', "Campo 'senha' inexistente."
         assert nome != 'NOT_FOUND', "Campo 'nome' inexistente."
 
 
         cargos = [x.value for x in Cargo]
         assert cargo in cargos, "Cargo inválido"
 
-        assert len(username) > 3, "username com tamanho inválido."
-        assert username.isalpha(), "O username deve conter apenas letras."
+        assert len(login) > 3, "login com tamanho inválido."
+        assert login.isalpha(), "O username deve conter apenas letras."
 
-        assert len(password) > 6, "Tamanho de password mínimo não atingido."
-        assert not re.match(r'^[a-zA-Z]+$', password), "password deve conter números, letras maiúsculas e caractéres especiais."
+        assert len(senha) > 6, "Tamanho de senha mínimo não atingido."
+        assert not re.match(r'^[a-zA-Z]+$', senha), "senha deve conter números, letras maiúsculas e caractéres especiais."
 
         assert len(nome) > 2, "nome com tamanho inválido."
 
-        assert not Usuario.query.filter(Usuario.username == username).first(), "Esse username já está sendo usado"
+        assert not Usuario.query.filter(Usuario.login == login).first(), "Esse login já está sendo usado"
         
         if (cargo != "Aluno"):
                     ra = None
 
-        usuario = UsuarioService.to_entity(UsuarioDTO(status=status, username=username, password=password, nome=nome, ra=ra, cargo=cargo))
+        usuario = UsuarioService.to_entity(UsuarioDTO(status=status, login=login, senha=senha, nome=nome, ra=ra, cargo=cargo))
         
         return UsuarioRepository.register(usuario)
     
     @staticmethod
-    def update(id_usuario, status, username, password, nome, ra, cargo):      
+    def update(id_usuario, status, login, senha, nome, ra, cargo):      
 
-        assert username != 'NOT_FOUND', "Campo 'username' inexistente."
+        assert login != 'NOT_FOUND', "Campo 'login' inexistente."
         assert cargo != 'NOT_FOUND', "Campo 'cargo' inexistente."
-        assert password != 'NOT_FOUND', "Campo 'password' inexistente."
+        assert senha != 'NOT_FOUND', "Campo 'senha' inexistente."
         assert nome != 'NOT_FOUND', "Campo 'nome' inexistente."
 
-        assert len(username) > 3, "username com tamanho inválido."
-        assert username.isalpha(), "O username deve conter apenas letras."
+        assert len(login) > 3, "login com tamanho inválido."
+        assert login.isalpha(), "O login deve conter apenas letras."
 
-        assert len(password) > 6, "Tamanho de password mínimo não atingido."
-        assert not re.match(r'^[a-zA-Z]+$', password), "password deve conter números, letras maiúsculas e caractéres especiais."
+        assert len(senha) > 6, "Tamanho de senha mínimo não atingido."
+        assert not re.match(r'^[a-zA-Z]+$', senha), "senha deve conter números, letras maiúsculas e caractéres especiais."
         
         assert len(nome) > 2, "nome com tamanho inválido."
 
         if (cargo != "Aluno"):
             ra = None
 
-        usuario = UsuarioService.to_entity(UsuarioDTO(status=status, username=username, password=password, nome=nome, ra=ra, cargo=cargo))
+        usuario = UsuarioService.to_entity(UsuarioDTO(status=status, login=login, login=login, nome=nome, ra=ra, cargo=cargo))
 
         return UsuarioRepository.update(id_usuario, usuario) 
 
@@ -80,6 +80,6 @@ class UsuarioService():
 
     @staticmethod
     def to_entity(usuario_dto):
-        usuario = Usuario(status=usuario_dto.status, username=usuario_dto.username, password=usuario_dto.password, nome=usuario_dto.nome, ra=usuario_dto.ra, cargo=usuario_dto.cargo)       
+        usuario = Usuario(status=usuario_dto.status, login=usuario_dto.login, senha=usuario_dto.senha, nome=usuario_dto.nome, ra=usuario_dto.ra, cargo=usuario_dto.cargo)       
         
         return usuario

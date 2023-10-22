@@ -48,8 +48,8 @@ class UsuarioRepository():
         usuario = Usuario.query.get(id)
 
         usuario.status = data.status
-        usuario.username = data.username
-        usuario.password = data.password
+        usuario.login = data.login
+        usuario.senha = data.senha
         usuario.nome = data.nome
         usuario.cargo = data.cargo
 
