@@ -125,3 +125,12 @@ class AlunoService():
             return AssertionError("deve ser uma turma com valor valido")
         
         return AlunoRepository.media_ausente(turma_id)
+    
+    @staticmethod
+    def historico_presenca(id_aluno):
+        try:
+            int(id_aluno)
+        except ValueError:
+            return AssertionError("Deve ser um aluno válido.")
+        
+        return AlunoRepository.historico_presenca(id_aluno)
