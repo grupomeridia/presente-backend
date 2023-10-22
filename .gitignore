@@ -9,6 +9,7 @@ backend/src/blueprints/__pycache__
 /vm
 .vscode/
 venv/
+presente-env/
 /backend/src/.scannerwork/
 /backend/src/coverage.xml
 /backend/src/.coverage

@@ -1,7 +1,11 @@
-from flask import jsonify
+from flask_login import login_user
 from models import db
 
+from entity.Aluno import Aluno
 from entity.Usuario import Usuario
+from entity.Aluno import Aluno
+from entity.Professor import Professor
+from entity.Secretaria import Secretaria
 
 class UsuarioRepository():
     @staticmethod
@@ -19,8 +23,24 @@ class UsuarioRepository():
     
     @staticmethod
     def register(usuario):
+
         db.session.add(usuario)
         db.session.commit()
+
+        if (usuario.cargo.value == "Aluno"):
+            aluno = Aluno(id_usuario=usuario.id_usuario, status=usuario.status, ausente=True, nome=usuario.nome, ra=usuario.ra)
+            db.session.add(aluno)
+            db.session.commit()
+
+        if (usuario.cargo.value == "Professor"):
+            professor = Professor(id_usuario=usuario.id_usuario, status=usuario.status, nome=usuario.nome)
+            db.session.add(professor)
+            db.session.commit()
+
+        if (usuario.cargo.value == "Secretaria"):
+            secretaria = Secretaria(id_usuario=usuario.id_usuario, status=usuario.status, nome=usuario.nome)
+            db.session.add(secretaria)
+            db.session.commit()
 
         return f"Usuario {usuario.id_usuario} criado com sucesso"
     
@@ -31,6 +51,7 @@ class UsuarioRepository():
         usuario.status = data.status
         usuario.login = data.login
         usuario.senha = data.senha
+        usuario.nome = data.nome
         usuario.cargo = data.cargo
 
         db.session.merge(usuario)
@@ -47,3 +68,40 @@ class UsuarioRepository():
         db.session.commit()
 
         return f"Usuario {id} deletado com sucesso!"
+    
+    @staticmethod
+    def login(login):
+        user = Usuario.query.filter(Usuario.login == login).first()
+        
+        if login_user(user):
+            if user.cargo.value == "Aluno":  
+                aluno = Aluno.query.filter(Aluno.id_usuario == user.id_usuario).first()  
+                return {
+                "id_usuario":user.id_usuario,
+                "id_aluno":aluno.id_aluno,
+                "Cargo": user.cargo.value,
+                "Nome": user.nome,
+                "RA":aluno.ra
+                }
+            elif user.cargo.value == "Professor":
+                professor = Professor.query.filter(Professor.id_usuario == user.id_usuario).first()
+                return{
+                    "id_usuario":user.id_usuario,
+                    "id_professor":professor.id_professor,
+                    "Cargo": user.cargo.value,
+                    "Nome": user.nome
+                }
+            
+            elif user.cargo.value == "Secretaria":
+                secretaria = Secretaria.query.filter(Secretaria.id_usuario == user.id_usuario).first()
+                return{
+                    "id_usuario":user.id_usuario,
+                    "id_secretaria":secretaria.id_secretaria,
+                    "Cargo": user.cargo.value,
+                    "Nome": user.nome
+                }
+        else:
+            raise AssertionError("Não foi possivel realizar o login!")
+              
+
+           
