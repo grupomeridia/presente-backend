@@ -77,9 +77,18 @@ class UsuarioRepository():
         if login_user(user):
             if user.cargo.value == "Aluno":  
                 aluno = Aluno.query.filter(Aluno.id_usuario == user.id_usuario).first()  
+                
+                consulta_sql = db.text("""SELECT t.curso FROM turma_aluno ta
+                    JOIN alunos a ON a.id_aluno = ta.id_aluno
+                    JOIN turmas t ON t.id_turma = ta.id_turma """)
+
+                with db.engine.connect() as connection:
+                    curso = connection.execute(consulta_sql).fetchone()
+
                 return {
                 "id_usuario":user.id_usuario,
                 "id_aluno":aluno.id_aluno,
+                "Curso": curso.curso,
                 "Cargo": user.cargo.value,
                 "Nome": user.nome,
                 "RA":aluno.ra
