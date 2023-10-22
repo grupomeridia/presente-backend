@@ -193,14 +193,14 @@ class AlunoRepository():
         with db.engine.connect() as connection:
             historico_aluno = connection.execute(consulta_presencas, {'id_aluno': id_aluno}).fetchall()
         
-        historico = []
+        historico_presenca = []
 
         for nome, status, horario, tipo_presenca in historico_aluno:
-            historico.append({
+            historico_presenca.append({
                 'nome': nome,
                 'status': status,
                 'horario': horario,
                 'tipo_presenca': tipo_presenca
             })
         
-        return historico
+        return historico_presenca
