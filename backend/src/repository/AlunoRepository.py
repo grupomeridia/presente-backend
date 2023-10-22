@@ -184,7 +184,7 @@ class AlunoRepository():
     @staticmethod
     def historico_presenca(id_aluno):
         consulta_presencas = db.text("""
-        SELECT a.nome, p.status, p.horario, p.tipo_presenca
+        SELECT p.id_presenca, a.nome, p.status, p.horario, p.tipo_presenca
         FROM presencas p
         LEFT JOIN alunos a ON p.id_aluno = a.id_aluno
         WHERE p.id_aluno = :id_aluno;
@@ -195,8 +195,9 @@ class AlunoRepository():
         
         historico_presenca = []
 
-        for nome, status, horario, tipo_presenca in historico_aluno:
+        for id_presenca, nome, status, horario, tipo_presenca in historico_aluno:
             historico_presenca.append({
+                'id_presenca': id_presenca,
                 'nome': nome,
                 'status': status,
                 'horario': horario,
