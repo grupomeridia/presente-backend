@@ -204,5 +204,3 @@ class AlunoRepository():
             })
         
         return historico_presenca
-    }
-
