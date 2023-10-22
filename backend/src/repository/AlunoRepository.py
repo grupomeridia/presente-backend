@@ -7,7 +7,7 @@ class AlunoRepository():
     def get_aluno_by_id(id):
         try:
             return {
-                "id": Aluno.query.get(id).id_aluno,
+                "id_aluno": Aluno.query.get(id).id_aluno,
                 "id_usuario" : Aluno.query.get(id).id_usuario,
                 "nome": Aluno.query.get(id).nome,
                 "ra": Aluno.query.get(id).ra,
@@ -179,4 +179,30 @@ class AlunoRepository():
 
         return {
             'media_alunos_ausentes': media_alunos_ausentes
+            }
+
+    @staticmethod
+    def historico_presenca(id_aluno):
+        consulta_presencas = db.text("""
+        SELECT a.nome, p.status, p.horario, p.tipo_presenca
+        FROM presencas p
+        LEFT JOIN alunos a ON p.id_aluno = a.id_aluno
+        WHERE p.id_aluno = :id_aluno;
+    """)
+        
+        with db.engine.connect() as connection:
+            historico_aluno = connection.execute(consulta_presencas, {'id_aluno': id_aluno}).fetchall()
+        
+        historico_presenca = []
+
+        for nome, status, horario, tipo_presenca in historico_aluno:
+            historico_presenca.append({
+                'nome': nome,
+                'status': status,
+                'horario': horario,
+                'tipo_presenca': tipo_presenca
+            })
+        
+        return historico_presenca
     }
+

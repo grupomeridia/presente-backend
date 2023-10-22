@@ -34,7 +34,7 @@ CREATE TABLE alunos(
 	status BOOLEAN NOT NULL,
 	ausente BOOLEAN NOT NULL,
 	nome VARCHAR(100) NOT NULL,
-	ra VARCHAR(6) UNIQUE NOT NULL
+	ra INTEGER UNIQUE NOT NULL
 );
 
 CREATE TABLE professores(
@@ -48,8 +48,15 @@ CREATE TYPE modalidade AS ENUM ('Online', 'Presencial');
 CREATE TYPE curso AS ENUM ('Analise_e_desenvolvimento_de_sistemas', 'Engenharia_de_Software', 'Psicologia', 'Ciências Biológicas');
 CREATE TYPE turno AS ENUM ('Matutino', 'Vespertino', 'Noturno');
 
+CREATE TABLE materias(
+	id_materia SERIAL PRIMARY KEY,
+	status BOOLEAN NOT NULL,
+	nome VARCHAR(100) NOT NULL
+);
+
 CREATE TABLE turmas(
 	id_turma SERIAL PRIMARY KEY,
+	id_materia INTEGER REFERENCES materias(id_materia),
 	status BOOLEAN NOT NULL,
 	nome VARCHAR(50) NOT NULL,
 	ano INTEGER NOT NULL,
@@ -69,15 +76,9 @@ CREATE TABLE turma_professor(
 	id_professor INTEGER REFERENCES professores(id_professor)
 );
 
-CREATE TABLE materias(
-	id_materia SERIAL PRIMARY KEY,
-	status BOOLEAN NOT NULL,
-	nome VARCHAR(100) NOT NULL
-);
 
 CREATE TABLE chamadas(
 	id_chamada SERIAL PRIMARY KEY,
-	id_materia INTEGER REFERENCES materias(id_materia),
 	id_turma INTEGER REFERENCES turmas(id_turma),
 	id_professor INTEGER REFERENCES professores(id_professor),
 	status BOOLEAN NOT NULL,

@@ -39,7 +39,7 @@ class UsuarioService():
         return UsuarioRepository.register(usuario)
     
     @staticmethod
-    def update(id, status, login, senha, cargo):      
+    def update(id_usuario, status, login, senha, cargo):      
 
         assert login != 'NOT_FOUND', "Campo 'login' inexistente."
         assert cargo != 'NOT_FOUND', "Campo 'cargo' inexistente."
@@ -50,12 +50,11 @@ class UsuarioService():
 
         assert len(senha) > 6, "Tamanho de senha mínimo não atingido."
         assert not re.match(r'^[a-zA-Z]+$', senha), "Senha deve conter números, letras maiúsculas e caractéres especiais."
-
-        assert not Usuario.query.filter(Usuario.login == login).first(), "Esse login já está sendo usado"
+        
 
         usuario = UsuarioService.to_entity(UsuarioDTO(status=status, login=login, senha=senha, cargo=cargo))
 
-        return UsuarioRepository.update(id, usuario) 
+        return UsuarioRepository.update(id_usuario, usuario) 
 
     @staticmethod
     def delete(id):

@@ -26,7 +26,7 @@ def professor():
         nome = data.get('nome', 'NOT_FOUND')
 
         try:
-            return ProfessorService.register(id_usuario, status, nome)
+            return ProfessorService.register(id_usuario=id_usuario, status=status, nome=nome)
         except AssertionError as error:
             return str(error), 400  
 
@@ -36,10 +36,9 @@ def professor():
         data = request.json
 
         status = True
-        id_usuario = data.get('id_usuario', 'NOT_FOUND')
         nome = data.get('nome', 'NOT_FOUND')
         try:
-            return ProfessorService.update(id_professor, id_usuario, status, nome)
+            return ProfessorService.update(id_professor=id_professor, status=status, nome=nome)
         except AssertionError as error:
             return str(error), 400
         
@@ -56,7 +55,7 @@ def professor():
 def listar_all_professores():
    return ProfessorRepository.list_all()
 
-@professores.route("/api/professor/cadastrado", methods=['GET'])
+@professores.route("/api/professor/listarTurmas", methods=['GET'])
 def listar_turmas():
     id_professor = request.args.get("id")
     try:

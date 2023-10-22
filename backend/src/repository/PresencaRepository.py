@@ -3,15 +3,16 @@ from models import db
 
 from entity.Presenca import Presenca
 from entity.Aluno import Aluno
+from repository.ChamadaRepository import ChamadaRepository
+from datetime import datetime
 
 class PresencaRepository():
     @staticmethod
     def get_presenca_by_id(id):
 
-        print(f"AQUI CARAIO {id}")
         try:
             return {
-                "id" : Presenca.query.get(id).id_presenca,
+                "id_presenca" : Presenca.query.get(id).id_presenca,
                 "aluno": Presenca.query.get(id).id_aluno,
                 "chamada": Presenca.query.get(id).id_chamada,
                 "status": Presenca.query.get(id).status,
@@ -21,6 +22,7 @@ class PresencaRepository():
         except AttributeError as error:
             print(f"{str(error)}")
             raise AssertionError ("Prensença não existe.")
+    
     @staticmethod
     def list_all():
         presencas = Presenca.query.all()
@@ -54,14 +56,16 @@ class PresencaRepository():
     def update(id, data):
         presenca = Presenca.query.get(id)
 
-        presenca.idAluno = data.idAluno
-        presenca.idChamada = data.idChamada
+        presenca.id_aluno = data.id_aluno
+        presenca.id_hamada = data.id_chamada
         presenca.status = data.status
-        presenca.tipoPresenca = data.tipoPresenca
+        presenca.tipo_presenca = data.tipo_presenca
         presenca.horario = data.horario
 
         db.session.merge(presenca)
         db.session.commit()
+        
+        return f"Presenca {id} atualizada!"
 
     @staticmethod
     def delete(id):
@@ -72,6 +76,37 @@ class PresencaRepository():
 
         return {"mensagem":"sucesso"}
     
+    @staticmethod
+    def marcar_presenca_pelo_ra(ra):
+        aluno = db.text(""" Select * from alunos where ra = :ra """)
+        
+        with db.engine.connect() as connection:
+            valor = connection.execute(aluno, {'ra': ra}).fetchone()
+      
+        valor2 = ChamadaRepository.get_chamadas_abertas_aluno(valor.id_aluno)
+
+    
+        if not valor2:
+            return "Não existe chamada aberta para esse aluno"
+
+        id_aluno = valor.id_aluno
+
+        id_chamada = valor2[0]['id_chamada']
+
+        presenca = db.text(""" SELECT * FROM presencas where id_aluno = :id_aluno and id_chamada = :id_chamada""")
+        
+        with db.engine.connect() as connection:
+            resultado = connection.execute(presenca, {'id_aluno':id_aluno, 'id_chamada':id_chamada}).fetchone()
+        
+            if resultado is not None:
+                return "Presenca já registrada"
+
+        presenca = Presenca(id_aluno=id_aluno, id_chamada=id_chamada, status=True, horario=datetime.now(), tipo_presenca='Manual')
+        db.session.add(presenca)
+        db.session.commit()
+
+        return {"mensagem": "presenca registrada"}
+
     @staticmethod
     def register_presenca(presenca):
 

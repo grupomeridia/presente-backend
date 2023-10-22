@@ -21,14 +21,13 @@ def professor():
         data = request.json
 
         status = True
-        abertura = datetime.now()
-        encerramento = None
-        id_materia = data.get('id_materia', 'NOT_FOUND')
+        abertura = data.get('abertura', 'NOT_FOUND')
+        encerramento = data.get('encerramento', 'NOT_FOUND')
         id_turma = data.get('id_turma', 'NOT_FOUND')
         id_professor = data.get('id_professor', 'NOT_FOUND')
         
         try:
-            return ChamadaService.register(id_materia, id_turma,id_professor, status, abertura)
+            return ChamadaService.register(id_turma=id_turma,id_professor=id_professor, status=status, abertura=abertura, encerramento=encerramento)
         except AssertionError as error:
             return str(error), 400
 
@@ -37,13 +36,12 @@ def professor():
         data = request.json
 
         status = True
-        id_materia = data.get('id_materia', 'NOT_FOUND')
         id_turma = data.get('id_turma', 'NOT_FOUND')
         id_professor = data.get('id_professor', 'NOT_FOUND')
         abertura = data.get('abertura', 'NOT_FOUND')
         encerramento = data.get('encerramento', 'NOT_FOUND')
         try:
-            return ChamadaService.update(id_chamada, id_materia, id_turma, id_professor, status, abertura, encerramento)
+            return ChamadaService.update(id_chamada=id_chamada, id_turma=id_turma, id_professor=id_professor, status=status, abertura=abertura, encerramento=encerramento)
         except AssertionError as error:
             return str(error), 400
 
@@ -58,13 +56,28 @@ def professor():
 
 @chamadas.route("/api/chamada/listAll", methods=['GET'])
 def listar_all_chamadas():
-    return ChamadaRepository.listAll()
+    return ChamadaRepository.list_all()
 
+@chamadas.route("/api/chamada/listAllprofessor", methods=['GET'])
+def listar_all_chamadas_professor():
+    id_professor = request.args.get('id')
+    try:
+        return jsonify(ChamadaService.listar_all_chamadas_professor(id_professor))
+    except AssertionError as error:
+        return str(error), 400
 
 @chamadas.route("/api/chamada/aluno", methods=['GET'])
 def chamadas_abertas():
-    id_chamada = request.args.get('id')
+    id_aluno = request.args.get('id')
     try: 
-        return jsonify(ChamadaRepository.get_chamadas_abertas_aluno(id_chamada))
+        return jsonify(ChamadaRepository.get_chamadas_abertas_aluno(id_aluno))
     except AssertionError as error:
-        return str(error)
+        return str(error), 400
+    
+@chamadas.route("/api/chamada/fecharChamada", methods=['PUT'])
+def fechar_chamada():
+    id_chamada = request.args.get('id')
+    try:
+        return ChamadaService.fechar_chamada(id_chamada)
+    except AssertionError as error:
+        return str(error), 400
