@@ -5,6 +5,8 @@ from entity.CargoEnum import Cargo
 
 from dtos.UsuarioDTO import UsuarioDTO
 
+
+
 import re
 
 class UsuarioService():
@@ -83,3 +85,22 @@ class UsuarioService():
         usuario = Usuario(status=usuario_dto.status, login=usuario_dto.login, senha=usuario_dto.senha, nome=usuario_dto.nome, ra=usuario_dto.ra, cargo=usuario_dto.cargo)       
         
         return usuario
+    
+    @staticmethod
+    def login(login, senha):
+        assert login != 'NOT_FOUND', "Campo 'login' inexistente."
+        assert senha != 'NOT_FOUND', "Campo 'senha' inexistente."
+        
+        assert len(login) > 3 and len(login) < 10, "Login inválido!!"
+
+        assert login != None and len(login) > 0, "Insira um Login!"
+        assert senha != None and len(senha) > 0, "Insira uma senha!"
+
+        user = Usuario.query.filter(Usuario.login == login).first()
+        assert Usuario.query.filter(Usuario.login == login).first() is not None, "Login ou senha incorretos"
+
+        assert Usuario.verifyPassword(password=user.senha,given_password=senha), "Login ou senha incorretos!"
+
+        return UsuarioRepository.login(login)
+
+

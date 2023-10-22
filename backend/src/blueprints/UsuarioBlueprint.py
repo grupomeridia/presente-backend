@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, redirect, url_for
 
 from repository.UsuarioRepository import UsuarioRepository
 
@@ -55,3 +55,23 @@ def usuario():
             return jsonify(UsuarioService.delete(id_usuario))
         except AssertionError as error:
             return str(error), 400
+        
+@usuarios.route("/api/login", methods=['POST'])
+def login():
+    if request.method == 'POST':
+
+        data = request.json
+
+        login = data.get('login', 'NOT_FOUND')
+        senha = data.get('senha', 'NOT_FOUND')
+
+        try:
+            return UsuarioService.login(login=login, senha=senha)
+             
+        except AssertionError as error:
+            return str(error),400
+
+@usuarios.route("/api/register", methods=['POST'])
+def register():
+    pass
+        
