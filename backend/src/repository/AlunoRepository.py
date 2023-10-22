@@ -179,7 +179,7 @@ class AlunoRepository():
 
         return {
             'media_alunos_ausentes': media_alunos_ausentes
-    }
+            }
 
     @staticmethod
     def historico_presenca(id_aluno):
@@ -204,3 +204,5 @@ class AlunoRepository():
             })
         
         return historico_presenca
+    }
+
