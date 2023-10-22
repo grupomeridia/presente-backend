@@ -135,3 +135,12 @@ class AlunoService():
             return AssertionError("Deve ser um aluno com valor valido.")
         
         return AlunoRepository.historico_presenca(id_aluno)
+    
+    @staticmethod
+    def presenca_falta(id_aluno):
+        try:
+            int(id_aluno)
+        except ValueError:
+            return AssertionError("Deve ser um aluno com valor valido.")
+        
+        return AlunoRepository.presenca_falta(id_aluno)

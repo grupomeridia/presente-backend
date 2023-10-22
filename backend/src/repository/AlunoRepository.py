@@ -205,3 +205,34 @@ class AlunoRepository():
             })
         
         return historico_presenca
+
+    @staticmethod
+    def presenca_falta(id_aluno):
+        consulta_sql = db.text("""
+        SELECT
+            a.nome AS nome_aluno,
+            COUNT(CASE WHEN p.status = true THEN 1 ELSE NULL END) AS presencas,
+            COUNT(CASE WHEN p.status = false THEN 1 ELSE NULL END) AS faltas
+        FROM
+            alunos a
+        LEFT JOIN
+            presencas p ON a.id_aluno = p.id_aluno
+        WHERE
+            a.id_aluno = :id_aluno
+        GROUP BY
+            a.id_aluno, a.nome;
+""")
+        
+        with db.engine.connect() as connection:
+            presenca = connection.execute(consulta_sql, {'id_aluno': id_aluno}).fetchall()
+
+        presenca_falta = []
+
+        for nome, presencas, faltas in presenca:
+            presenca_falta.append({
+                'nome': nome,
+                'presencas': presencas,
+                'faltas': faltas
+            })
+        
+        return presenca_falta
