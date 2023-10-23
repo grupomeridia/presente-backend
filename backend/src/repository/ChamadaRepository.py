@@ -98,6 +98,7 @@ class ChamadaRepository():
 
         if chamada:
             chamada.encerramento = datetime.now()
+            chamada.status = False
             db.session.merge(chamada)
             db.session.commit()
             return {"mensagem": "Chamada fechada com sucesso"}
