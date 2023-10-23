@@ -66,7 +66,7 @@ def cadastrar_aluno():
     id_turma = data['id_turma']
     id_aluno = data['id_aluno']
 
-    return TurmaRepository.cadastrar_aluno(id_turma, id_aluno)
+    return TurmaService.cadastrar_aluno(id_turma, id_aluno)
 
 @turmas.route("/api/turma/cadastrarProfessor", methods=['POST'])
 def cadastrar_professor():
@@ -75,4 +75,4 @@ def cadastrar_professor():
     id_turma = data['id_turma']
     id_professor = data['id_professor']
 
-    return TurmaRepository.cadastrar_professor(id_turma, id_professor)
+    return TurmaService.cadastrar_professor(id_turma, id_professor)

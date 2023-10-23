@@ -100,6 +100,26 @@ class TurmaService():
         return TurmaRepository.delete(id)
     
     @staticmethod
+    def cadastrar_aluno(id_turma, id_aluno):
+        
+        assert int(id_aluno) if isinstance(id_aluno, (int, str)) and id_aluno.isdigit() else None, "Aluno id incorreto."
+        assert int(id_turma) if isinstance(id_turma, (int, str)) and id_turma.isdigit() else None, "Turma id incorreto."
+        assert int(id_aluno) > 0 and int(id_aluno) < 999999, "ID do aluno inválido"
+        assert int(id_turma) > 0 and int(id_turma) < 999999, "ID da turma inválida"
+
+        return TurmaRepository.cadastrar_aluno(id_turma, id_aluno)
+
+    @staticmethod
+    def cadastrar_professor(id_turma, id_professor):
+        
+        assert int(id_professor) if isinstance(id_professor, (int, str)) and id_professor.isdigit() else None, "Professor id incorreto."
+        assert int(id_turma) if isinstance(id_turma, (int, str)) and id_turma.isdigit() else None, "Turma id incorreto."
+        assert int(id_professor) > 0 and int(id_professor) < 999999, "ID do professor inválido"
+        assert int(id_turma) > 0 and int(id_turma) < 999999, "ID da turma inválida"
+
+        return TurmaRepository.cadastrar_professor(id_turma, id_professor)
+
+    @staticmethod
     def to_entity(turma_dto):
         turma = Turma(status=turma_dto.status, id_materia=turma_dto.id_materia, nome=turma_dto.nome, ano=turma_dto.ano, semestre=turma_dto.semestre, turno=turma_dto.turno, modalidade=turma_dto.modalidade, curso=turma_dto.curso)
 
