@@ -66,7 +66,10 @@ def cadastrar_aluno():
     id_turma = data['id_turma']
     id_aluno = data['id_aluno']
 
-    return TurmaService.cadastrar_aluno(id_turma, id_aluno)
+    try:
+        return TurmaService.cadastrar_aluno(id_turma, id_aluno)
+    except AssertionError as error:
+        return str(error), 400
 
 @turmas.route("/api/turma/cadastrarProfessor", methods=['POST'])
 def cadastrar_professor():
@@ -75,4 +78,7 @@ def cadastrar_professor():
     id_turma = data['id_turma']
     id_professor = data['id_professor']
 
-    return TurmaService.cadastrar_professor(id_turma, id_professor)
+    try:
+        return TurmaService.cadastrar_professor(id_turma, id_professor)
+    except AssertionError as error:
+        return str(error), 400
