@@ -102,8 +102,8 @@ class TurmaService():
     @staticmethod
     def cadastrar_aluno(id_turma, id_aluno):
         
-        assert int(id_aluno) if isinstance(id_aluno, (int, str)) and id_aluno.isdigit() else None, "Aluno id incorreto."
-        assert int(id_turma) if isinstance(id_turma, (int, str)) and id_turma.isdigit() else None, "Turma id incorreto."
+        assert int(id_aluno) if isinstance(id_aluno, (int)) else None, "Aluno id incorreto."
+        assert int(id_turma) if isinstance(id_turma, (int)) else None, "Turma id incorreto."
         assert int(id_aluno) > 0 and int(id_aluno) < 999999, "ID do aluno inválido"
         assert int(id_turma) > 0 and int(id_turma) < 999999, "ID da turma inválida"
 
@@ -112,8 +112,8 @@ class TurmaService():
     @staticmethod
     def cadastrar_professor(id_turma, id_professor):
         
-        assert int(id_professor) if isinstance(id_professor, (int, str)) and id_professor.isdigit() else None, "Professor id incorreto."
-        assert int(id_turma) if isinstance(id_turma, (int, str)) and id_turma.isdigit() else None, "Turma id incorreto."
+        assert int(id_professor) if isinstance(id_professor, (int)) else None, "Professor id incorreto."
+        assert int(id_turma) if isinstance(id_turma, (int)) else None, "Turma id incorreto."
         assert int(id_professor) > 0 and int(id_professor) < 999999, "ID do professor inválido"
         assert int(id_turma) > 0 and int(id_turma) < 999999, "ID da turma inválida"
 
