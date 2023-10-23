@@ -81,3 +81,10 @@ def fechar_chamada():
         return ChamadaService.fechar_chamada(id_chamada)
     except AssertionError as error:
         return str(error), 400
+    
+@chamadas.route("/api/chamada/updateAll", methods=['GET'])
+def updateAll():
+    try:
+        return ChamadaRepository.update_all()
+    except Exception as error:
+        return str(error)
