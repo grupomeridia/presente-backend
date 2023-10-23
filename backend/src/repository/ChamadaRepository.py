@@ -9,7 +9,9 @@ from entity.Turma import Turma
 from entity.Aluno import Aluno
 from entity.TurmaAluno import turma_aluno
 from entity.Professor import Professor
-from entity.Materia import Materia
+from entity.Configuracao import Configuracao
+
+from sqlalchemy import select
 
 class ChamadaRepository():
     @staticmethod
@@ -156,3 +158,17 @@ class ChamadaRepository():
 
         return jsonify(resultado)
 
+    @staticmethod
+    def update_all():
+        with db.engine.connect() as connection:    
+            chamadas = connection.execute(select(Chamada).where(Chamada.status == True)).all()
+            config = Configuracao.query.filter(Configuracao.status == True).first()
+            
+            for x in range(len(chamadas)):
+                if chamadas[x].encerramento < datetime.now() or (config is not None and chamadas[x].encerramento < config.fim_aula):
+                    chamada = Chamada.query.get(chamadas[x].id_chamada)
+                    chamada.status = False
+                    db.session.merge(chamada)
+                    db.session.commit()
+
+        return "Chamadas atualizadas"
