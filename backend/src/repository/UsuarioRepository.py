@@ -33,15 +33,21 @@ class UsuarioRepository():
             db.session.add(aluno)
             db.session.commit()
 
+            return {"id_aluno": aluno.id_aluno}
+
         if (usuario.cargo.value == "Professor"):
             professor = Professor(id_usuario=usuario.id_usuario, status=usuario.status, nome=usuario.nome)
             db.session.add(professor)
             db.session.commit()
 
+            return {"id_professor": professor.id_professor}
+
         if (usuario.cargo.value == "Secretaria"):
             secretaria = Secretaria(id_usuario=usuario.id_usuario, status=usuario.status, nome=usuario.nome)
             db.session.add(secretaria)
             db.session.commit()
+
+            return {"id_secretaria": secretaria.id_secretaria}
 
         return f"Usuario {usuario.id_usuario} criado com sucesso"
     
@@ -93,6 +99,7 @@ class UsuarioRepository():
                 "Nome": user.nome,
                 "RA":aluno.ra
                 }
+            
             elif user.cargo.value == "Professor":
                 professor = Professor.query.filter(Professor.id_usuario == user.id_usuario).first()
                 return{
