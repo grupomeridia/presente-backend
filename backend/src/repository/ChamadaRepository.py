@@ -119,14 +119,15 @@ class ChamadaRepository():
     def get_chamadas_abertas_aluno(id):
 
         consulta_sql = db.text("""
-        select p.nome, m.nome, c.id_chamada, c.abertura, c.encerramento from chamadas c 
-        join turma_aluno ta on ta.id_turma = c.id_turma
-		join professores p on p.id_professor = c.id_professor
-		join turmas t on t.id_turma = ta.id_turma
-		join materias m on m.id_materia = t.id_materia
-        where ta.id_aluno = :id and c.status is True
-    
-    """)
+            select p.nome, m.nome, c.id_chamada, c.abertura, c.encerramento from chamadas c 
+            join turma_aluno ta on ta.id_turma = c.id_turma
+            join professores p on p.id_professor = c.id_professor
+            join turmas t on t.id_turma = ta.id_turma
+            join materias m on m.id_materia = t.id_materia
+            where ta.id_aluno = :id and c.status is True 
+            and (ta.id_aluno, c.id_chamada) NOT IN (
+                SELECT id_aluno, id_chamada FROM presencas)
+            """)
         
         with db.engine.connect() as connection:    
             resultado = connection.execute(consulta_sql, {'id': id}).fetchall()
