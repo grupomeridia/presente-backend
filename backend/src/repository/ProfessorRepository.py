@@ -68,8 +68,9 @@ class ProfessorRepository():
     @staticmethod
     def listar_turmas(id):
         consulta_sql = db.text("""
-        SELECT t.*
+        SELECT t.*, m.nome
         FROM turmas t
+		JOIN materias m ON m.id_materia = t.id_materia
         JOIN turma_professor tp ON t.id_turma = tp.id_turma
         JOIN professores p ON tp.id_professor = p.id_professor
         WHERE p.id_professor = :id;
@@ -80,7 +81,7 @@ class ProfessorRepository():
             resultado_dict = resultado.fetchall()
 
         resultado_json = []
-        for id_turma, id_materia, status, nome, ano, semestre, turno, modalidade, curso in resultado_dict:
+        for id_turma, id_materia, status, nome, ano, semestre, turno, modalidade, curso, nome_materia in resultado_dict:
             resultado_json.append({
                 'id_turma': id_turma, 
                 'id_materia': id_materia,
@@ -90,7 +91,8 @@ class ProfessorRepository():
                 'semestre': semestre,
                 'turno': turno,
                 'modalidade': modalidade,
-                'curso': curso
+                'curso': curso,
+                'nome_materia': nome_materia
             })
 
         return resultado_json
