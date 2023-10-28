@@ -124,7 +124,7 @@ class ChamadaRepository():
 		join professores p on p.id_professor = c.id_professor
 		join turmas t on t.id_turma = ta.id_turma
 		join materias m on m.id_materia = t.id_materia
-        where ta.id_aluno = 3 and c.status is True
+        where ta.id_aluno = :id and c.status is True
     
     """)
         
