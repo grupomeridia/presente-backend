@@ -3,6 +3,8 @@ from entity.CursoEnum import Curso
 from entity.TurnoEnum import Turno
 from entity.ModalidadeEnum import Modalidade
 from entity.Turma import Turma
+from entity.Aluno import Aluno
+from entity.Professor import Professor
 from entity.Materia import Materia
 from dtos.TurmaDTO import TurmaDTO
 
@@ -106,6 +108,10 @@ class TurmaService():
         assert int(id_turma) if isinstance(id_turma, (int)) else None, "Turma id incorreto."
         assert int(id_aluno) > 0 and int(id_aluno) < 999999, "ID do aluno inválido"
         assert int(id_turma) > 0 and int(id_turma) < 999999, "ID da turma inválida"
+        
+        aluno = Aluno.query.get(id_aluno)
+        if aluno and Turma.query.get(id_turma) in aluno.turmas:
+            return ({'mensagem': 'Aluno ja cadastrado na turma'}), 400
 
         return TurmaRepository.cadastrar_aluno(id_turma, id_aluno)
 
@@ -116,6 +122,10 @@ class TurmaService():
         assert int(id_turma) if isinstance(id_turma, (int)) else None, "Turma id incorreto."
         assert int(id_professor) > 0 and int(id_professor) < 999999, "ID do professor inválido"
         assert int(id_turma) > 0 and int(id_turma) < 999999, "ID da turma inválida"
+
+        professor = Professor.query.get(id_professor)
+        if professor and Turma.query.get(id_turma) in professor.turmas:
+            return ({'mensagem': 'Professor ja cadastrado na turma'}), 400
 
         return TurmaRepository.cadastrar_professor(id_turma, id_professor)
 
