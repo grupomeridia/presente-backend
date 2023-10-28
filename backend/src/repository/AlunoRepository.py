@@ -224,16 +224,17 @@ class AlunoRepository():
 """)
         
         with db.engine.connect() as connection:
-            presenca = connection.execute(consulta_sql, {'id_aluno': id_aluno}).fetchall()
+            presenca = connection.execute(consulta_sql, {'id_aluno': id_aluno}).fetchone()
 
-        presenca_falta = []
+        nome = presenca[0]
+        presencas = presenca[1]
+        faltas = presenca[2]
 
-        for nome, presencas, faltas in presenca:
-            presenca_falta.append({
-                'nome': nome,
-                'presencas': presencas,
-                'faltas': faltas
-            })
+        presenca_falta = {
+            'nome': nome,
+            'presencas': presencas,
+            'faltas': faltas
+        }
         
         return presenca_falta
     
