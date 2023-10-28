@@ -36,6 +36,8 @@ class TurmaService():
 
 
         assert nome != 'NOT_FOUND', "Campo 'nome' inexistente."
+        assert Turma.query.filter(Turma.nome == nome).first() == None, "Já existe uma turma com o nome fornecido!"
+
         assert ano != 'NOT_FOUND', "Campo 'ano' inexistente."
         assert semestre != 'NOT_FOUND', "Campo 'semestre' inexistente."
         assert turno != 'NOT_FOUND', "Campo 'turno' inexistente."
