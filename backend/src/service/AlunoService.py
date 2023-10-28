@@ -30,10 +30,11 @@ class AlunoService():
         assert int(id_usuario) > 0 and int(id_usuario) < 999999, "ID de usuário inválido."
 
         assert not Aluno.query.filter(Aluno.id_usuario == id_usuario).first(), "ID de usuário já cadastrado."
-        
+        assert not Aluno.query.filter(Aluno.ra == ra).first(), "RA já esta sendo usado."
         
         assert re.match(r'^\d+$', str(ra)), "O RA deve ter apenas números."
         assert ra >= 100000 and ra <= 999999, "RA inválido."
+
         
         usuario = Usuario.query.get(id_usuario)
         assert usuario is not None, "Usuário não encontrado."
