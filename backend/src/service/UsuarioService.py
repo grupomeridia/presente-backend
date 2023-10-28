@@ -39,9 +39,7 @@ class UsuarioService():
 
         assert len(nome) > 2, "nome com tamanho inválido."
 
-        assert not Usuario.query.filter(Usuario.ra == ra).first(), "RA já esta sendo usado."
-        assert re.match(r'^\d+$', str(ra)), "O RA deve ter apenas números."
-        assert ra >= 100000 and ra <= 999999, "RA inválido."
+        
 
         assert not Usuario.query.filter(Usuario.login == login).first(), "Esse login já está sendo usado"
         
@@ -49,6 +47,9 @@ class UsuarioService():
                     ra = None
         else:
             assert ra != 'NOT_FOUND', "Campo 'ra' inexistente."
+            assert not Usuario.query.filter(Usuario.ra == ra).first(), "RA já esta sendo usado."
+            assert re.match(r'^\d+$', str(ra)), "O RA deve ter apenas números."
+            assert ra >= 100000 and ra <= 999999, "RA inválido."
 
         usuario = UsuarioService.to_entity(UsuarioDTO(status=status, login=login, senha=senha, nome=nome, ra=ra, cargo=cargo))
         
