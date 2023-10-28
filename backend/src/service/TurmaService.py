@@ -47,21 +47,23 @@ class TurmaService():
         assert re.match(r'^\d+$', str(id_materia)), "O ID de matéria deve ter apenas números."
         materia = Materia.query.get(id_materia)
 
-        assert materia is not None, "Matéria não encontrada"
         assert nome is not None, "Nenhum nome da turma foi fornecido"
-        assert id_materia is not None, "Nenhuma matéria foi fornecida"
         assert semestre is not None, "Semestre não informado"
+        
+        assert ano is not None, "Ano inválido!"
+        assert int(ano) if isinstance(ano, int) else None, "Ano inválido!!"
+
+        assert materia is not None, "Matéria não encontrada"
+        assert id_materia is not None, "Nenhuma matéria foi fornecida"
+        assert curso is not None, "Curso inválido!"
         assert turno is not None, "Turno inválido!"
         assert modalidade is not None, "Modalidade inválida!"
-        assert curso is not None, "Curso inválido!"
-        assert ano is not None, "Ano inválido!"
-
 
         assert len(nome) > 3, "Nome com tamanho inválido."
         assert nome.isalpha(), "O nome deve conter apenas letras."
         
 
-        assert 2000 <= int(ano) <= 2023, "Ano inválido."
+        assert 2000 <= int(ano) <= 2100, "Ano inválido."
         assert 1 <= int(semestre) <= 8, "Semestre inválido."
 
         turma = TurmaService.to_entity(TurmaDTO(status=status, id_materia=id_materia, nome=nome, ano=ano, semestre=semestre, turno=turno, modalidade=modalidade, curso=curso))
