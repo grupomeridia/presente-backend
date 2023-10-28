@@ -236,3 +236,120 @@ class AlunoRepository():
             })
         
         return presenca_falta
+    
+    @staticmethod
+    def alunos_ausentes():
+        consulta_sql = db.text(""" SELECT * FROM alunos where ausente is true """)
+
+        with db.engine.connect() as connection:
+            ausentes_alunos = connection.execute(consulta_sql).fetchall()
+
+        alunos_ausentes = []
+
+        for id_aluno, id_usuario, status, ausentes, nome, ra in ausentes_alunos:
+            alunos_ausentes.append({
+                'id_aluno': id_aluno,
+                'id_usuario': id_usuario,
+                'status': status,
+                'ausentes': ausentes,
+                'nome': nome,
+                'ra': ra
+            })
+
+        return alunos_ausentes
+    
+    @staticmethod
+    def alunos_presentes():
+        consulta_sql = db.text("""
+            SELECT a.* FROM alunos a
+            JOIN presencas p ON a.id_aluno = p.id_aluno
+            JOIN chamadas c ON c.id_chamada = p.id_chamada
+            WHERE p.horario is not null
+            AND c.abertura = (SELECT MAX(abertura) FROM chamadas)
+            """)
+        
+        with db.engine.connect() as connection:
+            presentes_alunos = connection.execute(consulta_sql).fetchall()
+
+        alunos_presentes = []
+
+        for id_aluno, id_usuario, status, ausentes, nome, ra in presentes_alunos:
+            alunos_presentes.append({
+                'id_aluno': id_aluno,
+                'id_usuario': id_usuario,
+                'status': status,
+                'ausentes': ausentes,
+                'nome': nome,
+                'ra': ra
+            })
+        
+        return alunos_presentes
+    
+    @staticmethod
+    def alunos_a_chegar():
+        consulta_sql = db.text(""" 
+        SELECT a.*
+        FROM alunos a
+        WHERE a.id_aluno NOT IN (
+            SELECT p.id_aluno
+            FROM presencas p
+            INNER JOIN chamadas c ON c.id_chamada = p.id_chamada
+            WHERE c.abertura = (SELECT MAX(abertura) FROM chamadas)
+            AND p.horario IS NOT NULL); 
+        """)
+
+        with db.engine.connect() as connection:
+            alunos_chegar = connection.execute(consulta_sql).fetchall()
+
+        alunos_a_chegar = []
+
+        for id_aluno, id_usuario, status, ausentes, nome, ra in alunos_chegar:
+            alunos_a_chegar.append({
+                'id_aluno': id_aluno,
+                'id_usuario': id_usuario,
+                'status': status,
+                'ausentes': ausentes,
+                'nome': nome,
+                'ra': ra
+            })
+
+        return alunos_a_chegar
+    
+    @staticmethod
+    def aluno_status(id_aluno):
+        consulta_sql = db.text(""" 
+        SELECT a.id_aluno, a.status, a.nome, a.ra,
+            t.curso,
+            SUM(CASE WHEN p.horario IS NULL THEN 1 ELSE 0 END) AS faltas,
+            (SUM(CASE WHEN p.horario IS NOT NULL THEN 1 ELSE 0 END) * 100) / 
+            COUNT(*) AS frequencia
+        FROM alunos a 
+        JOIN presencas p ON p.id_aluno = a.id_aluno
+        JOIN turma_aluno ta ON ta.id_aluno = a.id_aluno
+        JOIN turmas t ON t.id_turma = ta.id_turma
+        WHERE a.id_aluno = :id_aluno
+        GROUP BY a.id_aluno, t.id_turma;
+         """)
+        
+        with db.engine.connect() as connection:
+            aluno = connection.execute(consulta_sql, {'id_aluno':id_aluno}).fetchone()
+
+            id_aluno = aluno[0]
+            status = aluno[1]
+            nome = aluno[2]
+            ra = aluno[3]
+            curso = aluno[4]
+            faltas = aluno[5]
+            frequencia = aluno[6]
+
+            aluno_status = {
+                'id_aluno': id_aluno,
+                'status': status,
+                'nome': nome,
+                'ra': ra,
+                'curso': curso,
+                'faltas': faltas,
+                'frequencia': frequencia
+            }
+
+            return aluno_status

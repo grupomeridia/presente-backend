@@ -112,3 +112,32 @@ def presenca_falta():
         return AlunoService.presenca_falta(id_aluno)
     except AssertionError as error:
         return str(error), 400
+    
+@alunos.route("/api/aluno/ausentes", methods=['GET'])
+def alunos_ausentes():
+    try:
+        return AlunoRepository.alunos_ausentes()
+    except AssertionError as error:
+        return str(error), 400
+    
+@alunos.route("/api/aluno/presentes", methods=['GET'])
+def alunos_presentes():
+    try:
+        return AlunoRepository.alunos_presentes()
+    except AssertionError as error:
+        return str(error), 400
+    
+@alunos.route("/api/aluno/chegar", methods=['GET'])
+def alunos_a_chegar():
+    try:
+        return AlunoRepository.alunos_a_chegar()
+    except AssertionError as error:
+        return str(error), 400
+    
+@alunos.route("/api/aluno/alunoStatus", methods=['GET'])
+def aluno_status():
+    id_aluno = request.args.get('id_aluno')
+    try:
+        return AlunoService.aluno_status(id_aluno)
+    except AssertionError as error:
+        return str(error), 400

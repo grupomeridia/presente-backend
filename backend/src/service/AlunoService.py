@@ -144,3 +144,13 @@ class AlunoService():
             return AssertionError("Deve ser um aluno com valor valido.")
         
         return AlunoRepository.presenca_falta(id_aluno)
+    
+    @staticmethod
+    def aluno_status(id_aluno):
+
+        assert id_aluno != None, "Nenhum ID do aluno enviado."
+        assert int(id_aluno) if isinstance(id_aluno, (int,str)) and str(id_aluno).isdigit() else None, "ID do Usuário incorreto."
+        assert int(id_aluno) > 0 and int(id_aluno) < 999999, "ID do aluno inválido."
+        assert Aluno.query.get(id_aluno) != None, "Nenhum aluno com este ID foi encontrado."
+
+        return AlunoRepository.aluno_status(id_aluno)
