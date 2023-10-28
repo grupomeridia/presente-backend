@@ -119,12 +119,12 @@ class ChamadaRepository():
     def get_chamadas_abertas_aluno(id):
 
         consulta_sql = db.text("""
-        select p.nome, m.nome, c.abertura, c.encerramento from chamadas c 
+        select p.nome, m.nome, c.id_chamada, c.abertura, c.encerramento from chamadas c 
         join turma_aluno ta on ta.id_turma = c.id_turma
 		join professores p on p.id_professor = c.id_professor
 		join turmas t on t.id_turma = ta.id_turma
 		join materias m on m.id_materia = t.id_materia
-        where ta.id_aluno = :id and c.status is True
+        where ta.id_aluno = 3 and c.status is True
     
     """)
         
@@ -132,10 +132,11 @@ class ChamadaRepository():
             resultado = connection.execute(consulta_sql, {'id': id}).fetchall()
             
         resultado_json = []
-        for professor_nome, materia_nome, abertura, encerramento in resultado:
+        for professor_nome, materia_nome, id_chamada, abertura, encerramento in resultado:
             resultado_json.append({
                 'professor_nome': professor_nome,
                 'materia_nome': materia_nome,
+                'id_chamada': id_chamada,
                 'abertura': abertura,
                 'encerramento': encerramento
             })

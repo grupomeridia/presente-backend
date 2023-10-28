@@ -84,7 +84,7 @@ class PresencaRepository():
             valor = connection.execute(aluno, {'ra': ra}).fetchone()
       
         valor2 = ChamadaRepository.get_chamadas_abertas_aluno(valor.id_aluno)
-
+        print(valor2)
     
         if not valor2:
             return "Não existe chamada aberta para esse aluno"
