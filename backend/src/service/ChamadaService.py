@@ -63,6 +63,9 @@ class ChamadaService():
         professor = Professor.query.get(id_professor)
         assert professor is not None, "Professor não encontrado"
         
+        chamada_aberta = Chamada.query.filter(Chamada.id_professor == professor.id_professor, Chamada.id_turma == turma.id_turma, Chamada.status == True).first()
+        if (chamada_aberta):
+            raise AssertionError(str('ja existe uma chamada aberta para esse professor e turma'))
 
         chamada = ChamadaService.to_entity(ChamadaDTO(id_professor=id_professor, id_turma=id_turma, status=status, abertura=abertura, encerramento=encerramento))
 
