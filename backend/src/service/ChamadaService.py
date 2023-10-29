@@ -40,7 +40,7 @@ class ChamadaService():
         abertura = datetime.now() if not abertura else datetime.strptime(abertura, "%d-%m-%Y %H:%M")
         assert re.match(r'^\d{2}-\d{2}-\d{4} \d{2}:\d{2}$', abertura.strftime("%d-%m-%Y %H:%M")), "Formato de abertura inválido."
 
-        if(encerramento == 'NOT_FOUND'):
+        if(encerramento == 'NOT_FOUND' or encerramento == None):
             encerramento = None
         else:
             assert re.match(r'^\d{2}-\d{2}-\d{4} \d{2}:\d{2}$', encerramento.strftime("%d-%m-%Y %H:%M")), "Formato de encerramento inválido."
