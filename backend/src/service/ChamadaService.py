@@ -37,13 +37,13 @@ class ChamadaService():
         assert id_professor != 'NOT_FOUND', "Campo 'id_professor' inexistente."
         assert encerramento != 'NOT_FOUND', "Campo 'encerramento' inexistente."
         
-        abertura = datetime.now() if not abertura else datetime.strptime(abertura, "%d-%m-%Y %H:%M:%S")
-        assert re.match(r'^\d{2}-\d{2}-\d{4} \d{2}:\d{2}:\d{2}$', abertura.strftime("%d-%m-%Y %H:%M:%S")), "Formato de abertura inválido."
+        abertura = datetime.now() if not abertura else datetime.strptime(abertura, "%d-%m-%Y %H:%M")
+        assert re.match(r'^\d{2}-\d{2}-\d{4} \d{2}:\d{2}$', abertura.strftime("%d-%m-%Y %H:%M")), "Formato de abertura inválido."
 
         if(encerramento == 'NOT_FOUND'):
             encerramento = None
         else:
-            assert re.match(r'^\d{2}-\d{2}-\d{4} \d{2}:\d{2}:\d{2}$', encerramento.strftime("%d-%m-%Y %H:%M:%S")), "Formato de encerramento inválido."
+            assert re.match(r'^\d{2}-\d{2}-\d{4} \d{2}:\d{2}$', encerramento.strftime("%d-%m-%Y %H:%M")), "Formato de encerramento inválido."
 
         assert int(id_turma) if isinstance(id_turma, (int,str)) and str(id_turma).isdigit() else None, "ID do Turma incorreto."
         assert int(id_turma) > 0 and int(id_turma) < 999999, "ID de turma inválido."
@@ -87,8 +87,8 @@ class ChamadaService():
         assert int(id_chamada) > 0 and int(id_chamada) < 999999, "ID inválido."
         
         try:
-            abertura = datetime.strptime(abertura, "%d-%m-%Y %H:%M:%S")
-            encerramento = datetime.strptime(encerramento, "%d-%m-%Y %H:%M:%S")
+            abertura = datetime.strptime(abertura, "%d-%m-%Y %H:%M")
+            encerramento = datetime.strptime(encerramento, "%d-%m-%Y %H:%M")
         except Exception as error:
             raise AssertionError("Abertura ou encerramento inválidos!")
         
