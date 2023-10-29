@@ -31,7 +31,10 @@ class ChamadaRepository():
     @staticmethod
     def listar_all_chamadas_professor(id_professor):
         consulta_sql = db.text("""
-        SELECT * FROM chamadas WHERE id_professor = :id_professor and status is True
+            SELECT c.*, m.nome FROM chamadas c 
+            JOIN turmas t ON t.id_turma = c.id_turma
+            JOIN materias m ON m.id_materia = t.id_materia
+            WHERE c.id_professor = :id_professor and c.status is True
 
     """)
         
@@ -39,7 +42,7 @@ class ChamadaRepository():
             resultado = connection.execute(consulta_sql, {'id_professor': id_professor}).fetchall()
         
         resultado_json = []
-        for id_chamada, id_turma, id_professor, status, abertura, encerramento in resultado:
+        for id_chamada, id_turma, id_professor, status, abertura, encerramento, nome_materia in resultado:
             professor_nome = Professor.query.get(id_professor)
             turma_nome = Turma.query.get(id_turma)
             resultado_json.append({
@@ -48,7 +51,8 @@ class ChamadaRepository():
                 'id_turma': turma_nome.nome,
                 'status': status,
                 'abertura': abertura,
-                'encerramento': encerramento
+                'encerramento': encerramento,
+                'nome_materia': nome_materia
             })
 
         return resultado_json
