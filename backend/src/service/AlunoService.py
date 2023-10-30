@@ -155,3 +155,12 @@ class AlunoService():
         assert Aluno.query.get(id_aluno) != None, "Nenhum aluno com este ID foi encontrado."
 
         return AlunoRepository.aluno_status(id_aluno)
+    
+    @staticmethod
+    def alunos_presenca_turma(turma_id):
+        try:
+            int(turma_id)
+        except ValueError:
+            return AssertionError("Deve ser uma turma com valor valido.")
+        
+        return AlunoRepository.alunos_presenca_turma(turma_id)
