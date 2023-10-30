@@ -103,7 +103,9 @@ class ChamadaRepository():
         chamada = Chamada.query.get(id_chamada)
 
         if chamada:
-            chamada.encerramento = datetime.now()
+            if (chamada.encerramento == None):
+                chamada.encerramento = datetime.now()
+                
             chamada.status = False
             db.session.merge(chamada)
             db.session.commit()

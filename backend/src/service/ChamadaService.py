@@ -37,12 +37,18 @@ class ChamadaService():
         assert id_professor != 'NOT_FOUND', "Campo 'id_professor' inexistente."
         assert encerramento != 'NOT_FOUND', "Campo 'encerramento' inexistente."
         
+
         abertura = datetime.now() if not abertura else datetime.strptime(abertura, "%d-%m-%Y %H:%M")
         assert re.match(r'^\d{2}-\d{2}-\d{4} \d{2}:\d{2}$', abertura.strftime("%d-%m-%Y %H:%M")), "Formato de abertura inválido."
 
         if(encerramento == 'NOT_FOUND' or encerramento == None):
             encerramento = None
         else:
+            try:
+                encerramento = datetime.strptime(encerramento, "%d-%m-%Y %H:%M")
+            except ValueError as error:
+                raise AssertionError(str(error))
+
             assert re.match(r'^\d{2}-\d{2}-\d{4} \d{2}:\d{2}$', encerramento.strftime("%d-%m-%Y %H:%M")), "Formato de encerramento inválido."
 
         assert int(id_turma) if isinstance(id_turma, (int,str)) and str(id_turma).isdigit() else None, "ID do Turma incorreto."
@@ -57,6 +63,9 @@ class ChamadaService():
         professor = Professor.query.get(id_professor)
         assert professor is not None, "Professor não encontrado"
         
+        chamada_aberta = Chamada.query.filter(Chamada.id_professor == professor.id_professor, Chamada.id_turma == turma.id_turma, Chamada.status == True).first()
+        if (chamada_aberta):
+            raise AssertionError(str('ja existe uma chamada aberta para esse professor e turma'))
 
         chamada = ChamadaService.to_entity(ChamadaDTO(id_professor=id_professor, id_turma=id_turma, status=status, abertura=abertura, encerramento=encerramento))
 
