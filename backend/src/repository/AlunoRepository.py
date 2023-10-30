@@ -354,3 +354,29 @@ class AlunoRepository():
             }
 
             return aluno_status
+        
+    @staticmethod
+    def alunos_presenca_turma(turma_id):
+        turma_presenca_sql = db.text("""
+        SELECT t.id_turma,
+        COUNT(CASE WHEN a.status = TRUE THEN 1 ELSE 0 END) AS presentes,
+        COUNT(CASE WHEN a.status = FALSE THEN 1 ELSE 0 END) AS ausentes
+        FROM turmas t
+        JOIN turma_aluno ta ON t.id_turma = ta.id_turma
+        JOIN alunos a ON ta.id_aluno = a.id_aluno
+        WHERE t.id_turma = :turma_id
+        GROUP BY t.id_turma;
+        """)
+
+        with db.engine.connect() as connection:
+            turma = connection.execute(turma_presenca_sql, {'turma_id':turma_id}).fetchall()
+
+            turma_presenca = []
+
+            for id_turma, presentes, ausentes in turma:
+                turma_presenca.append({
+                    'id_turma': id_turma,
+                    'presentes': presentes,
+                    'ausentes': ausentes
+                })
+            return turma_presenca

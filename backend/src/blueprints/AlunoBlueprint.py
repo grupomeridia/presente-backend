@@ -141,3 +141,11 @@ def aluno_status():
         return AlunoService.aluno_status(id_aluno)
     except AssertionError as error:
         return str(error), 400
+    
+@alunos.route("/api/aluno/turmaPresenca", methods=['GET'])
+def alunos_presenca_turma():
+    turma_id = request.args.get('turma_id')
+    try:
+        return AlunoRepository.alunos_presenca_turma(turma_id)
+    except AssertionError as error:
+        return str(error), 400
