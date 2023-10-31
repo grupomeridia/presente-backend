@@ -75,21 +75,14 @@ class AlunoRepository():
     @staticmethod
     def ausentes_presentes(turma_id):
         consulta_sql = db.text("""
-            SELECT
-                ta.id_aluno,
-                CASE
-                    WHEN p.horario IS NOT NULL THEN 'Presente'
-                    ELSE 'Ausente'
-                END AS situacao
-            FROM
-                turma_aluno ta
-            LEFT JOIN
-                presencas p ON ta.id_aluno = p.id_aluno
-            LEFT JOIN
-                chamadas c ON p.id_chamada = c.id_chamada
-            WHERE
-                ta.id_turma = :turma_id
-                AND DATE(c.abertura) = DATE(NOW())
+            SELECT 
+            SUM(CASE WHEN p.horario IS NOT NULL THEN 1 ELSE 0 END) AS presentes,
+            SUM(CASE WHEN p.horario IS NULL THEN 1 ELSE 0 END) AS ausentes
+            FROM turma_aluno ta
+            JOIN turmas t ON t.id_turma = ta.id_turma
+            LEFT JOIN presencas p ON ta.id_aluno = p.id_aluno
+            LEFT JOIN chamadas c ON p.id_chamada = c.id_chamada
+            WHERE ta.id_turma = :turma_id AND c.status = true;
         """)
 
         with db.engine.connect() as connection:
@@ -97,10 +90,10 @@ class AlunoRepository():
             resultados_dict = resultado.fetchall()
 
         resultado_json = []
-        for id_aluno, situacao in resultados_dict:
+        for presentes, ausentes in resultados_dict:
             resultado_json.append({
-                'id_aluno': id_aluno,
-                'situacao': situacao
+                'presentes': presentes,
+                'ausentes': ausentes
             })
 
         return resultado_json
@@ -109,12 +102,8 @@ class AlunoRepository():
     def ativo_inativo(turma_id):
         consulta_sql = db.text("""
         SELECT
-            ta.id_aluno,
-            CASE
-                WHEN a.status = 'true' THEN 'Ativo'
-                WHEN a.status = 'false' THEN 'Inativo'
-                ELSE 'Desconhecido'
-            END AS situacao
+        SUM(CASE WHEN a.status = 'true' THEN 1 ELSE 0 END) as ativos,
+        SUM(CASE WHEN a.status = 'false' THEN 1 ELSE 0 END) as inativos
         FROM turma_aluno ta
         JOIN alunos a ON ta.id_aluno = a.id_aluno
         WHERE ta.id_turma = :turma_id
@@ -137,14 +126,10 @@ class AlunoRepository():
     def media_ativo(turma_id):
         consulta_sql = db.text("""
         SELECT 
-            COUNT(*) * 100.0 / (SELECT COUNT(*) FROM turma_aluno WHERE id_turma = :turma_id) 
-            AS media_alunos_ativos 
-        FROM 
-            turma_aluno 
-        WHERE 
-            id_turma = :turma_id 
-            AND id_aluno IN (SELECT id_aluno FROM alunos WHERE status = 'true');
-    """)
+        COUNT(*) * 100.0 / (SELECT COUNT(*) FROM turma_aluno WHERE id_turma = 1) AS media_alunos_ativos 
+        FROM turma_aluno 
+        WHERE id_turma = 1 AND id_aluno IN (SELECT id_aluno FROM alunos WHERE status = 'true');
+        """)
 
         with db.engine.connect() as connection:
             resultado = connection.execute(consulta_sql, {'turma_id': turma_id})
@@ -157,21 +142,26 @@ class AlunoRepository():
     @staticmethod
     def media_ausente(turma_id):
         consulta_presencas = db.text("""
-        SELECT COUNT(id_presenca) 
-        FROM presencas
-    """)
+        SELECT COUNT(p.id_presenca) 
+        FROM presencas p 
+        JOIN chamadas c ON p.id_chamada = c.id_chamada
+        JOIN turmas t ON t.id_turma = c.id_turma
+        WHERE t.id_turma = :turma_id AND c.status is True
+        """)
 
         consulta_ausentes = db.text("""
-            SELECT COUNT(p.id_aluno)
-            FROM presencas p
-            LEFT JOIN chamadas c ON p.id_chamada = c.id_chamada
-            WHERE c.id_turma = :turma_id AND p.horario IS NULL
+        SELECT COUNT(p.id_aluno)
+        FROM presencas p
+        JOIN chamadas c ON p.id_chamada = c.id_chamada
+        JOIN turmas t ON t.id_turma = c.id_turma
+        WHERE c.id_turma = :turma_id AND p.horario IS NULL AND c.status is True
         """)
 
         with db.engine.connect() as connection:
-            total_presencas = connection.execute(consulta_presencas).scalar()
+            total_presencas = connection.execute(consulta_presencas, {'turma_id': turma_id}).scalar()
             total_ausentes = connection.execute(consulta_ausentes, {'turma_id': turma_id}).scalar()
-
+            print(total_presencas)
+            print(total_ausentes)
             if total_presencas > 0:
                 media_alunos_ausentes = (total_ausentes / total_presencas) * 100
             else:
