@@ -86,16 +86,16 @@ class AlunoRepository():
         """)
 
         with db.engine.connect() as connection:
-            resultado = connection.execute(consulta_sql, {'turma_id': turma_id})
-            resultados_dict = resultado.fetchall()
+            resultado = connection.execute(consulta_sql, {'turma_id': turma_id}).fetchone()
 
-        resultado_json = []
-        for presentes, ausentes in resultados_dict:
-            resultado_json.append({
-                'presentes': presentes,
-                'ausentes': ausentes
-            })
-
+        presentes = resultado[0]
+        ausentes = resultado[1]
+        
+        resultado_json = {
+            'presentes': presentes,
+            'ausentes': ausentes
+        }
+       
         return resultado_json
 
     @staticmethod
