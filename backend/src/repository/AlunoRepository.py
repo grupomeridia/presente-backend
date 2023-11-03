@@ -111,14 +111,15 @@ class AlunoRepository():
 
         with db.engine.connect() as connection:
             resultado = connection.execute(consulta_sql, {'turma_id': turma_id})
-            resultados_dict = resultado.fetchall()
+            resultados_dict = resultado.fetchone()
 
-        resultado_json = []
-        for id_aluno, situacao in resultados_dict:
-            resultado_json.append({
-                'id_aluno': id_aluno,
-                'situacao': situacao
-            })
+        ativo = resultados_dict[0]
+        inativo = resultados_dict[1]
+        
+        resultado_json = {
+            'ativo': ativo,
+            'inativo': inativo
+        }
 
         return resultado_json
     
