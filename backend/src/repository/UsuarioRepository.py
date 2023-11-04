@@ -29,7 +29,7 @@ class UsuarioRepository():
         db.session.commit()
 
         if (usuario.cargo.value == "Aluno"):
-            aluno = Aluno(id_usuario=usuario.id_usuario, status=usuario.status, ausente=True, nome=usuario.nome, ra=usuario.ra)
+            aluno = Aluno(id_usuario=usuario.id_usuario, status=usuario.status, ausente=False, nome=usuario.nome, ra=usuario.ra)
             db.session.add(aluno)
             db.session.commit()
 
