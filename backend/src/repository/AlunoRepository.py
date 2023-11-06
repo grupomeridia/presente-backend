@@ -210,8 +210,8 @@ class AlunoRepository():
     def presenca_falta(id_aluno):
         consulta_sql = db.text("""
         SELECT a.nome AS nome_aluno,
-        COUNT(CASE WHEN p.horario IS NOT NULL THEN 1 ELSE 0 END) AS presencas,
-        COUNT(CASE WHEN p.horario IS NULL THEN 1 ELSE 0 END) AS faltas
+        SUM(CASE WHEN p.horario IS NOT NULL THEN 1 ELSE 0 END) AS presencas,
+        SUM(CASE WHEN p.horario IS NULL THEN 1 ELSE 0 END) AS faltas
         FROM alunos a
         LEFT JOIN presencas p ON a.id_aluno = p.id_aluno
         WHERE a.id_aluno = :id_aluno
