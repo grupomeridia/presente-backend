@@ -135,7 +135,7 @@ class AlunoRepository():
             media_alunos_ativos = resultado.scalar()
 
         return {
-            'media_alunos_frequentes': media_alunos_ativos
+            'media_alunos_frequentes': int(media_alunos_ativos)
         }
 
     @staticmethod
@@ -166,7 +166,7 @@ class AlunoRepository():
                 media_alunos_ausentes = 0
 
         return {
-            'media_alunos_ausentes': media_alunos_ausentes
+            'media_alunos_ausentes': int(media_alunos_ausentes)
             }
 
     @staticmethod
