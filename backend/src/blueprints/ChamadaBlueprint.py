@@ -96,3 +96,4 @@ def ultimaChamada():
         return jsonify(ChamadaRepository.ultimaChamada(id_professor))
     except AssertionError as error:
         return str(error), 400
+    
