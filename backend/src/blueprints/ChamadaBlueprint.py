@@ -87,4 +87,12 @@ def updateAll():
     try:
         return ChamadaRepository.update_all()
     except Exception as error:
-        return str(error)
+        return str(error), 400
+    
+@chamadas.route("/api/chamada/ultimaChamada", methods=['GET'])
+def ultimaChamada():
+    id_professor = request.args.get('id')
+    try:
+        return jsonify(ChamadaRepository.ultimaChamada(id_professor))
+    except AssertionError as error:
+        return str(error), 400
