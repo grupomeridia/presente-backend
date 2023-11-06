@@ -1,6 +1,7 @@
 from flask import jsonify
 from models import db
 from entity.Aluno import Aluno
+from datetime import datetime
 
 class AlunoRepository():
     @staticmethod
@@ -187,7 +188,7 @@ class AlunoRepository():
         SELECT p.id_presenca, a.nome, p.status, p.horario, p.tipo_presenca
         FROM presencas p
         LEFT JOIN alunos a ON p.id_aluno = a.id_aluno
-        WHERE p.id_aluno = :id_aluno;
+        WHERE p.id_aluno = :id_aluno and p.horario is not null;
     """)
         
         with db.engine.connect() as connection:
@@ -196,11 +197,13 @@ class AlunoRepository():
         historico_presenca = []
 
         for id_presenca, nome, status, horario, tipo_presenca in historico_aluno:
+            horario = horario.strftime("%Y-%m-%d %H:%M:%S.%f")
+            horario_formatado = datetime.strptime(horario, "%Y-%m-%d %H:%M:%S.%f").strftime("%d/%m/%Y")
             historico_presenca.append({
                 'id_presenca': id_presenca,
                 'nome': nome,
                 'status': status,
-                'horario': horario,
+                'horario': horario_formatado,
                 'tipo_presenca': tipo_presenca
             })
         
