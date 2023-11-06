@@ -123,7 +123,8 @@ class ChamadaService():
         assert int(id_chamada) if isinstance(id_chamada, (int,str)) and id_chamada.isdigit() else None, "ID incorreto."
         assert int(id_chamada) > 0 and int(id_chamada) < 999999, "ID inválido."
         assert Chamada.query.get(id_chamada) != None, "Chamada não encontrada." 
-
+        id_turma = Chamada.query.filter(Chamada.id_chamada == id_chamada).value(Chamada.id_turma)
+        ChamadaRepository.marcarFaltas(id_chamada=id_chamada, id_turma=id_turma)
         return ChamadaRepository.fechar_chamada(id_chamada)
 
     @staticmethod
