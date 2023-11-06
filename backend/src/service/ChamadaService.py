@@ -131,3 +131,12 @@ class ChamadaService():
         chamada = Chamada(id_turma=chamada_dto.id_turma, id_professor=chamada_dto.id_professor, status=chamada_dto.status, abertura=chamada_dto.abertura, encerramento=chamada_dto.encerramento)
 
         return chamada
+    
+    @staticmethod
+    def ultimaChamada(id_professor):
+        try:
+            int(id_professor)
+        except ValueError:
+            return AssertionError("Deve ser um professor com valor valido.")
+        
+        return ChamadaRepository.ultimaChamada(id_professor)

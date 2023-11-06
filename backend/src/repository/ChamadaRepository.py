@@ -73,7 +73,6 @@ class ChamadaRepository():
     
     @staticmethod
     def update(id, data):
-        print("AQUI CARAIOOO",id)
         chamada = Chamada.query.get(id)
         
         chamada.id_turma = data.id_turma
@@ -182,3 +181,35 @@ class ChamadaRepository():
                     db.session.commit()
 
         return "Chamadas atualizadas"
+    
+    @staticmethod
+    def ultimaChamada(id_professor):
+        consulta_sql = db.text("""
+        SELECT c.* FROM chamadas c
+        WHERE c.id_professor = :id_professor
+        AND c.status = false
+        AND c.encerramento IS NOT NULL
+        ORDER BY c.encerramento DESC
+        LIMIT 1
+        """)
+
+        with db.engine.connect() as connection:
+            chamada = connection.execute(consulta_sql, {'id_professor':id_professor}).fetchone()
+
+            id_chamada = chamada[0]
+            id_turma = chamada[1]
+            id_professor = chamada[2]
+            status = chamada[3]
+            abertura = chamada[4]
+            encerramento = chamada[5]
+
+            ultima_chamada = {
+                'id_chamada': id_chamada,
+                'id_turma': id_turma,
+                'id_professor': id_professor,
+                'status': status,
+                'abertura': abertura,
+                'encerramento': encerramento
+            }
+
+            return ultima_chamada
