@@ -49,6 +49,7 @@ class ChamadaRepository():
                 'id_chamada': id_chamada,
                 'id_professor': professor_nome.nome,
                 'id_turma': turma_nome.nome,
+                'id_novo': turma_nome.id_turma,
                 'status': status,
                 'abertura': abertura,
                 'encerramento': encerramento,
