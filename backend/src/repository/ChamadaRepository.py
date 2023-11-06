@@ -217,11 +217,11 @@ class ChamadaRepository():
         
     @staticmethod
     def marcarFaltas(id_turma, id_chamada):
-        alunos = db.session.query(Aluno).join(turma_aluno).join(Turma).filter(Turma.id_turma == id_turma).all()
-        presencas = db.session.query(Presenca).filter(Presenca.id_chamada == id_chamada).all()
-        
+        alunos = db.session.query(Aluno).join(turma_aluno).join(Turma).filter(Turma.id_turma == id_turma).all()        
+
         for aluno in alunos:
-            if aluno.id_aluno not in presencas:
+            presencas = db.session.query(Presenca).filter((Presenca.id_aluno == aluno.id_aluno) & (Presenca.id_chamada == id_chamada)).first()
+            if presencas is None:
                 presenca = Presenca(
                     id_aluno=aluno.id_aluno,
                     id_chamada=id_chamada,
@@ -231,6 +231,8 @@ class ChamadaRepository():
                 )
                 db.session.add(presenca)
                 db.session.commit()
+
+
         return "Sucesso!"
             
 
