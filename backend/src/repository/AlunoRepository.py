@@ -77,10 +77,10 @@ class AlunoRepository():
         consulta_sql = db.text("""
         SELECT 
         COUNT(p.id_aluno) AS presentes,
-        (SELECT COUNT(ta2.id_aluno) from turma_aluno ta2 where ta2.id_turma = :id_turma) - COUNT(p.id_aluno) AS ausentes
+        (SELECT COUNT(ta2.id_aluno) from turma_aluno ta2 where ta2.id_turma = :turma_id) - COUNT(p.id_aluno) AS ausentes
         FROM presencas p
         JOIN chamadas c ON p.id_chamada = c.id_chamada
-        WHERE c.id_turma = :id_turma AND c.status = true;
+        WHERE c.id_turma = :turma_id AND c.status = true;
         """)
 
         with db.engine.connect() as connection:
