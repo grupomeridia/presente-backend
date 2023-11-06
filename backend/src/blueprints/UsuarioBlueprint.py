@@ -71,7 +71,3 @@ def login():
         except AssertionError as error:
             return str(error),400
 
-@usuarios.route("/api/register", methods=['POST'])
-def register():
-    pass
-        

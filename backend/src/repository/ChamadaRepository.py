@@ -104,14 +104,14 @@ class ChamadaRepository():
         if chamada:
             if (chamada.encerramento == None):
                 chamada.encerramento = datetime.now()
-                
+
             chamada.status = False
             db.session.merge(chamada)
             db.session.commit()
             return {"mensagem": "Chamada fechada com sucesso"}
-        else:
+        else:       
             return {"mensagem": "Chamada não encontrada"}
-
+                    
     @staticmethod
     def register_chamada(chamada):
 
@@ -213,3 +213,25 @@ class ChamadaRepository():
             }
 
             return ultima_chamada
+        
+    @staticmethod
+    def marcarFaltas(id_turma, id_chamada):
+        alunos = db.session.query(Aluno).join(turma_aluno).join(Turma).filter(Turma.id_turma == id_turma).all()
+        presencas = db.session.query(Presenca).filter(Presenca.id_chamada == id_chamada).all()
+        
+        for aluno in alunos:
+            if aluno.id_aluno not in presencas:
+                presenca = Presenca(
+                    id_aluno=aluno.id_aluno,
+                    id_chamada=id_chamada,
+                    status=False,
+                    horario=None,
+                    tipo_presenca="Regular"
+                )
+                db.session.add(presenca)
+                db.session.commit()
+        return "Sucesso!"
+            
+
+            
+

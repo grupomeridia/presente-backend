@@ -114,3 +114,4 @@ class PresencaRepository():
         db.session.commit()
 
         return "Presença realizada!"
+    
