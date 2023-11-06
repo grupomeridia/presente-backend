@@ -142,25 +142,18 @@ class AlunoRepository():
     def media_ausente(turma_id):
         consulta_presencas = db.text("""
         SELECT 
-        SUM(CASE WHEN p.horario IS NOT NULL THEN 1 ELSE 0 END) AS presentes
-        FROM turma_aluno ta
-        JOIN turmas t ON t.id_turma = ta.id_turma
-        LEFT JOIN presencas p ON ta.id_aluno = p.id_aluno
-        LEFT JOIN chamadas c ON p.id_chamada = c.id_chamada
-        WHERE ta.id_turma = 1 AND c.status = true;
+        COUNT(p.id_aluno) AS presentes
+        FROM presencas p
+        JOIN chamadas c ON p.id_chamada = c.id_chamada
+        WHERE c.id_turma = :turma_id AND c.status = true;
         """)
 
         consulta_ausentes = db.text("""
-        select  
-        (select count(a.id_aluno) from alunos a
-        JOIN turma_aluno ta ON a.id_aluno = ta.id_aluno
-        where ta.id_turma = 1
-        ) - SUM(CASE WHEN p.horario IS NOT NULL THEN 1 ELSE 0 END) AS ausentes
-        FROM turma_aluno ta
-        JOIN turmas t ON t.id_turma = ta.id_turma
-        LEFT JOIN presencas p ON ta.id_aluno = p.id_aluno
-        LEFT JOIN chamadas c ON p.id_chamada = c.id_chamada
-        WHERE ta.id_turma = 1 AND c.status = true;
+        SELECT  
+        (SELECT COUNT(ta2.id_aluno) from turma_aluno ta2 where ta2.id_turma = :turma_id) - COUNT(p.id_aluno) AS ausentes
+        FROM presencas p
+        JOIN chamadas c ON p.id_chamada = c.id_chamada
+        WHERE c.id_turma = :turma_id AND c.status = true;
         """)
 
         with db.engine.connect() as connection:
