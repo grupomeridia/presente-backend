@@ -1,6 +1,9 @@
 from flask import jsonify
 from models import db
 from entity.Aluno import Aluno
+from entity.Turma import Turma
+from entity.TurmaAluno import turma_aluno
+from entity.Materia import Materia
 from datetime import datetime
 
 class AlunoRepository():
@@ -19,17 +22,34 @@ class AlunoRepository():
             raise AssertionError ("Aluno não existe.")
     @staticmethod
     def list_all():
-        alunos = Aluno.query.all()
-        resultado = [{
-            "id": a.id_aluno,
-            "id_usuario" : a.id_usuario,
-            "Nome": a.nome,
-            "RA": a.ra,
-            "Ativo": a.status,
-            "Ausente" : a.ausente
-        } for a in alunos]
 
-        return jsonify(resultado)
+        consulta_sql = db.text("""
+            select a.*, t.semestre, m.nome as nome_materia
+            from alunos a
+            join turma_aluno ta on ta.id_aluno = a.id_aluno
+            join turmas t on t.id_turma = ta.id_turma
+            join materias m on m.id_materia = m.id_materia
+        """)
+
+        with db.engine.connect() as connection:
+            resultado = connection.execute(consulta_sql).fetchall()
+
+        alunos = []
+
+        for id_aluno, id_usuario, status, ausente, nome, ra, semestre, nome_materia in resultado:
+            alunos.append({
+                'id_aluno':id_aluno,
+                'id_usuario': id_usuario,
+                'status': status,
+                'ausente': ausente,
+                'nome': nome,
+                'ra': ra,
+                'semestre': semestre,
+                'nome_materia': nome_materia
+            })
+            
+
+        return jsonify(alunos)
     
     @staticmethod
     def update(id, aluno):
