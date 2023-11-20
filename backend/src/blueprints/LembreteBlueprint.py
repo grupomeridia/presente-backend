@@ -63,3 +63,12 @@ def lembrete():
 @lembretes.route("/api/lembrete/listAll", methods=['GET'])
 def list_all():
     return LembreteRepository.list_all()
+
+@lembretes.route("/api/lembrete/findLembrete", methods=['GET'])
+def find_lembrete():
+    cargo = request.args.get('cargo')
+    id = request.args.get('id')
+    try:
+        return LembreteService.find_lembrete(cargo, id)
+    except AssertionError as error:
+        return str(error), 400

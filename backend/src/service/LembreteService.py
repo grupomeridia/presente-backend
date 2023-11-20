@@ -3,7 +3,8 @@ from entity.Lembrete import Lembrete
 from entity.CargoEnum import Cargo
 from dtos. LembreteDTO import LembreteDTO
 from entity.Secretaria import Secretaria
-from entity.Usuario import Usuario
+from entity.Aluno import Aluno
+from entity.Professor import Professor
 
 import re
 
@@ -103,3 +104,22 @@ class LembreteService():
         lembrete = Lembrete(id_secretaria=lembrete_dto.id_secretaria, status=lembrete_dto.status, destinatario_cargo=lembrete_dto.destinatario_cargo, destinatario_id=lembrete_dto.destinatario_id, titulo=lembrete_dto.titulo, mensagem=lembrete_dto.mensagem, criacao=lembrete_dto.criacao, visualizacao=lembrete_dto.visualizacao)
 
         return lembrete
+    
+    @staticmethod
+    def find_lembrete(cargo, id):
+
+        assert cargo != None, "Nenhum cargo enviado."
+        assert id != None, "Nenhum id enviado."
+        assert int(id) > 0 and int(id) < 999999, "ID inválido."
+
+
+        cargos = [x.value for x in Cargo]
+        assert cargo in cargos, "Cargo inválido"
+
+        if(cargo == "Aluno"):
+            assert Aluno.query.get(id) != None, "Nenhum aluno foi encontrado"
+        elif(cargo == "Professor"):
+            assert Professor.query.get(id) != None, "Nenhum professor foi encontrado."
+
+
+        return LembreteRepository.find_lembrete(cargo, id)

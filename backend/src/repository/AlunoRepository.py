@@ -24,11 +24,12 @@ class AlunoRepository():
     def list_all():
 
         consulta_sql = db.text("""
-            select a.*, t.semestre, m.nome as nome_materia
+            select a.*, t.semestre, m.nome as nome_materia, u.cargo
             from alunos a
             join turma_aluno ta on ta.id_aluno = a.id_aluno
             join turmas t on t.id_turma = ta.id_turma
-            join materias m on m.id_materia = m.id_materia
+            join materias m on m.id_materia = t.id_materia
+            join usuarios u on u.id_usuario = a.id_usuario
         """)
 
         with db.engine.connect() as connection:
@@ -36,7 +37,7 @@ class AlunoRepository():
 
         alunos = []
 
-        for id_aluno, id_usuario, status, ausente, nome, ra, semestre, nome_materia in resultado:
+        for id_aluno, id_usuario, status, ausente, nome, ra, semestre, nome_materia, cargo in resultado:
             alunos.append({
                 'id_aluno':id_aluno,
                 'id_usuario': id_usuario,
@@ -45,7 +46,8 @@ class AlunoRepository():
                 'nome': nome,
                 'ra': ra,
                 'semestre': semestre,
-                'nome_materia': nome_materia
+                'nome_materia': nome_materia,
+                'cargo': cargo
             })
             
 
