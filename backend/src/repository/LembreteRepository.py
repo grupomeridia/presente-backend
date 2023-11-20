@@ -109,3 +109,17 @@ class LembreteRepository():
                     raise AssertionError("Nenhum destinatario encontrado.")
         else:
             raise AssertionError("Cargo inválido.")
+        
+    @staticmethod
+    def find_lembrete(cargo, id):
+
+        lembrete = db.session.query(Lembrete).filter(Lembrete.destinatario_id == id).filter(Lembrete.destinatario_cargo == cargo).first()
+        
+        if lembrete:
+            
+            lembrete_data = {
+                'Titulo': lembrete.titulo,
+                'mensagem': lembrete.mensagem
+            }
+
+            return jsonify(lembrete_data)
