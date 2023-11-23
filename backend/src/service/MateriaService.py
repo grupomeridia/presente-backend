@@ -19,7 +19,7 @@ class MateriaService():
     def register(status, nome):
 
         assert nome != 'NOT_FOUND', "Campo 'nome' inexistente."
-        assert re.match("^[a-zA-Z0-9 ]+$", nome), "O nome deve conter apenas letras e números."
+        assert re.match("^[a-zA-Z0-9áàâãéèêíïóôõöúçñ ]+$", nome), "O nome deve conter apenas letras e números."
         assert 3 <= len(nome) <= 50, "O nome deve ter entre 3 e 50 caracteres."
 
         assert not Materia.query.filter(Materia.nome == nome).first(), "Matéria ja cadastrada."

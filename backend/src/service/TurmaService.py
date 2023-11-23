@@ -62,7 +62,8 @@ class TurmaService():
         assert modalidade is not None, "Modalidade inválida!"
 
         assert len(nome) > 3, "Nome com tamanho inválido."
-        assert nome.isalpha(), "O nome deve conter apenas letras."
+        assert nome.replace(" ", "").isalnum(), "O nome deve conter apenas letras e números."
+
         
 
         assert 2000 <= int(ano) <= 2100, "Ano inválido."
