@@ -76,7 +76,7 @@ class TurmaRepository():
         db.session.add(turma)
         db.session.commit()
 
-        return f"Turma Cadastrada com o ID {turma.id_turma}!"
+        return f"Turma Cadastrada!"
     
     @staticmethod
     def cadastrar_aluno(turma_id, aluno_id):
