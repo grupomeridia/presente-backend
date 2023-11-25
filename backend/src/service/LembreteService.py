@@ -130,7 +130,7 @@ class LembreteService():
 
         assert id_lembrete != None, "lembrete não encontrado"
 
-        assert int(id) > 0 and int(id) < 999999, "ID inválido."
+        assert int(id_lembrete) > 0 and int(id_lembrete) < 999999, "ID inválido."
 
         return LembreteRepository.lembrete_visualizado(id_lembrete)
 
