@@ -72,3 +72,11 @@ def find_lembrete():
         return LembreteService.find_lembrete(cargo, id)
     except AssertionError as error:
         return str(error), 400
+    
+@lembretes.route("/api/lembrete/visualizado", methods=['PUT'])
+def lembrete_visualizado():
+    id_lembrete = request.args.get('id')
+    try: 
+        return LembreteService.lembrete_visualizado(id_lembrete)
+    except AssertionError as error:
+        return str(error), 400
