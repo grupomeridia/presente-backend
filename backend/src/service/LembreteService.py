@@ -22,6 +22,7 @@ class LembreteService():
     def register(criacao, status, id_secretaria, destinatario_cargo, destinatario_id, titulo, mensagem):
             
         cargos = [x.value for x in Cargo]
+        print(cargos)
         assert destinatario_cargo in cargos, "Cargo inválido"
 
         assert id_secretaria != 'NOT_FOUND', "Campo 'id_secretaria' inexistente."
@@ -123,3 +124,13 @@ class LembreteService():
 
 
         return LembreteRepository.find_lembrete(cargo, id)
+
+    @staticmethod
+    def lembrete_visualizado(id_lembrete):
+
+        assert id_lembrete != None, "lembrete não encontrado"
+
+        assert int(id) > 0 and int(id) < 999999, "ID inválido."
+
+        return LembreteRepository.lembrete_visualizado(id_lembrete)
+

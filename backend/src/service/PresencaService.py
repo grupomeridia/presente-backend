@@ -3,6 +3,7 @@ from repository.PresencaRepository import PresencaRepository
 from entity.Presenca import Presenca
 from entity.Chamada import Chamada
 from entity.Aluno import Aluno
+from entity.CargoEnum import Cargo
 from dtos.PresencaDTO import PresencaDTO
 from entity.PresencaEnum import TipoPresenca
 from datetime import datetime
@@ -55,14 +56,22 @@ class PresencaService():
         return PresencaRepository.register_presenca(presenca)
     
     @staticmethod
-    def marcar_presenca_pelo_ra(ra):
+    def marcar_presenca_pelo_ra(ra, cargo_manual, id_manual):
 
         assert ra != 'NOT_FOUND', "Campo 'RA inexistente."
+        assert cargo_manual != 'NOT_FOUND', "Campo 'cargo_manual' inexistente."
+        assert id_manual != 'NOT_FOUND', "Campo 'id_manual' inexistente." 
 
         assert re.match(r'^\d+$', str(ra)), "O RA deve ter apenas números."
         assert ra >= 100000 and ra <= 999999, "RA inválido."
 
-        return PresencaRepository.marcar_presenca_pelo_ra(ra)
+        cargos = [x.value for x in Cargo]
+        assert cargo_manual in cargos, "Cargo inválido"
+
+        assert int(id_manual) if isinstance(id_manual, (int)) else None, "Id_manual incorreto."
+
+
+        return PresencaRepository.marcar_presenca_pelo_ra(ra, cargo_manual, id_manual)
     
     @staticmethod
     def update(id_presenca, id_aluno, id_chamada, tipo_presenca, horario, status):
