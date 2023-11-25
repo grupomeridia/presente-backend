@@ -329,6 +329,7 @@ class AlunoRepository():
         consulta_sql = db.text(""" 
         SELECT a.id_aluno, a.status, a.nome, a.ra,
             t.curso,
+			SUM(CASE WHEN p.horario IS NOT NULL THEN 1 ELSE 0 END) AS presencas,
             SUM(CASE WHEN p.horario IS NULL THEN 1 ELSE 0 END) AS faltas,
             (SUM(CASE WHEN p.horario IS NOT NULL THEN 1 ELSE 0 END) * 100) / 
             COUNT(*) AS frequencia
@@ -336,7 +337,7 @@ class AlunoRepository():
         JOIN presencas p ON p.id_aluno = a.id_aluno
         JOIN turma_aluno ta ON ta.id_aluno = a.id_aluno
         JOIN turmas t ON t.id_turma = ta.id_turma
-        WHERE a.id_aluno = :id_aluno
+        WHERE a.id_aluno = 1
         GROUP BY a.id_aluno, t.id_turma;
          """)
         
@@ -348,8 +349,9 @@ class AlunoRepository():
             nome = aluno[2]
             ra = aluno[3]
             curso = aluno[4]
-            faltas = aluno[5]
-            frequencia = aluno[6]
+            presencas = aluno[5]
+            faltas = aluno[6]
+            frequencia = aluno[7]
 
             aluno_status = {
                 'id_aluno': id_aluno,
@@ -357,6 +359,7 @@ class AlunoRepository():
                 'nome': nome,
                 'ra': ra,
                 'curso': curso,
+                'presencas': presencas,
                 'faltas': faltas,
                 'frequencia': frequencia
             }
