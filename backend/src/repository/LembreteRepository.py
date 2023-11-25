@@ -118,16 +118,16 @@ class LembreteRepository():
         
         if lembretes:
             
-            lembrete_data = []
+            lembretes_data = []
             for lembrete in lembretes:
                 lembrete_data = {
                 'Titulo': lembrete.titulo,
                 'mensagem': lembrete.mensagem
                 }
-                lembrete_data.append(lembrete_data)
+                lembretes_data.append(lembrete_data)
             
 
-            return jsonify(lembrete_data)
+            return jsonify(lembretes_data)
         
         return jsonify([])
     
