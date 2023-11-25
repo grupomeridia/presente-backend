@@ -2,6 +2,7 @@ from flask import jsonify
 from models import db
 from entity.CargoEnum import Cargo
 from entity.Lembrete import Lembrete
+from datetime import datetime
 
 class LembreteRepository():
     @staticmethod
@@ -113,13 +114,31 @@ class LembreteRepository():
     @staticmethod
     def find_lembrete(cargo, id):
 
-        lembrete = db.session.query(Lembrete).filter(Lembrete.destinatario_id == id).filter(Lembrete.destinatario_cargo == cargo).first()
+        lembretes = db.session.query(Lembrete).filter(Lembrete.destinatario_id == id).filter(Lembrete.destinatario_cargo == cargo).all()
         
-        if lembrete:
+        if lembretes:
             
-            lembrete_data = {
+            lembrete_data = []
+            for lembrete in lembretes:
+                lembrete_data = {
                 'Titulo': lembrete.titulo,
                 'mensagem': lembrete.mensagem
-            }
+                }
+                lembrete_data.append(lembrete_data)
+            
 
             return jsonify(lembrete_data)
+        
+        return jsonify([])
+    
+    @staticmethod
+    def lembrete_visualizado(id_lembrete):
+
+        lembrete = Lembrete.query.get(id_lembrete)
+
+        lembrete.visualizacao = (datetime.now())
+
+        db.session.merge(lembrete)
+        db.session.commit()
+
+        return f"Lembrete visualizado."
