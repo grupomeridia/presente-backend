@@ -60,9 +60,11 @@ def marcar_presenca_pelo_ra():
     data = request.json
 
     ra = data.get('ra')
+    cargo_manual = data.get('cargo_manual')
+    id_manual = data.get('id_manual')
 
     try:
-        return PresencaService.marcar_presenca_pelo_ra(ra)
+        return PresencaService.marcar_presenca_pelo_ra(ra, cargo_manual, id_manual)
     except AssertionError as error:
         return str(error), 400
 
