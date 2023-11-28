@@ -367,7 +367,7 @@ class AlunoRepository():
 
                 return aluno_status
             
-            return (['Aluno novo, sem dados suficientes para analise'])
+            return {"mensagem":'Aluno novo, sem dados suficientes para analise'}
         
     @staticmethod
     def alunos_presenca_turma(turma_id):
