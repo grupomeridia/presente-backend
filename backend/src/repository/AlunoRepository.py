@@ -344,27 +344,30 @@ class AlunoRepository():
         with db.engine.connect() as connection:
             aluno = connection.execute(consulta_sql, {'id_aluno':id_aluno}).fetchone()
 
-            id_do_aluno = aluno[0]
-            status = aluno[1]
-            nome = aluno[2]
-            ra = aluno[3]
-            curso = aluno[4]
-            presencas = aluno[5]
-            faltas = aluno[6]
-            frequencia = aluno[7]
+            if (aluno):
+                id_do_aluno = aluno[0]
+                status = aluno[1]
+                nome = aluno[2]
+                ra = aluno[3]
+                curso = aluno[4]
+                presencas = aluno[5]
+                faltas = aluno[6]
+                frequencia = aluno[7]
 
-            aluno_status = {
-                'id_aluno': id_do_aluno,
-                'status': status,
-                'nome': nome,
-                'ra': ra,
-                'curso': curso,
-                'presencas': presencas,
-                'faltas': faltas,
-                'frequencia': frequencia
-            }
+                aluno_status = {
+                    'id_aluno': id_do_aluno,
+                    'status': status,
+                    'nome': nome,
+                    'ra': ra,
+                    'curso': curso,
+                    'presencas': presencas,
+                    'faltas': faltas,
+                    'frequencia': frequencia
+                }
 
-            return aluno_status
+                return aluno_status
+            
+            return ([])
         
     @staticmethod
     def alunos_presenca_turma(turma_id):
