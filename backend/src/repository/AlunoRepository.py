@@ -344,7 +344,7 @@ class AlunoRepository():
         with db.engine.connect() as connection:
             aluno = connection.execute(consulta_sql, {'id_aluno':id_aluno}).fetchone()
 
-            id_aluno = aluno[0]
+            id_do_aluno = aluno[0]
             status = aluno[1]
             nome = aluno[2]
             ra = aluno[3]
@@ -354,7 +354,7 @@ class AlunoRepository():
             frequencia = aluno[7]
 
             aluno_status = {
-                'id_aluno': id_aluno,
+                'id_aluno': id_do_aluno,
                 'status': status,
                 'nome': nome,
                 'ra': ra,
