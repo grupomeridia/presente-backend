@@ -121,6 +121,7 @@ class LembreteRepository():
             lembretes_data = []
             for lembrete in lembretes:
                 lembrete_data = {
+                'id':lembrete.id_secretaria,
                 'Titulo': lembrete.titulo,
                 'mensagem': lembrete.mensagem
                 }
@@ -142,3 +143,23 @@ class LembreteRepository():
         db.session.commit()
 
         return f"Lembrete visualizado."
+    
+    @staticmethod
+    def lembretes_visualizados():
+        
+        lembretes = db.session.query(Lembrete).filter(Lembrete.visualizacao != None).all()
+
+        if lembretes:
+
+            lembretes_data = []
+            for lembrete in lembretes:
+                lembrete_data = {
+                    'id': lembrete.id_secretaria,
+                    'Titulo': lembrete.titulo,
+                    'mensagem': lembrete.mensagem
+                }
+                lembretes_data.append(lembrete_data)
+
+            return jsonify(lembretes_data)
+        
+        return jsonify([])
