@@ -73,10 +73,25 @@ def find_lembrete():
     except AssertionError as error:
         return str(error), 400
     
-@lembretes.route("/api/lembrete/visualizado", methods=['PUT'])
+@lembretes.route("/api/lembrete/visualizar", methods=['PUT'])
 def lembrete_visualizado():
     id_lembrete = request.args.get('id')
     try: 
         return LembreteService.lembrete_visualizado(id_lembrete)
+    except AssertionError as error:
+        return str(error), 400
+    
+@lembretes.route("/api/lembrete/visualizados", methods=['GET'])
+def lembretes_visualizados():
+    try:
+        return LembreteRepository.lembretes_visualizados()
+    except AssertionError as error:
+        return str(error), 400
+    
+@lembretes.route("/api/lembrete/dados", methods=['GET'])
+def lembrete_dados():
+
+    try:
+        return LembreteService.lembrete_dados()
     except AssertionError as error:
         return str(error), 400
