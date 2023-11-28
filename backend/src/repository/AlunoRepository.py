@@ -337,7 +337,7 @@ class AlunoRepository():
         JOIN presencas p ON p.id_aluno = a.id_aluno
         JOIN turma_aluno ta ON ta.id_aluno = a.id_aluno
         JOIN turmas t ON t.id_turma = ta.id_turma
-        WHERE a.id_aluno = 1
+        WHERE a.id_aluno = :id_aluno
         GROUP BY a.id_aluno, t.id_turma;
          """)
         
@@ -367,7 +367,7 @@ class AlunoRepository():
 
                 return aluno_status
             
-            return ([])
+            return (['Aluno novo, sem dados suficientes para analise'])
         
     @staticmethod
     def alunos_presenca_turma(turma_id):
