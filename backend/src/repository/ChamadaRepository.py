@@ -115,12 +115,11 @@ class ChamadaRepository():
                     
     @staticmethod
     def register_chamada(chamada):
+            db.session.add(chamada)
+            db.session.commit()
 
-        db.session.add(chamada)
-        db.session.commit()
+            return "Chamada registrada"
 
-        return "Chamada registrada"
-    
     @staticmethod
     def get_chamadas_abertas_aluno(id):
 
@@ -227,6 +226,8 @@ class ChamadaRepository():
                     id_chamada=id_chamada,
                     status=False,
                     horario=None,
+                    cargo_manual=None,
+                    id_manual=None,
                     tipo_presenca="Regular"
                 )
                 db.session.add(presenca)

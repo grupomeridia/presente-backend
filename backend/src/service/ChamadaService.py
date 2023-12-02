@@ -3,8 +3,9 @@ from repository.ChamadaRepository import ChamadaRepository
 from entity.Chamada import Chamada
 from entity.Turma import Turma
 from entity.Professor import Professor
-from entity.Materia import Materia
 from dtos.ChamadaDTO import ChamadaDTO
+
+from apscheduler.schedulers.background import BackgroundScheduler
 
 from datetime import datetime
 
@@ -69,7 +70,12 @@ class ChamadaService():
 
         chamada = ChamadaService.to_entity(ChamadaDTO(id_professor=id_professor, id_turma=id_turma, status=status, abertura=abertura, encerramento=encerramento))
 
-        return ChamadaRepository.register_chamada(chamada)
+      
+        scheduler = BackgroundScheduler()
+        scheduler.add_job(ChamadaRepository.register_chamada, 'interval', args=(chamada,), start_date=abertura)
+        scheduler.start()
+        return "Chamada registrada"
+
 
     @staticmethod
     def update(id_chamada:int, id_turma, id_professor, status, abertura, encerramento):
