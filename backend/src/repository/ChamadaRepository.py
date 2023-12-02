@@ -236,13 +236,12 @@ class ChamadaRepository():
 
         return "Sucesso!"
             
+    
     @staticmethod
-    def agendar_fechamento_chamada(id_chamada, encerramento):
+    def agendar_chamada_aberta(id_chamada):
 
-        if encerramento and encerramento > datetime.now():
-            delay_encerramento = (encerramento - datetime.now()).total_seconds()
-            Timer(delay_encerramento, ChamadaRepository.fechar_chamada, args=(id_chamada,)).start()
-            return {"mensagem": "Fechamento da chamada agendado com sucesso."}
-        else:
-            return {"mensagem": "Não foi possível agendar o fechamento da chamada. Verifique o horário de encerramento."}
-
+        chamada_aberta = Chamada.query.get(id_chamada)
+        chamada_aberta.status = True
+        db.session.merge(chamada_aberta)
+        db.session.commit()
+        print("Chamada aberta registrada!")
