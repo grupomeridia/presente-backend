@@ -20,4 +20,3 @@ class Chamada(db.Model):
         self.abertura = abertura
         self.encerramento = encerramento
 
-

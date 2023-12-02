@@ -3,13 +3,12 @@ from repository.ChamadaRepository import ChamadaRepository
 from entity.Chamada import Chamada
 from entity.Turma import Turma
 from entity.Professor import Professor
-from entity.Materia import Materia
 from dtos.ChamadaDTO import ChamadaDTO
 
-from datetime import datetime
-
+from datetime import datetime, time
 import re
-from threading import Timer
+from threading import Timer, Thread
+from apscheduler.schedulers.background import BackgroundScheduler
 
 class ChamadaService():
     @staticmethod
@@ -40,9 +39,8 @@ class ChamadaService():
         
 
         abertura = datetime.now() if not abertura else datetime.strptime(abertura, "%d-%m-%Y %H:%M")
-        assert re.match(r'^\d{2}-\d{2}-\d{4} \d{2}:\d{2}$', abertura.strftime("%d-%m-%Y %H:%M")), "Formato de abertura inválido."   
+        assert re.match(r'^\d{2}-\d{2}-\d{4} \d{2}:\d{2}$', abertura.strftime("%d-%m-%Y %H:%M")), "Formato de abertura inválido."  
 
-        
 
         if(encerramento == 'NOT_FOUND' or encerramento == None):
             encerramento = None
@@ -69,15 +67,15 @@ class ChamadaService():
         chamada_aberta = Chamada.query.filter(Chamada.id_professor == professor.id_professor, Chamada.id_turma == turma.id_turma, Chamada.status == True).first()
         if (chamada_aberta):
             raise AssertionError(str('ja existe uma chamada aberta para esse professor e turma'))
-
+        
         chamada = ChamadaService.to_entity(ChamadaDTO(id_professor=id_professor, id_turma=id_turma, status=status, abertura=abertura, encerramento=encerramento))
 
-        if abertura > datetime.now():
-            delay = (abertura - datetime.now()).total_seconds()
-            Timer(delay, ChamadaRepository.agendar_chamada_aberta, args=(chamada,)).start()
-            return "Chamada agendada com sucesso."
-
-        return ChamadaRepository.register_chamada(chamada)
+        scheduler = BackgroundScheduler()
+        scheduler.add_job(ChamadaRepository.register_chamada, 'interval', args=(chamada,), start_date=abertura)
+        scheduler.start()
+        return "Chamada registrada"
+    
+        
 
     @staticmethod
     def update(id_chamada:int, id_turma, id_professor, status, abertura, encerramento):
