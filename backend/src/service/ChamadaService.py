@@ -42,10 +42,6 @@ class ChamadaService():
         abertura = datetime.now() if not abertura else datetime.strptime(abertura, "%d-%m-%Y %H:%M")
         assert re.match(r'^\d{2}-\d{2}-\d{4} \d{2}:\d{2}$', abertura.strftime("%d-%m-%Y %H:%M")), "Formato de abertura inválido."   
 
-        if abertura > datetime.now():
-            delay = (abertura - datetime.now()).total_seconds()
-            Timer(delay, ChamadaRepository.register_chamada, args=(chamada,)).start()
-            return "Chamada agendada com sucesso."
         
 
         if(encerramento == 'NOT_FOUND' or encerramento == None):
@@ -75,6 +71,11 @@ class ChamadaService():
             raise AssertionError(str('ja existe uma chamada aberta para esse professor e turma'))
 
         chamada = ChamadaService.to_entity(ChamadaDTO(id_professor=id_professor, id_turma=id_turma, status=status, abertura=abertura, encerramento=encerramento))
+
+        if abertura > datetime.now():
+            delay = (abertura - datetime.now()).total_seconds()
+            Timer(delay, ChamadaRepository.agendar_chamada_aberta, args=(chamada,)).start()
+            return "Chamada agendada com sucesso."
 
         return ChamadaRepository.register_chamada(chamada)
 
@@ -157,5 +158,10 @@ class ChamadaService():
             int(id_chamada)
         except ValueError:
             return AssertionError("Deve ser uma chamada com valor valido.")
+        
+        if encerramento and encerramento > datetime.now():
+            delay_encerramento = (encerramento - datetime.now()).total_seconds()
+            Timer(delay_encerramento, ChamadaRepository.fechar_chamada, args=(id_chamada,)).start()
+            return "Fechamento da chamada agendado com sucesso."
 
         return ChamadaRepository.agendar_fechamento_chamada(id_chamada, encerramento)
