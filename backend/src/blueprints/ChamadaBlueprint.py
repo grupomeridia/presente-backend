@@ -20,7 +20,7 @@ def professor():
     if request.method == 'POST':
         data = request.json
 
-        status = True
+        status = data.get('status', 'NOT_FOUND')
         abertura = data.get('abertura', 'NOT_FOUND')
         encerramento = data.get('encerramento', 'NOT_FOUND')
         id_turma = data.get('id_turma', 'NOT_FOUND')
@@ -35,7 +35,7 @@ def professor():
         id_chamada = request.args.get('id')
         data = request.json
 
-        status = True
+        status =  data.get('status', 'NOT_FOUND')
         id_turma = data.get('id_turma', 'NOT_FOUND')
         id_professor = data.get('id_professor', 'NOT_FOUND')
         abertura = data.get('abertura', 'NOT_FOUND')

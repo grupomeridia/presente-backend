@@ -5,7 +5,6 @@ from entity.Turma import Turma
 from entity.Professor import Professor
 from dtos.ChamadaDTO import ChamadaDTO
 
-from apscheduler.schedulers.background import BackgroundScheduler
 
 from datetime import datetime
 
@@ -35,9 +34,12 @@ class ChamadaService():
 
         assert id_turma != 'NOT_FOUND', "Campo 'id_turma' inexistente."
         assert abertura != 'NOT_FOUND', "Campo 'abertura' inexistente."
+        assert status != 'NOT_FOUND', "Campo 'status' inexistente."
         assert id_professor != 'NOT_FOUND', "Campo 'id_professor' inexistente."
         assert encerramento != 'NOT_FOUND', "Campo 'encerramento' inexistente."
         
+
+        assert status is True or status is False, "O status está inválido."
 
         abertura = datetime.now() if not abertura else datetime.strptime(abertura, "%d-%m-%Y %H:%M")
         assert re.match(r'^\d{2}-\d{2}-\d{4} \d{2}:\d{2}$', abertura.strftime("%d-%m-%Y %H:%M")), "Formato de abertura inválido."
@@ -71,10 +73,7 @@ class ChamadaService():
         chamada = ChamadaService.to_entity(ChamadaDTO(id_professor=id_professor, id_turma=id_turma, status=status, abertura=abertura, encerramento=encerramento))
 
       
-        scheduler = BackgroundScheduler()
-        scheduler.add_job(ChamadaRepository.register_chamada, 'interval', args=(chamada,), start_date=abertura)
-        scheduler.start()
-        return "Chamada registrada"
+        return ChamadaRepository.register_chamada(chamada)
 
 
     @staticmethod
@@ -84,8 +83,10 @@ class ChamadaService():
         assert id_turma != 'NOT_FOUND', "Campo 'id_turma' inexistente."
         assert id_professor != 'NOT_FOUND', "Campo 'id_professor' inexistente."
         assert encerramento != 'NOT_FOUND', "Campo 'encerramento' inexistente."
+        assert status != 'NOT_FOUND', "Campo 'status' inexistente"
         assert isinstance(int(id_chamada), (int)), "ID da chamada incorreto."
 
+        assert status is True or status is False, "O status está inválido."
 
         assert int(id_turma) if isinstance(id_turma, (int,str)) and str(id_turma).isdigit() else None, "ID do Turma incorreto."
         assert int(id_turma) > 0 and int(id_turma) < 999999, "ID de turma inválido."
