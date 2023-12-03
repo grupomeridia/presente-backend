@@ -22,7 +22,7 @@ def create_app(config_file):
 
     app = Flask(__name__)
     CORS(app)
-    CSRFProtect(app)
+    # CSRFProtect(app)
     
     app.config.from_pyfile(config_file)   
 
