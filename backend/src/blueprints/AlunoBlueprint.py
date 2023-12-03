@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify
 
 from repository.AlunoRepository import AlunoRepository
+from flask_jwt_extended import jwt_required
 
 from service.AlunoService import AlunoService
 
@@ -98,6 +99,7 @@ def media_ausente():
         return str(error), 400
 
 @alunos.route("/api/aluno/HistoricoPresenca", methods=['GET'])
+@jwt_required()
 def historico_presenca():
     id_aluno = request.args.get('id_aluno')
     try:
