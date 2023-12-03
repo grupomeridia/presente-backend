@@ -2,13 +2,13 @@ from flask import Blueprint, request, jsonify
 
 from repository.SecretariaRepository import SecretariaRepository
 
-from dtos.SecretariaDTO import SecretariaDTO
-
+from flask_jwt_extended import jwt_required
 from service.SecretariaService import SecretariaService
 
 secretaria = Blueprint("secretaria", __name__)
 
 @secretaria.route("/api/secretaria", methods=['GET', 'POST', 'PUT', 'DELETE'])
+@jwt_required()
 def secret():
     if request.method == 'GET':
         id_secretaria = request.args.get('id')
@@ -50,5 +50,6 @@ def secret():
             return str(error), 400 
 
 @secretaria.route("/api/secretaria/listAll", methods=['GET'])
+@jwt_required()
 def list_all():
     return SecretariaRepository.list_all()

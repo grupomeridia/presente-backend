@@ -1,16 +1,15 @@
 from flask import Blueprint, request, jsonify
-from datetime import datetime
+
 
 from repository.PresencaRepository import PresencaRepository
 
-from entity.Presenca import Presenca
-from dtos.PresencaDTO import PresencaDTO
-
+from flask_jwt_extended import jwt_required
 from service.PresencaService import PresencaService
 
 presencas = Blueprint("presencas", __name__)
 
 @presencas.route("/api/presenca", methods=['GET', 'POST', 'PUT', 'DELETE'])
+@jwt_required()
 def presencas_main():
     if request.method == 'GET':
         id_presenca = request.args.get('id')
@@ -56,6 +55,7 @@ def presencas_main():
             return str(error), 400
 
 @presencas.route("/api/presenca/ra", methods=['POST'])
+@jwt_required()
 def marcar_presenca_pelo_ra():
     data = request.json
 
@@ -69,9 +69,11 @@ def marcar_presenca_pelo_ra():
         return str(error), 400
 
 @presencas.route("/api/presenca/listAll", methods=['GET'])
+@jwt_required()
 def list_all():
     return PresencaRepository.list_all()
 
 @presencas.route("/api/presenca/findByPresentes", methods=['GET'])
+@jwt_required()
 def find_by_presentes():
     return PresencaRepository.find_by_presentes()

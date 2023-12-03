@@ -83,11 +83,9 @@ class UsuarioRepository():
         user = Usuario.query.filter(Usuario.login == login).first()
         
         if login_user(user):
-            identificador = user.login
-            print(identificador)
+            access_token = create_access_token(identity=user.login)
             if user.cargo.value == "Aluno":  
                 aluno = Aluno.query.filter(Aluno.id_usuario == user.id_usuario).first()  
-                access_token = create_access_token(identity=identificador)
 
                 consulta_sql = db.text("""SELECT t.curso FROM turma_aluno ta
                     JOIN alunos a ON a.id_aluno = ta.id_aluno
@@ -112,7 +110,8 @@ class UsuarioRepository():
                     "id_usuario":user.id_usuario,
                     "id_professor":professor.id_professor,
                     "Cargo": user.cargo.value,
-                    "Nome": user.nome
+                    "Nome": user.nome,
+                    "JWT":access_token
                 }
             
             elif user.cargo.value == "Secretaria":
@@ -121,7 +120,8 @@ class UsuarioRepository():
                     "id_usuario":user.id_usuario,
                     "id_secretaria":secretaria.id_secretaria,
                     "Cargo": user.cargo.value,
-                    "Nome": user.nome
+                    "Nome": user.nome,
+                    "JWT":access_token
                 }
         else:
             raise AssertionError("Não foi possivel realizar o login!")

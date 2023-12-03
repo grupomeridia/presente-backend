@@ -2,13 +2,14 @@ from flask import Blueprint, request, jsonify
 from datetime import datetime
 from repository.LembreteRepository import LembreteRepository
 
-from dtos.LembreteDTO import LembreteDTO
+from flask_jwt_extended import jwt_required
 
 from service.LembreteService import LembreteService
 
 lembretes = Blueprint("lembretes", __name__)
 
 @lembretes.route("/api/lembrete", methods=['GET', 'POST', 'PUT', 'DELETE'])
+@jwt_required()
 def lembrete():
     if request.method == 'GET':
         id_lembrete = request.args.get('id')
@@ -61,10 +62,12 @@ def lembrete():
             return str(error), 400
     
 @lembretes.route("/api/lembrete/listAll", methods=['GET'])
+@jwt_required()
 def list_all():
     return LembreteRepository.lista_all()
 
 @lembretes.route("/api/lembrete/findLembrete", methods=['GET'])
+@jwt_required()
 def find_lembrete():
     cargo = request.args.get('cargo')
     id = request.args.get('id')
@@ -74,6 +77,7 @@ def find_lembrete():
         return str(error), 400
     
 @lembretes.route("/api/lembrete/visualizar", methods=['PUT'])
+@jwt_required()
 def lembrete_visualizado():
     id_lembrete = request.args.get('id')
     try: 
@@ -82,6 +86,7 @@ def lembrete_visualizado():
         return str(error), 400
     
 @lembretes.route("/api/lembrete/visualizados", methods=['GET'])
+@jwt_required()
 def lembretes_visualizados():
     try:
         return LembreteRepository.lembretes_visualizados()

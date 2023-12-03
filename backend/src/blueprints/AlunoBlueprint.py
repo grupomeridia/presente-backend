@@ -8,6 +8,7 @@ from service.AlunoService import AlunoService
 alunos = Blueprint("alunos", __name__)
 
 @alunos.route("/api/aluno", methods=['GET', 'POST', 'PUT', 'DELETE'])
+@jwt_required()
 def aluno():
     if request.method == 'GET':
         id_aluno = request.args.get('id')
@@ -54,10 +55,12 @@ def aluno():
             return str(error), 400
 
 @alunos.route("/api/aluno/listAll", methods=['GET'])
+@jwt_required()
 def list_all():
     return AlunoRepository.list_all()
 
 @alunos.route("/api/aluno/findByRa", methods=['GET'])
+@jwt_required()
 def find_by_ra():
     ra = request.args.get('ra')
     try:
@@ -66,6 +69,7 @@ def find_by_ra():
         return str(error), 400
     
 @alunos.route("/api/aluno/AusentesPresentes", methods=['GET'])
+@jwt_required()
 def ausentes_presentes():
     turma_id = request.args.get('id_turma')
     try:
@@ -74,6 +78,7 @@ def ausentes_presentes():
         return str(error), 400
     
 @alunos.route("/api/aluno/AtivoInativo", methods=['GET'])
+@jwt_required()
 def ativo_inativo():
     turma_id = request.args.get('id_turma')
     try:
@@ -82,6 +87,7 @@ def ativo_inativo():
         return str(error), 400
     
 @alunos.route("/api/aluno/mediaAtivo", methods=['GET'])
+@jwt_required()
 def media_ativo():
     turma_id = request.args.get('id_turma')
     try:
@@ -90,6 +96,7 @@ def media_ativo():
         return str(error), 400
     
 @alunos.route("/api/aluno/mediaAusente", methods=['GET'])
+@jwt_required()
 def media_ausente():
     turma_id = request.args.get('id_turma')
     
@@ -108,6 +115,7 @@ def historico_presenca():
         return str(error), 400
 
 @alunos.route("/api/aluno/PresencaFalta", methods=['GET'])
+@jwt_required()
 def presenca_falta():
     id_aluno = request.args.get('id_aluno')
     try:
@@ -116,6 +124,7 @@ def presenca_falta():
         return str(error), 400
     
 @alunos.route("/api/aluno/ausentes", methods=['GET'])
+@jwt_required()
 def alunos_ausentes():
     try:
         return AlunoRepository.alunos_ausentes()
@@ -123,6 +132,7 @@ def alunos_ausentes():
         return str(error), 400
     
 @alunos.route("/api/aluno/presentes", methods=['GET'])
+@jwt_required()
 def alunos_presentes():
     try:
         return AlunoRepository.alunos_presentes()
@@ -130,6 +140,7 @@ def alunos_presentes():
         return str(error), 400
     
 @alunos.route("/api/aluno/chegar", methods=['GET'])
+@jwt_required()
 def alunos_a_chegar():
     try:
         return AlunoRepository.alunos_a_chegar()
@@ -137,6 +148,7 @@ def alunos_a_chegar():
         return str(error), 400
     
 @alunos.route("/api/aluno/alunoStatus", methods=['GET'])
+@jwt_required()
 def aluno_status():
     id_aluno = request.args.get('id_aluno')
     try:
@@ -145,6 +157,7 @@ def aluno_status():
         return str(error), 400
     
 @alunos.route("/api/aluno/turmaPresenca", methods=['GET'])
+@jwt_required()
 def alunos_presenca_turma():
     turma_id = request.args.get('turma_id')
     try:
