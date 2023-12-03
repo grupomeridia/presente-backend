@@ -1,5 +1,6 @@
 import os
 from dotenv import load_dotenv
+from datetime import timedelta
 
 load_dotenv()
 
@@ -11,6 +12,7 @@ DEBUG = False
 TESTING = False
 SECRET_KEY = os.environ.get('SECRET_KEY')
 PERMANENT_SESSION_LIFETIME = 60 * 60 * 24 * 30
+JWT_ACCESS_TOKEN_EXPIRES = timedelta(hours=3)
 
 # flask wtf settings
 WTF_CSRF_ENABLED = os.environ.get('WTF_CSRF_ENABLED')
