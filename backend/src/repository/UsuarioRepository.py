@@ -1,4 +1,6 @@
 from flask_login import login_user
+from flask_jwt_extended import create_access_token, jwt_required
+
 from models import db
 
 from entity.Aluno import Aluno
@@ -81,9 +83,12 @@ class UsuarioRepository():
         user = Usuario.query.filter(Usuario.login == login).first()
         
         if login_user(user):
+            identificador = user.login
+            print(identificador)
             if user.cargo.value == "Aluno":  
                 aluno = Aluno.query.filter(Aluno.id_usuario == user.id_usuario).first()  
-                
+                access_token = create_access_token(identity=identificador)
+
                 consulta_sql = db.text("""SELECT t.curso FROM turma_aluno ta
                     JOIN alunos a ON a.id_aluno = ta.id_aluno
                     JOIN turmas t ON t.id_turma = ta.id_turma """)
@@ -97,7 +102,8 @@ class UsuarioRepository():
                 "Curso": curso.curso,
                 "Cargo": user.cargo.value,
                 "Nome": user.nome,
-                "RA":aluno.ra
+                "RA":aluno.ra,
+                "JWT":access_token
                 }
             
             elif user.cargo.value == "Professor":

@@ -1,6 +1,4 @@
-from flask import Blueprint, request, jsonify, redirect, url_for
-
-from repository.UsuarioRepository import UsuarioRepository
+from flask import Blueprint, request, jsonify
 
 from entity.Usuario import Usuario
 from entity.CargoEnum import Cargo

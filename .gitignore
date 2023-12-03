@@ -14,3 +14,4 @@ presente-env/
 /backend/src/coverage.xml
 /backend/src/.coverage
 /backend/src/*coverage
+/backend/src/.env
