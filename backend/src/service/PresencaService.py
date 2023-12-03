@@ -32,8 +32,8 @@ class PresencaService():
         existe_presenca = Presenca.query.filter_by(id_aluno=id_aluno, id_chamada=id_chamada).first()
         assert existe_presenca is None, "O aluno já possui presença na mesma chamada."
         
-        horario = datetime.now().strftime("%d-%m-%Y %H:%M") if horario is None else horario
-        assert re.match(r'^\d{2}-\d{2}-\d{4} \d{2}:\d{2}$', horario), "Formato de horário incorreto. Use o formato dd/mm/yyyy HH:MM."
+        horario = datetime.now() if not horario else datetime.strptime(horario, "%d-%m-%Y %H:%M")
+        assert re.match(r'^\d{2}-\d{2}-\d{4} \d{2}:\d{2}$', horario.strftime("%d-%m-%Y %H:%M")), "Formato de horário incorreto. Use o formato dd/mm/yyyy HH:MM."
 
         assert int(id_aluno) if isinstance(id_aluno, (int,str)) and str(id_aluno).isdigit() else None, "ID de aluno incorreto."
         assert int(id_aluno) > 0 and int(id_aluno) < 999999, "ID de aluno inválido."

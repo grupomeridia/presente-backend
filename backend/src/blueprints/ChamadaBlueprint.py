@@ -1,14 +1,13 @@
 from flask import Blueprint, request, jsonify
-from datetime import datetime
 from repository.ChamadaRepository import ChamadaRepository
-from dtos.ChamadaDTO import ChamadaDTO
-from entity.Chamada import Chamada
+from flask_jwt_extended import jwt_required
 
 from service.ChamadaService import ChamadaService
 
 chamadas = Blueprint("chamadas", __name__)
 
 @chamadas.route("/api/chamada", methods=['GET', 'POST', 'PUT', 'DELETE'])
+@jwt_required()
 def professor():
     if request.method == 'GET':
         id_chamada = request.args.get('id')
@@ -55,10 +54,12 @@ def professor():
 
 
 @chamadas.route("/api/chamada/listAll", methods=['GET'])
+@jwt_required()
 def listar_all_chamadas():
     return ChamadaRepository.list_all()
 
 @chamadas.route("/api/chamada/listAllprofessor", methods=['GET'])
+@jwt_required()
 def listar_all_chamadas_professor():
     id_professor = request.args.get('id')
     try:
@@ -67,6 +68,7 @@ def listar_all_chamadas_professor():
         return str(error), 400
 
 @chamadas.route("/api/chamada/aluno", methods=['GET'])
+@jwt_required()
 def chamadas_abertas():
     id_aluno = request.args.get('id')
     try: 
@@ -75,6 +77,7 @@ def chamadas_abertas():
         return str(error), 400
     
 @chamadas.route("/api/chamada/fecharChamada", methods=['PUT'])
+@jwt_required()
 def fechar_chamada():
     id_chamada = request.args.get('id')
     try:
@@ -83,6 +86,7 @@ def fechar_chamada():
         return str(error), 400
     
 @chamadas.route("/api/chamada/updateAll", methods=['GET'])
+@jwt_required()
 def updateAll():
     try:
         return ChamadaRepository.update_all()
@@ -90,6 +94,7 @@ def updateAll():
         return str(error), 400
     
 @chamadas.route("/api/chamada/ultimaChamada", methods=['GET'])
+@jwt_required()
 def ultimaChamada():
     id_professor = request.args.get('id')
     try:

@@ -4,9 +4,12 @@ from repository.TurmaRepository import TurmaRepository
 
 from service.TurmaService import TurmaService
 
+from flask_jwt_extended import jwt_required
+
 turmas = Blueprint("turmas", __name__)
 
 @turmas.route("/api/turma", methods=['GET', 'POST', 'PUT', 'DELETE'])
+@jwt_required()
 def turma():
     if request.method == 'GET':
         id_turma = request.args.get('id')
@@ -56,10 +59,12 @@ def turma():
             return str(error), 400
 
 @turmas.route("/api/turma/listAll", methods=['GET'])
+@jwt_required()
 def listar_all_turmas():
     return TurmaRepository.list_all()
 
 @turmas.route("/api/turma/cadastrarAluno", methods=['POST'])
+@jwt_required()
 def cadastrar_aluno():
     data = request.json
 
@@ -72,6 +77,7 @@ def cadastrar_aluno():
         return str(error), 400
 
 @turmas.route("/api/turma/cadastrarProfessor", methods=['POST'])
+@jwt_required()
 def cadastrar_professor():
     data = request.json
 

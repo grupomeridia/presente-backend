@@ -1,4 +1,8 @@
 import os
+from dotenv import load_dotenv
+from datetime import timedelta
+
+load_dotenv()
 
 # -*- coding: utf-8 -*-
 DATABASE_LOGIN = os.environ.get('DATABASE_LOGIN')
@@ -6,12 +10,13 @@ DATABASE_PASS = os.environ.get('DATABASE_SENHA')
 # flask core settings
 DEBUG = False
 TESTING = False
-SECRET_KEY = "29904e38dc64706d8a61ad4525a7efd91c2f7022e4ab48ede425a6270687dd08"
+SECRET_KEY = os.environ.get('SECRET_KEY')
 PERMANENT_SESSION_LIFETIME = 60 * 60 * 24 * 30
+JWT_ACCESS_TOKEN_EXPIRES = timedelta(hours=3)
 
 # flask wtf settings
-WTF_CSRF_ENABLED = False
+WTF_CSRF_ENABLED = os.environ.get('WTF_CSRF_ENABLED')
 
 # flask mail settings
-MAIL_DEFAULT_SENDER = 'noreply@yourmail.com'
+MAIL_DEFAULT_SENDER =os.environ.get('MAIL_DEFAULT_SENDER')
 SQLALCHEMY_DATABASE_URI = f'postgresql://{DATABASE_LOGIN}:{DATABASE_PASS}@localhost/app_presente'

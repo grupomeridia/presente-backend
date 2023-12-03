@@ -42,7 +42,7 @@ class ChamadaService():
         assert status is True or status is False, "O status está inválido."
 
         abertura = datetime.now() if not abertura else datetime.strptime(abertura, "%d-%m-%Y %H:%M")
-        assert re.match(r'^\d{2}-\d{2}-\d{4} \d{2}:\d{2}$', abertura.strftime("%d-%m-%Y %H:%M")), "Formato de abertura inválido."
+        assert re.match(r'^\d{2}-\d{2}-\d{4} \d{2}:\d{2}$', abertura.strftime("%d-%m-%Y %H:%M")), "Formato de abertura inválido. Use o formato dd/mm/yyyy HH:MM."
 
         if(encerramento == 'NOT_FOUND' or encerramento == None):
             encerramento = None

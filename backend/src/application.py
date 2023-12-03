@@ -19,12 +19,16 @@ def create_app(config_file):
     from blueprints.UsuarioBlueprint import usuarios
     from blueprints.ConfiguracaoBlueprint import configuracoes
     from flask_wtf.csrf import CSRFProtect
+    from flask_jwt_extended import JWTManager
+
 
     app = Flask(__name__)
     CORS(app)
-    CSRFProtect(app)
+    # CSRFProtect(app)
     
     app.config.from_pyfile(config_file)   
+
+    jwt = JWTManager(app)
 
     app.register_blueprint(alunos)
     app.register_blueprint(chamadas)
