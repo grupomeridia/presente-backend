@@ -1,12 +1,12 @@
 from flask import Blueprint, request, jsonify
 
-from dtos.ConfiguracaoDTO import ConfiguracaoDTO
-
+from flask_jwt_extended import jwt_required
 from service.ConfiguracaoService import ConfiguracaoService
 
 configuracoes = Blueprint("configuracoes", __name__)
 
 @configuracoes.route("/api/configuracao", methods=['GET', 'POST', 'PUT', 'DELETE'])
+@jwt_required()
 def configuracao():
     if request.method == 'GET':
         id_configuracao = request.args.get('id')

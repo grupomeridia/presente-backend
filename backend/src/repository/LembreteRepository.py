@@ -2,6 +2,7 @@ from flask import jsonify
 from models import db
 from entity.CargoEnum import Cargo
 from entity.Lembrete import Lembrete
+from datetime import datetime
 
 class LembreteRepository():
     @staticmethod
@@ -109,3 +110,56 @@ class LembreteRepository():
                     raise AssertionError("Nenhum destinatario encontrado.")
         else:
             raise AssertionError("Cargo inválido.")
+        
+    @staticmethod
+    def find_lembrete(cargo, id):
+
+        lembretes = db.session.query(Lembrete).filter(Lembrete.destinatario_id == id).filter(Lembrete.destinatario_cargo == cargo).all()
+        
+        if lembretes:
+            
+            lembretes_data = []
+            for lembrete in lembretes:
+                lembrete_data = {
+                'id':lembrete.id_secretaria,
+                'Titulo': lembrete.titulo,
+                'mensagem': lembrete.mensagem
+                }
+                lembretes_data.append(lembrete_data)
+            
+
+            return jsonify(lembretes_data)
+        
+        return jsonify([])
+    
+    @staticmethod
+    def lembrete_visualizado(id_lembrete):
+
+        lembrete = Lembrete.query.get(id_lembrete)
+
+        lembrete.visualizacao = (datetime.now())
+
+        db.session.merge(lembrete)
+        db.session.commit()
+
+        return f"Lembrete visualizado."
+    
+    @staticmethod
+    def lembretes_visualizados():
+        
+        lembretes = db.session.query(Lembrete).filter(Lembrete.visualizacao != None).all()
+
+        if lembretes:
+
+            lembretes_data = []
+            for lembrete in lembretes:
+                lembrete_data = {
+                    'id': lembrete.id_secretaria,
+                    'Titulo': lembrete.titulo,
+                    'mensagem': lembrete.mensagem
+                }
+                lembretes_data.append(lembrete_data)
+
+            return jsonify(lembretes_data)
+        
+        return jsonify([])

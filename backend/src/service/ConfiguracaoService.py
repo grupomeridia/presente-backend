@@ -22,8 +22,8 @@ class ConfiguracaoService():
         assert inicio_aula != 'NOT_FOUND', "Campo 'inicio_aula' inexistente."
         assert fim_aula != 'NOT_FOUND', "Campo 'fim_aula' inexistente."
 
-        inicio_aula = datetime.strptime(inicio_aula, "%Y-%m-%d %H:%M:%S")
-        fim_aula = datetime.strptime(fim_aula, "%Y-%m-%d %H:%M:%S")
+        inicio_aula = datetime.strptime(inicio_aula, "%d-%m-%Y %H:%M")
+        fim_aula = datetime.strptime(fim_aula, "%d-%m-%Y %H:%M")
         assert isinstance(aluno_ausente, int) and aluno_ausente > 0, "Valor incorreto ausências do aluno."
         assert isinstance(inicio_aula, datetime), "O campo 'inicio_aula' deve ser uma data e hora válida."
         assert isinstance(fim_aula, datetime), "O campo 'fim_aula' deve ser uma data e hora válida."
@@ -47,8 +47,8 @@ class ConfiguracaoService():
         assert inicio_aula != 'NOT_FOUND', "Campo 'inicio_aula' inexistente."
         assert fim_aula != 'NOT_FOUND', "Campo 'fim_aula' inexistente."
 
-        inicio_aula = datetime.strptime(inicio_aula, "%Y-%m-%d %H:%M:%S")
-        fim_aula = datetime.strptime(fim_aula, "%Y-%m-%d %H:%M:%S")
+        inicio_aula = datetime.strptime(inicio_aula, "%d-%m-%Y %H:%M")
+        fim_aula = datetime.strptime(fim_aula, "%d-%m-%Y %H:%M")
         assert isinstance(aluno_ausente, int) and aluno_ausente > 0, "Valor incorreto ausências do aluno."
         assert isinstance(inicio_aula, datetime), "O campo 'inicio_aula' deve ser uma data e hora válida."
         assert isinstance(fim_aula, datetime), "O campo 'fim_aula' deve ser uma data e hora válida."

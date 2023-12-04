@@ -30,10 +30,11 @@ class AlunoService():
         assert int(id_usuario) > 0 and int(id_usuario) < 999999, "ID de usuário inválido."
 
         assert not Aluno.query.filter(Aluno.id_usuario == id_usuario).first(), "ID de usuário já cadastrado."
-        
+        assert not Aluno.query.filter(Aluno.ra == ra).first(), "RA já esta sendo usado."
         
         assert re.match(r'^\d+$', str(ra)), "O RA deve ter apenas números."
         assert ra >= 100000 and ra <= 999999, "RA inválido."
+
         
         usuario = Usuario.query.get(id_usuario)
         assert usuario is not None, "Usuário não encontrado."
@@ -119,9 +120,47 @@ class AlunoService():
     
     @staticmethod
     def media_ausente(turma_id):
+        
         try:
             int(turma_id)
         except ValueError:
             return AssertionError("deve ser uma turma com valor valido")
         
         return AlunoRepository.media_ausente(turma_id)
+    
+    @staticmethod
+    def historico_presenca(id_aluno):
+        try:
+            int(id_aluno)
+        except ValueError:
+            return AssertionError("Deve ser um aluno com valor valido.")
+        
+        return AlunoRepository.historico_presenca(id_aluno)
+    
+    @staticmethod
+    def presenca_falta(id_aluno):
+        try:
+            int(id_aluno)
+        except ValueError:
+            return AssertionError("Deve ser um aluno com valor valido.")
+        
+        return AlunoRepository.presenca_falta(id_aluno)
+    
+    @staticmethod
+    def aluno_status(id_aluno):
+
+        assert id_aluno != None, "Nenhum ID do aluno enviado."
+        assert int(id_aluno) if isinstance(id_aluno, (int,str)) and str(id_aluno).isdigit() else None, "ID do Usuário incorreto."
+        assert int(id_aluno) > 0 and int(id_aluno) < 999999, "ID do aluno inválido."
+        assert Aluno.query.get(id_aluno) != None, "Nenhum aluno com este ID foi encontrado."
+
+        return AlunoRepository.aluno_status(id_aluno)
+    
+    @staticmethod
+    def alunos_presenca_turma(turma_id):
+        try:
+            int(turma_id)
+        except ValueError:
+            return AssertionError("Deve ser uma turma com valor valido.")
+        
+        return AlunoRepository.alunos_presenca_turma(turma_id)

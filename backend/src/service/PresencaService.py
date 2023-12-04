@@ -3,6 +3,7 @@ from repository.PresencaRepository import PresencaRepository
 from entity.Presenca import Presenca
 from entity.Chamada import Chamada
 from entity.Aluno import Aluno
+from entity.CargoEnum import Cargo
 from dtos.PresencaDTO import PresencaDTO
 from entity.PresencaEnum import TipoPresenca
 from datetime import datetime
@@ -20,7 +21,7 @@ class PresencaService():
         return PresencaRepository.get_presenca_by_id(id)
 
     @staticmethod
-    def register(id_presenca, id_aluno, id_chamada, tipo_presenca, horario, status):
+    def register(id_aluno, id_chamada, tipo_presenca, horario, status):
 
         tipoPresenca = [x.value for x in TipoPresenca]
 
@@ -31,8 +32,8 @@ class PresencaService():
         existe_presenca = Presenca.query.filter_by(id_aluno=id_aluno, id_chamada=id_chamada).first()
         assert existe_presenca is None, "O aluno já possui presença na mesma chamada."
         
-        horario = datetime.now().strftime('%H:%M') if horario is None else horario
-        assert re.match(r'^\d{2}:\d{2}$', horario), "Formato de horário incorreto. Use o formato HH:MM."
+        horario = datetime.now() if not horario else datetime.strptime(horario, "%d-%m-%Y %H:%M")
+        assert re.match(r'^\d{2}-\d{2}-\d{4} \d{2}:\d{2}$', horario.strftime("%d-%m-%Y %H:%M")), "Formato de horário incorreto. Use o formato dd/mm/yyyy HH:MM."
 
         assert int(id_aluno) if isinstance(id_aluno, (int,str)) and str(id_aluno).isdigit() else None, "ID de aluno incorreto."
         assert int(id_aluno) > 0 and int(id_aluno) < 999999, "ID de aluno inválido."
@@ -50,19 +51,27 @@ class PresencaService():
         
         assert Chamada.query.filter(Chamada.status == True).first() is not None, "Não existe nenhuma chamada aberta"
         
-        presenca = PresencaService.to_entity(PresencaDTO(id_aluno=id_aluno, id_chamada=id_chamada, tipo_presenca=tipo_presenca, horario=horario, status=status))
+        presenca = PresencaService.to_entity(PresencaDTO(id_aluno=id_aluno, id_chamada=id_chamada, tipo_presenca=tipo_presenca, horario=horario, status=status, cargo_manual=None, id_manual=None))
 
-        return PresencaRepository.update(id_presenca, presenca)
+        return PresencaRepository.register_presenca(presenca)
     
     @staticmethod
-    def marcar_presenca_pelo_ra(ra):
+    def marcar_presenca_pelo_ra(ra, cargo_manual, id_manual):
 
         assert ra != 'NOT_FOUND', "Campo 'RA inexistente."
+        assert cargo_manual != 'NOT_FOUND', "Campo 'cargo_manual' inexistente."
+        assert id_manual != 'NOT_FOUND', "Campo 'id_manual' inexistente." 
 
         assert re.match(r'^\d+$', str(ra)), "O RA deve ter apenas números."
         assert ra >= 100000 and ra <= 999999, "RA inválido."
 
-        return PresencaRepository.marcar_presenca_pelo_ra(ra)
+        cargos = [x.value for x in Cargo]
+        assert cargo_manual in cargos, "Cargo inválido"
+
+        assert int(id_manual) if isinstance(id_manual, (int)) else None, "Id_manual incorreto."
+
+
+        return PresencaRepository.marcar_presenca_pelo_ra(ra, cargo_manual, id_manual)
     
     @staticmethod
     def update(id_presenca, id_aluno, id_chamada, tipo_presenca, horario, status):
@@ -74,8 +83,8 @@ class PresencaService():
         assert tipo_presenca != 'NOT_FOUND', "Campo 'tipo_presenca' inexistente."
         assert id_presenca != 'NOT_FOUND', "Campo 'id_presenca' inexistente."
         
-        horario = datetime.now().strftime('%H:%M') if horario is None else horario
-        assert re.match(r'^\d{2}:\d{2}$', horario), "Formato de horário incorreto. Use o formato HH:MM."
+        horario = datetime.now().strftime("%d-%m-%Y %H:%M") if horario is None else horario
+        assert re.match(r'^\d{2}-\d{2}-\d{4} \d{2}:\d{2}$', horario), "Formato de horário incorreto. Use o formato dd/mm/yyyy HH:MM."
 
         assert int(id_aluno) if isinstance(id_aluno, (int,str)) and str(id_aluno).isdigit() else None, "ID de aluno incorreto."
         assert int(id_aluno) > 0 and int(id_aluno) < 999999, "ID de aluno inválido."
@@ -110,6 +119,6 @@ class PresencaService():
     
     @staticmethod
     def to_entity(aluno_dto):
-        presenca = Presenca(id_aluno=aluno_dto.id_aluno, id_chamada=aluno_dto.id_chamada, status=aluno_dto.status, tipo_presenca=aluno_dto.tipo_presenca, horario=aluno_dto.horario)
+        presenca = Presenca(id_aluno=aluno_dto.id_aluno, id_chamada=aluno_dto.id_chamada, status=aluno_dto.status, tipo_presenca=aluno_dto.tipo_presenca, horario=aluno_dto.horario, cargo_manual=aluno_dto.cargo_manual, id_manual=aluno_dto.id_manual)
 
         return presenca

@@ -77,14 +77,14 @@ class PresencaRepository():
         return {"mensagem":"sucesso"}
     
     @staticmethod
-    def marcar_presenca_pelo_ra(ra):
+    def marcar_presenca_pelo_ra(ra, cargo_manual, id_manual):
         aluno = db.text(""" Select * from alunos where ra = :ra """)
         
         with db.engine.connect() as connection:
             valor = connection.execute(aluno, {'ra': ra}).fetchone()
       
         valor2 = ChamadaRepository.get_chamadas_abertas_aluno(valor.id_aluno)
-
+        print(valor2)
     
         if not valor2:
             return "Não existe chamada aberta para esse aluno"
@@ -100,8 +100,11 @@ class PresencaRepository():
         
             if resultado is not None:
                 return "Presenca já registrada"
-
-        presenca = Presenca(id_aluno=id_aluno, id_chamada=id_chamada, status=True, horario=datetime.now(), tipo_presenca='Manual')
+            
+        if (cargo_manual == "Professor"):
+            presenca = Presenca(id_aluno=id_aluno, id_chamada=id_chamada, status=True, horario=datetime.now(), tipo_presenca='Manual', cargo_manual=cargo_manual, id_manual=id_manual)
+        elif(cargo_manual == "Secretaria"):
+            presenca = Presenca(id_aluno=id_aluno, id_chamada=id_chamada, status=True, horario=datetime.now(), tipo_presenca='Manual', cargo_manual=cargo_manual, id_manual=id_manual)
         db.session.add(presenca)
         db.session.commit()
 
@@ -114,3 +117,4 @@ class PresencaRepository():
         db.session.commit()
 
         return "Presença realizada!"
+    

@@ -1,13 +1,13 @@
 from flask import Blueprint, request, jsonify
 
 from repository.MateriaRepository import MateriaRepository
-from dtos.MateriaDTO import MateriaDTO
-
+from flask_jwt_extended import jwt_required
 from service.MateriaService import MateriaService
 
 materias = Blueprint("Materia", __name__)   
 
 @materias.route("/api/materia", methods=['GET', 'POST','PUT','DELETE'])
+@jwt_required()
 def materia():
     if request.method == 'GET':
         id_materia = request.args.get('id')
@@ -47,5 +47,6 @@ def materia():
             return str(error), 400
     
 @materias.route("/api/materia/listAll", methods=['GET'])
+@jwt_required()
 def listar_all_materias():
     return MateriaRepository.list_all()

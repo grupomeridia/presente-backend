@@ -2,14 +2,14 @@ from flask import Blueprint, request, jsonify
 
 from repository.ProfessorRepository import ProfessorRepository
 
-from entity.Professor import Professor
-from dtos.ProfessorDTO import ProfessorDTO
+from flask_jwt_extended import jwt_required
 
 from service.ProfessorService import ProfessorService
 
 professores = Blueprint("professores", __name__)
 
 @professores.route("/api/professor", methods=['GET', 'POST', 'PUT', 'DELETE'])
+@jwt_required()
 def professor():
     if request.method == 'GET':
         id_professor = request.args.get('id')
@@ -52,10 +52,12 @@ def professor():
 
 
 @professores.route("/api/professor/listAll", methods=['GET'])
+@jwt_required()
 def listar_all_professores():
    return ProfessorRepository.list_all()
 
 @professores.route("/api/professor/listarTurmas", methods=['GET'])
+@jwt_required()
 def listar_turmas():
     id_professor = request.args.get("id")
     try:
@@ -64,6 +66,7 @@ def listar_turmas():
         return str(error), 400
     
 @professores.route("/api/professor/numAlunos", methods=['GET'])
+@jwt_required()
 def num_alunos():
 
     id_professor = request.args.get("id_professor")
@@ -75,6 +78,7 @@ def num_alunos():
         return str(error), 400
     
 @professores.route("/api/professor/historicoSemanal", methods=['GET'])
+@jwt_required()
 def historico_semanal():
     id_turma = request.args.get("id")
     try:
@@ -83,6 +87,7 @@ def historico_semanal():
         return str(error), 400
     
 @professores.route("/api/professor/mediaSemanal", methods=['GET'])
+@jwt_required()
 def media_semanal():
     id_turma = request.args.get("id")
     try:

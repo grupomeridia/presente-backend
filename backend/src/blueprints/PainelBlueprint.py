@@ -4,9 +4,12 @@ from repository.PainelRepository import PainelRepository
 from dtos.PainelDTO import PainelDTO
 from service.PainelService import PainelService
 
+from flask_jwt_extended import jwt_required
+
 paineis = Blueprint("painel", __name__)
 
 @paineis.route("/api/painel", methods=['GET', 'POST', 'PUT', 'DELETE'])
+@jwt_required()
 def painel():
     if request.method == 'GET':
         id_painel = request.args.get('id')
@@ -63,5 +66,6 @@ def painel():
             return str(error), 400
     
 @paineis.route("/api/painel/listAll", methods=['GET'])
+@jwt_required()
 def list_all():
     return PainelRepository.list_all()
