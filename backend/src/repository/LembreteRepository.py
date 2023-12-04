@@ -23,21 +23,27 @@ class LembreteRepository():
             raise AssertionError ("Lembrete não existe.")
     @staticmethod
     def lista_all():
-        lembretes = Lembrete.query.all()
-        resultado = []
-        for lembrete in lembretes:
-            resultado.append({
-                "id_lembrete" : lembrete.id_lembrete,
-                "id_secretaria" : lembrete.id_secretaria, 
-                "DestinatarioId": lembrete.destinatario_id,
-                "DestinatarioCargo": lembrete.destinario_cargo,
-                "Titulo": lembrete.titulo,
-                "Mensagem": lembrete.mensagem,
-                "Criacao": lembrete.criacao,
-                "Visualizacao": lembrete.visualizacao,
-                "status": lembrete.status
+        consulta_sql = db.text(""" 
+        select  l.id_lembrete, a.nome as nome_aluno, s.nome as nome_secretaria, l.titulo, l.mensagem, l.criacao, l.visualizacao from lembretes l
+        join alunos a on a.id_aluno = l.destinatario_id
+        join secretaria s on s.id_secretaria = l.id_secretaria
+        """)
+
+        with db.engine.connect() as connection:
+            resultado = connection.execute(consulta_sql).fetchall()
+
+        resultado_json = []
+        for id_lembrete, nome_aluno, nome_secretaria, titulo, mensagem, criacao, visualizacao in resultado:
+            resultado_json.append({
+                "id_lembrete" : id_lembrete,
+                "nome_secretaria" : nome_secretaria, 
+                "nome_aluno": nome_aluno,
+                "titulo": titulo,
+                "mensagem": mensagem,
+                "criacao": criacao,
+                "visualizacao": visualizacao
             })
-        return jsonify(resultado)
+        return jsonify(resultado_json)
     
     @staticmethod
     def update(id, lembrete):
