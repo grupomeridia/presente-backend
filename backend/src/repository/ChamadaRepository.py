@@ -60,17 +60,26 @@ class ChamadaRepository():
 
     @staticmethod
     def list_all():
-        chamadas = Chamada.query.filter(Chamada.status.isnot(False)).all()
-        resultado = [{
-            'Id': c.id_chamada,
-            'Turma': c.id_turma,
-            'Professor': c.id_professor,
-            'status': c.status,
-            'abertura': c.abertura,
-            'encerramento': c.encerramento
-        } for c in chamadas]
+        consulta_sql = db.text("""
+            select t.nome as nome_turma, p.nome as nome_professor, m.nome as nome_materia from chamadas c
+            join professores p on p.id_professor = c.id_professor
+            join turmas t on t.id_turma = c.id_turma
+            join materias m on m.id_materia = t.id_materia
+            """)
+        
+        with db.engine.connect() as connection:
+            resultado = connection.execute(consulta_sql).fetchall()
+        
+        resultado_json = []
 
-        return jsonify(resultado)
+        for nome_turma, nome_professor, nome_materia in resultado:
+            resultado_json.apend({
+                'nome_turma':nome_turma,
+                'nome_professor':nome_professor,
+                'nome_materia': nome_materia
+            })
+
+        return jsonify(resultado_json)
     
     @staticmethod
     def update(id, data):
