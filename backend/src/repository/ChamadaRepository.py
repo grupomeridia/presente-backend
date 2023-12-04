@@ -61,10 +61,11 @@ class ChamadaRepository():
     @staticmethod
     def list_all():
         consulta_sql = db.text("""
-            select t.nome as nome_turma, p.nome as nome_professor, m.nome as nome_materia from chamadas c
+            select c.id_chamada, t.nome as nome_turma, p.nome as nome_professor, m.nome as nome_materia, c.abertura, c.encerramento from chamadas c
             join professores p on p.id_professor = c.id_professor
             join turmas t on t.id_turma = c.id_turma
             join materias m on m.id_materia = t.id_materia
+            where c.status = true
             """)
         
         with db.engine.connect() as connection:
@@ -72,11 +73,15 @@ class ChamadaRepository():
         
         resultado_json = []
 
-        for nome_turma, nome_professor, nome_materia in resultado:
+        for chamada_id, nome_turma, nome_professor, nome_materia, abertura, encerramento in resultado:
             resultado_json.append({
+                'id_chamada': chamada_id,
                 'nome_turma':nome_turma,
                 'nome_professor':nome_professor,
-                'nome_materia': nome_materia
+                'nome_materia': nome_materia,
+                'abertura': abertura,
+                'encerramento': encerramento
+
             })
 
         return jsonify(resultado_json)
