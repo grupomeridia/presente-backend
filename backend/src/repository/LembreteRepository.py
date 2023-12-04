@@ -127,7 +127,7 @@ class LembreteRepository():
             lembretes_data = []
             for lembrete in lembretes:
                 lembrete_data = {
-                'id':lembrete.id_secretaria,
+                'id':lembrete.id_lembrete,
                 'Titulo': lembrete.titulo,
                 'mensagem': lembrete.mensagem
                 }
