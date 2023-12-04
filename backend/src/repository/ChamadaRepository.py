@@ -73,7 +73,7 @@ class ChamadaRepository():
         resultado_json = []
 
         for nome_turma, nome_professor, nome_materia in resultado:
-            resultado_json.apend({
+            resultado_json.append({
                 'nome_turma':nome_turma,
                 'nome_professor':nome_professor,
                 'nome_materia': nome_materia
